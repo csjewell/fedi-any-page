@@ -6,7 +6,7 @@ import { AP } from 'activitypub-core-types'
 import { parse, stringify } from './mod.ts'
 
 let person: unknown
-const jsonPerson = await Deno.readTextFile("test_data/person.json");
+const jsonPerson = await Deno.readTextFile('test_data/person.json')
 const actorTests = describe('Encoding and decoding an Actor')
 
 try {
