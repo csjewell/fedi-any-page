@@ -22,6 +22,6 @@
     "activitypub-core-types": "npm:activitypub-core-types@^0.3.2"
   },
   "publish": {
-    "include": ["README.md", "LICENSE", "deno.jsonc"]
+    "include": ["README.md", "LICENSE", "deno.jsonc", "mod.ts"]
   }
 }

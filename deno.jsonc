@@ -3,15 +3,8 @@
   "workspace": ["./json"],
   // Set the compiler options for TypeScript.
   "compilerOptions": {
-    "module": "node16",
-    "target": "es2022",
     "strict": true,
-    "verbatimModuleSyntax": true,
-    "declaration": true,
-    "sourceMap": true,
-    "rootDir": "src",
-    "outDir": "dist",
-    "types": ["@types/node"]
+    "verbatimModuleSyntax": true
   },
   // No node_modules, even for npm-style.
   "nodeModulesDir": "none",
