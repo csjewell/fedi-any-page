@@ -1,1 +1,5 @@
 deno.lock
+
+# These are temporary until I pull all private data out so they can be used for test data.
+test_data/outbox-page.json
+test_data/outbox.json

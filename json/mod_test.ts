@@ -5,8 +5,19 @@ import { describe, it } from '@std/testing/bdd'
 import { AP } from 'activitypub-core-types'
 import { parse, stringify } from './mod.ts'
 
+let jsonPerson: string;
+try {
+  jsonPerson = await Deno.readTextFile('test_data/person.json')
+} catch (error) {
+  if (error instanceof Deno.errors.NotFound) {
+    jsonPerson = await Deno.readTextFile('json/test_data/person.json')
+  } else {
+    // otherwise re-throw
+    throw error;
+  }
+}
+
 let person: unknown
-const jsonPerson = await Deno.readTextFile('test_data/person.json')
 const actorTests = describe('Encoding and decoding an Actor')
 
 try {
