@@ -10,25 +10,35 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: denoland/setup-deno@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x # Run with latest stable Deno.
 
-# Check if the code is formatted according to Deno's default
-# formatting conventions.
-      - run: deno fmt --check
+      # Check if the code is formatted according to our
+      # formatting conventions.
+      - name: Check formatting
+        run: deno fmt --check
 
-# Scan the code for syntax errors and style issues. If
-# you want to use a custom linter configuration you can add a configuration file with --config 
-#      - run: deno lint
+      # Scan the code for syntax errors and style issues.
+      # - name: Lint
+      #   run: deno lint
 
-# Run all test files in the repository and collect code coverage. The example
-# runs with all permissions, but it is recommended to run with the minimal permissions your program needs (for example --allow-read).
-      - run: deno test --allow-read --coverage=cov/
+      # Run all test files in the repository and collect code coverage. The example
+      # runs with all permissions, but it is recommended to run with the minimal permissions your program needs (for example --allow-read).
+      - name: Run tests
+        run: deno test --allow-read --coverage=cov/
 
-# This generates a report from the collected coverage in `deno test --coverage`. It is
-# stored as a .lcov file which integrates well with services such as Codecov, Coveralls and Travis CI.
-      - run: deno coverage --lcov cov/ > cov.lcov
+      # This generates a report from the collected coverage in `deno test --coverage`. It is
+      # stored as a .lcov file which integrates well with services such as Codecov, Coveralls and Travis CI.
+      - name: Create coverage report
+        run: deno coverage --lcov cov/ > cov.lcov
+
+      - name: Upload coverage report to Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          format: lcov
 
 
