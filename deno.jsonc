@@ -17,10 +17,9 @@
   "nodeModulesDir": "none",
   // Do not format or lint test data or snapshots.
   "fmt": {
-    "exclude": ["test_data", "__snapshots__"]
+    "exclude": ["test_data", "__snapshots__", ".github"]
   },
   "lint": {
-    "exclude": ["test_data", "__snapshots__"]
+    "exclude": ["test_data", "__snapshots__", ".github"]
   }
 }
-
