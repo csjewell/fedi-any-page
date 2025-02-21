@@ -1,0 +1,50 @@
+theme: E25DX
+enableGitInfo: false
+#enableGitInfo: true
+defaultContentLanguage: en
+languages:
+  en:
+    weight: 1
+    languageName: English
+    languageCode: en-US
+    contentDir: content/en
+    title: FediAnyPage
+    params:
+      description: Documentation for a toolkit to help 'static page' blogs get on the Fediverse
+
+services:
+  googleAnalytics:
+    ID: ~
+
+markup:
+  highlight:
+    noClasses: false
+  goldmark:
+    renderer:
+      unsafe: true
+    parser:
+      attribute:
+        block: true
+        title: true
+
+params:
+  project:
+    startYear: ~
+    presentYear: 2025
+    github:
+      repo: CSJewell/activitypub-ts-kit
+    themeColor:
+      light: '#ffffff'
+      dark: '#101010'
+
+  author:
+    name: Curtis Jewell
+    url: https://github.com/CSJewell/activitypub-ts-kit
+
+  home:
+    heading: ActivityPub/Fediverse 'Static Page + Worker' Kit Documentation
+    headingSegment2: ~
+    description: Documentation for a toolkit to help 'static page' blogs get on the Fediverse
+    getStartedPath: /docs
+
+

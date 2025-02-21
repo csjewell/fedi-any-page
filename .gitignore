@@ -1,1 +1,2 @@
-deno.lock
+docsite/.hugo_build.lock
+docsite/public

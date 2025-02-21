@@ -8,11 +8,11 @@
   },
   // No node_modules, even for npm-style.
   "nodeModulesDir": "none",
-  // Do not format or lint test data or snapshots.
+  // Do not format or lint test data, snapshots, or documentation site.
   "fmt": {
-    "exclude": ["test_data", "__snapshots__", ".github"]
+    "exclude": ["test_data", "__snapshots__", ".github", "docsite"]
   },
   "lint": {
-    "exclude": ["test_data", "__snapshots__", ".github"]
+    "exclude": ["test_data", "__snapshots__", ".github", "docsite"]
   }
 }
