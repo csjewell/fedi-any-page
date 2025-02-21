@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 /**
- * This module contains helpers to stringify and parse JSON that represents ActivityPub documents.
+ * This module contains helpers to stringify and parse JSON that represents an ActivityPub document.
  *
  * ```ts
  * import { AP } from 'npm:activitypub-core-types'
- * import * as Json from 'jsr:@csjewell-activitypub-kit/json'
+ * import * as Json from 'jsr:@csjewell-activitypub/json'
  *
  * const headers = new Headers({
  *   'User-Agent': 'ActivityPubTypeScript/0.1.0',
