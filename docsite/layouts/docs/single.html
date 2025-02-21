@@ -155,9 +155,9 @@
           {{ end }}
 
           <time datetime="{{ $lastMod }}"><i>🕒</i> {{ i18n "updated" }}: {{ $lastMod }}</time>
-          {{ with .GitInfo }}
+          {{ if not hugo.IsServer }}{{ with .GitInfo }}
           <data value="{{ .Hash }}"><i>🗃</i> {{ i18n "commit" }}: {{ .ShortHash }}</data>
-          {{ end }}
+          {{ end }}{{ end }}
           {{ if ne $prevPageHref "" }}
           <a rel="previous" href="{{ $prevPageHref }}"><i>﹤</i> {{ i18n "previous" }}</a>
           {{ else }}
