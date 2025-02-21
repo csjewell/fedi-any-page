@@ -1,5 +1,4 @@
-**activitypage-ts-kit**
-=======================
+# activitypage-ts-kit
 
 [![Coverage Status](https://coveralls.io/repos/github/csjewell/activitypub-ts-kit/badge.svg)](https://coveralls.io/github/csjewell/activitypub-ts-kit)
 
