@@ -1,6 +1,5 @@
 theme: E25DX
-enableGitInfo: false
-#enableGitInfo: true
+enableGitInfo: true
 defaultContentLanguage: en
 frontmatter:
   lastmod:
