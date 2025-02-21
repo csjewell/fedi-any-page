@@ -10,9 +10,9 @@ You'll need to install these 3 pieces of software, if they aren't on your
 system already. (In the case of Linux, you may be able to get sufficiently
 recent versions from your distribution's package manager.)
 
-* [Git]: https://git-scm.com/downloads/
-* [Deno]: https://docs.deno.com/runtime/
-* [Hugo]: https://gohugo.io/installation/
+* [Git](https://git-scm.com/downloads/)
+* [Deno](https://docs.deno.com/runtime/)
+* [Hugo](https://gohugo.io/installation/)
 
 Later on I'll describe how to use a different static-site generator, and how
 to use Node.js and npm or pnpm instead of Deno.

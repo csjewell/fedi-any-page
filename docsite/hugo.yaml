@@ -2,13 +2,29 @@ theme: E25DX
 enableGitInfo: false
 #enableGitInfo: true
 defaultContentLanguage: en
+frontmatter:
+  lastmod:
+    - :git
+    - :fileModTime
+    - lastmod
+    - modified
+    - date
+    - publishdate
+    - pubdate
+    - published
+
+outputs:
+  taxonomy: []
+  term: []
+  section: []
+
 languages:
   en:
     weight: 1
     languageName: English
     languageCode: en-US
     contentDir: content/en
-    title: FediAnyPage
+    title: Fedi Any Page
     params:
       description: Documentation for a toolkit to help 'static page' blogs get on the Fediverse
 
@@ -42,8 +58,8 @@ params:
     url: https://github.com/CSJewell/activitypub-ts-kit
 
   home:
-    heading: ActivityPub/Fediverse 'Static Page + Worker' Kit Documentation
-    headingSegment2: ~
+    heading: Fedi Any Page
+    headingSegment2: ActivityPub/Fediverse 'Static Page + Worker' Kit Documentation
     description: Documentation for a toolkit to help 'static page' blogs get on the Fediverse
     getStartedPath: /docs
 
