@@ -163,7 +163,7 @@
           {{ end }}
 
           {{ if not hugo.IsServer }}{{ with .GitInfo }}
-          {{ $commitURL := printf "https://github.com/%s/commit/%s" .Site.Params.project.github.repo .Hash }}
+          {{ $commitURL := printf "https://github.com/%s/commit/%s" site.Params.project.github.repo .Hash }}
           <data value="{{ .Hash }}">
             <i>🗃</i> Commit{{/* i18n "Commit" */}}: <a href="{{ $commitURL }}"> target="_blank>{{ .AbbreviatedHash }} ({{ .Subject }})</a>
           </data>
