@@ -1,4 +1,4 @@
-name: Build
+name: Integration Testing
 
 on:
   push:
@@ -11,11 +11,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Cache Deno modules
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: |
+            ~/.deno
+            ~/.cache/deno
+          key: test-${{ github.ref_name }}-${{ hashFiles('**/deno.lock') }}
+          restore-keys: |
+            test-${{ github.ref_name }}-
+            test-
+
       - name: Setup Deno
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x # Run with latest stable Deno.
+
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: deno install --reload
 
       # Check if the code is formatted according to our
       # formatting conventions.
@@ -26,13 +43,9 @@ jobs:
       # - name: Lint
       #   run: deno lint
 
-      # Run all test files in the repository and collect code coverage. The example
-      # runs with all permissions, but it is recommended to run with the minimal permissions your program needs (for example --allow-read).
       - name: Run tests
         run: deno test --allow-read --coverage=cov/
 
-      # This generates a report from the collected coverage in `deno test --coverage`. It is
-      # stored as a .lcov file which integrates well with services such as Codecov, Coveralls and Travis CI.
       - name: Create coverage report
         run: deno coverage --lcov cov/ > cov.lcov
 

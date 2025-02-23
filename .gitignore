@@ -1,2 +1,7 @@
 docsite/.hugo_build.lock
 docsite/public
+docsite/assets/jsdoc/*.json
+docsite/data/jsdoc-order.yaml
+
+# This allows me to take notes that I'll need later.
+**/NOTES.md

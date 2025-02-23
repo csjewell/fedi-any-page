@@ -153,12 +153,11 @@ function replacer(key: string, value: unknown, pointer: string): unknown {
 }
 
 /**
- * Returns a JSON document based on the value passed in.
+ * Returns a JSON document based on the value passed in (defined as an
+ * `unknown`, but really an `AP.` type or a `Record<string, any>`.)
  *
- * @param value - The value to be stringified
+ * @param value The value to be stringified
  * @returns The JSON document
- *
- * @alpha
  */
 
 export function stringify(value: unknown): string {
@@ -166,12 +165,11 @@ export function stringify(value: unknown): string {
 }
 
 /**
- * Returns an ActivityPub document.
+ * Returns an ActivityPub document as an `unknown` which can be cast into
+ * the appropriate type.
  *
- * @param value - A JSON document.
+ * @param value A JSON document.
  * @returns An object representing an ActivityPub document.
- *
- * @alpha
  */
 
 export function parse(value: string): unknown {

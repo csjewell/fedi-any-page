@@ -13,9 +13,30 @@ jobs:
       id-token: write
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: denoland/setup-deno@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Deno modules
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: |
+            ~/.deno
+            ~/.cache/deno
+          key: publish-${{ github.ref_name }}-${{ hashFiles('**/deno.lock') }}
+          restore-keys: |
+            test-${{ github.ref_name }}-${{ hashFiles('**/deno.lock') }}
+            publish-${{ github.ref_name }}-
+            publish-
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x # Run with latest stable Deno.
+
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: deno install --reload
+
       - name: Publish json package
         run: cd json && deno publish
