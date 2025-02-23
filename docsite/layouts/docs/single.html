@@ -162,13 +162,6 @@
           <a class="hidden">{{ i18n "next" }} <i>﹥</i></a>
           {{ end }}
 
-          {{ if not hugo.IsServer }}{{ with .GitInfo }}
-          {{ $commitURL := printf "https://github.com/%s/commit/%s" site.Params.project.github.repo .Hash }}
-          <data value="{{ .Hash }}">
-            <i>🗃</i> Commit{{/* i18n "Commit" */}}: <a href="{{ $commitURL }}" target="_blank">{{ .AbbreviatedHash }} ({{ .Subject }})</a>
-          </data>
-          {{ end }}{{ end }}
-
         </footer>
       </article>
 
@@ -182,7 +175,18 @@
     </main>
 
     <footer>
-      <div><i>🧑‍💻</i>{{ i18n "builtByAndCopyright" }}<a href="{{ .Site.Params.author.url }}" target="_blank">{{ .Site.Params.author.name }}</a><i>📅</i> {{ with .Site.Params.project.startYear }}{{.}}-{{ end }}{{ .Site.Params.project.presentYear }}<i>🚀</i> <a href="https://github.com/{{ .Site.Params.project.github.repo }}" target="_blank">GitHub</a></div>
+      <div>
+        <i>🧑‍💻</i>{{ i18n "builtByAndCopyright" }}<a href="{{ .Site.Params.author.url }}" target="_blank">{{ .Site.Params.author.name }}</a>
+        <i>📅</i> {{ with .Site.Params.project.startYear }}{{.}}-{{ end }}{{ .Site.Params.project.presentYear }}
+        <i>🚀</i> <a href="https://github.com/{{ .Site.Params.project.github.repo }}" target="_blank">GitHub</a>
+        {{- if not hugo.IsServer }}{{ with .GitInfo }}
+          {{- $commitURL := printf "https://github.com/%s/commit/%s" site.Params.project.github.repo .Hash }}
+        <br>
+        <data value="{{ .Hash }}">
+          <i>🗃</i> Commit{{/* i18n "Commit" */}}: <a href="{{ $commitURL }}" target="_blank">{{ .AbbreviatedHash }} ({{ .Subject }})</a>
+        </data>
+        {{- end }}{{ end }}
+      </div>
       <div>
         <button class="btn"><i>☀️</i><i>⁄</i><i>🌑</i></button>
       </div>
