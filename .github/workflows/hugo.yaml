@@ -39,6 +39,10 @@ jobs:
           && sudo dpkg -i ${{ runner.temp }}/hugo.deb
       - name: Install Dart Sass and YQ
         run: sudo snap install dart-sass yq
+      - name: Install Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x # Run with latest stable Deno.
       - name: Checkout
         uses: actions/checkout@v4
         with:
