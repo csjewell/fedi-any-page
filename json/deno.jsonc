@@ -1,6 +1,6 @@
 {
   "name": "@csjewell-activitypub/json",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "exports": "./mod.ts",
   "tasks": {
     "test": "deno test --allow-read",
