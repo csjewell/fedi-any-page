@@ -19,9 +19,10 @@
   {{ partial "favicons.html" . }}
   {{ partial "analytics" . }}
 </head><body>
+{{- $root := .Site.Home.Permalink }}
   <div id="content-wrapper">
     <header>
-      <a href="/" class="site-logo">{{ .Site.Title }}</a>
+      <a href="{{ $root }}" class="site-logo">{{ .Site.Title }}</a>
     </header>
 
     <main>

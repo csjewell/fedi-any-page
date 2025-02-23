@@ -1,5 +1,7 @@
 theme: E25DX
 enableGitInfo: true
+enableEmoji: true
+baseURL: https://csjewell.github.io/activitypub-ts-kit/
 defaultContentLanguage: en
 frontmatter:
   lastmod:
@@ -35,6 +37,18 @@ markup:
   highlight:
     noClasses: false
   goldmark:
+    extensions:
+      extras:
+        delete:
+          enable: false
+        insert:
+          enable: true
+        mark:
+          enable: true
+        subscript:
+          enable: true
+        superscript:
+          enable: true
     renderer:
       unsafe: true
     parser:
@@ -61,5 +75,4 @@ params:
     headingSegment2: ActivityPub/Fediverse 'Static Page + Worker' Kit Documentation
     description: Documentation for a toolkit to help 'static page' blogs get on the Fediverse
     getStartedPath: /activitypub-ts-kit/docs
-
 

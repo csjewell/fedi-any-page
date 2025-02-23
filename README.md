@@ -7,4 +7,5 @@ that can run within different types of web-worker situations.
 
 It's incomplete as of yet.
 
-Generated documentation is currently at: https://csjewell.github.io/activitypub-ts-kit/docs/
+Generated documentation is currently at:
+https://csjewell.github.io/activitypub-ts-kit/docs/

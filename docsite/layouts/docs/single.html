@@ -23,14 +23,14 @@
 </head>
 
 <body>
-
+{{- $root := .Site.Home.Permalink }}
 <div id="outer-wrapper">
   <div id="aside-wrapper">
     <aside>
       <div>
         <button class="btn"><i>❌</i>{{ i18n "close" }}</button>
       </div>
-      <a href="/" class="site-logo">{{ .Site.Title }}</a>
+      <a href="{{ $root }}" class="site-logo">{{ .Site.Title }}</a>
 
       <nav role="navigation">
         {{ $data := $.Site.Store.Get "sidebar" }}
@@ -47,7 +47,7 @@
               {{- $isActivePage := eq $urlPageSlug $pageSlug }}
             <li>
               {{- if eq .Site.Language.Lang .Site.DefaultContentLanguage }}
-                {{- $href := printf "/%s/%s/" $.Section $pageSlug -}}
+                {{- $href := printf "%s%s/%s/" $root $.Section $pageSlug -}}
                 <a class="{{ if $isActivePage }}active{{ end }}" href="{{ $href }}">
                   {{- if and (eq $index 0) $group.replaceFirstPageTitle }}
                   {{- $group.replaceFirstPageTitle }}
@@ -56,7 +56,7 @@
                   {{- end -}}
                 </a>
               {{- else }}
-                {{- $href := printf "/%s/%s/%s/" $.Site.Language.Lang $.Section $pageSlug -}}
+                {{- $href := printf "%s%s/%s/%s/" $root $.Site.Language.Lang $.Section $pageSlug -}}
                 <a class="{{ if $isActivePage }}active{{ end }}" href="{{ $href }}">
                   {{- if and (eq $index 0) $group.replaceFirstPageTitle }}
                   {{- $group.replaceFirstPageTitle }}
@@ -124,9 +124,9 @@
                   {{- $nextPageTitle = $page.title }}
 
                   {{- if eq .Site.Language.Lang .Site.DefaultContentLanguage }}
-                    {{- $nextPageHref = printf "/%s/%s/" $.Section $pageSlug }}
+                    {{- $nextPageHref = printf "%s%s/%s/" $root $.Section $pageSlug }}
                   {{- else }}
-                    {{- $nextPageHref = printf "/%s/%s/%s/" $.Site.Language.Lang $.Section $pageSlug }}
+                    {{- $nextPageHref = printf "%s%s/%s/%s/" $root $.Site.Language.Lang $.Section $pageSlug }}
                   {{- end }}
 
                   {{- $isNextPagePassed = true }}
@@ -139,9 +139,9 @@
                   {{- $prevPageTitle = $page.title }}
 
                   {{- if eq .Site.Language.Lang .Site.DefaultContentLanguage }}
-                    {{- $prevPageHref = printf "/%s/%s/" $.Section $pageSlug }}
+                    {{- $prevPageHref = printf "%s%s/%s/" $root $.Section $pageSlug }}
                   {{- else }}
-                    {{- $prevPageHref = printf "/%s/%s/%s/" $.Site.Language.Lang $.Section $pageSlug }}
+                    {{- $prevPageHref = printf "%s%s/%s/%s/" $root $.Site.Language.Lang $.Section $pageSlug }}
                   {{- end }}
 
                 {{- end }}
@@ -150,9 +150,6 @@
           {{- end }}
 
           <time datetime="{{ $lastMod }}"><i>🕒</i> {{ i18n "updated" }}: {{ $lastMod }}</time>
-          {{ if not hugo.IsServer }}{{ with .GitInfo }}
-          <data value="{{ .Hash }}"><i>🗃</i> {{ i18n "commit" }}: {{ .AbbreviatedHash }} ({{ .Subject }})</data>
-          {{ end }}{{ end }}
           {{ if ne $prevPageHref "" }}
           <a rel="previous" href="{{ $prevPageHref }}"><i>﹤</i> {{ i18n "previous" }}</a>
           {{ else }}
@@ -164,6 +161,13 @@
           {{ else }}
           <a class="hidden">{{ i18n "next" }} <i>﹥</i></a>
           {{ end }}
+
+          {{ if not hugo.IsServer }}{{ with .GitInfo }}
+          {{ $commitURL := printf "https://github.com/%s/commit/%s" .Site.Params.project.github.repo .Hash }}
+          <data value="{{ .Hash }}">
+            <i>🗃</i> Commit{{/* i18n "Commit" */}}: <a href="{{ $commitURL }}"> target="_blank>{{ .AbbreviatedHash }} ({{ .Subject }})</a>
+          </data>
+          {{ end }}{{ end }}
 
         </footer>
       </article>

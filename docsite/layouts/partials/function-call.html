@@ -14,7 +14,7 @@
   {{ if .optional }}{{ $param = add $param "*" }}{{ end }}
   {{ $param = add $param .name }}
   {{ if .optional }}{{ $param = add $param "*" }}{{ end }}
-  {{ if isset . "tsType" }}{{ $param = add $param ":" .tsType.keyword }}{{ end }}
+  {{ if isset . "tsType" }}{{ $param = add $param ": " .tsType.keyword }}{{ end }}
   {{ $call  = add $call $param }}
   {{ $count = add $count 1 }}
 {{ end }}

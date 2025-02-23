@@ -10,7 +10,7 @@
 {{ range $info := index .Site.Data "jsdoc-order" }}
   {{ $res := resources.Get (printf "jsdoc/%s.json" $info.name) }}
   {{ $data := transform.Unmarshal $res }}
-  {{ $content := "## test\n\n" }}
+  {{ $content := "" }}
   {{ range $node := $data.nodes }}
     {{ if not $node.jsDoc }}
       {{ continue }}
