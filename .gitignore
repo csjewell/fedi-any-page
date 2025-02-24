@@ -3,5 +3,9 @@ docsite/public
 docsite/assets/jsdoc/*.json
 docsite/data/jsdoc-order.yaml
 
+# Temporary directories I'm still working in before I commit them.
+database-cloudflare-d1
+workers-cloudflare
+
 # This allows me to take notes that I'll need later.
 **/NOTES.md
