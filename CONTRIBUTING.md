@@ -11,7 +11,7 @@ When a release is ready, it will be made by a fast-forward merge from `dev` into
 
 ```
 ... (dev +=)$ git commit
-... (dev $=)$ git push
+... (dev>)$ git push
 ... (dev $=)$ git checkout release
 ... (release $%=)$ git merge --ff origin/dev
 ... (release $=)$ git tag v0.1.0-alpha.3

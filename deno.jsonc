@@ -1,6 +1,6 @@
 {
-  // Each JSR package is in this list
-  "workspace": ["./json"],
+  // Each JSR package is in this list`
+  "workspace": ["./json", "./general", "./handlers-response"],
   // Set the compiler options for TypeScript.
   "compilerOptions": {
     "strict": true,
