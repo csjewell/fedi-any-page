@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 import { NAMESPACE_URL, v5 as uuid } from '@std/uuid'
-import * as Kit from './utilities.ts'
+import * as Kit from './interfaces.ts'
+import * as KitUtils from './utilities.ts'
 import type { AP } from 'activitypub-core-types'
 import type { CoreObject, EntityReference } from 'activitypub-core-types/lib/activitypub/index.js'
 
@@ -62,8 +63,7 @@ class HandleCreate extends Router implements Kit.RequestHandler {
         return this.resp.error422('Cannot "Create" a "Note" that is not a reply')
       }
 
-      // TODO: get the host out of this.env.URL
-      if (!Kit.isObjectOurs(this.env.URL, createObject.inReplyTo)) {
+      if (!KitUtils.isObjectOurs(this.env.url().hostname, createObject.inReplyTo)) {
         return this.resp.error422('The replying note was misrouted')
       }
 
@@ -113,12 +113,11 @@ class HandleFollow extends Router implements Kit.RequestHandler {
     const guid = uuid.generate(NAMESPACE_URL, url)
     const success = await messageStorage.save(guid)
     if (success) {
-      const username = 'csjewell' // TODO: Get the username.
       const acceptRequest: AP.Accept = {
         '@context': 'https://www.w3.org/ns/activitystreams',
-        id: new URL(`${this.env.URL}${guid}`),
+        id: new URL(`${this.env.url().toString()}${this.username}#${guid}`),
         type: 'Accept',
-        actor: new URL(`${this.env.URL}${username}`) as EntityReference,
+        actor: new URL(`${this.env.url().toString()}${this.username}`) as EntityReference,
         object: this.message.id,
       }
     }

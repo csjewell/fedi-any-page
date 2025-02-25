@@ -1,7 +1,7 @@
 {
   "name": "@csjewell-activitypub/general",
   "version": "0.1.0-alpha.4",
-  "exports": "./index.ts",
+  "exports": "./mod.ts",
   "tasks": {
     "test": "deno test --allow-read",
     "test-update": "deno test --allow-read --allow-write -- --update"
@@ -17,12 +17,22 @@
   "license": "MIT",
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
+    "@std/jsonc": "jsr:@std/jsonc@^1.0.1",
     "@std/testing": "jsr:@std/testing@^1.0.9",
     "@std/uuid": "jsr:@std/uuid@^1.0.4",
     "activitypub-core-types": "npm:activitypub-core-types@^0.3.2",
     "sanitize-html": "npm:sanitize-html@^2.14.0"
   },
   "publish": {
-    "include": ["README.md", "LICENSE", "deno.jsonc", "index.ts", "handlers.ts", "utilities.ts"]
+    "include": [
+      "README.md",
+      "LICENSE",
+      "deno.jsonc",
+      "index.ts",
+      "handlers.ts",
+      "utilities.ts",
+      "interfaces.ts",
+      "users.ts"
+    ]
   }
 }

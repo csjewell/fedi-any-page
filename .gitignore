@@ -6,6 +6,11 @@ docsite/data/jsdoc-order.yaml
 # Temporary directories I'm still working in before I commit them.
 database-cloudflare-d1
 workers-cloudflare
+create
+local-test-server-bun
+local-test-server-deno
+workers-deno-deploy
+database-postgres
 
 # This allows me to take notes that I'll need later.
 **/NOTES.md

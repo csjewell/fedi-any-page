@@ -7,83 +7,6 @@ import type { CoreObject, EntityReference } from 'activitypub-core-types/lib/act
 
 /*
  */
-export interface Responses {
-  getHeaders(cors?: boolean): Record<string, string>
-  success202(info?: string): unknown
-  success204(info?: string): unknown
-  options204(methods?: Array<string>, allowHeaders?: Array<string>): unknown
-  error404(info?: string): unknown
-  error404NotImplemented(): unknown
-  error405(info?: string): unknown
-  error422(info?: string): unknown
-  error500(info?: string): unknown
-}
-
-/*
- */
-export interface RequestHandler {
-  handle(): any
-}
-
-/*
- */
-export interface Sender {
-  sendSignedRequest(endpoint: URL, message: AP.Activity): Response
-}
-
-/*
- */
-export interface RequestRouter {
-  create(message: AP.Create): RequestHandler
-  follow(message: AP.Follow): RequestHandler
-  undo(message: AP.Undo): RequestHandler
-}
-
-/*
- */
-export interface Database {
-  remove(): boolean
-  save(...arguments_: Array<any>): boolean
-  exists(): boolean
-  retrieve(): any
-}
-
-/*
- */
-export interface DatabaseRouter {
-  handle(): any
-  announce(message: AP.Announce): Database
-  follow(message: AP.Follow): Database
-  like(message: AP.Like): Database
-  note(message: AP.Note): Database
-  actor(message: AP.ActorReference): Database
-  getDocument(dr: string | EntityReference | Array<EntityReference> | URL | undefined): CoreObject | undefined
-}
-
-/*
- */
-export type User = {
-  homepage: string
-  name: string
-  summary: string
-  username?: string
-  aliases?: Array<string>
-}
-
-/*
- */
-export type Users = Record<string, User>
-
-/*
- */
-export type Configuration = {
-  URL: string
-  PrivateKey: string
-  Database: unknown
-}
-
-/*
- */
 export function getEntityId(
   er: string | EntityReference | Array<EntityReference> | URL | undefined,
 ): string | undefined {
@@ -286,22 +209,4 @@ export function washHTML(html: string) {
     },
     nestingLimit: 6,
   })
-}
-
-/*
- */
-export function retrieveUser(users: Users, username: string) {
-  const user: User | undefined = users[username] ?? undefined
-  if (user !== undefined) {
-    // Slip the username into the object so that people can get it back.
-    user.username = username
-  }
-
-  return user
-}
-
-/*
- */
-export function existsUser(users: Users, username: string) {
-  return Object.hasOwn(users, username)
 }
