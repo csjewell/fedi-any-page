@@ -40,3 +40,15 @@ jobs:
 
       - name: Publish json package
         run: cd json && deno publish
+
+      - name: Publish general package
+        run: cd general && deno publish
+
+      - name: Publish database-cloudflare-d1 package
+        run: cd database-cloudflare-d1 && deno publish
+
+      - name: Publish workers-cloudflare package
+        run: cd workers-cloudflare && deno publish
+
+      - name: Publish handlers-response package
+        run: cd handlers-response && deno publish

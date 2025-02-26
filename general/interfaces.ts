@@ -19,7 +19,7 @@ export interface Responses {
 /*
  */
 export interface RequestHandler {
-  handle(): any
+  handle(): unknown
 }
 
 /*
@@ -40,15 +40,15 @@ export interface RequestRouter {
  */
 export interface Database {
   remove(): boolean
-  save(...arguments_: Array<any>): boolean
+  save(...arguments_: Array<unknown>): boolean
   exists(): boolean
-  retrieve(): any
+  retrieve(): unknown
 }
 
 /*
  */
 export interface DatabaseRouter {
-  handle(): any
+  dbHandle(): unknown
   announce(message: AP.Announce): Database
   follow(message: AP.Follow): Database
   like(message: AP.Like): Database
@@ -60,7 +60,10 @@ export interface DatabaseRouter {
 /*
  */
 export interface Configuration {
-  url(): URL
-  privateKey(): string
-  database(): unknown
+  url: URL
+  privateKey: string
+  database: unknown
+  username: string
+  getActorURL(username: string): string
+  getActorBasedId(username: string, ending: string): string
 }

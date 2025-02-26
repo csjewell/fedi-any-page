@@ -13,3 +13,7 @@ readarray -t fileinfo < <(yq -oj -I0 '. | map({.source: del(.source)}) | .[]' js
 ) > docsite/data/jsdoc-order.yaml
 
 deno doc --json json/mod.ts >docsite/assets/jsdoc/json-module.json
+deno doc --json general/mod.ts >docsite/assets/jsdoc/general-module.json
+deno doc --json handlers-response/mod.ts >docsite/assets/jsdoc/handlers-response-module.json
+deno doc --json workers-cloudflare/mod.ts >docsite/assets/jsdoc/workers-cloudflare-module.json
+deno doc --json database-cloudflare-d1/mod.ts >docsite/assets/jsdoc/database-cloudflare-d1-module.json

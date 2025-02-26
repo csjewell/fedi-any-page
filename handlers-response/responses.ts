@@ -1,8 +1,5 @@
 /* SPDX-License-Identifier: MIT */
-import * as Kit from '@csjewell-activitypub/general'
-import * as Json from '@csjewell-activitypub/json'
-import type { AP } from 'activitypub-core-types'
-import type { CoreObject, EntityReference } from 'activitypub-core-types/lib/activitypub/index.js'
+import type * as Kit from '@csjewell-activitypub/general'
 
 /*
  * This class contains helpers to return the appropriate Response within the ActivityPub toolkit.
@@ -100,7 +97,7 @@ class StandardResponses implements Kit.Responses {
    *
    * @returns Response to return to browser.
    */
-  options204(methods: Array<string> = [], allowHeaders: Array<string> = []): Response {
+  options204(_methods: Array<string> = [], _allowHeaders: Array<string> = []): Response {
     const headers = new Headers({
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'OPTIONS, GET',
@@ -191,4 +188,4 @@ class StandardResponses implements Kit.Responses {
   }
 }
 
-export const Responses = new StandardResponses()
+export const Responses: StandardResponses = new StandardResponses()

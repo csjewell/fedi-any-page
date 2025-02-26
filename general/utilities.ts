@@ -2,8 +2,18 @@
 import sanitizeHtml from 'sanitize-html'
 import { isTypeOf } from 'activitypub-core-types/lib/assertions/index.js'
 import { CoreObjectTypes } from 'activitypub-core-types/lib/activitypub/utils/const.js'
-import type { AP } from 'activitypub-core-types'
 import type { CoreObject, EntityReference } from 'activitypub-core-types/lib/activitypub/index.js'
+
+interface ErrorOptions {
+  cause?: Error
+}
+
+export class NotImplementedError extends Error {
+  constructor(message: string = 'Not Implemented', options: ErrorOptions = {}) {
+    super(message, options)
+    this.name = 'NotImplementedError'
+  }
+}
 
 /*
  */
@@ -138,7 +148,7 @@ export function isObjectOurs(
 
 /*
  */
-export function washHTML(html: string) {
+export function washHTML(html: string): string {
   return sanitizeHtml(html, {
     allowedTags: [
       'p',
@@ -197,7 +207,7 @@ export function washHTML(html: string) {
       h6: 'strong',
       b: 'strong',
       i: sanitizeHtml.simpleTransform('span', { style: 'font-family: italic' }),
-      ol: function (tagName: string, attribs: sanitizeHtml.Attributes) {
+      ol: function (_tagName: string, _attribs: sanitizeHtml.Attributes) {
         // My own custom magic goes here
         return {
           tagName: 'ul',

@@ -6,14 +6,6 @@
     "test": "deno test --allow-read",
     "test-update": "deno test --allow-read --allow-write -- --update"
   },
-  "fmt": {
-    "useTabs": false,
-    "lineWidth": 120,
-    "indentWidth": 2,
-    "semiColons": false,
-    "singleQuote": true,
-    "proseWrap": "always"
-  },
   "license": "MIT",
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
@@ -28,7 +20,7 @@
       "README.md",
       "LICENSE",
       "deno.jsonc",
-      "index.ts",
+      "mod.ts",
       "handlers.ts",
       "utilities.ts",
       "interfaces.ts",

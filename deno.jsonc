@@ -1,6 +1,12 @@
 {
   // Each JSR package is in this list`
-  "workspace": ["./json", "./general", "./handlers-response"],
+  "workspace": [
+    "./json",
+    "./general",
+    "./handlers-response",
+    "./database-cloudflare-d1",
+    "./workers-cloudflare"
+  ],
   // Set the compiler options for TypeScript.
   "compilerOptions": {
     "strict": true,
@@ -10,6 +16,12 @@
   "nodeModulesDir": "none",
   // Do not format or lint test data, snapshots, or documentation site.
   "fmt": {
+    "useTabs": false,
+    "lineWidth": 120,
+    "indentWidth": 2,
+    "semiColons": false,
+    "singleQuote": true,
+    "proseWrap": "always",
     "exclude": [
       "test_data",
       "__snapshots__",

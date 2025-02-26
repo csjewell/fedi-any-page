@@ -14,6 +14,7 @@
     "jsr:@std/path@^1.0.8": "1.0.8",
     "jsr:@std/testing@^1.0.9": "1.0.9",
     "jsr:@std/uuid@^1.0.4": "1.0.4",
+    "npm:@cloudflare/workers-types@^4.20250224.0": "4.20250224.0",
     "npm:@hyperjump/json@~0.2.1": "0.2.1",
     "npm:activitypub-core-types@~0.3.2": "0.3.2",
     "npm:activitypub-http-signatures@*": "2.5.0",
@@ -81,6 +82,9 @@
     }
   },
   "npm": {
+    "@cloudflare/workers-types@4.20250224.0": {
+      "integrity": "sha512-j6ZwQ5G2moQRaEtGI2u5TBQhVXv/XwOS5jfBAheZHcpCM07zm8j0i8jZHHLq/6VA8e6VRjKohOyj5j6tZ1KHLQ=="
+    },
     "@hyperjump/json-pointer@1.1.0": {
       "integrity": "sha512-tFCKxMKDKK3VEdtUA3EBOS9GmSOS4mbrTjh9v3RnK10BphDMOb6+bxTh++/ae1AyfHyWb6R54O/iaoAtPMZPCg=="
     },
@@ -333,6 +337,15 @@
   },
   "workspace": {
     "members": {
+      "database-cloudflare-d1": {
+        "dependencies": [
+          "jsr:@std/assert@1",
+          "jsr:@std/testing@^1.0.9",
+          "jsr:@std/uuid@^1.0.4",
+          "npm:@cloudflare/workers-types@^4.20250224.0",
+          "npm:activitypub-core-types@~0.3.2"
+        ]
+      },
       "general": {
         "dependencies": [
           "jsr:@std/assert@1",
@@ -357,6 +370,15 @@
           "jsr:@std/assert@1",
           "jsr:@std/testing@^1.0.9",
           "npm:@hyperjump/json@~0.2.1",
+          "npm:activitypub-core-types@~0.3.2"
+        ]
+      },
+      "workers-cloudflare": {
+        "dependencies": [
+          "jsr:@std/assert@1",
+          "jsr:@std/testing@^1.0.9",
+          "jsr:@std/uuid@^1.0.4",
+          "npm:@cloudflare/workers-types@^4.20250224.0",
           "npm:activitypub-core-types@~0.3.2"
         ]
       }

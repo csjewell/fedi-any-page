@@ -138,7 +138,7 @@ function reviver(key: string, value: unknown, pointer: string): unknown {
   }
 }
 
-function replacer(key: string, value: unknown, pointer: string): unknown {
+function replacer(_key: string, value: unknown, _pointer: string): unknown {
   // console.log(`REPLACER: "${pointer}", "${key}":`, value)
 
   if (value instanceof URL) {

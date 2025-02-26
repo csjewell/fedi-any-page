@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
-//import { assertEquals } from '@std/assert'
+// import { assertEquals } from '@std/assert'
 import { assertSnapshot } from '@std/testing/snapshot'
 import { describe, it } from '@std/testing/bdd'
-import { AP } from 'activitypub-core-types'
+// import { AP } from 'activitypub-core-types'
 import { parse, stringify } from './mod.ts'
 
 let jsonPerson: string
@@ -22,7 +22,9 @@ const actorTests = describe('Encoding and decoding an Actor')
 
 try {
   person = parse(jsonPerson)
-} catch (caught) {}
+} catch (_caught) {
+  // Not worrying about it.
+}
 
 it(actorTests, 'Parse a Person correctly', async function (t): Promise<void> {
   await assertSnapshot(t, person)

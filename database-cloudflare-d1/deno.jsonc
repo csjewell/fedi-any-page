@@ -1,5 +1,5 @@
 {
-  "name": "@csjewell-activitypub/handlers-response",
+  "name": "@csjewell-activitypub/database-cloudflare-d1",
   "version": "0.1.0-alpha.4",
   "exports": "./mod.ts",
   "tasks": {
@@ -8,13 +8,13 @@
   },
   "license": "MIT",
   "imports": {
-    "@std/uuid": "jsr:@std/uuid@^1.0.4",
-    "activitypub-http-signatures": "npm:activitypub-http-signatures@^2.5.0",
+    "@cloudflare/workers-types": "npm:@cloudflare/workers-types@^4.20250224.0",
     "@std/assert": "jsr:@std/assert@1",
     "@std/testing": "jsr:@std/testing@^1.0.9",
+    "@std/uuid": "jsr:@std/uuid@^1.0.4",
     "activitypub-core-types": "npm:activitypub-core-types@^0.3.2"
   },
   "publish": {
-    "include": ["README.md", "LICENSE", "deno.jsonc", "mod.ts", "sender.ts", "responses.ts"]
+    "include": ["README.md", "LICENSE", "deno.jsonc", "mod.ts"]
   }
 }
