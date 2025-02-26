@@ -17,8 +17,8 @@ export default class CloudflareD1Database implements Kit.DatabaseRouter {
   protected env: Kit.Configuration
 
   constructor(env: Kit.Configuration) {
-    this.hostName = env.url().hostname
-    this.handle = env.database()
+    this.hostName = env.url.hostname
+    this.handle = env.database
     this.env = env
   }
 
@@ -293,7 +293,7 @@ class FollowCFStorage extends CloudflareD1Database implements Kit.Database {
       }
     })
 
-    const _url = this.env.url().toString()
+    const _url = this.env.url.toString()
     const _user = this.env.username.toLowerCase()
 
     const _acceptRequest: AP.Accept = {

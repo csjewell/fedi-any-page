@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: MIT */
 import * as Kit from '@csjewell-activitypub/general'
+import D1Database from '@cloudflare/workers-types'
 
 /* Example:
 

@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 import { SignedFetch } from 'activitypub-http-signatures'
 import * as Json from '@csjewell-activitypub/json'
-import type { Kit } from '@csjewell-activitypub/general'
+import type * as Kit from '@csjewell-activitypub/general'
 import type { AP } from 'activitypub-core-types'
 
 export class StandardSender implements Kit.Sender {
@@ -14,8 +14,8 @@ export class StandardSender implements Kit.Sender {
   }
 
   sendSignedRequest(endpoint: URL, object: AP.Activity): Response {
-    const publicKeyId = `${this.config.URL}activitypub/${this.username}#main-key`
-    const privateKey = this.config.PrivateKey
+    const publicKeyId = `${this.config.url}activitypub/${this.username}#main-key`
+    const privateKey = this.config.privateKey
     console.log('object:', object)
 
     const signedFetch = SignedFetch.sha256(fetch, { publicKeyId, privateKey })

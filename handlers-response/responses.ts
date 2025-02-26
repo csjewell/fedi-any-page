@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MIT */
-import type { Kit } from '@csjewell-activitypub/general'
+import type * as Kit from '@csjewell-activitypub/general'
 
 /*
  * This class contains helpers to return the appropriate Response within the ActivityPub toolkit.
