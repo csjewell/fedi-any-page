@@ -16,21 +16,50 @@
   "nodeModulesDir": "none",
   // Do not format or lint test data, snapshots, or documentation site.
   "fmt": {
-    "useTabs": false,
-    "lineWidth": 120,
-    "indentWidth": 2,
-    "semiColons": false,
-    "singleQuote": true,
-    "proseWrap": "always",
     "exclude": [
       "test_data",
       "__snapshots__",
       ".github",
       "docsite",
       "CONTRIBUTING.md"
-    ]
+    ],
+    // Add the standard settings we want.
+    "useTabs": false,
+    "lineWidth": 120,
+    "indentWidth": 2,
+    "semiColons": false,
+    "singleQuote": true,
+    "proseWrap": "always"
   },
   "lint": {
+    "rules": {
+      "tags": ["recommended"],
+      "include": [
+        "default-param-last",
+        "eqeqeq",
+        "explicit-function-return-type",
+        "explicit-module-boundary-types",
+        "guard-for-in",
+        "no-await-in-loop",
+        "no-boolean-literal-for-arguments",
+        "no-const-assign",
+        "no-eval",
+        "no-external-imports",
+        "no-inferrable-types",
+        "no-non-null-asserted-optional-chain",
+        "no-self-compare",
+        "no-slow-types",
+        "no-sparse-arrays",
+        "no-sync-fn-in-async-fn",
+        "no-throw-literal",
+        "no-top-level-await",
+        "no-undef",
+        "no-useless-rename",
+        "prefer-ascii",
+        "triple-slash-reference",
+        "verbatim-module-syntax"
+      ]
+    },
     "exclude": ["test_data", "__snapshots__", ".github", "docsite"]
   }
 }

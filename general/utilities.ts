@@ -187,11 +187,11 @@ export function washHTML(html: string): string {
         'font-weight': [/^[247]00$/],
       },
     },
-    exclusiveFilter: function (frame: sanitizeHtml.IFrame) {
+    exclusiveFilter: function (frame: sanitizeHtml.IFrame): boolean {
       // Remove empty a tags.
       return frame.tag === 'a' && !frame.text.trim()
     },
-    textFilter: function (text: string, tagName: string) {
+    textFilter: function (text: string, tagName: string): string {
       if (['a'].includes(tagName)) {
         return text // Skip anchor tags
       }
@@ -207,7 +207,7 @@ export function washHTML(html: string): string {
       h6: 'strong',
       b: 'strong',
       i: sanitizeHtml.simpleTransform('span', { style: 'font-family: italic' }),
-      ol: function (_tagName: string, _attribs: sanitizeHtml.Attributes) {
+      ol: function (_tagName: string, _attribs: sanitizeHtml.Attributes): sanitizeHtml.Tag {
         // My own custom magic goes here
         return {
           tagName: 'ul',

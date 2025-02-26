@@ -169,21 +169,21 @@ class HandleUndo extends Router implements Kit.RequestHandler {
       return this.resp.error422('No object to act upon')
     }
 
-    let _success: boolean
+    let success: boolean
     const type = object.type as string
     switch (type) {
       case 'Follow': {
-        _success = await this.kdb.follow(object as AP.Follow).remove()
+        success = await this.kdb.follow(object as AP.Follow).remove()
         break
       }
 
       case 'Like': {
-        _success = await this.kdb.like(object as AP.Like).remove()
+        success = await this.kdb.like(object as AP.Like).remove()
         break
       }
 
       case 'Announce': {
-        _success = await this.kdb.announce(object as AP.Announce).remove()
+        success = await this.kdb.announce(object as AP.Announce).remove()
         break
       }
 
@@ -192,7 +192,7 @@ class HandleUndo extends Router implements Kit.RequestHandler {
       }
     }
 
-    // TODO: Handle `success`.
-    return this.resp.success202('Handled Undo')
+    // TODO: Handle `success` better.
+    return success ? this.resp.success202('Handled Undo') : this.resp.error500()
   }
 }

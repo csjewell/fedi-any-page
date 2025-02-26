@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 import { SignedFetch } from 'activitypub-http-signatures'
 import * as Json from '@csjewell-activitypub/json'
-import type * as Kit from '@csjewell-activitypub/general'
+import type { Kit } from '@csjewell-activitypub/general'
 import type { AP } from 'activitypub-core-types'
 
 export class StandardSender implements Kit.Sender {

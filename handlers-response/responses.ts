@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MIT */
-import type * as Kit from '@csjewell-activitypub/general'
+import type { Kit } from '@csjewell-activitypub/general'
 
 /*
  * This class contains helpers to return the appropriate Response within the ActivityPub toolkit.
@@ -14,6 +14,7 @@ import type * as Kit from '@csjewell-activitypub/general'
  * return Helpers.Responses.error404NotImplemented()
  * ```
  */
+const CORS = true, NO_CORS = false
 class StandardResponses implements Kit.Responses {
   /*
    * Provides the default Headers for most routines in KitResponses
@@ -22,7 +23,7 @@ class StandardResponses implements Kit.Responses {
    *
    * @private
    */
-  getHeaders(cors: boolean = true): Record<string, string> {
+  getHeaders(cors: boolean = CORS): Record<string, string> {
     const h: Record<string, string> = {
       'Content-Type': 'application/activity+json',
       'X-Clacks-Overhead': 'GNU Terry Pratchett',
@@ -33,7 +34,7 @@ class StandardResponses implements Kit.Responses {
     return h
   }
 
-  _headers(cors: boolean = true): Headers {
+  _headers(cors: boolean = CORS): Headers {
     return new Headers(this.getHeaders(cors))
   }
 
@@ -56,7 +57,7 @@ class StandardResponses implements Kit.Responses {
     }, {
       status: 202,
       statusText,
-      headers: this._headers(true),
+      headers: this._headers(),
     })
   }
 
@@ -68,13 +69,13 @@ class StandardResponses implements Kit.Responses {
    *
    * @returns Response to return to browser.
    */
-  success204(info: string = ''): Response {
+  success204(info = ''): Response {
     let statusText = 'No Content'
     if (info !== '') {
       statusText = statusText.concat(` (${info})`)
     }
 
-    const headers = this._headers(false)
+    const headers = this._headers(NO_CORS)
 
     return new Response(null, {
       status: 204,
@@ -125,7 +126,7 @@ class StandardResponses implements Kit.Responses {
     }, {
       status: 404,
       statusText: `${info} Not Found`,
-      headers: this._headers(true),
+      headers: this._headers(),
     })
   }
 
@@ -137,7 +138,7 @@ class StandardResponses implements Kit.Responses {
     }, {
       status: 404,
       statusText: 'Not Implemented Yet',
-      headers: this._headers(true),
+      headers: this._headers(),
     })
   }
 
@@ -149,12 +150,12 @@ class StandardResponses implements Kit.Responses {
     }, {
       status: 405,
       statusText: 'Method Not Allowed',
-      headers: this._headers(true),
+      headers: this._headers(),
     })
   }
 
   /* */
-  error422(info: string = ''): Response {
+  error422(info = ''): Response {
     let statusText = 'Unprocessable Request'
     if (info !== undefined) {
       statusText = statusText.concat(` (${info})`)
@@ -166,12 +167,12 @@ class StandardResponses implements Kit.Responses {
     }, {
       status: 422,
       statusText,
-      headers: this._headers(true),
+      headers: this._headers(),
     })
   }
 
   /* */
-  error500(info: string = ''): Response {
+  error500(info = ''): Response {
     let statusText = 'Server Error'
     if (info !== '') {
       statusText = statusText.concat(` (${info})`)
@@ -183,7 +184,7 @@ class StandardResponses implements Kit.Responses {
     }, {
       status: 500,
       statusText,
-      headers: this._headers(true),
+      headers: this._headers(),
     })
   }
 }

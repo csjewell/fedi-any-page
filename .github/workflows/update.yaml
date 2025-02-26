@@ -1,0 +1,21 @@
+name: Update module versions
+
+on:
+  schedule:
+    - cron: '0 23 * * 5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the kit
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+      - name: Create PR to update dependencies if needed.
+        uses: hasundue/molt-action@v1

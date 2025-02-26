@@ -5,8 +5,7 @@ docsite/data/jsdoc-order.yaml
 
 # Temporary directories I'm still working in before I commit them.
 create
-local-test-server-bun
-local-test-server-deno
+local-test-server-*
 workers-deno-deploy
 database-postgres
 pages-plugin
