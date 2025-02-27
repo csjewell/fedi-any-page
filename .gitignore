@@ -9,6 +9,7 @@ local-test-server-*
 workers-deno-deploy
 database-postgres
 pages-plugin
+bin/pre-push
 
 # This allows me to take notes that I'll need later.
 **/NOTES.md

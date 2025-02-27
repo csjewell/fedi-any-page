@@ -3,7 +3,6 @@ import { NAMESPACE_URL, v5 as uuid } from '@std/uuid'
 import * as KitUtils from './utilities.ts'
 import type * as Kit from './interfaces.ts'
 import type { AP } from 'activitypub-core-types'
-import type { CoreObject, EntityReference } from 'activitypub-core-types/lib/activitypub/index.js'
 
 export class Router implements Kit.RequestRouter {
   protected kdb: Kit.DatabaseRouter
@@ -57,7 +56,7 @@ class HandleCreate extends Router implements Kit.RequestHandler {
     }
 
     // We are only interested in Replies - that is a "Note" with a "replyTo"
-    const createObject = this.message.object as CoreObject
+    const createObject = this.message.object as AP.CoreObject
     if (createObject.type === 'Note') {
       if (createObject.inReplyTo === undefined) {
         return this.resp.error422('Cannot "Create" a "Note" that is not a reply')
@@ -117,7 +116,7 @@ class HandleFollow extends Router implements Kit.RequestHandler {
         '@context': 'https://www.w3.org/ns/activitystreams',
         id: new URL(`${this.env.url.toString()}${this.username}#${guid}`),
         type: 'Accept',
-        actor: new URL(`${this.env.url.toString()}${this.username}`) as EntityReference,
+        actor: new URL(`${this.env.url.toString()}${this.username}`) as AP.EntityReference,
         object: this.message.id,
       }
     }
@@ -155,7 +154,7 @@ class HandleUndo extends Router implements Kit.RequestHandler {
       return this.resp.error422('No object to undo')
     }
 
-    const object = this.kdb.getDocument(this.message.object)
+    const { object } = this.kdb.getDocument(this.message.object)
 
     if (object === undefined) {
       return this.resp.error422('No actor')

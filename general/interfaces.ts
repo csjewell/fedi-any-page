@@ -1,6 +1,10 @@
 /* SPDX-License-Identifier: MIT */
 import type { AP } from 'activitypub-core-types'
-import type { CoreObject, EntityReference } from 'activitypub-core-types/lib/activitypub/index.js'
+
+export type DBDocument = {
+  object: AP.CoreObject | undefined
+  objectId: number | undefined
+}
 
 /*
  */
@@ -54,7 +58,7 @@ export interface DatabaseRouter {
   like(message: AP.Like): Database
   note(message: AP.Note): Database
   actor(message: AP.ActorReference): Database
-  getDocument(dr: string | EntityReference | Array<EntityReference> | URL | undefined): CoreObject | undefined
+  getDocument(dr: string | AP.EntityReference | Array<AP.EntityReference> | URL | undefined): DBDocument
 }
 
 /*

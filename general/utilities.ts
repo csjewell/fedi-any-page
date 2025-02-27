@@ -1,8 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 import sanitizeHtml from 'sanitize-html'
+import { AP } from 'activitypub-core-types'
 import { isTypeOf } from 'activitypub-core-types/lib/assertions/index.js'
-import { CoreObjectTypes } from 'activitypub-core-types/lib/activitypub/utils/const.js'
-import type { CoreObject, EntityReference } from 'activitypub-core-types/lib/activitypub/index.js'
 
 interface ErrorOptions {
   cause?: Error
@@ -17,20 +16,8 @@ export class NotImplementedError extends Error {
 
 /*
  */
-export function getEntityId(
-  er: string | EntityReference | Array<EntityReference> | URL | undefined,
-): string | undefined {
-  if (Array.isArray(er)) {
-    return undefined
-  }
-
-  return entityRefToString(er)
-}
-
-/*
- */
 export function getUsername(
-  _er: string | EntityReference | Array<EntityReference> | URL | undefined,
+  _er: string | AP.EntityReference | Array<AP.EntityReference>,
 ): { username: string; usernameId: number } | undefined {
   if (Array.isArray(_er)) {
     return undefined
@@ -42,20 +29,7 @@ export function getUsername(
 
 /*
  */
-export function getDocument(
-  dr: string | EntityReference | Array<EntityReference> | URL | undefined,
-): CoreObject | undefined {
-  if (Array.isArray(dr)) {
-    return undefined
-  }
-
-  // TODO: Finish implementing, might not be here.
-  return undefined
-}
-
-/*
- */
-export function entityRefToString(er: string | URL | EntityReference | undefined): string | undefined {
+export function entityRefToString(er: string | AP.EntityReference): string | undefined {
   if (er === undefined || er === null) {
     return undefined
   }
@@ -64,13 +38,13 @@ export function entityRefToString(er: string | URL | EntityReference | undefined
     return er
   }
 
-  if (isTypeOf(er as CoreObject, CoreObjectTypes)) {
+  if (isTypeOf(er as AP.CoreObject, AP.CoreObjectTypes)) {
     if ('id' in er) {
-      if (er.id === null) {
+      if (er.id === null || er.id === undefined) {
         return undefined
       }
 
-      return er.id!.toString()
+      return er.id.toString()
     }
 
     return undefined
@@ -81,13 +55,19 @@ export function entityRefToString(er: string | URL | EntityReference | undefined
 
 /*
  */
-export function entityRefToURL(er: string | URL | EntityReference | undefined): URL | undefined {
+export function getEntityId(er: string | AP.EntityReference | Array<AP.EntityReference>): string | undefined {
+  return Array.isArray(er) ? undefined : entityRefToString(er)
+}
+
+/*
+ */
+export function entityRefToURL(er: string | URL | AP.EntityReference | undefined): URL | undefined {
   if (er === undefined || er === null) {
     return undefined
   }
 
   if (typeof er === 'string') {
-    let url: URL | undefined
+    let url: URL | undefined = undefined
     try {
       url = new URL(er)
     } catch (caught) {
@@ -102,9 +82,9 @@ export function entityRefToURL(er: string | URL | EntityReference | undefined): 
     return er
   }
 
-  if (isTypeOf(er as CoreObject, CoreObjectTypes)) {
+  if (isTypeOf(er as AP.CoreObject, AP.CoreObjectTypes)) {
     if ('id' in er) {
-      if (er.id === null) {
+      if (er.id === null || er.id === undefined) {
         return undefined
       }
 
@@ -119,7 +99,7 @@ export function entityRefToURL(er: string | URL | EntityReference | undefined): 
  */
 export function isObjectOurs(
   host: string,
-  er: EntityReference | Array<EntityReference> | string | URL | undefined,
+  er: AP.EntityReference | Array<AP.EntityReference> | string | URL | undefined,
 ): boolean {
   if (er === undefined || er === null) {
     return false

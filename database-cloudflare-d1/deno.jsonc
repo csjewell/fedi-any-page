@@ -15,6 +15,18 @@
     "activitypub-core-types": "npm:activitypub-core-types@^0.3.2"
   },
   "publish": {
-    "include": ["README.md", "LICENSE", "deno.jsonc", "mod.ts"]
+    "include": [
+      "README.md",
+      "LICENSE",
+      "deno.jsonc",
+      "mod.ts",
+      "actor.ts",
+      "announce.ts",
+      "follow.ts",
+      "like.ts",
+      "note.ts",
+      "router.ts",
+      "types.ts"
+    ]
   }
 }
