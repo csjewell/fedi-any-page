@@ -13,3 +13,10 @@ export type DBDocument = {
   object: AP.CoreObject | undefined
   objectId: number | undefined
 }
+
+export type DBDocumentInfo = {
+  doc: string
+  r2key: string
+  r2int: number
+  url: string
+}

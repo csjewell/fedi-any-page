@@ -13,11 +13,15 @@ export class FollowCFStorage extends CloudflareD1Database implements Kit.Databas
     this.message = message
   }
 
+  databaseId(): number | undefined {
+    throw new Kit.NotImplementedError()
+  }
+
   remove(): boolean {
     // If from Mastodon - someone unfollowed me, we need to delete it from the store.
     const actorId = Kit.getEntityId(this.message.actor)
-    const { username, usernameId } = Kit.getUsername(this.message.object) ?? { username: '', usernameId: -1 }
-    if (usernameId === -1) {
+    const { username, usernameId } = this.getUsername(this.message.object)
+    if (usernameId === undefined) {
       return false
     }
 
@@ -99,6 +103,10 @@ export class FollowCFStorage extends CloudflareD1Database implements Kit.Databas
   }
 
   retrieve(): undefined {
+    throw new Kit.NotImplementedError()
+  }
+
+  shorten(): { url: URL | undefined; id: number | undefined } {
     throw new Kit.NotImplementedError()
   }
 }

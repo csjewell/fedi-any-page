@@ -18,12 +18,20 @@ export class ActorCFStorage extends CloudflareD1Database implements Kit.Database
     this.dbDocumentId = undefined
   }
 
+  databaseId(): number | undefined {
+    return this.dbActorId
+  }
+
   remove(): boolean {
     if (!this.dbActorId || !this.dbDocumentId) {
       this.exists()
     }
 
     return this.removeActorQuick() && this.removeDocumentQuick()
+  }
+
+  dbId(): number | undefined {
+    return this.dbActorId
   }
 
   private removeActorQuick(): boolean {
@@ -180,5 +188,9 @@ export class ActorCFStorage extends CloudflareD1Database implements Kit.Database
 
     this.message = actorInfo
     return <AP.Actor> this.message
+  }
+
+  shorten(): { url: URL | undefined; id: number | undefined } {
+    throw new Kit.NotImplementedError()
   }
 }

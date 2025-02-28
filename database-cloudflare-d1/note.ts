@@ -13,6 +13,10 @@ export class NoteCFStorage extends CloudflareD1Database implements Kit.Database 
     this.message = message
   }
 
+  databaseId(): number | undefined {
+    throw new Kit.NotImplementedError()
+  }
+
   remove(): boolean {
     throw new Kit.NotImplementedError()
   }
@@ -55,6 +59,10 @@ export class NoteCFStorage extends CloudflareD1Database implements Kit.Database 
   }
 
   retrieve(): undefined {
+    throw new Kit.NotImplementedError()
+  }
+
+  shorten(): { url: URL | undefined; id: number | undefined } {
     throw new Kit.NotImplementedError()
   }
 }

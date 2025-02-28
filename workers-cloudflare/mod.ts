@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: MIT */
 import * as Kit from '@csjewell-activitypub/general'
+import type { AP } from 'activitypub-core-types'
 import type D1Database from '@cloudflare/workers-types'
 
 /* Example:
@@ -31,6 +32,10 @@ export class CloudflareConfig implements Kit.Configuration {
   }
 
   getActorBasedId(_username: string, _ending: string): string {
+    throw new Kit.NotImplementedError()
+  }
+
+  localGet(_url: string | URL): AP.CoreObject | undefined {
     throw new Kit.NotImplementedError()
   }
 }

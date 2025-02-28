@@ -1,9 +1,9 @@
 /* SPDX-License-Identifier: MIT */
-// import * as Json from '@csjewell-activitypub/json'
 import * as Kit from '@csjewell-activitypub/general'
-import type { AP } from 'activitypub-core-types'
+import * as Json from '@csjewell-activitypub/json'
+import { type AP, assertIsApTypeOf } from 'activitypub-core-types'
 import { CloudflareD1Database } from './router.ts'
-import type { DBCount, DBId } from './types.ts'
+import type { DBCount, DBDocumentInfo, DBId } from './types.ts'
 
 type LikeInfo = {
   actorId: string
@@ -19,8 +19,17 @@ export class LikeCFStorage extends CloudflareD1Database implements Kit.Database 
     this.message = message
   }
 
+  databaseId(): number | undefined {
+    return this.dbLikeId
+  }
+
   count(er: AP.EntityReference): number {
-    if (er.hostname !== this.env.url.hostname) {
+    const erURL = Kit.entityRefToURL(er)
+    if (erURL === undefined) {
+      return 0
+    }
+
+    if (erURL.hostname !== this.env.url.hostname) {
       // If we aren't ourselves, we were never here.
       return 0
     }
@@ -29,7 +38,7 @@ export class LikeCFStorage extends CloudflareD1Database implements Kit.Database 
     const stmtLikes = this.handle.prepare(
       'SELECT COUNT(*) AS count FROM likes WHERE liked_id = ? AND deletable = 0',
     )
-    void stmtLikes.bind(er.toString()).run().then((resp: D1Result) => {
+    void stmtLikes.bind(erURL.toString()).run().then((resp: D1Result) => {
       if (resp.success) {
         count = (resp.results[0] as DBCount).count
       }
@@ -38,8 +47,13 @@ export class LikeCFStorage extends CloudflareD1Database implements Kit.Database 
     return count
   }
 
-  likes(er: AP.EntityReference, getPrivate = false): unknown {
-    if (er.hostname !== this.env.url.hostname) {
+  list(er: AP.EntityReference, getPrivate = false): unknown {
+    const erURL = Kit.entityRefToURL(er)
+    if (erURL === undefined) {
+      return []
+    }
+
+    if (erURL.hostname !== this.env.url.hostname) {
       // If we aren't ourselves, we were never here.
       return []
     }
@@ -50,9 +64,9 @@ export class LikeCFStorage extends CloudflareD1Database implements Kit.Database 
     const stmtLikes = this.handle.prepare(
       `SELECT actor_id, created FROM likes WHERE liked_id = ? ${sqlPrivate} AND deletable = 0`,
     )
-    void stmtLikes.bind(er.toString()).run().then((resp: D1Result) => {
+    void stmtLikes.bind(erURL.toString()).run().then((resp: D1Result) => {
       if (resp.success && (resp.results.length > 0)) {
-        resp.results.forEach((info) => likes.push(<LikeInfo> { ...info }))
+        ;(resp.results as Array<LikeInfo>).forEach((info) => likes.push(<LikeInfo> { ...info }))
       }
     })
 
@@ -68,50 +82,95 @@ export class LikeCFStorage extends CloudflareD1Database implements Kit.Database 
       return false
     }
 
-    let likedId = object.id
-    if (likedId === null || likedId === undefined) {
+    const likedId = object.id as string | URL | null | undefined
+    const likedURL = Kit.idToURL(likedId)
+    if (likedURL === undefined) {
       return false
     }
 
-    likedId = Kit.toEntityRef(likedId)
-    if (likedId === undefined || likedId === null) {
-      return false
-    }
-
-    console.log(`Attempting to delete Like ${actorId} on ${likedId.toString()}`)
-    if (likedId.hostname !== this.env.url.hostname) {
+    console.log(`Attempting to delete Like ${actorId} on ${likedURL.toString()}`)
+    if (likedURL.hostname !== this.env.url.hostname) {
       // If we aren't ourselves, we were never here.
       return true
     }
 
     let ok = false
     const stmtDel = this.handle.prepare('DELETE FROM likes WHERE liked_id = ? AND actor_id = ?')
-    void stmtDel.bind(likedId, actorId).run().then((resp: D1Result) => {
+    void stmtDel.bind(likedURL, actorId).run().then((resp: D1Result) => {
       if (resp.success) {
         ok = true
-        console.log(`Deleted Like of ${actorId} on ${likedId.toString()}`, resp)
+        console.log(`Deleted Like of ${actorId} on ${likedURL.toString()}`, resp)
       }
     })
 
     return ok
   }
 
-  save(): boolean {
-    throw new Kit.NotImplementedError()
+  shorten(): { url: URL | undefined; id: number | undefined } {
+    if (!this.exists()) {
+      this.save()
+    }
 
-    /*
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    liked_id TEXT NOT NULL,
-    actor_id TEXT NOT NULL REFERENCES actors (actor_id),
-    document_id TEXT NOT NULL REFERENCES documents(document_id), -- Store the actual document in documents to be archived.
-    private INT NOT NULL CHECK (private > -1) CHECK (private < 2) DEFAULT 0,
-    deletable INT NOT NULL CHECK (deletable > -1) CHECK (deletable < 2) DEFAULT 0,
-    created INT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified INT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    */
+    const id = this.databaseId()
+    if (id === undefined) {
+      return { url: undefined, id }
+    }
+
+    const url = Kit.entityRefToURL(this.message.id)
+    return { url, id }
+  }
+
+  save(): boolean {
+    const er = this.message.object
+    if (Array.isArray(er)) {
+      return false
+    }
+    const erURL = Kit.entityRefToURL(er)
+    if ((erURL === undefined) || (erURL.hostname !== this.env.url.hostname)) {
+      return false
+    }
+
+    const actorER = this.message.actor // EntityReference | Array<EntityReference>, required (so not undefined)
+    if (Array.isArray(actorER)) {
+      return false
+    }
+
+    const actorURL = Kit.entityRefToURL(actorER)
+    if (actorURL === undefined) {
+      return false
+    }
+
+    const actorObj = this.actor(actorURL).shorten()
+
+    // Shorten up what gets saved.
+    this.message.object = erURL
+    this.message.actor = actorURL
+
+    const documentObj = this.documentEntry(this.message).shorten()
+    if (documentObj.url === undefined) {
+      return false
+    }
+
+    let ok = false
+    const stmtInsert = this.handle.prepare(`
+      INSERT INTO likes (liked_id, actor_id, document_id)
+           VALUES       (       ?,        ?,           ?)
+    `)
+    void stmtInsert.bind(erURL.toString(), actorObj.id, documentObj.id).run().then((resp: D1Result) => {
+      if (resp.success) {
+        this.dbLikeId = resp.meta.last_row_id
+        ok = true
+      }
+    })
+
+    return ok
   }
 
   exists(): boolean {
+    if (this.dbLikeId) {
+      return true
+    }
+
     const actorId = Kit.getEntityId(this.message.actor)
 
     const { object } = this.getDocument(this.message.object)
@@ -119,24 +178,20 @@ export class LikeCFStorage extends CloudflareD1Database implements Kit.Database 
       return false
     }
 
-    let likedId = object.id
-    if (likedId === null || likedId === undefined) {
+    const likedId = object.id as string | URL | null | undefined
+    const likedURL = Kit.idToURL(likedId)
+    if (likedURL === undefined) {
       return false
     }
 
-    likedId = Kit.toEntityRef(likedId)
-    if (likedId === undefined || likedId === null) {
-      return false
-    }
-
-    if (likedId.hostname !== this.env.url.hostname) {
+    if (likedURL.hostname !== this.env.url.hostname) {
       // If we aren't ourselves, we were never here.
       return false
     }
 
     let ok = false
     const stmtExists = this.handle.prepare('SELECT id FROM likes WHERE liked_id = ? AND actor_id = ?')
-    void stmtExists.bind(likedId, actorId).run().then((resp: D1Result) => {
+    void stmtExists.bind(likedURL.toString(), actorId).run().then((resp: D1Result) => {
       if (resp.success && (resp.results.length === 1)) {
         ok = true
         this.dbLikeId = (resp.results[0] as DBId).id
@@ -146,7 +201,46 @@ export class LikeCFStorage extends CloudflareD1Database implements Kit.Database 
     return ok
   }
 
-  retrieve(): undefined {
-    throw new Kit.NotImplementedError()
+  retrieve(): AP.Like | undefined {
+    if (!this.exists()) {
+      return undefined
+    }
+
+    let dbResp: DBDocumentInfo | undefined = undefined
+    const stmtExists = this.handle.prepare(
+      'SELECT d.document AS doc, d.r2key, d.r2index, d.url FROM documents d JOIN likes l ON d.id = l.document_id WHERE l.liked_id = ?',
+    )
+    void stmtExists.bind(this.dbLikeId).run().then((resp: D1Result) => {
+      if (resp.success && (resp.results.length === 1)) {
+        dbResp = (resp.results as Array<DBDocumentInfo>)[0]
+      }
+    })
+
+    if (dbResp !== undefined && this.assertIsDBDocumentInfo(dbResp)) {
+      const info: DBDocumentInfo = dbResp
+      if (info.r2key) {
+        /*
+        const cache = this.env.cache()
+        if (!cache) {
+          return undefined;
+        }
+        return cache.get(info.r2key, info.r2index) as AP.Like | undefined
+        */
+        throw new Kit.NotImplementedError()
+      }
+
+      if (info.url) {
+        return this.env.localGet(info.url) as AP.Like | undefined
+      }
+
+      const ret = Json.parse(info.doc) as AP.Like | undefined
+      if (ret !== undefined) {
+        assertIsApTypeOf(ret, ['Like'])
+      }
+
+      return ret
+    } else {
+      return undefined
+    }
   }
 }

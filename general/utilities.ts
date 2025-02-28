@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 import sanitizeHtml from 'sanitize-html'
-import { AP } from 'activitypub-core-types'
-import { isTypeOf } from 'activitypub-core-types/lib/assertions/index.js'
+import { AP, isTypeOf } from 'activitypub-core-types'
+import type { OrArray } from './interfaces.ts'
 
 interface ErrorOptions {
   cause?: Error
@@ -17,7 +17,7 @@ export class NotImplementedError extends Error {
 /*
  */
 export function getUsername(
-  _er: string | AP.EntityReference | Array<AP.EntityReference>,
+  _er: string | OrArray<AP.EntityReference>,
 ): { username: string; usernameId: number } | undefined {
   if (Array.isArray(_er)) {
     return undefined
@@ -29,7 +29,19 @@ export function getUsername(
 
 /*
  */
-export function entityRefToString(er: string | AP.EntityReference): string | undefined {
+export function idToString(id: string | URL | undefined | null): string | undefined {
+  if (id === null || id === undefined) {
+    return undefined
+  }
+
+  if (typeof id === 'string') {
+    return id
+  }
+
+  return (id as URL).toString()
+}
+
+export function entityRefToString(er: string | URL | AP.EntityReference | undefined | null): string | undefined {
   if (er === undefined || er === null) {
     return undefined
   }
@@ -38,30 +50,47 @@ export function entityRefToString(er: string | AP.EntityReference): string | und
     return er
   }
 
-  if (isTypeOf(er as AP.CoreObject, AP.CoreObjectTypes)) {
-    if ('id' in er) {
-      if (er.id === null || er.id === undefined) {
-        return undefined
-      }
-
-      return er.id.toString()
-    }
-
-    return undefined
+  if (er instanceof URL) {
+    return (er as URL).toString()
   }
 
-  return (er as URL).toString()
+  // Checked inheritance, everything goes to BaseEntity, but that's not exported.
+  if (isTypeOf(er as AP.CoreObject | AP.Link, AP.AllTypes) && ('id' in er)) {
+    idToString(er.id)
+  }
+
+  return undefined
 }
 
 /*
  */
-export function getEntityId(er: string | AP.EntityReference | Array<AP.EntityReference>): string | undefined {
+export function getEntityId(er: string | OrArray<AP.EntityReference>): string | undefined {
   return Array.isArray(er) ? undefined : entityRefToString(er)
 }
 
 /*
  */
-export function entityRefToURL(er: string | URL | AP.EntityReference | undefined): URL | undefined {
+export function idToURL(er: string | URL | null | undefined): URL | undefined {
+  if (er === undefined || er === null) {
+    return undefined
+  }
+
+  if (typeof er === 'string') {
+    let url: URL | undefined = undefined
+    try {
+      url = new URL(er)
+    } catch (caught) {
+      const typeCaught = caught as TypeError
+      console.log(`Error in entityRefToURL: Could not create a URL: ${typeCaught.message}`)
+    }
+
+    return url
+  }
+
+  return er as URL
+}
+
+export function entityRefToURL(er: string | URL | AP.EntityReference | null | undefined): URL | undefined {
   if (er === undefined || er === null) {
     return undefined
   }
@@ -82,13 +111,9 @@ export function entityRefToURL(er: string | URL | AP.EntityReference | undefined
     return er
   }
 
-  if (isTypeOf(er as AP.CoreObject, AP.CoreObjectTypes)) {
+  if (isTypeOf(er as AP.CoreObject | AP.Link, AP.AllTypes)) {
     if ('id' in er) {
-      if (er.id === null || er.id === undefined) {
-        return undefined
-      }
-
-      return er.id
+      return idToURL(er.id)
     }
 
     return undefined
@@ -99,7 +124,7 @@ export function entityRefToURL(er: string | URL | AP.EntityReference | undefined
  */
 export function isObjectOurs(
   host: string,
-  er: AP.EntityReference | Array<AP.EntityReference> | string | URL | undefined,
+  er: OrArray<AP.EntityReference> | string | URL | null | undefined,
 ): boolean {
   if (er === undefined || er === null) {
     return false
@@ -119,7 +144,7 @@ export function isObjectOurs(
   }
 
   const erURL = entityRefToURL(er)
-  if (erURL === null || erURL === undefined) {
+  if (erURL === undefined) {
     return false
   }
 

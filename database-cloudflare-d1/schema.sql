@@ -49,8 +49,8 @@
   CREATE TABLE IF NOT EXISTS likes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     liked_id TEXT NOT NULL,
-    actor_id TEXT NOT NULL REFERENCES actors (actor_id),
-    document_id TEXT NOT NULL REFERENCES documents(document_id), -- Store the actual document in documents to be archived.
+    actor_id INTEGER NOT NULL REFERENCES actors (id),
+    document_id INTEGER NOT NULL REFERENCES documents(id), -- Store the actual document in documents to be archived.
     private INT NOT NULL CHECK (private > -1) CHECK (private < 2) DEFAULT 0,
     deletable INT NOT NULL CHECK (deletable > -1) CHECK (deletable < 2) DEFAULT 0,
     created INT NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -91,7 +91,7 @@
     document BLOB, -- for other peoples documents
     r2_key TEXT, -- for other peoples documents that are in storage
     r2_index INTEGER,
-    CONSTRAINT c_documents_document_id UNIQUE (actor_id)
+    CONSTRAINT c_documents_document_id UNIQUE (document_id)
   )
 
   CREATE TABLE IF NOT EXISTS version (

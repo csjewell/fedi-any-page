@@ -14,6 +14,10 @@ export class AnnounceCFStorage extends CloudflareD1Database implements Kit.Datab
     this.message = message
   }
 
+  databaseId(): number | undefined {
+    throw new Kit.NotImplementedError()
+  }
+
   count(): number {
     throw new Kit.NotImplementedError()
   }
@@ -60,6 +64,10 @@ export class AnnounceCFStorage extends CloudflareD1Database implements Kit.Datab
   }
 
   retrieve(): boolean {
+    throw new Kit.NotImplementedError()
+  }
+
+  shorten(): { url: URL | undefined; id: number | undefined } {
     throw new Kit.NotImplementedError()
   }
 }

@@ -1,9 +1,16 @@
 /* SPDX-License-Identifier: MIT */
 import type { AP } from 'activitypub-core-types'
 
+export type OrArray<T> = T | Array<T>
+
 export type DBDocument = {
   object: AP.CoreObject | undefined
   objectId: number | undefined
+}
+
+export type DBUsername = {
+  username: string | undefined
+  usernameId: number | undefined
 }
 
 /*
@@ -43,10 +50,12 @@ export interface RequestRouter {
 /*
  */
 export interface Database {
+  databaseId(): number | undefined
   remove(): boolean
   save(...arguments_: Array<unknown>): boolean
   exists(): boolean
   retrieve(): unknown
+  shorten(): { url: URL | undefined; id: number | undefined }
 }
 
 /*
@@ -58,7 +67,8 @@ export interface DatabaseRouter {
   like(message: AP.Like): Database
   note(message: AP.Note): Database
   actor(message: AP.ActorReference): Database
-  getDocument(dr: string | AP.EntityReference | Array<AP.EntityReference> | URL | undefined): DBDocument
+  documentEntry(message: AP.CoreObjectReference | AP.LinkReference): Database
+  getDocument(dr: string | OrArray<AP.EntityReference> | undefined): DBDocument
 }
 
 /*
@@ -68,6 +78,9 @@ export interface Configuration {
   privateKey: string
   database: unknown
   username: string
+  debugDB?: boolean
+
+  localGet(url: string | URL): AP.CoreObject | undefined
   getActorURL(username: string): string
   getActorBasedId(username: string, ending: string): string
 }
