@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT */
 import * as Kit from '@csjewell-activitypub/general'
-import type { AP } from 'activitypub-core-types'
+import type * as AP from '@csjewell-activitypub/types'
 import type D1Database from '@cloudflare/workers-types'
 
 /* Example:
@@ -35,7 +35,8 @@ export class CloudflareConfig implements Kit.Configuration {
     throw new Kit.NotImplementedError()
   }
 
-  localGet(_url: string | URL): AP.CoreObject | undefined {
+  localGet(url: string | URL): AP.CoreObject | undefined {
+    console.log(url)
     throw new Kit.NotImplementedError()
   }
 }

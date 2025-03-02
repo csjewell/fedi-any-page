@@ -5,7 +5,8 @@
     "./general",
     "./handlers-response",
     "./database-cloudflare-d1",
-    "./workers-cloudflare"
+    "./workers-cloudflare",
+    "./types"
   ],
   // Set the compiler options for TypeScript.
   "compilerOptions": {
@@ -44,7 +45,7 @@
         "no-boolean-literal-for-arguments",
         "no-const-assign",
         "no-eval",
-        "no-external-imports",
+        "no-external-import",
         "no-inferrable-types",
         "no-non-null-asserted-optional-chain",
         "no-self-compare",

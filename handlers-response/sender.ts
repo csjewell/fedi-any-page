@@ -2,7 +2,7 @@
 import { SignedFetch } from 'activitypub-http-signatures'
 import * as Json from '@csjewell-activitypub/json'
 import type * as Kit from '@csjewell-activitypub/general'
-import type { AP } from 'activitypub-core-types'
+import type * as AP from '@csjewell-activitypub/types'
 
 export class StandardSender implements Kit.Sender {
   private config: Kit.Configuration

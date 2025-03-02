@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: MIT */
 // deno-lint-ignore-file no-top-level-await
 // import { assertEquals } from '@std/assert'
-// import type { AP } from 'activitypub-core-types'
 import { assertSnapshot } from '@std/testing/snapshot'
 import { describe, it } from '@std/testing/bdd'
 

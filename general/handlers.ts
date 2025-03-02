@@ -2,7 +2,7 @@
 import { NAMESPACE_URL, v5 as uuid } from '@std/uuid'
 import * as KitUtils from './utilities.ts'
 import type * as Kit from './interfaces.ts'
-import type { AP } from 'activitypub-core-types'
+import type * as AP from '@csjewell-activitypub/types'
 
 export class Router implements Kit.RequestRouter {
   protected kdb: Kit.DatabaseRouter
@@ -93,7 +93,8 @@ class HandleFollow extends Router implements Kit.RequestHandler {
 
   async handle(): Promise<unknown> {
     // We are following.
-    if (this.message.id === null) {
+    const messageId = this.message.id as AP.EntityReference
+    if (messageId === null) {
       return this.resp.error422('No message ID to use when following')
     }
 
@@ -113,11 +114,11 @@ class HandleFollow extends Router implements Kit.RequestHandler {
     const success = await messageStorage.save(guid)
     if (success) {
       const _acceptRequest: AP.Accept = {
-        '@context': 'https://www.w3.org/ns/activitystreams',
+        '@context': new URL('https://www.w3.org/ns/activitystreams'),
         id: new URL(`${this.env.url.toString()}${this.username}#${guid}`),
         type: 'Accept',
         actor: new URL(`${this.env.url.toString()}${this.username}`) as AP.EntityReference,
-        object: this.message.id,
+        object: messageId,
       }
     }
 

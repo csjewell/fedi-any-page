@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT */
 import * as Kit from '@csjewell-activitypub/general'
-import type { AP } from 'activitypub-core-types'
+import type * as AP from '@csjewell-activitypub/types'
 import type D1Database from '@cloudflare/workers-types'
 import { ActorCFStorage } from './actor.ts'
 import { AnnounceCFStorage } from './announce.ts'
@@ -54,6 +54,7 @@ export class CloudflareD1Database implements Kit.DatabaseRouter {
     return new ActorCFStorage(this.env, message)
   }
 
+  /** */
   documentEntry(_message: AP.CoreObjectReference | AP.LinkReference): Kit.Database {
     throw new Kit.NotImplementedError()
   }
@@ -95,5 +96,27 @@ export class CloudflareD1Database implements Kit.DatabaseRouter {
     if (!this.isDBDocumentInfo(info)) {
       throw new TypeError(`${info} is not document information (DBDocumentInfo)`)
     }
+  }
+
+  async shorten(): Promise<{ url: URL | undefined; id: number | undefined }> {
+    if (!('exists' in this)) {
+      throw new TypeError('Called shorten on the router')
+    }
+
+    const db = this as unknown as Kit.Database
+
+    if (await db.exists()) {
+      const doc = db.document() as AP.CoreObjectReference
+      if (doc instanceof URL) {
+        return { url: doc, id: db.databaseId() }
+      }
+
+      const id = doc.id
+      if ((id !== null) && (id !== undefined)) {
+        return { url: id, id: db.databaseId() }
+      }
+    }
+
+    return { url: undefined, id: undefined }
   }
 }

@@ -1,10 +1,17 @@
 /* SPDX-License-Identifier: MIT */
 import sanitizeHtml from 'sanitize-html'
-import { AP, isTypeOf } from 'activitypub-core-types'
+import * as AP from '@csjewell-activitypub/types'
 import type { OrArray } from './interfaces.ts'
 
 interface ErrorOptions {
   cause?: Error
+}
+
+export class DataError extends Error {
+  constructor(message: string, options: ErrorOptions = {}) {
+    super(message, options)
+    this.name = 'DataError'
+  }
 }
 
 export class NotImplementedError extends Error {
@@ -55,7 +62,7 @@ export function entityRefToString(er: string | URL | AP.EntityReference | undefi
   }
 
   // Checked inheritance, everything goes to BaseEntity, but that's not exported.
-  if (isTypeOf(er as AP.CoreObject | AP.Link, AP.AllTypes) && ('id' in er)) {
+  if (AP.guard.hasApType(er as AP.CoreObject | AP.Link) && ('id' in er)) {
     idToString(er.id)
   }
 
@@ -111,13 +118,11 @@ export function entityRefToURL(er: string | URL | AP.EntityReference | null | un
     return er
   }
 
-  if (isTypeOf(er as AP.CoreObject | AP.Link, AP.AllTypes)) {
-    if ('id' in er) {
-      return idToURL(er.id)
-    }
-
-    return undefined
+  if (AP.guard.hasApType(er as AP.CoreObject | AP.Link) && ('id' in er)) {
+    return idToURL(er.id)
   }
+
+  return undefined
 }
 
 /*

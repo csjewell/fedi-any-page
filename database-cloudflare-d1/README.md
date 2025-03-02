@@ -1,3 +1,3 @@
 # @csjewell-activitykit/database-cloudflare-d1
 
-More code, documentation, and other things are coming - this is just to get things started.
+This is a concrete implementation of the database interfaces within acttivitypub-ts-kit for a Cloudflare D1 database.

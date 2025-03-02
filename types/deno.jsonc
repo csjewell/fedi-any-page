@@ -1,6 +1,6 @@
 {
-  "name": "@csjewell-activitypub/general",
-  "version": "0.1.0-alpha.4",
+  "name": "@csjewell-activitypub/types",
+  "version": "0.1.0",
   "exports": "./mod.ts",
   "tasks": {
     "test": "deno test --allow-read",
@@ -11,8 +11,7 @@
     "@std/assert": "jsr:@std/assert@1",
     "@std/jsonc": "jsr:@std/jsonc@^1.0.1",
     "@std/testing": "jsr:@std/testing@^1.0.9",
-    "@std/uuid": "jsr:@std/uuid@^1.0.4",
-    "sanitize-html": "npm:sanitize-html@^2.14.0"
+    "@std/uuid": "jsr:@std/uuid@^1.0.4"
   },
   "publish": {
     "include": [
@@ -20,10 +19,19 @@
       "LICENSE",
       "deno.jsonc",
       "mod.ts",
-      "handlers.ts",
-      "utilities.ts",
-      "interfaces.ts",
-      "users.ts"
+      "Activity.ts",
+      "Actor.ts",
+      "Collection.ts",
+      "CoreObject.ts",
+      "CoreUtility.ts",
+      "Entity.ts",
+      "ExtendedObject.ts",
+      "Link.ts",
+      "TypeAssert.ts",
+      "TypeCast.ts",
+      "TypeGuard.ts",
+      "TypeLists.ts",
+      "Utility.ts"
     ]
   }
 }

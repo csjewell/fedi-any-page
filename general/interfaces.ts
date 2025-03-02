@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MIT */
-import type { AP } from 'activitypub-core-types'
+import type * as AP from '@csjewell-activitypub/types'
 
 export type OrArray<T> = T | Array<T>
 
@@ -17,14 +17,22 @@ export type DBUsername = {
  */
 export interface Responses {
   getHeaders(cors?: boolean): Record<string, string>
+  success200(object: AP.CoreObject): unknown
   success202(info?: string): unknown
   success204(info?: string): unknown
   options204(methods?: Array<string>, allowHeaders?: Array<string>): unknown
+  redirect30x(url: string, statusCode: 301 | 302 | 303 | 307 | 308): unknown
   error404(info?: string): unknown
   error404NotImplemented(): unknown
   error405(info?: string): unknown
   error422(info?: string): unknown
   error500(info?: string): unknown
+}
+
+/*
+ */
+export interface RequestHelper {
+  canAcceptHTML(): boolean
 }
 
 /*
@@ -51,11 +59,18 @@ export interface RequestRouter {
  */
 export interface Database {
   databaseId(): number | undefined
-  remove(): boolean
-  save(...arguments_: Array<unknown>): boolean
-  exists(): boolean
-  retrieve(): unknown
-  shorten(): { url: URL | undefined; id: number | undefined }
+  document(): unknown
+  remove(): Promise<boolean>
+  save(...arguments_: Array<unknown>): Promise<boolean>
+  exists(): Promise<boolean>
+  retrieve(): Promise<unknown>
+  shorten(): Promise<{ url: URL | undefined; id: number | undefined }>
+}
+
+/*
+ */
+export interface DatabaseKey {
+  createKey(): Promise<void>
 }
 
 /*

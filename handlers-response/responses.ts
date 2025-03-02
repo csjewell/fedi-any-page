@@ -1,5 +1,7 @@
 /* SPDX-License-Identifier: MIT */
+import * as Json from '@csjewell-activitypub/json'
 import type * as Kit from '@csjewell-activitypub/general'
+import type * as AP from '@csjewell-activitypub/types'
 
 /*
  * This class contains helpers to return the appropriate Response within the ActivityPub toolkit.
@@ -36,6 +38,15 @@ class StandardResponses implements Kit.Responses {
 
   _headers(cors: boolean = CORS): Headers {
     return new Headers(this.getHeaders(cors))
+  }
+
+  success200(object: AP.CoreObject): Response {
+    const json = Json.stringify(object)
+    return new Response(json, {
+      status: 200,
+      statusText: 'OK',
+      headers: this._headers(),
+    })
   }
 
   /*
@@ -111,6 +122,10 @@ class StandardResponses implements Kit.Responses {
       statusText: 'No Content',
       headers,
     })
+  }
+
+  redirect30x(url: string, statusCode: 301 | 302 | 303 | 307 | 308 = 301): Response {
+    return Response.redirect(url, statusCode)
   }
 
   /*

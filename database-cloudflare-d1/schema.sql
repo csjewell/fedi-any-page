@@ -1,10 +1,11 @@
   CREATE TABLE IF NOT EXISTS users (
     username_id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL
+    active INT NOT NULL CHECK (accepted > -1) CHECK (accepted < 2) DEFAULT 1,
   ) STRICT;
 
-  -- I'll have to check what it does
-  CREATE TABLE IF NOT EXISTS followers (
+  -- Notes saved on our documents
+  CREATE TABLE IF NOT EXISTS notes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     message_id TEXT NOT NULL,
     username_id INTEGER NOT NULL REFERENCES users(username_id),
@@ -12,7 +13,7 @@
     created INT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified INT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     document_id TEXT NOT NULL REFERENCES documents(document_id),
-    CONSTRAINT c_followers_message_id UNIQUE (message_id)
+    CONSTRAINT c_notes_message_id UNIQUE (message_id)
   ) STRICT;
 
   -- actor follows username

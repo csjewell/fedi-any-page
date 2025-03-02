@@ -4,6 +4,7 @@ docsite/assets/jsdoc/*.json
 docsite/data/jsdoc-order.yaml
 
 # Temporary directories I'm still working in before I commit them.
+bin
 create
 local-test-server-*
 workers-deno-deploy

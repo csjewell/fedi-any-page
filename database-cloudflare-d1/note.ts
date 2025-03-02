@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 import * as Json from '@csjewell-activitypub/json'
 import * as Kit from '@csjewell-activitypub/general'
-import type { AP } from 'activitypub-core-types'
+import type * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
 import type { DBCount, DBId as _DBId } from './types.ts'
 
@@ -17,11 +17,16 @@ export class NoteCFStorage extends CloudflareD1Database implements Kit.Database 
     throw new Kit.NotImplementedError()
   }
 
-  remove(): boolean {
+  document(): AP.Note {
+    return this.message
+  }
+
+  // deno-lint-ignore require-await
+  async remove(): Promise<boolean> {
     throw new Kit.NotImplementedError()
   }
 
-  save(): boolean {
+  async save(): Promise<boolean> {
     console.log('Save Reply', this.message)
 
     if (this.message.id === null || this.message.id === undefined) {
@@ -32,37 +37,40 @@ export class NoteCFStorage extends CloudflareD1Database implements Kit.Database 
     const objectId = ((this.message as AP.CoreObject).inReplyTo as URL).toString()
 
     let ok = false
-    const stmtGet = this.handle.prepare('SELECT COUNT(*) AS count FROM replies WHERE Id = ? AND ObjectId = ?')
-    void stmtGet.bind(id, objectId).run().then((resp: D1Result) => {
-      if (resp.success && (resp.results[0] as DBCount).count > 0) {
-        ok = true
-      }
-    })
+    const stmtGet = this.handle.prepare('SELECT COUNT(*) AS count FROM replies WHERE id = ? AND object_id = ?').bind(
+      id,
+      objectId,
+    )
+    const resp = await stmtGet.run()
+    if (resp.success && (resp.results[0] as DBCount).count > 0) {
+      ok = true
+    }
 
     if (ok) {
       return true
     }
 
     console.log(`Adding reply message "${id}" to ${objectId}`)
-    const stmtInsert = this.handle.prepare('INSERT INTO replies SET Id = ?, ObjectId = ?, Document = ?')
-    void stmtInsert.bind(id, objectId, Json.stringify(this.message)).run().then((resp: D1Result) => {
-      if (resp.success && resp.meta.rows_written === 1) {
-        ok = true
-      }
-    })
+    const stmtInsert = this.handle.prepare(`
+      INSERT
+        INTO replies (id, object_id, document)
+      VALUES         ( ?,         ?,        ?)
+    `).bind(id, objectId, Json.stringify(this.message))
+    const respInsert = await stmtInsert.run()
+    if (respInsert.success && respInsert.meta.rows_written === 1) {
+      ok = true
+    }
 
     return ok
   }
 
-  exists(): boolean {
+  // deno-lint-ignore require-await
+  async exists(): Promise<boolean> {
     throw new Kit.NotImplementedError()
   }
 
-  retrieve(): undefined {
-    throw new Kit.NotImplementedError()
-  }
-
-  shorten(): { url: URL | undefined; id: number | undefined } {
+  // deno-lint-ignore require-await
+  async retrieve(): Promise<unknown> {
     throw new Kit.NotImplementedError()
   }
 }

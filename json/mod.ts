@@ -3,7 +3,7 @@
  * This module contains helpers to stringify and parse JSON that represents an ActivityPub document.
  *
  * ```ts
- * import { AP } from 'npm:activitypub-core-types'
+ * import * as AP from 'jsr:@csjewell-activitypub/types'
  * import * as Json from 'jsr:@csjewell-activitypub/json'
  *
  * const headers = new Headers({
@@ -20,14 +20,14 @@
  * @module Json
  */
 import * as Json from '@hyperjump/json'
-import type { EntityReference } from 'activitypub-core-types/lib/activitypub/index.js'
+import type * as AP from '@csjewell-activitypub/types'
 
-function desiredEntityReference(value: string | Array<string>): EntityReference | Array<EntityReference> {
+function desiredEntityReference(value: string | Array<string>): AP.EntityReference | Array<AP.EntityReference> {
   if (typeof value === 'string') {
-    return (new URL(value)) as EntityReference
+    return (new URL(value)) as AP.EntityReference
   }
 
-  return value.map((x) => new URL(x) as EntityReference)
+  return value.map((x) => new URL(x) as AP.EntityReference)
 }
 
 type ContextInEntry = string | Record<string, unknown>

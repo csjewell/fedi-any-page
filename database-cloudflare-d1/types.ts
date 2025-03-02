@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MIT */
-import type { AP } from 'activitypub-core-types'
+import type * as AP from '@csjewell-activitypub/types'
 
 export type DBId = {
   id: number
