@@ -6,6 +6,7 @@
     "./handlers-response",
     "./database-cloudflare-d1",
     "./workers-cloudflare",
+    "./localserver-deno",
     "./types"
   ],
   // Set the compiler options for TypeScript.

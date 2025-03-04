@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 import type { BaseEntity } from './Entity.ts'
 import type { CoreObjectProperties } from './CoreObject.ts'
 import type { ActorTypes } from './TypeLists.ts'

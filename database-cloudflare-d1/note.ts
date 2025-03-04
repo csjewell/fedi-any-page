@@ -7,6 +7,7 @@ import type { DBCount, DBId as _DBId } from './types.ts'
 
 export class NoteCFStorage extends CloudflareD1Database implements Kit.Database {
   private readonly message: AP.Note
+  private dbNoteId: number | undefined = undefined
 
   constructor(env: Kit.Configuration, message: AP.Note) {
     super(env)
@@ -37,10 +38,11 @@ export class NoteCFStorage extends CloudflareD1Database implements Kit.Database 
     const objectId = ((this.message as AP.CoreObject).inReplyTo as URL).toString()
 
     let ok = false
-    const stmtGet = this.handle.prepare('SELECT COUNT(*) AS count FROM replies WHERE id = ? AND object_id = ?').bind(
-      id,
-      objectId,
-    )
+    const stmtGet = this.handle.prepare('SELECT COUNT(*) AS count FROM reply_notes WHERE id = ? AND object_id = ?')
+      .bind(
+        id,
+        objectId,
+      )
     const resp = await stmtGet.run()
     if (resp.success && (resp.results[0] as DBCount).count > 0) {
       ok = true
@@ -53,8 +55,8 @@ export class NoteCFStorage extends CloudflareD1Database implements Kit.Database 
     console.log(`Adding reply message "${id}" to ${objectId}`)
     const stmtInsert = this.handle.prepare(`
       INSERT
-        INTO replies (id, object_id, document)
-      VALUES         ( ?,         ?,        ?)
+        INTO reply_notes (id, object_id, document_id)
+      VALUES             ( ?,         ?,           ?)
     `).bind(id, objectId, Json.stringify(this.message))
     const respInsert = await stmtInsert.run()
     if (respInsert.success && respInsert.meta.rows_written === 1) {

@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 /**
  * An object containing all the types of ExtendedObjects.
  *

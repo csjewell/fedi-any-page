@@ -1,6 +1,6 @@
 {
   "name": "@csjewell-activitypub/general",
-  "version": "0.1.0-alpha.4",
+  "version": "0.1.0-alpha.5",
   "exports": "./mod.ts",
   "tasks": {
     "test": "deno test --allow-read",
@@ -23,6 +23,9 @@
       "handlers.ts",
       "utilities.ts",
       "interfaces.ts",
+      "server-actor.ts",
+      "webfinger.ts",
+      "nodeinfo.ts",
       "users.ts"
     ]
   }

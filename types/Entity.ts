@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 import type { AnyType, OrArray, TypeOrArrayWithType } from './Utility.ts'
 
 /**

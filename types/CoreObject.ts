@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 import type { CoreObjectTypes } from './TypeLists.ts'
 import type { OrArray, StringReferenceMap } from './Utility.ts'
 import type { EntityReference } from './CoreUtility.ts'

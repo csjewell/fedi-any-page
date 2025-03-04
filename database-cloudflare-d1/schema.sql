@@ -1,18 +1,32 @@
   CREATE TABLE IF NOT EXISTS users (
-    username_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     active INT NOT NULL CHECK (accepted > -1) CHECK (accepted < 2) DEFAULT 1,
+    username TEXT NOT NULL,
+    password TEXT NOT NULL,
+    homepage TEXT,
+    summary TEXT,
+    at_protocol_id TEXT,
+    key_id INTEGER REFERENCES keys(id),
+    is_admin INT NOT NULL CHECK (accepted > -1) CHECK (accepted < 2) DEFAULT 0
+  ) STRICT;
+
+  -- Keys used on users/actors
+  CREATE TABLE IF NOT EXISTS keys
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    public_key TEXT NOT NULL,
+    private_key TEXT NOT NULL,
+    expired INT NOT NULL CHECK (accepted > -1) CHECK (accepted < 2) DEFAULT 0
   ) STRICT;
 
   -- Notes saved on our documents
-  CREATE TABLE IF NOT EXISTS notes (
+  CREATE TABLE IF NOT EXISTS reply_notes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     message_id TEXT NOT NULL,
     username_id INTEGER NOT NULL REFERENCES users(username_id),
     actor_id TEXT NOT NULL REFERENCES actors (actor_id),
     created INT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified INT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    document_id TEXT NOT NULL REFERENCES documents(document_id),
+    document_id INT REFERENCES documents(document_id),
     CONSTRAINT c_notes_message_id UNIQUE (message_id)
   ) STRICT;
 

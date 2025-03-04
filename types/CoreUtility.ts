@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 import type { Link, Mention } from './Link.ts'
 import type { Actor } from './Actor.ts'
 import type { Activity } from './Activity.ts'

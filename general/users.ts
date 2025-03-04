@@ -9,27 +9,33 @@ export type User = {
   summary?: string
   username?: string
   aliases?: Array<string>
+  dId?: string // At Protocol.
 }
 
 export class Users {
   private users: Map<string, User>
 
-  constructor(userinfo: string) {
+  constructor(userinfo: object | string) {
     this.users = new Map()
     let parsedUsers: object = {}
-    try {
-      parsedUsers = <object> parse(userinfo)
-    } catch (caught) {
-      if (caught instanceof SyntaxError) {
-        throw new SyntaxError('SyntaxError parsing user information', { cause: caught })
-      }
-      if (caught instanceof TypeError) {
-        throw new SyntaxError('TypeError parsing user information', { cause: caught })
-      }
-    }
 
-    if (parsedUsers === null) {
-      throw new SyntaxError('How did parsing the users return nothing?')
+    if (typeof userinfo === 'string') {
+      try {
+        parsedUsers = <object> parse(userinfo)
+      } catch (caught) {
+        if (caught instanceof SyntaxError) {
+          throw new SyntaxError('SyntaxError parsing user information', { cause: caught })
+        }
+        if (caught instanceof TypeError) {
+          throw new SyntaxError('TypeError parsing user information', { cause: caught })
+        }
+      }
+
+      if (parsedUsers === null) {
+        throw new SyntaxError('How did parsing the users return nothing?')
+      }
+    } else if ((typeof userinfo === 'object') && (userinfo !== null)) {
+      parsedUsers = { ...userinfo }
     }
 
     for (const [k, v] of Object.entries(parsedUsers)) {
@@ -82,9 +88,9 @@ export class Users {
             throw new SyntaxError(`Alias not valid in user aliases: ${alias.toString()}`)
           }
 
-          if (alias.search('@\w+[.]\w+') < 1) {
-            throw new SyntaxError(`Alias not valid in user aliases (no @ sign or no domain after it): ${alias}`)
-          }
+          //          if (alias.search('@\w+[.]\w+') < 1) {
+          //            throw new SyntaxError(`Alias not valid in user aliases (no @ sign or no domain after it): ${alias}`)
+          //          }
         }
 
         userObj.aliases = v.aliases

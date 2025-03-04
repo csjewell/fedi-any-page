@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 import type { ExtendedObjectTypes } from './TypeLists.ts'
 import type { AnyType, OrArray, TypeOrArrayWithType } from './Utility.ts'
 import type { CoreObjectProperties } from './CoreObject.ts'

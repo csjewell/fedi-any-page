@@ -15,9 +15,9 @@
   - The `source` property will have a mediaType that specifies Github-Flavored-Markdown, since that's the canonical
     content.
 
-## Intended support before 1.0.0
-
 - [FEP-d556: Server-Level Actor Discovery Using WebFinger](https://codeberg.org/fediverse/fep/src/branch/main/fep/d556/fep-d556.md)
+
+## Intended support before 1.0.0
 
 - [FEP-400e: Publicly-appendable ActivityPub collections](https://codeberg.org/fediverse/fep/src/branch/main/fep/400e/fep-400e.md)
 

@@ -1,7 +1,9 @@
 /* SPDX-License-Identifier: MIT */
 import * as Json from '@csjewell-activitypub/json'
-import type * as Kit from '@csjewell-activitypub/general'
+import * as Kit from '@csjewell-activitypub/general'
 import type * as AP from '@csjewell-activitypub/types'
+
+type RedirectCode = 301 | 302 | 303 | 307 | 308
 
 /*
  * This class contains helpers to return the appropriate Response within the ActivityPub toolkit.
@@ -25,28 +27,37 @@ class StandardResponses implements Kit.Responses {
    *
    * @private
    */
-  getHeaders(cors: boolean = CORS): Record<string, string> {
+  getHeaders({ cors = CORS, addHeaders = {} as Record<string, string> } = {}): Record<string, string> {
+    const addH = addHeaders
     const h: Record<string, string> = {
       'Content-Type': 'application/activity+json',
       'X-Clacks-Overhead': 'GNU Terry Pratchett',
     }
+
     if (cors) {
       h['Access-Control-Allow-Origin'] = '*'
     }
-    return h
+
+    return { ...h, ...addH }
   }
 
-  _headers(cors: boolean = CORS): Headers {
-    return new Headers(this.getHeaders(cors))
+  _headers({ cors = CORS, addHeaders = {} as Record<string, string> } = {}): Headers {
+    return new Headers(this.getHeaders({ cors, addHeaders }))
   }
 
-  success200(object: AP.CoreObject): Response {
-    const json = Json.stringify(object)
+  success200Obj({ body = {} as Record<string, unknown>, addHeaders = {} as Record<string, string> }): Response {
+    // TODO: Add an assertion here.
+    const json = Json.stringify(body as AP.CoreObject)
     return new Response(json, {
       status: 200,
       statusText: 'OK',
-      headers: this._headers(),
+      headers: this._headers({ addHeaders }),
     })
+  }
+
+  // deno-lint-ignore no-unused-vars
+  success200Str({ body = '', addHeaders = {} as Record<string, string> }): Response {
+    throw new Kit.NotImplementedError()
   }
 
   /*
@@ -57,7 +68,7 @@ class StandardResponses implements Kit.Responses {
    *
    * @returns Response to return to browser.
    */
-  success202(info = 'Created Reply'): Response {
+  success202({ info = 'Created Reply', addHeaders = {} as Record<string, string> } = {}): Response {
     let statusText = 'Accepted'
     if (info !== '') {
       statusText = info
@@ -68,7 +79,7 @@ class StandardResponses implements Kit.Responses {
     }, {
       status: 202,
       statusText,
-      headers: this._headers(),
+      headers: this._headers({ addHeaders }),
     })
   }
 
@@ -80,13 +91,13 @@ class StandardResponses implements Kit.Responses {
    *
    * @returns Response to return to browser.
    */
-  success204(info = ''): Response {
+  success204({ info = '', addHeaders = {} as Record<string, string> } = {}): Response {
     let statusText = 'No Content'
     if (info !== '') {
       statusText = statusText.concat(` (${info})`)
     }
 
-    const headers = this._headers(NO_CORS)
+    const headers = this._headers({ cors: NO_CORS, addHeaders })
 
     return new Response(null, {
       status: 204,
@@ -101,7 +112,7 @@ class StandardResponses implements Kit.Responses {
    *
    * @param methods
    * Additional methods to grant CORS access to for this endpoint.
-   * OPTIONS and GET do not need to be included.
+   * OPTIONS, HEAD, and GET do not need to be included.
    *
    * @param headers
    * Additional headers to grant CORS access to for this endpoint.
@@ -109,11 +120,13 @@ class StandardResponses implements Kit.Responses {
    *
    * @returns Response to return to browser.
    */
-  options204(_methods: Array<string> = [], _allowHeaders: Array<string> = []): Response {
+  options204({ methods = [] as Array<string>, allowHeaders = [] as Array<string> } = {}): Response {
+    methods.unshift('OPTIONS', 'GET', 'HEAD')
+    allowHeaders.unshift('Accept', 'Content-Type')
     const headers = new Headers({
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'OPTIONS, GET',
-      'Access-Control-Allow-Headers': 'Accept, Content-Type',
+      'Access-Control-Allow-Methods': methods.join(', '),
+      'Access-Control-Allow-Headers': allowHeaders.join(', '),
       'Access-Control-Max-Age': '31536000', // 1 year.
       'X-Clacks-Overhead': 'GNU Terry Pratchett',
     })
@@ -124,7 +137,10 @@ class StandardResponses implements Kit.Responses {
     })
   }
 
-  redirect30x(url: string, statusCode: 301 | 302 | 303 | 307 | 308 = 301): Response {
+  redirect30x({ url = '', statusCode = 301 as RedirectCode }): Response {
+    if (url === '') {
+      throw new TypeError('URL was empty')
+    }
     return Response.redirect(url, statusCode)
   }
 
@@ -134,14 +150,20 @@ class StandardResponses implements Kit.Responses {
    * @param info The type of thing that has not been found
    * @default 'User'
    */
-  error404(info = 'User'): Response {
+  error404({ info = 'User', additional = '', addHeaders = {} as Record<string, string> } = {}): Response {
+    let statusText = `${info} Not Found`
+    if (additional !== '') {
+      statusText = statusText.concat(` (${additional})`)
+    }
+    const headers = this._headers({ cors: CORS, addHeaders })
+
     return Response.json({
       success: false,
-      error: `${info} Not Found`,
+      error: statusText,
     }, {
       status: 404,
-      statusText: `${info} Not Found`,
-      headers: this._headers(),
+      statusText,
+      headers,
     })
   }
 
@@ -158,19 +180,24 @@ class StandardResponses implements Kit.Responses {
   }
 
   /* */
-  error405(info = 'POST'): Response {
+  error405(
+    { info = 'POST', addMethods = [] as Array<string>, addHeaders = {} as Record<string, string> } = {},
+  ): Response {
+    addMethods.unshift('OPTIONS', 'GET', 'HEAD')
+    const methods = addMethods.join(', ')
+
     return Response.json({
       success: false,
       error: `${info} Not Allowed`,
     }, {
       status: 405,
       statusText: 'Method Not Allowed',
-      headers: this._headers(),
+      headers: this._headers({ addHeaders: { ...addHeaders, 'Allow': methods } }),
     })
   }
 
   /* */
-  error422(info = ''): Response {
+  error422({ info = '', addHeaders = {} as Record<string, string> } = {}): Response {
     let statusText = 'Unprocessable Request'
     if (info !== undefined) {
       statusText = statusText.concat(` (${info})`)
@@ -182,12 +209,12 @@ class StandardResponses implements Kit.Responses {
     }, {
       status: 422,
       statusText,
-      headers: this._headers(),
+      headers: this._headers({ addHeaders }),
     })
   }
 
   /* */
-  error500(info = ''): Response {
+  error500({ info = '', addHeaders = {} as Record<string, string> } = {}): Response {
     let statusText = 'Server Error'
     if (info !== '') {
       statusText = statusText.concat(` (${info})`)
@@ -199,9 +226,117 @@ class StandardResponses implements Kit.Responses {
     }, {
       status: 500,
       statusText,
-      headers: this._headers(),
+      headers: this._headers({ addHeaders }),
     })
   }
 }
 
-export const Responses: StandardResponses = new StandardResponses()
+export const ActivityPub: StandardResponses = new StandardResponses()
+
+/*
+ * This class contains helpers to return the appropriate Response within the ActivityPub toolkit.
+ *
+ * Most of the helpers will return
+ * {@link https://developer.mozilla.org/en-US/docs/Web/API/Response | Response objects }
+ * that they construct.
+ *
+ * @example ```ts
+ * import * as Helpers from 'jsr:@csjewell-activitypub/general'
+ *
+ * return Helpers.Responses.error404NotImplemented()
+ * ```
+ */
+class WebFingerStandardResponses extends StandardResponses implements Kit.Responses {
+  /*
+   * Provides the default Headers for most routines in KitResponses
+   *
+   * This is private but overridable.
+   *
+   * @private
+   */
+  override getHeaders({ addHeaders = {} as Record<string, string> } = {}): Record<string, string> {
+    return {
+      'Content-Type': 'application/jrd+json',
+      'X-Clacks-Overhead': 'GNU Terry Pratchett',
+      'Access-Control-Allow-Origin': '*',
+      ...addHeaders,
+    } as Record<string, string>
+  }
+
+  override _headers({ addHeaders = {} as Record<string, string> } = {}): Headers {
+    return new Headers(this.getHeaders({ addHeaders }))
+  }
+
+  override success200Obj(
+    { body = {} as Record<string, unknown>, addHeaders = {} as Record<string, string> },
+  ): Response {
+    return Response.json(body, {
+      status: 200,
+      statusText: 'OK',
+      headers: this._headers({ addHeaders }),
+    })
+  }
+
+  override success204({ info = '', addHeaders = {} as Record<string, string> } = {}): Response {
+    let statusText = 'No Content'
+    if (info !== '') {
+      statusText = statusText.concat(` (${info})`)
+    }
+
+    return new Response(null, {
+      status: 204,
+      statusText,
+      headers: this._headers({ addHeaders }),
+    })
+  }
+}
+
+export const WebFinger: WebFingerStandardResponses = new WebFingerStandardResponses()
+
+class NodeInfoStandardResponses extends WebFingerStandardResponses implements Kit.Responses {
+  override getHeaders({ addHeaders = {} as Record<string, string> } = {}): Record<string, string> {
+    return {
+      'Content-Type': 'application/json; profile="http://nodeinfo.diaspora.software/ns/schema/2.1#',
+      'X-Clacks-Overhead': 'GNU Terry Pratchett',
+      'Access-Control-Allow-Origin': '*',
+      ...addHeaders,
+    } as Record<string, string>
+  }
+}
+
+export const NodeInfo: NodeInfoStandardResponses = new NodeInfoStandardResponses()
+
+class HTMLStandardResponses extends StandardResponses implements Kit.Responses {
+  override getHeaders({ addHeaders = {} as Record<string, string> } = {}): Record<string, string> {
+    return {
+      'Content-Type': 'text/html',
+      'X-Clacks-Overhead': 'GNU Terry Pratchett',
+      ...addHeaders,
+    } as Record<string, string>
+  }
+
+  override success200Str({ body = '', addHeaders = {} as Record<string, string> }): Response {
+    const headers = new Headers(this.getHeaders({ addHeaders }))
+    return new Response(body as string, {
+      status: 200,
+      statusText: 'OK',
+      headers,
+    })
+  }
+
+  override options204({ methods = [] as Array<string> } = {}): Response {
+    methods.unshift('OPTIONS', 'GET', 'HEAD')
+    const allow = methods.join(', ')
+    const headers = new Headers({
+      'X-Clacks-Overhead': 'GNU Terry Pratchett',
+      'Allow': allow,
+    })
+    return new Response(null, {
+      status: 204,
+      statusText: 'No Content',
+      headers,
+    })
+  }
+}
+
+export const HTML: HTMLStandardResponses = new HTMLStandardResponses()

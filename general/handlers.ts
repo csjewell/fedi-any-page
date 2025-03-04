@@ -48,33 +48,34 @@ class HandleCreate extends Router implements Kit.RequestHandler {
     // Someone is sending us a message.
 
     if (this.message.id === null) {
-      return this.resp.error422('No message ID to create')
+      return this.resp.error422({ info: 'No message ID to create' })
     }
 
     if (this.message.object === null) {
-      return this.resp.error422('No object to create')
+      return this.resp.error422({ info: 'No object to create' })
     }
 
     // We are only interested in Replies - that is a "Note" with a "replyTo"
     const createObject = this.message.object as AP.CoreObject
     if (createObject.type === 'Note') {
       if (createObject.inReplyTo === undefined) {
-        return this.resp.error422('Cannot "Create" a "Note" that is not a reply')
+        return this.resp.error422({ info: 'Cannot "Create" a "Note" that is not a reply' })
       }
 
       if (!KitUtils.isObjectOurs(this.env.url.hostname, createObject.inReplyTo)) {
-        return this.resp.error422('The replying note was misrouted')
+        return this.resp.error422({ info: 'The replying note was misrouted' })
       }
 
       const success = await this.kdb.note(createObject as AP.Note).save()
       if (success) {
-        return this.resp.success202('Created Reply')
+        return this.resp.success202({ info: 'Created Reply' })
       }
 
-      return this.resp.error500('Database error storing reply')
+      //return this.resp.error500({ info: 'Database error storing reply' })
+      return this.resp.error422({ info: 'Database error storing reply' })
     }
 
-    return this.resp.error422('Cannot "Create" an unknown message object type')
+    return this.resp.error422({ info: 'Cannot "Create" an unknown message object type' })
   }
 }
 
@@ -95,7 +96,7 @@ class HandleFollow extends Router implements Kit.RequestHandler {
     // We are following.
     const messageId = this.message.id as AP.EntityReference
     if (messageId === null) {
-      return this.resp.error422('No message ID to use when following')
+      return this.resp.error422({ info: 'No message ID to use when following' })
     }
 
     const messageStorage = this.kdb.follow(this.message)
@@ -104,7 +105,7 @@ class HandleFollow extends Router implements Kit.RequestHandler {
 
     if (await messageStorage.exists()) {
       console.log('Already Following')
-      return this.resp.success204('Already following')
+      return this.resp.success204({ info: 'Already following' })
     }
 
     // Create the follow.
@@ -129,7 +130,8 @@ class HandleFollow extends Router implements Kit.RequestHandler {
     console.log('Following result', response.status, response.statusText, await response.text())
     // Check response.status
     */
-    return this.resp.error500()
+    //return this.resp.error500()
+    return this.resp.error422()
   }
 }
 
@@ -148,25 +150,25 @@ class HandleUndo extends Router implements Kit.RequestHandler {
 
   async handle(): Promise<unknown> {
     if (this.message === null || this.message.id === null) {
-      return this.resp.error422('No object ID')
+      return this.resp.error422({ info: 'No object ID' })
     }
 
     if (this.message.object === null) {
-      return this.resp.error422('No object to undo')
+      return this.resp.error422({ info: 'No object to undo' })
     }
 
     const { object } = this.kdb.getDocument(this.message.object)
 
     if (object === undefined) {
-      return this.resp.error422('No actor')
+      return this.resp.error422({ info: 'No actor' })
     }
 
     if (!('actor' in object)) {
-      return this.resp.error422('No actor')
+      return this.resp.error422({ info: 'No actor' })
     }
 
     if (!('object' in object)) {
-      return this.resp.error422('No object to act upon')
+      return this.resp.error422({ info: 'No object to act upon' })
     }
 
     let success: boolean
@@ -188,11 +190,11 @@ class HandleUndo extends Router implements Kit.RequestHandler {
       }
 
       default: {
-        return this.resp.error422(`Cannot undo a ${type} object`)
+        return this.resp.error422({ info: `Cannot undo a ${type} object` })
       }
     }
 
     // TODO: Handle `success` better.
-    return success ? this.resp.success202('Handled Undo') : this.resp.error500()
+    return success ? this.resp.success202({ info: 'Handled Undo' }) : this.resp.error500()
   }
 }

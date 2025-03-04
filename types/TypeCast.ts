@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 import type { Actor } from './Actor.ts'
 import type { Activity, AnyTransitiveActivityType, TransitiveActivity } from './Activity.ts'
 import type { EitherCollection, EitherCollectionPage } from './Collection.ts'

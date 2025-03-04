@@ -9,6 +9,7 @@ create
 local-test-server-*
 workers-deno-deploy
 database-postgres
+database-bun-sqlite
 pages-plugin
 bin/pre-push
 

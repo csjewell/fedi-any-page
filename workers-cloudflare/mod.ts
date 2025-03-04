@@ -20,6 +20,7 @@ export class CloudflareConfig implements Kit.Configuration {
   public readonly privateKey: string
   public readonly database: D1Database
   public readonly username: string = ''
+  public readonly siteName: string = ''
 
   constructor(env: Record<string, unknown>, mapping: Record<string, string>) {
     this.url = new URL(env[mapping.url] as string)

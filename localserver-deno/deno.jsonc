@@ -1,0 +1,22 @@
+{
+  "name": "@csjewell-activitypub/localserver-deno",
+  "version": "0.1.0",
+  "exports": "./mod.ts",
+  "tasks": {
+    "test": "deno test --allow-read",
+    "test-update": "deno test --allow-read --allow-write -- --update"
+  },
+  "license": "MIT",
+  "imports": {
+    "@oak/oak": "jsr:@oak/oak@^17.1.4"
+  },
+  "publish": {
+    "include": [
+      "README.md",
+      "LICENSE",
+      "deno.jsonc",
+      "mod.ts",
+      "configuration.ts"
+    ]
+  }
+}

@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 import type { CollectionPageTypes, CollectionTypes } from './TypeLists.ts'
 import type { OrArray } from './Utility.ts'
 import type { CoreObjectProperties } from './CoreObject.ts'

@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 export * from './Activity.ts'
 export * from './Actor.ts'
 export * from './Collection.ts'

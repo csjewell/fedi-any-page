@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 import type { ActivityTypes, IntransitiveActivityTypes, TransitiveActivityTypes } from './TypeLists.ts'
 import type { OrArray } from './Utility.ts'
 import type { CoreObjectProperties } from './CoreObject.ts'
