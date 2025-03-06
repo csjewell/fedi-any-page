@@ -1,5 +1,8 @@
 /* SPDX-License-Identifier: MIT */
 import * as Kit from '@csjewell-activitypub/general'
+import { NotImplementedError } from '@csjewell-activitypub/general/errors'
+import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
+import type { Database } from '@csjewell-activitypub/general/database/handler'
 import * as Json from '@csjewell-activitypub/json'
 import * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
@@ -10,11 +13,11 @@ type LikeInfo = {
   created: unknown
 }
 
-export class LikeCFStorage extends CloudflareD1Database implements Kit.Database {
+export class LikeCFStorage extends CloudflareD1Database implements Database {
   private readonly message: AP.Like
   private dbLikeId: number | undefined = undefined
 
-  constructor(env: Kit.Configuration, message: AP.Like) {
+  constructor(env: Configuration, message: AP.Like) {
     super(env)
     this.message = message
   }
@@ -213,7 +216,7 @@ export class LikeCFStorage extends CloudflareD1Database implements Kit.Database 
         }
         return cache.get(info.r2key, info.r2index) as AP.Like | undefined
         */
-        throw new Kit.NotImplementedError()
+        throw new NotImplementedError()
       }
 
       if (info.url) {

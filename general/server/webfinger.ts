@@ -1,7 +1,8 @@
-import type * as Kit from './interfaces.ts'
-import type { User, Users } from './users.ts'
+import type Responses from '../responses.ts'
+import type Configuration from '../configuration.ts'
+import type { User, Users } from '../users.ts'
 
-export function GetHandler(url: URL, users: Users, resp: Kit.Responses, config: Kit.Configuration): unknown {
+export default function (url: URL, users: Users, resp: Responses, config: Configuration): unknown {
   const params = url.searchParams
 
   if (params.has('resource') === undefined) {
@@ -73,7 +74,7 @@ function Server(account: string): Record<string, unknown> {
   } as Record<string, unknown>
 }
 
-function ServerMastodon(account: string, config: Kit.Configuration): Record<string, unknown> {
+function ServerMastodon(account: string, config: Configuration): Record<string, unknown> {
   return {
     subject: account,
     links: [{
@@ -84,7 +85,7 @@ function ServerMastodon(account: string, config: Kit.Configuration): Record<stri
   } as Record<string, unknown>
 }
 
-function User(account: string, user: User, config: Kit.Configuration): Record<string, unknown> {
+function User(account: string, user: User, config: Configuration): Record<string, unknown> {
   const returnValue = {
     subject: account.toLowerCase(),
     links: [{

@@ -1,20 +1,23 @@
 /* SPDX-License-Identifier: MIT */
 // import * as Json from '@csjewell-activitypub/json'
 import * as Kit from '@csjewell-activitypub/general'
+import { NotImplementedError } from '@csjewell-activitypub/general/errors'
+import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
+import type { Database } from '@csjewell-activitypub/general/database/handler'
 import type * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
 import type { DBCount, DBId as _DBId } from './types.ts'
 
-export class FollowCFStorage extends CloudflareD1Database implements Kit.Database {
+export class FollowCFStorage extends CloudflareD1Database implements Database {
   private readonly message: AP.Follow
 
-  constructor(env: Kit.Configuration, message: AP.Follow) {
+  constructor(env: Configuration, message: AP.Follow) {
     super(env)
     this.message = message
   }
 
   databaseId(): number | undefined {
-    throw new Kit.NotImplementedError()
+    throw new NotImplementedError()
   }
 
   document(): AP.Follow {
@@ -117,6 +120,6 @@ export class FollowCFStorage extends CloudflareD1Database implements Kit.Databas
 
   // deno-lint-ignore require-await
   async retrieve(): Promise<undefined> {
-    throw new Kit.NotImplementedError()
+    throw new NotImplementedError()
   }
 }

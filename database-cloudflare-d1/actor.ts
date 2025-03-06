@@ -1,11 +1,14 @@
 /* SPDX-License-Identifier: MIT */
 import * as Json from '@csjewell-activitypub/json'
 import * as Kit from '@csjewell-activitypub/general'
+import { DataError } from '@csjewell-activitypub/general/errors'
+import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
+import type { Database } from '@csjewell-activitypub/general/database/handler'
 import * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
 import type { DBId } from './types.ts'
 
-export class ActorCFStorage extends CloudflareD1Database implements Kit.Database {
+export class ActorCFStorage extends CloudflareD1Database implements Database {
   /*
    * Store an Actor (a Person, Application, etc.) within the database
    */
@@ -13,7 +16,7 @@ export class ActorCFStorage extends CloudflareD1Database implements Kit.Database
   private dbActorId: number | undefined
   private dbDocumentId: number | undefined
 
-  constructor(env: Kit.Configuration, message: AP.ActorReference) {
+  constructor(env: Configuration, message: AP.ActorReference) {
     super(env)
     this.message = message
     this.dbActorId = undefined
@@ -176,7 +179,7 @@ export class ActorCFStorage extends CloudflareD1Database implements Kit.Database
     if (respActor.success) {
       this.dbActorId = respActor.meta.last_row_id
     } else {
-      throw new Kit.DataError('I do not know.') // TODO:
+      throw new DataError('I do not know.') // TODO:
     }
 
     this.message = actorInfo

@@ -1,5 +1,10 @@
 /* SPDX-License-Identifier: MIT */
 import * as Kit from '@csjewell-activitypub/general'
+import { NotImplementedError } from '@csjewell-activitypub/general/errors'
+import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
+import type { Database } from '@csjewell-activitypub/general/database/handler'
+import type { DatabaseRouter, DBDocument } from '@csjewell-activitypub/general/database/router'
+import type { DBUsername } from '@csjewell-activitypub/general/database/misc'
 import type * as AP from '@csjewell-activitypub/types'
 import type D1Database from '@cloudflare/workers-types'
 import { ActorCFStorage } from './actor.ts'
@@ -9,13 +14,13 @@ import { LikeCFStorage } from './like.ts'
 import { NoteCFStorage } from './note.ts'
 import type { DBDocumentInfo } from './types.ts'
 
-export class CloudflareD1Database implements Kit.DatabaseRouter {
+export class CloudflareD1Database implements DatabaseRouter {
   protected handle: D1Database
   protected hostName: string
-  protected env: Kit.Configuration
+  protected env: Configuration
   protected debugDB = false
 
-  constructor(env: Kit.Configuration) {
+  constructor(env: Configuration) {
     this.hostName = env.url.hostname
     this.handle = env.database
     if ('debugDB' in env) {
@@ -55,37 +60,37 @@ export class CloudflareD1Database implements Kit.DatabaseRouter {
   }
 
   /** */
-  documentEntry(_message: AP.CoreObjectReference | AP.LinkReference): Kit.Database {
-    throw new Kit.NotImplementedError()
+  documentEntry(_message: AP.CoreObjectReference | AP.LinkReference): Database {
+    throw new NotImplementedError()
   }
 
-  getUsername(dr: string | AP.EntityReference | Array<AP.EntityReference> | null | undefined): Kit.DBUsername {
+  getUsername(dr: string | AP.EntityReference | Array<AP.EntityReference> | null | undefined): DBUsername {
     if (Array.isArray(dr) || dr === undefined || dr === null) {
-      return <Kit.DBUsername> { username: undefined, usernameId: undefined }
+      return <DBUsername> { username: undefined, usernameId: undefined }
     }
 
     const er = Kit.entityRefToURL(dr)
     if (er === undefined || er === null) {
-      return <Kit.DBUsername> { username: undefined, usernameId: undefined }
+      return <DBUsername> { username: undefined, usernameId: undefined }
     }
 
     // TODO: Finish implementing.
-    throw new Kit.NotImplementedError()
+    throw new NotImplementedError()
   }
 
   /** */
-  getDocument(dr: string | AP.EntityReference | Array<AP.EntityReference> | null | undefined): Kit.DBDocument {
+  getDocument(dr: string | AP.EntityReference | Array<AP.EntityReference> | null | undefined): DBDocument {
     if (Array.isArray(dr) || dr === undefined || dr === null) {
-      return <Kit.DBDocument> { object: undefined, objectId: undefined }
+      return <DBDocument> { object: undefined, objectId: undefined }
     }
 
     const er = Kit.entityRefToURL(dr)
     if (er === undefined || er === null) {
-      return <Kit.DBDocument> { object: undefined, objectId: undefined }
+      return <DBDocument> { object: undefined, objectId: undefined }
     }
 
     // TODO: Finish implementing.
-    throw new Kit.NotImplementedError()
+    throw new NotImplementedError()
   }
 
   isDBDocumentInfo(info: unknown): info is DBDocumentInfo {
@@ -103,7 +108,7 @@ export class CloudflareD1Database implements Kit.DatabaseRouter {
       throw new TypeError('Called shorten on the router')
     }
 
-    const db = this as unknown as Kit.Database
+    const db = this as unknown as Database
 
     if (await db.exists()) {
       const doc = db.document() as AP.CoreObjectReference

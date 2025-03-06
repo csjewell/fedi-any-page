@@ -1,15 +1,17 @@
 /* SPDX-License-Identifier: MIT */
 import * as Json from '@csjewell-activitypub/json'
 import * as Kit from '@csjewell-activitypub/general'
+import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
+import type { Database } from '@csjewell-activitypub/general/database/handler'
 import * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
 import type { DBId } from './types.ts'
 
-export class DocumentCFStorage extends CloudflareD1Database implements Kit.Database {
+export class DocumentCFStorage extends CloudflareD1Database implements Database {
   private message: AP.CoreObjectReference
   private dbDocumentId: number | undefined = undefined
 
-  constructor(env: Kit.Configuration, message: AP.CoreObject) {
+  constructor(env: Configuration, message: AP.CoreObject) {
     super(env)
     this.message = message
   }

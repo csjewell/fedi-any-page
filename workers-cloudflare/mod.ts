@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: MIT */
-import * as Kit from '@csjewell-activitypub/general'
+import { NotImplementedError } from '@csjewell-activitypub/general/errors'
+import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
 import type * as AP from '@csjewell-activitypub/types'
 import type D1Database from '@cloudflare/workers-types'
 
@@ -15,7 +16,7 @@ import type D1Database from '@cloudflare/workers-types'
 
 */
 
-export class CloudflareConfig implements Kit.Configuration {
+export class CloudflareConfig implements Configuration {
   public readonly url: URL
   public readonly privateKey: string
   public readonly database: D1Database
@@ -29,15 +30,15 @@ export class CloudflareConfig implements Kit.Configuration {
   }
 
   getActorURL(_username: string): string {
-    throw new Kit.NotImplementedError()
+    throw new NotImplementedError()
   }
 
   getActorBasedId(_username: string, _ending: string): string {
-    throw new Kit.NotImplementedError()
+    throw new NotImplementedError()
   }
 
   localGet(url: string | URL): AP.CoreObject | undefined {
     console.log(url)
-    throw new Kit.NotImplementedError()
+    throw new NotImplementedError()
   }
 }

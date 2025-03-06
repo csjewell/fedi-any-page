@@ -1,6 +1,9 @@
 /* SPDX-License-Identifier: MIT */
 import crypto from 'crypto'
 import * as Kit from '@csjewell-activitypub/general'
+import { DataError } from '@csjewell-activitypub/general/errors'
+import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
+import type { DatabaseKey } from '@csjewell-activitypub/general/database/misc'
 import type * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
 
@@ -12,17 +15,17 @@ type DBDatabaseKey = {
   expires?: unknown
 }
 
-export class KeysCFStorage extends CloudflareD1Database implements Kit.DatabaseKey {
+export class KeysCFStorage extends CloudflareD1Database implements DatabaseKey {
   private actorId: string
   private dbKeyId: number | undefined = undefined
   private dbDatabaseKey: DBDatabaseKey | undefined = undefined
 
-  constructor(env: Kit.Configuration, message: AP.ActorReference | string) {
+  constructor(env: Configuration, message: AP.ActorReference | string) {
     super(env)
     const actorId = Kit.entityRefToString(message as URL)
 
     if (actorId === undefined) {
-      throw new Kit.DataError('Was not sent correct actor information')
+      throw new DataError('Was not sent correct actor information')
     }
 
     this.actorId = actorId
@@ -33,7 +36,7 @@ export class KeysCFStorage extends CloudflareD1Database implements Kit.DatabaseK
       await this.exists()
     }
     if (this.dbDatabaseKey === undefined) {
-      throw new Kit.DataError(`Do not have public/private keypair in database for ${this.actorId}`)
+      throw new DataError(`Do not have public/private keypair in database for ${this.actorId}`)
     }
     return this.dbDatabaseKey.publicKey
   }
@@ -43,14 +46,14 @@ export class KeysCFStorage extends CloudflareD1Database implements Kit.DatabaseK
       await this.exists()
     }
     if (this.dbDatabaseKey === undefined) {
-      throw new Kit.DataError(`Do not have public/private keypair in database for ${this.actorId}`)
+      throw new DataError(`Do not have public/private keypair in database for ${this.actorId}`)
     }
     return this.dbDatabaseKey.privateKey
   }
 
   async createKey(): Promise<void> {
     if (await this.exists()) {
-      throw new Kit.DataError(`Already have public/private keypair in database for ${this.actorId}`)
+      throw new DataError(`Already have public/private keypair in database for ${this.actorId}`)
     }
 
     const EXPORTABLE = true

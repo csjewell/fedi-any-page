@@ -16,7 +16,8 @@
       "LICENSE",
       "deno.jsonc",
       "mod.ts",
-      "configuration.ts"
+      "configuration.ts",
+      "database.ts"
     ]
   }
 }

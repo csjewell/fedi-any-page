@@ -1,8 +1,10 @@
-/* SPDX-License-Identifier: Apache-2.0 */
+/* SPDX-License-Identifier: MIT */
 import type * as AP from '@csjewell-activitypub/types'
-import type * as Kit from './interfaces.ts'
+import type * as Kit from '../../interfaces.ts'
+import type Responses from '../../responses.ts'
+import type Configuration from '../../configuration.ts'
 
-export function GetHandler(config: Kit.Configuration, req: Kit.RequestHelper, resp: Kit.Responses): unknown {
+export default function Index(config: Configuration, req: Kit.RequestHelper, resp: Responses): unknown {
   const url = config.url.toString()
 
   if (req.canAcceptHTML()) {

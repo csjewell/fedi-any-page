@@ -1,7 +1,16 @@
 {
   "name": "@csjewell-activitypub/general",
   "version": "0.1.0-alpha.5",
-  "exports": "./mod.ts",
+  "exports": {
+    ".": "./mod.ts",
+    "./database/router": "./database/router.ts",
+    "./database/handler": "./database/handler.ts",
+    "./database/misc": "./database/misc.ts",
+    "./configuration": "./configuration.ts",
+    "./errors": "./errors.ts",
+    "./responses": "./responses.ts",
+    "./server": "./server/mod.ts"
+  },
   "tasks": {
     "test": "deno test --allow-read",
     "test-update": "deno test --allow-read --allow-write -- --update"
@@ -20,12 +29,15 @@
       "LICENSE",
       "deno.jsonc",
       "mod.ts",
+      "configuration.ts",
+      "database/*.ts",
+      "server/*.ts",
+      "server/*/*.ts",
+      "errors.ts",
+      "responses.ts",
       "handlers.ts",
       "utilities.ts",
       "interfaces.ts",
-      "server-actor.ts",
-      "webfinger.ts",
-      "nodeinfo.ts",
       "users.ts"
     ]
   }

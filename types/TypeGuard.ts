@@ -1,13 +1,13 @@
 /* SPDX-License-Identifier: MIT */
 import {
   ActivityTypes,
-  ActorTypes,
   AllTypes,
   CollectionPageTypes,
   CollectionTypes,
   CoreObjectTypes,
   ExtendedObjectTypes,
 } from './TypeLists.ts'
+import { ActorTypes } from './ActorList.ts'
 import type { Actor } from './Actor.ts'
 import type { Activity, AnyTransitiveActivityType, TransitiveActivity } from './Activity.ts'
 import type { EitherCollection, EitherCollectionPage } from './Collection.ts'

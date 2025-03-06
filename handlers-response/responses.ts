@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 import * as Json from '@csjewell-activitypub/json'
-import * as Kit from '@csjewell-activitypub/general'
+import { NotImplementedError } from '@csjewell-activitypub/general/errors'
+import type Responses from '@csjewell-activitypub/general/responses'
 import type * as AP from '@csjewell-activitypub/types'
 
 type RedirectCode = 301 | 302 | 303 | 307 | 308
@@ -19,7 +20,7 @@ type RedirectCode = 301 | 302 | 303 | 307 | 308
  * ```
  */
 const CORS = true, NO_CORS = false
-class StandardResponses implements Kit.Responses {
+class StandardResponses implements Responses {
   /*
    * Provides the default Headers for most routines in KitResponses
    *
@@ -57,7 +58,7 @@ class StandardResponses implements Kit.Responses {
 
   // deno-lint-ignore no-unused-vars
   success200Str({ body = '', addHeaders = {} as Record<string, string> }): Response {
-    throw new Kit.NotImplementedError()
+    throw new NotImplementedError()
   }
 
   /*
@@ -246,7 +247,7 @@ export const ActivityPub: StandardResponses = new StandardResponses()
  * return Helpers.Responses.error404NotImplemented()
  * ```
  */
-class WebFingerStandardResponses extends StandardResponses implements Kit.Responses {
+class WebFingerStandardResponses extends StandardResponses implements Responses {
   /*
    * Provides the default Headers for most routines in KitResponses
    *
@@ -293,7 +294,7 @@ class WebFingerStandardResponses extends StandardResponses implements Kit.Respon
 
 export const WebFinger: WebFingerStandardResponses = new WebFingerStandardResponses()
 
-class NodeInfoStandardResponses extends WebFingerStandardResponses implements Kit.Responses {
+class NodeInfoStandardResponses extends WebFingerStandardResponses implements Responses {
   override getHeaders({ addHeaders = {} as Record<string, string> } = {}): Record<string, string> {
     return {
       'Content-Type': 'application/json; profile="http://nodeinfo.diaspora.software/ns/schema/2.1#',
@@ -306,7 +307,7 @@ class NodeInfoStandardResponses extends WebFingerStandardResponses implements Ki
 
 export const NodeInfo: NodeInfoStandardResponses = new NodeInfoStandardResponses()
 
-class HTMLStandardResponses extends StandardResponses implements Kit.Responses {
+class HTMLStandardResponses extends StandardResponses implements Responses {
   override getHeaders({ addHeaders = {} as Record<string, string> } = {}): Record<string, string> {
     return {
       'Content-Type': 'text/html',

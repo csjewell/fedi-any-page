@@ -1,21 +1,23 @@
 /* SPDX-License-Identifier: MIT */
 import * as Json from '@csjewell-activitypub/json'
-import * as Kit from '@csjewell-activitypub/general'
+import { NotImplementedError } from '@csjewell-activitypub/general/errors'
+import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
+import type { Database } from '@csjewell-activitypub/general/database/handler'
 import type * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
 import type { DBCount, DBId as _DBId } from './types.ts'
 
-export class NoteCFStorage extends CloudflareD1Database implements Kit.Database {
+export class NoteCFStorage extends CloudflareD1Database implements Database {
   private readonly message: AP.Note
   private dbNoteId: number | undefined = undefined
 
-  constructor(env: Kit.Configuration, message: AP.Note) {
+  constructor(env: Configuration, message: AP.Note) {
     super(env)
     this.message = message
   }
 
   databaseId(): number | undefined {
-    throw new Kit.NotImplementedError()
+    return this.dbNoteId
   }
 
   document(): AP.Note {
@@ -24,7 +26,7 @@ export class NoteCFStorage extends CloudflareD1Database implements Kit.Database 
 
   // deno-lint-ignore require-await
   async remove(): Promise<boolean> {
-    throw new Kit.NotImplementedError()
+    throw new NotImplementedError()
   }
 
   async save(): Promise<boolean> {
@@ -68,11 +70,11 @@ export class NoteCFStorage extends CloudflareD1Database implements Kit.Database 
 
   // deno-lint-ignore require-await
   async exists(): Promise<boolean> {
-    throw new Kit.NotImplementedError()
+    throw new NotImplementedError()
   }
 
   // deno-lint-ignore require-await
   async retrieve(): Promise<unknown> {
-    throw new Kit.NotImplementedError()
+    throw new NotImplementedError()
   }
 }

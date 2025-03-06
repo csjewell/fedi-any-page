@@ -1,7 +1,7 @@
-import type * as Kit from './interfaces.ts'
+import type Responses from '../../responses.ts'
 // import './setup.html' with { type: 'text' }
 
-export function GetHandler(resp: Kit.Responses): unknown {
+export default function Get(resp: Responses): unknown {
   // I wish we could just uncomment the line above, but it only works in Bun as of yet.
   const body = `<!DOCTYPE html>
 <html><head>
@@ -24,17 +24,4 @@ export function GetHandler(resp: Kit.Responses): unknown {
     'Content-Type:': 'text/html',
   }
   return resp.success200Str({ body, addHeaders })
-}
-
-export function PostHandler(resp: Kit.Responses): unknown {
-  return resp.error404NotImplemented()
-
-  // Content-Disposition: attachment; filename="users.json"
-}
-
-export function OptionsHandler(resp: Kit.Responses): unknown {
-  const addHeaders = {
-    'Allow': 'OPTIONS, GET, HEAD, POST',
-  }
-  return resp.options204({ addHeaders })
 }

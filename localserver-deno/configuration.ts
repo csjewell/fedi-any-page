@@ -1,11 +1,14 @@
 /* SPDX */
-import { type Configuration, NotImplementedError } from '@csjewell-activitypub/general'
+import { NotImplementedError } from '@csjewell-activitypub/general/errors'
+import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
 import * as AP from '@csjewell-activitypub/types'
+// import * from 'node:crypto'
+import { db } from './database.ts'
 
 class TestConfig implements Configuration {
-  public readonly url: URL = new URL('https://test-deno.example/')
+  public readonly url: URL = new URL('http://test-deno.localhost/')
   public readonly privateKey: string = 'locked'
-  public readonly database: unknown = {}
+  public readonly database = db
   public readonly username: string = 'testuser1'
   public readonly debugDB: boolean = false
   public readonly siteName: string = 'Test Site'

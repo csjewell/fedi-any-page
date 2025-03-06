@@ -1,16 +1,19 @@
 /* SPDX-License-Identifier: MIT */
 import { NAMESPACE_URL, v5 as uuid } from '@std/uuid'
 import * as KitUtils from './utilities.ts'
+import type Responses from './responses.ts'
+import type { default as Configuration } from './configuration.ts'
+import type { DatabaseRouter } from './database/router.ts'
 import type * as Kit from './interfaces.ts'
 import type * as AP from '@csjewell-activitypub/types'
 
 export class Router implements Kit.RequestRouter {
-  protected kdb: Kit.DatabaseRouter
-  protected resp: Kit.Responses
-  protected readonly env: Kit.Configuration
+  protected kdb: DatabaseRouter
+  protected resp: Responses
+  protected readonly env: Configuration
   protected readonly username: string
 
-  constructor(kdb: Kit.DatabaseRouter, resp: Kit.Responses, env: Kit.Configuration, username: string) {
+  constructor(kdb: DatabaseRouter, resp: Responses, env: Configuration, username: string) {
     this.kdb = kdb
     this.resp = resp
     this.env = env
@@ -33,9 +36,9 @@ export class Router implements Kit.RequestRouter {
 class HandleCreate extends Router implements Kit.RequestHandler {
   message: AP.Create
   constructor(
-    kdb: Kit.DatabaseRouter,
-    resp: Kit.Responses,
-    env: Kit.Configuration,
+    kdb: DatabaseRouter,
+    resp: Responses,
+    env: Configuration,
     username: string,
     message: AP.Create,
   ) {
@@ -82,9 +85,9 @@ class HandleCreate extends Router implements Kit.RequestHandler {
 class HandleFollow extends Router implements Kit.RequestHandler {
   message: AP.Follow
   constructor(
-    apdb: Kit.DatabaseRouter,
-    resp: Kit.Responses,
-    env: Kit.Configuration,
+    apdb: DatabaseRouter,
+    resp: Responses,
+    env: Configuration,
     username: string,
     message: AP.Follow,
   ) {
@@ -138,9 +141,9 @@ class HandleFollow extends Router implements Kit.RequestHandler {
 class HandleUndo extends Router implements Kit.RequestHandler {
   message: AP.Undo
   constructor(
-    apdb: Kit.DatabaseRouter,
-    resp: Kit.Responses,
-    env: Kit.Configuration,
+    apdb: DatabaseRouter,
+    resp: Responses,
+    env: Configuration,
     username: string,
     message: AP.Undo,
   ) {

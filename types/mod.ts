@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 export * from './Activity.ts'
 export * from './Actor.ts'
+export * from './SpecificActors.ts'
 export * from './Collection.ts'
 export * from './CoreObject.ts'
 export * from './CoreUtility.ts'

@@ -2,13 +2,14 @@
 import { SignedFetch } from 'activitypub-http-signatures'
 import * as Json from '@csjewell-activitypub/json'
 import type * as Kit from '@csjewell-activitypub/general'
+import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
 import type * as AP from '@csjewell-activitypub/types'
 
 export class StandardSender implements Kit.Sender {
-  private config: Kit.Configuration
+  private config: Configuration
   private username: string
 
-  constructor(config: Kit.Configuration, username: string) {
+  constructor(config: Configuration, username: string) {
     this.config = config
     this.username = username
   }

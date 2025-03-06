@@ -1,18 +1,8 @@
-import type * as Kit from './interfaces.ts'
-
-export function GetHandler(resp: Kit.Responses, config: Kit.Configuration): unknown {
-  return resp.success200Obj({
-    body: {
-      links: [{
-        rel: 'http://nodeinfo.diaspora.software/ns/schema/2.1',
-        href: `${config.url.toString()}nodeinfo/2.1`,
-      }],
-    },
-  })
-}
+import type Responses from '../responses.ts'
+import type Configuration from '../configuration.ts'
 
 // TODO: This should read the usage data from the database
-export function GetHandler21(resp: Kit.Responses, config: Kit.Configuration): unknown {
+export default function NodeInfo21(resp: Responses, config: Configuration): unknown {
   return resp.success200Obj({
     body: {
       version: '2.1',

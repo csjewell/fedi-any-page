@@ -1,4 +1,6 @@
 /* SPDX-License-Identifier: MIT */
+import { ActorTypes } from './ActorList.ts'
+
 /**
  * An object containing all the types of ExtendedObjects.
  *
@@ -32,21 +34,6 @@ export const ExtendedObjectTypes = {
 export const LinkTypes = {
   LINK: 'Link',
   MENTION: 'Mention',
-} as const
-
-/**
- * An object containing all the types of Actors.
- *
- * @see Actor
- *
- * @see https://www.w3.org/TR/activitystreams-vocabulary/#actors
- */
-export const ActorTypes = {
-  APPLICATION: 'Application',
-  GROUP: 'Group',
-  ORGANIZATION: 'Organization',
-  PERSON: 'Person',
-  SERVICE: 'Service',
 } as const
 
 /**
