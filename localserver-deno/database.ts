@@ -20,24 +20,24 @@ class LocalDB implements DatabaseRouter {
     this.handle.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    active INT NOT NULL CHECK (accepted > -1) CHECK (accepted < 2) DEFAULT 1,
+    active INT NOT NULL CHECK (active > -1) CHECK (active < 2) DEFAULT 1,
     username TEXT NOT NULL,
     password TEXT NOT NULL,
     homepage TEXT,
     summary TEXT,
     at_protocol_id TEXT,
     key_id INTEGER REFERENCES keys(id),
-    is_admin INT NOT NULL CHECK (accepted > -1) CHECK (accepted < 2) DEFAULT 0
+    is_admin INT NOT NULL CHECK (is_admin > -1) CHECK (is_admin < 2) DEFAULT 0
   ) STRICT
     `)
 
     // Keys used on users/actors
     this.handle.exec(`
-  CREATE TABLE IF NOT EXISTS keys
+  CREATE TABLE IF NOT EXISTS keys (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     public_key TEXT NOT NULL,
     private_key TEXT NOT NULL,
-    expired INT NOT NULL CHECK (accepted > -1) CHECK (accepted < 2) DEFAULT 0
+    expired INT NOT NULL CHECK (expired > -1) CHECK (expired < 2) DEFAULT 0
   ) STRICT;
     `)
 
@@ -99,7 +99,7 @@ class LocalDB implements DatabaseRouter {
     private INT NOT NULL CHECK (private > -1) CHECK (private < 2) DEFAULT 0,
     deletable INT NOT NULL CHECK (deletable > -1) CHECK (deletable < 2) DEFAULT 0,
     created INT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified INT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified INT NOT NULL DEFAULT CURRENT_TIMESTAMP
   ) STRICT;
     `)
 
@@ -112,7 +112,7 @@ class LocalDB implements DatabaseRouter {
     private INT NOT NULL CHECK (private > -1) CHECK (private < 2) DEFAULT 0,
     deletable INT NOT NULL CHECK (deletable > -1) CHECK (deletable < 2) DEFAULT 0,
     created INT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified INT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified INT NOT NULL DEFAULT CURRENT_TIMESTAMP
   ) STRICT;
     `)
 
@@ -135,8 +135,8 @@ class LocalDB implements DatabaseRouter {
   CREATE TABLE IF NOT EXISTS documents (
     id INTEGER PRIMARY KEY,
     document_id TEXT NOT NULL,
-    created TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-    updated TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     type TEXT NOT NULL,
     url TEXT, -- for MY documents
     document BLOB, -- for other peoples documents
@@ -153,9 +153,9 @@ class LocalDB implements DatabaseRouter {
   ) WITHOUT ROWID;
     `)
 
-    this.handle.exec('CREATE INDEX idx_followers_get ON followers(username,accepted,private,created)')
+    this.handle.exec('CREATE INDEX IF NOT EXISTS idx_followers_get ON followers(username_id,accepted,private,created)')
 
-    this.handle.exec('INSERT INTO version (major, minor) VALUES (1, 0)')
+    this.handle.exec('INSERT INTO version (major, minor) VALUES (1, 0) ON CONFLICT(major) DO NOTHING')
   }
 
   dbHandle(): DatabaseSync {

@@ -39,7 +39,7 @@ export class Users {
     }
 
     for (const [k, v] of Object.entries(parsedUsers)) {
-      if (k.search('[^-A-Za-z0-9.]') !== -1) {
+      if ((k !== '**') && (k.search('[^-A-Za-z0-9.]') !== -1)) {
         throw new SyntaxError('Username not valid')
       }
 

@@ -21,7 +21,7 @@ export default function Get(resp: Responses): unknown {
 `
 
   const addHeaders = {
-    'Content-Type:': 'text/html',
+    'Content-Type': 'text/html',
   }
   return resp.success200Str({ body, addHeaders })
 }
