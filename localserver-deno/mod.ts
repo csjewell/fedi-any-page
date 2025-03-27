@@ -34,6 +34,7 @@ if (status1.state !== 'granted') {
 }
 
 const router = new Router()
+router.get('/favicon.ico', (ctx) => ctx.response.with(Resp.HTML.success204() as Response))
 router.get('/setup', (ctx) => ctx.response.with(Server.Setup.Get(Resp.HTML) as Response))
 router.post('/setup', (ctx) => ctx.response.with(Server.Setup.Post(Resp.HTML) as Response))
 router.options('/setup', (ctx) => ctx.response.with(Server.Setup.Options(Resp.HTML) as Response))
@@ -55,6 +56,37 @@ router.options('/activitypub/server', (ctx) => ctx.response.with(Resp.ActivityPu
 router.options('/activitypub/server/inbox', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
 // router.get('/activitypub/server/outbox', (ctx) => ctx.response.with(Server.App.Outbox(Resp.ActivityPub) as Response))
 router.options('/activitypub/server/outbox', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
+// router.post('/re-pliers-api/login', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.ActivityPub) as Response))
+router.options('/re-pliers-api/login', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
+// router.get('/re-pliers-api/verify', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
+router.options('/re-pliers-api/verify', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
+// router.post('/re-pliers-api/logout', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
+router.options('/re-pliers-api/logout', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
+// router.post('/re-pliers-api/replies', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
+router.options('/re-pliers-api/replies', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
+// router.post('/re-pliers-api/reply', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
+router.options('/re-pliers-api/reply', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
+// router.post('/re-pliers-api/reply/like', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
+router.options('/re-pliers-api/reply/like', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
+// router.post('/re-pliers-api/reply/unlike', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
+router.options('/re-pliers-api/reply/unlike', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
+// router.post('/re-pliers-api/reply/hide', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
+router.options('/re-pliers-api/reply/hide', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
+// router.post('/re-pliers-api/reply/unhide', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
+router.options('/re-pliers-api/reply/unhide', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
+
+/*
+
+src/components/AuthAPI.ts:34:  const api = `${ (new URL(page)).origin }/re-pliers-api`
+src/components/AuthAPI.ts:37:    fetch(`${api}/login`, {
+src/components/AuthAPI.ts:101:    fetch(`${api}/verify`, {
+src/components/AuthAPI.ts:129:    fetch(`${api}/logout`, {
+src/components/RepliesAPI.ts:58:  const api = `${ (new URL(page)).origin }/re-pliers-api`
+src/components/RepliesAPI.ts:62:    fetch(`${api}/reply`, {
+src/components/RepliesAPI.ts:90:    fetch(`${api}/reply/${action}`, {
+src/components/RepliesAPI.ts:120:    fetch(`${api}/replies`, {
+
+*/
 
 const app = new Application()
 app.use(router.routes())

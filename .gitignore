@@ -2,6 +2,9 @@ docsite/.hugo_build.lock
 docsite/public
 docsite/assets/jsdoc/*.json
 docsite/data/jsdoc-order.yaml
+localserver-deno/ap.sqlite.db
+
+node_modules
 
 # Temporary directories I'm still working in before I commit them.
 bin
@@ -12,6 +15,10 @@ database-postgres
 database-bun-sqlite
 pages-plugin
 bin/pre-push
+bundling
+my-preact-test
 
 # This allows me to take notes that I'll need later.
 **/NOTES.md
+**/NOTES.txt
+**/NOTES.*.ts.txt

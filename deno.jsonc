@@ -12,10 +12,12 @@
   // Set the compiler options for TypeScript.
   "compilerOptions": {
     "strict": true,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "jsx": "react",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment"
   },
-  // No node_modules, even for npm-style.
-  "nodeModulesDir": "none",
+  "nodeModulesDir": "auto",
   // Do not format or lint test data, snapshots, or documentation site.
   "fmt": {
     "exclude": [

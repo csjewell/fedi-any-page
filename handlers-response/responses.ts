@@ -46,7 +46,7 @@ class StandardResponses implements Responses {
     return new Headers(this.getHeaders({ cors, addHeaders }))
   }
 
-  success200Obj({ body = {} as Record<string, unknown>, addHeaders = {} as Record<string, string> }): Response {
+  success200Obj({ body = {} as Record<string, unknown>, addHeaders = {} as Record<string, string> } = {}): Response {
     // TODO: Add an assertion here.
     const json = Json.stringify(body as AP.CoreObject)
     return new Response(json, {
@@ -57,7 +57,7 @@ class StandardResponses implements Responses {
   }
 
   // deno-lint-ignore no-unused-vars
-  success200Str({ body = '', addHeaders = {} as Record<string, string> }): Response {
+  success200Str({ body = '', addHeaders = {} as Record<string, string> } = {}): Response {
     throw new NotImplementedError()
   }
 
@@ -138,7 +138,7 @@ class StandardResponses implements Responses {
     })
   }
 
-  redirect30x({ url = '', statusCode = 301 as RedirectCode }): Response {
+  redirect30x({ url = '', statusCode = 301 as RedirectCode } = {}): Response {
     if (url === '') {
       throw new TypeError('URL was empty')
     }
@@ -269,7 +269,7 @@ class WebFingerStandardResponses extends StandardResponses implements Responses 
   }
 
   override success200Obj(
-    { body = {} as Record<string, unknown>, addHeaders = {} as Record<string, string> },
+    { body = {} as Record<string, unknown>, addHeaders = {} as Record<string, string> } = {},
   ): Response {
     return Response.json(body, {
       status: 200,
@@ -316,7 +316,7 @@ class HTMLStandardResponses extends StandardResponses implements Responses {
     } as Record<string, string>
   }
 
-  override success200Str({ body = '', addHeaders = {} as Record<string, string> }): Response {
+  override success200Str({ body = '', addHeaders = {} as Record<string, string> } = {}): Response {
     const headers = new Headers(this.getHeaders({ addHeaders }))
     return new Response(body as string, {
       status: 200,
