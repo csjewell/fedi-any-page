@@ -9,17 +9,18 @@ import type { DatabaseRouter } from './database/router.ts'
 import type * as Request from './request.ts'
 import type { Responses } from './responses.ts'
 
-export class Router<SessionT, ResponseT> implements Request.Router<SessionT, ResponseT> {
+export class Router<SessionT, ResponseT>
+implements Request.Router<SessionT, ResponseT> {
   protected kdb               : DatabaseRouter<unknown, unknown, unknown>
   protected resp              : Responses<SessionT, ResponseT>
   protected readonly env      : Configuration<unknown, unknown, unknown>
   protected readonly username : string
 
   constructor(
-    kdb      : DatabaseRouter<unknown, unknown, unknown>,
-    resp     : Responses<SessionT, ResponseT>,
-    env      : Configuration<unknown, unknown, unknown>,
-    username : string,
+    kdb: DatabaseRouter<unknown, unknown, unknown>,
+    resp: Responses<SessionT, ResponseT>,
+    env: Configuration<unknown, unknown, unknown>,
+    username: string,
   ) {
     this.kdb = kdb
     this.resp = resp
@@ -27,59 +28,38 @@ export class Router<SessionT, ResponseT> implements Request.Router<SessionT, Res
     this.username = username.toLowerCase()
   }
 
-  create(message: AP.Create): Request.Handler<ResponseT> {
-    return new HandleCreate(this.kdb, this.resp, this.env, this.username, message)
-  }
-
-  follow(message: AP.Follow): Request.Handler<ResponseT> {
-    return new HandleFollow(this.kdb, this.resp, this.env, this.username, message)
-  }
-
-  undo(message: AP.Undo): Request.Handler<ResponseT> {
-    return new HandleUndo(this.kdb, this.resp, this.env, this.username, message)
-  }
-}
-
-class HandleCreate<SessionT, ResponseT> extends Router<SessionT, ResponseT> implements Request.Handler<ResponseT> {
-  message : AP.Create
-  constructor(
-    kdb: DatabaseRouter<unknown, unknown, unknown>,
-    resp: Responses<SessionT, ResponseT>,
-    env: Configuration<unknown, unknown, unknown>,
-    username: string,
-    message: AP.Create,
-  ) {
-    super(kdb, resp, env, username)
-    this.message = message
-  }
-
-  async handle(): Promise<ResponseT> {
-    console.log('Handling Create message')
+  async create(message: AP.Create): Promise<ResponseT> {
+    console.info('Handling Create message')
     // Someone is sending us a message.
 
-    if (this.message.id === null) {
+    if (message.id === null) {
       return this.resp.error422({ info: 'No message ID to create', })
     }
 
-    if (this.message.object === null) {
-      return this.resp.error422({ info: 'No object to create', })
-    }
+    // Verify whether message.object can be null or undefined.
+    // if (message.object === null) {
+    //   return this.resp.error422({ info: 'No object to create', })
+    // }
 
     // We are only interested in Replies - that is a "Note" with a "replyTo"
-    const createObject = this.message.object as AP.CoreObject
+    const createObject = message.object as AP.CoreObject
 
     if (createObject.type === 'Note') {
       if (createObject.inReplyTo === undefined) {
-        return this.resp.error422({ info: 'Cannot "Create" a "Note" that is not a reply', })
+        return this.resp.error422({
+          info : 'Cannot "Create" a "Note" that is not a reply',
+        })
       }
 
-      if (!KitUtils.isObjectOurs(this.env.url.hostname, createObject.inReplyTo)) {
+      if (
+        !KitUtils.isObjectOurs(this.env.url.hostname, createObject.inReplyTo)
+      ) {
         return this.resp.error422({ info: 'The replying note was misrouted', })
       }
 
-      const success = await this.kdb.note(createObject as AP.Note).save()
+      const hasSavedNote = await this.kdb.note(createObject as AP.Note).save()
 
-      if (success) {
+      if (hasSavedNote) {
         return this.resp.success202({ info: 'Created Reply', })
       }
 
@@ -87,91 +67,69 @@ class HandleCreate<SessionT, ResponseT> extends Router<SessionT, ResponseT> impl
       return this.resp.error422({ info: 'Database error storing reply', })
     }
 
-    return this.resp.error422({ info: 'Cannot "Create" an unknown message object type', })
-  }
-}
-
-class HandleFollow<SessionT, ResponseT> extends Router<SessionT, ResponseT> implements Request.Handler<ResponseT> {
-  message : AP.Follow
-  constructor(
-    apdb: DatabaseRouter<unknown, unknown, unknown>,
-    resp: Responses<SessionT, ResponseT>,
-    env: Configuration<unknown, unknown, unknown>,
-    username: string,
-    message: AP.Follow,
-  ) {
-    super(apdb, resp, env, username)
-    this.message = message
+    return this.resp.error422({
+      info : 'Cannot "Create" an unknown message object type',
+    })
   }
 
-  async handle(): Promise<ResponseT> {
+  async follow(message: AP.Follow): Promise<ResponseT> {
     // We are following.
-    const messageId = this.message.id as AP.EntityReference
-
-    if (messageId === null) {
-      return this.resp.error422({ info: 'No message ID to use when following', })
+    if (message.id === null) {
+      return this.resp.error422({
+        info : 'No message ID to use when following',
+      })
     }
 
-    const messageStorage = this.kdb.follow(this.message)
+    const messageStorage = this.kdb.follow(message)
 
     // X: const actorID = getActorId(<EntityReference>this.message.actor).toString()
 
     if (await messageStorage.exists()) {
-      console.log('Already Following')
+      console.info('Already Following')
       return this.resp.success204({ info: 'Already following', })
     }
 
     // Create the follow.
-    // TODO: Use the correct URL.
-    const url = new TextEncoder().encode('https://test.example')
-    const guid = uuid.generate(NAMESPACE_URL, url)
-    const success = await messageStorage.save(guid)
+    const url = new TextEncoder().encode(this.env.url.toString())
+    /* eslint-disable-next-line @typescript-eslint/no-unsafe-call -- WHY can't eslint find it? */
+    const guid = (await uuid.generate(NAMESPACE_URL, url)) as string
+    const hasSaved = await messageStorage.save(guid)
 
-    if (success) {
+    if (hasSaved) {
       const _acceptRequest: AP.Accept = {
         '@context' : new URL('https://www.w3.org/ns/activitystreams'),
         'id'       : new URL(`${ this.env.url.toString() }${ this.username }#${ guid }`),
         'type'     : 'Accept',
-        'actor'    : new URL(`${ this.env.url.toString() }${ this.username }`) as AP.EntityReference,
-        'object'   : messageId,
+        'actor'    : new URL(
+          `${ this.env.url.toString() }${ this.username }`,
+        ) as AP.EntityReference,
+        'object' : message.id as AP.EntityReference,
       }
     }
 
     /* TODO: Finish up
-    const actorInbox = actorInformation.inbox as URL
-    console.log('sending follow accept:', actorInbox, acceptRequest)
-    const response = await this.sendSignedRequest(actorInbox, acceptRequest)
-    console.log('Following result', response.status, response.statusText, await response.text())
-    // Check response.status
+      const actorInbox = actorInformation.inbox as URL
+      console.log('sending follow accept:', actorInbox, acceptRequest)
+      const response = await this.sendSignedRequest(actorInbox, acceptRequest)
+      console.log('Following result', response.status, response.statusText, await response.text())
+      // Check response.status
     */
+
     //return this.resp.error500()
     return this.resp.error422()
   }
-}
 
-class HandleUndo<SessionT, ResponseT> extends Router<SessionT, ResponseT> implements Request.Handler<ResponseT> {
-  message : AP.Undo
-  constructor(
-    apdb: DatabaseRouter<unknown, unknown, unknown>,
-    resp: Responses<SessionT, ResponseT>,
-    env: Configuration<unknown, unknown, unknown>,
-    username: string,
-    message: AP.Undo,
-  ) {
-    super(apdb, resp, env, username)
-    this.message = message
-  }
-
-  async handle(): Promise<ResponseT> {
-    if (this.message === null || this.message.id === null) {
+  async undo(message: AP.Undo): Promise<ResponseT> {
+    if (message.id === null) {
       return this.resp.error422({ info: 'No object ID', })
     }
 
-    if (this.message.object === null) {
-      return this.resp.error422({ info: 'No object to undo', })
-    }
+    // Verify whether message.object can be null or undefined.
+    // if (message.object === null) {
+    //   return this.resp.error422({ info: 'No object to undo', })
+    // }
 
-    const { object, } = this.kdb.getDocument(this.message.object)
+    const { object, } = this.kdb.getDocument(message.object)
 
     if (object === undefined) {
       return this.resp.error422({ info: 'No actor', })
@@ -185,22 +143,22 @@ class HandleUndo<SessionT, ResponseT> extends Router<SessionT, ResponseT> implem
       return this.resp.error422({ info: 'No object to act upon', })
     }
 
-    let success: boolean
+    let hasSavedUndo: boolean
     const type = object.type as string
 
     switch (type) {
       case 'Follow': {
-        success = await this.kdb.follow(object as AP.Follow).remove()
+        hasSavedUndo = await this.kdb.follow(object as AP.Follow).remove()
         break
       }
 
       case 'Like': {
-        success = await this.kdb.like(object as AP.Like).remove()
+        hasSavedUndo = await this.kdb.like(object as AP.Like).remove()
         break
       }
 
       case 'Announce': {
-        success = await this.kdb.announce(object as AP.Announce).remove()
+        hasSavedUndo = await this.kdb.announce(object as AP.Announce).remove()
         break
       }
 
@@ -210,6 +168,8 @@ class HandleUndo<SessionT, ResponseT> extends Router<SessionT, ResponseT> implem
     }
 
     // TODO: Handle `success` better.
-    return success ? this.resp.success202({ info: 'Handled Undo', }) : this.resp.error500()
+    return hasSavedUndo
+      ? this.resp.success202({ info: 'Handled Undo', })
+      : this.resp.error500()
   }
 }

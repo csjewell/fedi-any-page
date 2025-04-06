@@ -8,9 +8,9 @@ import type { Session } from '../database/session.ts'
 import type { AuthCookies } from './session-type.ts'
 
 type SessionType = {
-  username : string,
-  actor    : string,
-  expires  : number,
+  username : string;
+  actor    : string;
+  expires  : number;
 }
 
 type SessionDB<TableT, SessionT> = Database<TableT> & Session<SessionT>
@@ -22,11 +22,7 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
   private session  : SessionType | undefined = undefined
   private sessionKey = ''
 
-  constructor(
-    username: string,
-    cache: Keyv,
-    sessionKey = '',
-  ) {
+  constructor(username: string, cache: Keyv, sessionKey = '') {
     this.username = username
     this.c = cache
     if (sessionKey !== '') {
@@ -34,24 +30,36 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
     }
   }
 
-  databaseId = (): undefined => { return undefined }
+  databaseId = (): undefined => {
+    return undefined
+  }
 
-  document = (): void => { return }
+  document = (): void => {
+    return
+  }
 
-  save = async (): Promise<boolean> => { return true }
+  /* eslint-disable-next-line @typescript-eslint/require-await -- we are mocking routines that will! */
+  save = async (): Promise<boolean> => {
+    return true
+  }
 
-  shorten = async (): Promise<{ url: undefined, id: undefined }> => {
+  /* eslint-disable-next-line @typescript-eslint/require-await -- we are mocking routines that will! */
+  shorten = async (): Promise<{ url: undefined; id: undefined }> => {
     return { url: undefined, id: undefined, }
   }
 
+  /* eslint-disable-next-line @typescript-eslint/require-await -- we are mocking routines that will! */
   exists = async (): Promise<boolean> => {
     return this.session !== undefined
   }
 
   remove = async (): Promise<boolean> => {
-    let deleteArray: Array<string> = []
+    const deleteArray: Array<string> = []
 
-    if (this.username !== '' && await this.c.has(`username:${ this.username }`)) {
+    if (
+      this.username !== ''
+      && await this.c.has(`username:${ this.username }`)
+    ) {
       deleteArray.push(`username:${ this.username }`)
     }
 
@@ -59,7 +67,7 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
       deleteArray.push(this.sessionKey)
     }
 
-    if (deleteArray.length !== 0) {
+    if (deleteArray.length > 0) {
       await this.c.delete(deleteArray)
     }
 
@@ -150,7 +158,11 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
   }
 
   _assertSession(value: unknown): asserts value is SessionType {
-    if (value === undefined || value === null || (value as SessionType).username !== this.username) {
+    if (
+      value === undefined
+      || value === null
+      || (value as SessionType).username !== this.username
+    ) {
       throw new TypeError('Not logged in')
     }
   }
@@ -167,7 +179,9 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
   }
 
   /* Session-specific vocabulary */
-  invalidate(): Promise<boolean> { return this.remove() }
+  invalidate(): Promise<boolean> {
+    return this.remove()
+  }
 
   async getCookies(actorFunc: ActorFunc): Promise<AuthCookies> {
     if (this.session === undefined) {
@@ -177,14 +191,16 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
     return this._toCookies()
   }
 
-  // TODO: [2025-04-07] - Check actor parameter passed in versus actor contained in session
+  /* eslint-disable-next-line @typescript-eslint/require-await -- we are mocking routines that will! */
   async valid(...arguments_: Array<unknown>): Promise<boolean> {
     if (this.session === undefined) {
       return false
     }
 
     if (arguments_.length !== 1) {
-      throw new TypeError('Checking validity requires passing an actor identifier')
+      throw new TypeError(
+        'Checking validity requires passing an actor identifier',
+      )
     }
 
     const actor = arguments_[0] as string
@@ -210,4 +226,3 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
     }
   }
 }
-

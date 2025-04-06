@@ -3,6 +3,7 @@ docsite/public
 docsite/assets/jsdoc/*.json
 docsite/data/jsdoc-order.yaml
 proposed/localserver-deno/ap.sqlite.db
+packages/*/dist
 
 node_modules
 

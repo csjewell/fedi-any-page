@@ -4,40 +4,34 @@
 import type * as AP from '@csjewell-activitypub/types'
 
 type SessionInputs = {
-  actor         : string,
-  sessionCookie : unknown,
+  actor         : string;
+  sessionCookie : unknown;
 }
 
 type AuthInputs = {
-  username : string,
-  password : string,
+  username : string;
+  password : string;
 }
 
 /*
  */
 export type Helper = {
-  url             : URL,
-  canAcceptHTML   : () => boolean
-  getFormInputs   : () => AuthInputs
-  getCookieInputs : () => SessionInputs
-}
-
-/*
- */
-export type Handler<ResponseT> = {
-  handle : () => Promise<ResponseT>
+  url             : URL;
+  canAcceptHTML   : () => boolean;
+  getFormInputs   : () => AuthInputs;
+  getCookieInputs : () => SessionInputs;
 }
 
 /*
  */
 export type Sender<T> = {
-  sendSignedRequest : (endpoint: URL, message: AP.Activity) => T
+  sendSignedRequest : (endpoint: URL, message: AP.Activity) => T;
 }
 
 /*
  */
 export type Router<_SessionT, ResponseT> = {
-  create : (message: AP.Create) => Handler<ResponseT>
-  follow : (message: AP.Follow) => Handler<ResponseT>
-  undo   : (message: AP.Undo) => Handler<ResponseT>
+  create : (message: AP.Create) => Promise<ResponseT>;
+  follow : (message: AP.Follow) => Promise<ResponseT>;
+  undo   : (message: AP.Undo) => Promise<ResponseT>;
 }

@@ -10,27 +10,45 @@ export default class MockUsers implements Database<void>, UsersDB {
   private username   : string
   private isExisting : boolean
 
-  constructor(username: string, isExisting = true ) {
+  constructor(username: string, isExisting = true) {
     this.username = username
     this.isExisting = isExisting
   }
 
-  databaseId = (): undefined => { return undefined }
+  databaseId = (): undefined => {
+    return undefined
+  }
 
-  exists = async (): Promise<boolean> => { return this.isExisting }
+  document = (): undefined => {
+    return undefined
+  }
 
-  document = (): undefined => { return undefined }
+  /* eslint-disable-next-line @typescript-eslint/require-await -- we are mocking routines that will! */
+  exists = async (): Promise<boolean> => {
+    return this.isExisting
+  }
 
-  remove = async (): Promise<boolean> => { return true }
+  /* eslint-disable-next-line @typescript-eslint/require-await -- we are mocking routines that will! */
+  remove = async (): Promise<boolean> => {
+    return true
+  }
 
-  save = async (): Promise<boolean> => { return true }
+  /* eslint-disable-next-line @typescript-eslint/require-await -- we are mocking routines that will! */
+  save = async (): Promise<boolean> => {
+    return true
+  }
 
-  retrieve = async (): Promise<undefined> => { return undefined }
+  /* eslint-disable-next-line @typescript-eslint/require-await -- we are mocking routines that will! */
+  retrieve = async (): Promise<undefined> => {
+    return undefined
+  }
 
-  shorten = async (): Promise<{ url: undefined, id: undefined }> => {
+  /* eslint-disable-next-line @typescript-eslint/require-await -- we are mocking routines that will! */
+  shorten = async (): Promise<{ url: undefined; id: undefined }> => {
     return { url: undefined, id: undefined, }
   }
 
+  /* eslint-disable-next-line @typescript-eslint/require-await -- we are mocking routines that will! */
   checkPassword = async (pw: string): Promise<boolean> => {
     if (!this.isExisting) {
       return false
@@ -53,4 +71,3 @@ export default class MockUsers implements Database<void>, UsersDB {
     return { fullname: this.username, username: this.username, }
   }
 }
-
