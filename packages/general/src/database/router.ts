@@ -4,7 +4,7 @@
 import type {
   ActorReference, Announce, CoreObject, CoreObjectReference, EntityReference,
   Follow, Like, LinkReference, Note, OrArray,
-} from '../../types/mod.ts'
+} from '@csjewell-activitypub/types'
 import type { Database } from './handler.ts'
 import type { Session } from './session.ts'
 import type { UsersDB } from './users.ts'

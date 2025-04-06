@@ -5,10 +5,7 @@
   "type": "module",
   "main": "mod.ts",
   "scripts": {
-    "test": "deno test --allow-read",
-    "test-update": "deno test --allow-read --allow-write -- --update",
     "build": "tsup",
-    "format": "prettier",
     "lint": "eslint --flag unstable_config_lookup_from_file",
     "tsc": "tsc"
   },
@@ -33,11 +30,15 @@
     "@csjewell-activitypub/types": "workspace:^",
     "@dewars/cuid2": "npm:@jsr/dewars__cuid2@^0.1.0",
     "@keyv/sqlite": "^4.0.1",
-    "@paralleldrive/cuid2": "^2.2.2",
+    "@std/jsonc": "npm:@jsr/std__jsonc@^1.0.1",
     "@std/uuid": "npm:@jsr/std__uuid@^1.0.6",
     "@types/sanitize-html": "^2.15.0",
     "keyv": "npm:keyv@^5.3.2",
     "sanitize-html": "npm:sanitize-html@^2.14.0"
+  },
+  "devDependencies": {
+    "@csjewell-activitypub/eslint-config": "workspace:^",
+    "tsup": "^8.4.0"
   },
   "engines": {
     "node": ">=23.6.0"
@@ -45,7 +46,6 @@
   "lint-staged": {
     "**/*.{js,ts}": [
       "eslint --fix"
-    ],
-    "**/*": "prettier --write --ignore-unknown"
+    ]
   }
 }
