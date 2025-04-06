@@ -1,4 +1,6 @@
-/* SPDX-License-Identifier: MIT */
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
 import { NotImplementedError } from '@csjewell-activitypub/general/errors'
 import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
 import type * as AP from '@csjewell-activitypub/types'

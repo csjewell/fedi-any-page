@@ -1,4 +1,6 @@
-/* SPDX-License-Identifier: MIT */
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
 import crypto from 'node:crypto'
 import * as Kit from '@csjewell-activitypub/general'
 import { DataError } from '@csjewell-activitypub/general/errors'

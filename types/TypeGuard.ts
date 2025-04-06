@@ -1,4 +1,6 @@
-/* SPDX-License-Identifier: MIT */
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
 import {
   type Activity, ActivityTypes, type AnyTransitiveActivityType, type TransitiveActivity,
 } from './Activity.ts'

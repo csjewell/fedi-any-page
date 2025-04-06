@@ -1,4 +1,6 @@
-/* SPDX-License-Identifier: MIT */
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
 import type { Activity } from './Activity.ts'
 import type { Actor } from './Actor.ts'
 import type { AnyCollectionOrCollectionPage } from './Collection.ts'

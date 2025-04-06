@@ -1,4 +1,6 @@
-/* SPDX-License-Identifier: MIT */
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
 import type { CollectionReference, EitherCollectionReference, OrderedCollectionReference } from './Collection.ts'
 import type { CoreObjectProperties } from './CoreObject.ts'
 import type { BaseEntity } from './Entity.ts'

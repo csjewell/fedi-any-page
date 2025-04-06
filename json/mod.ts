@@ -1,4 +1,6 @@
-// SPDX-License-Identifier: MIT
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
 /**
  * This module contains helpers to stringify and parse JSON that represents an ActivityPub document.
  *

@@ -1,4 +1,6 @@
-/* SPDX-License-Identifier: MIT */
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
 import * as Kit from '@csjewell-activitypub/general'
 import * as Json from '@csjewell-activitypub/json'
 import * as AP from '@csjewell-activitypub/types'

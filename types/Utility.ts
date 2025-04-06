@@ -1,4 +1,6 @@
-/* SPDX-License-Identifier: MIT */
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
 import { CoreObjectTypes } from './CoreObject.ts'
 import { LinkTypes } from './Link.ts'
 

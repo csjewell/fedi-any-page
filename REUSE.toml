@@ -1,0 +1,65 @@
+version = 1
+SPDX-PackageName = "re-pliers"
+SPDX-PackageSupplier = "Curtis Jewell <swordsman+aptypescript@curtisjewell.name>"
+SPDX-PackageDownloadLocation = "https://git.sr.ht/~csjewell/ap-typescript"
+
+[[annotations]]
+path = ".vscode/**.json"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ".editorconfig"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "pnpm-lock.yaml"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "**/.git*"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "**/tsconfig.json"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "**/package.json"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "**.md"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "**/.npmrc"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "**/deno.jsonc"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ".github/**"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "docsite/**"
+SPDX-FileCopyrightText = "2025 Curtis Jewell and other contributors"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "**/*.config.*"
+SPDX-FileCopyrightText = "2025 Curtis Jewell and other contributors"
+SPDX-License-Identifier = "MIT"
+
