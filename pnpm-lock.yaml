@@ -145,6 +145,10 @@ importers:
       '@hyperjump/json':
         specifier: ^0.2.1
         version: 0.2.1
+    devDependencies:
+      tsup:
+        specifier: ^8.4.0
+        version: 8.4.0(jiti@2.4.2)(postcss@8.5.3)(typescript@5.8.3)(yaml@2.7.1)
 
   proposed/handlers-response:
     dependencies:

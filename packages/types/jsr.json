@@ -1,0 +1,17 @@
+{
+  "name": "@csjewell-activitypub/types",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "publish": {
+    "include": [
+      "LICENSE",
+      "README.md",
+      "package.json",
+      "index.ts",
+      "src/**/*.ts"
+    ]
+  }
+}
+

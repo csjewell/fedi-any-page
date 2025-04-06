@@ -1,7 +1,7 @@
 {
   "name": "@csjewell-activitypub/types",
   "version": "0.1.0",
-  "exports": "./mod.ts",
+  "exports": "./index.ts",
   "tasks": {
     "test": "deno test --allow-read",
     "test-update": "deno test --allow-read --allow-write -- --update"
@@ -12,26 +12,9 @@
       "README.md",
       "LICENSE",
       "deno.jsonc",
-      "mod.ts",
-      "Activity.ts",
-      "Actor.ts",
-      "actorBase.ts",
-      "Collection.ts",
-      "CoreObject.ts",
-      "CoreUtility.ts",
-      "Entity.ts",
-      "ExtendedObject.ts",
-      "Link.ts",
-      "SpecificActors.ts",
-      "TypeAssert.ts",
-      "TypeCast.ts",
-      "TypeGuard.ts",
-      "TypeLists.ts",
-      "Utility.ts"
+      "index.ts",
+      "src/**/*.ts"
     ]
-  },
-  "compilerOptions": {
-    "strict": true
   },
   "unstable": [
     "sloppy-imports"
