@@ -1,11 +1,6 @@
 packages:
-  - json
-  - types
-  - general
-  - eslint-config
-  - localserver-hapi
-  - database-cloudflare-d1
-  - workers-cloudflare
+  - packages/*
+  - proposed/*
 linkWorkspacePackages: true
 sharedWorkspaceLockfile: true
 onlyBuiltDependencies:

@@ -24,5 +24,11 @@
       "request.ts",
       "responses.ts"
     ]
-  }
+  },
+  "compilerOptions": {
+    "strict": true
+  },
+  "unstable": [
+    "sloppy-imports"
+  ]
 }

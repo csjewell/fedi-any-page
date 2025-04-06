@@ -1,14 +1,15 @@
 {
   // Each JSR package is in this list`
   "workspace": [
-    "./json",
-    "./general",
-    "./handlers-response",
-    "./database-cloudflare-d1",
-    "./workers-cloudflare",
-    "./localserver-deno",
-    "./localserver-hapi",
-    "./types"
+    "./packages/json",
+    "./packages/general",
+    "./packages/types",
+    "./packages/eslint-config",
+    "./proposed/handlers-response",
+    "./proposed/database-cloudflare-d1",
+    "./proposed/workers-cloudflare",
+    "./proposed/localserver-deno",
+    "./proposed/localserver-hapi"
   ],
   // Set the compiler options for TypeScript.
   "compilerOptions": {

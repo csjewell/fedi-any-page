@@ -12,5 +12,11 @@
   },
   "publish": {
     "include": ["README.md", "LICENSE", "deno.jsonc", "mod.ts"]
-  }
+  },
+  "compilerOptions": {
+    "strict": true
+  },
+  "unstable": [
+    "sloppy-imports"
+  ]
 }

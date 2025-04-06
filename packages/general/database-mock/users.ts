@@ -15,34 +15,34 @@ export default class MockUsers implements Database<void>, UsersDB {
     this.isExisting = isExisting
   }
 
-  databaseId = (): void => { return }
+  databaseId = (): undefined => { return undefined }
 
-  exists = (): Promise<boolean> => { return Promise.resolve(this.isExisting) }
+  exists = async (): Promise<boolean> => { return this.isExisting }
 
-  document = (): void => { return }
+  document = (): undefined => { return undefined }
 
-  remove = (): Promise<boolean> => { return Promise.resolve(true) }
+  remove = async (): Promise<boolean> => { return true }
 
-  save = (): Promise<boolean> => { return Promise.resolve(true) }
+  save = async (): Promise<boolean> => { return true }
 
-  retrieve = (): Promise<undefined> => { return Promise.resolve(undefined) }
+  retrieve = async (): Promise<undefined> => { return undefined }
 
-  shorten = (): Promise<{ url: undefined, id: undefined }> => {
-    return Promise.resolve({ url: undefined, id: undefined, })
+  shorten = async (): Promise<{ url: undefined, id: undefined }> => {
+    return { url: undefined, id: undefined, }
   }
 
-  checkPassword = (pw: string): Promise<boolean> => {
+  checkPassword = async (pw: string): Promise<boolean> => {
     if (!this.isExisting) {
-      return Promise.resolve(false)
+      return false
     }
 
     // Not worrying about emoji usernames, etc,
     /* eslint-disable-next-line @typescript-eslint/no-misused-spread */
     if (pw === [...this.username].reverse().join('')) {
-      return Promise.resolve(true)
+      return true
     }
 
-    return Promise.resolve(false)
+    return false
   }
 
   retrieveUser = (): User | undefined => {

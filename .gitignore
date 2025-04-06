@@ -2,7 +2,7 @@ docsite/.hugo_build.lock
 docsite/public
 docsite/assets/jsdoc/*.json
 docsite/data/jsdoc-order.yaml
-localserver-deno/ap.sqlite.db
+proposed/localserver-deno/ap.sqlite.db
 
 node_modules
 

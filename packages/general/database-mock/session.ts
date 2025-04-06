@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-// deno-lint-ignore-file no-boolean-literal-for-arguments
 import { Cuid } from '@dewars/cuid2'
 import type { default as Keyv } from 'keyv'
 import type { Database } from '../database/handler.ts'
@@ -35,32 +34,37 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
     }
   }
 
-  databaseId(): undefined { return undefined }
+  databaseId = (): undefined => { return undefined }
 
-  document(): void { return }
+  document = (): void => { return }
 
-  save(): Promise<boolean> { return Promise.resolve(true) }
+  save = async (): Promise<boolean> => { return true }
 
-  shorten(): Promise<{ url: undefined, id: undefined }> {
-    return Promise.resolve({ url: undefined, id: undefined, })
+  shorten = async (): Promise<{ url: undefined, id: undefined }> => {
+    return { url: undefined, id: undefined, }
   }
 
-  exists(): Promise<boolean> {
-    return Promise.resolve(this.session !== undefined)
+  exists = async (): Promise<boolean> => {
+    return this.session !== undefined
   }
 
-  async remove(): Promise<boolean> {
-    // TODO: [2025-04-08] Collect which values to delete and delete all at once.
+  remove = async (): Promise<boolean> => {
+    let deleteArray: Array<string> = []
+
     if (this.username !== '' && await this.c.has(`username:${ this.username }`)) {
-      await this.c.delete(`username:${ this.username }`)
+      deleteArray.push(`username:${ this.username }`)
     }
 
     if (this.sessionKey !== '' && await this.c.has(this.sessionKey)) {
-      await this.c.delete(this.sessionKey)
+      deleteArray.push(this.sessionKey)
+    }
+
+    if (deleteArray.length !== 0) {
+      await this.c.delete(deleteArray)
     }
 
     this.session = undefined
-    return Promise.resolve(true)
+    return true
   }
 
   async retrieve(...args: Array<unknown>): Promise<void> {
@@ -105,16 +109,16 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
    *
    * @private
    */
-  async _setToCache(): Promise<void> {
+  async _setToCache(): Promise<boolean> {
     if (this.session === undefined) {
-      return
+      return false
     }
 
     let expires = Date.now()
 
     expires += 8 * 3600 * 1000
     this.session.expires = expires
-    await this.c.set<SessionType>(this.sessionKey, this.session, 14400)
+    return await this.c.set<SessionType>(this.sessionKey, this.session, 14400)
   }
 
   /**
@@ -174,7 +178,19 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
   }
 
   // TODO: [2025-04-07] - Check actor parameter passed in versus actor contained in session
-  valid(): Promise<void> { return Promise.resolve() }
+  async valid(...arguments_: Array<unknown>): Promise<boolean> {
+    if (this.session === undefined) {
+      return false
+    }
+
+    if (arguments_.length !== 1) {
+      throw new TypeError('Checking validity requires passing an actor identifier')
+    }
+
+    const actor = arguments_[0] as string
+
+    return this.session.actor === actor
+  }
 
   async refreshCookies(actorFunc: ActorFunc): Promise<AuthCookies> {
     await this._retrieveFromCache()

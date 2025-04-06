@@ -5,8 +5,8 @@
 /*
  */
 export type Database<T> = {
-  databaseId : () => number | T
-  document   : () => T
+  databaseId : () => number | undefined
+  document   : () => T | undefined
   remove     : () => Promise<boolean>
   save       : (...arguments_: Array<unknown>) => Promise<boolean>
   exists     : () => Promise<boolean>

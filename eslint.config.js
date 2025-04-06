@@ -1,5 +1,5 @@
 import tseslint from "typescript-eslint"
-import Config from './eslint-config/src/index.ts'
+import Config from './packages/eslint-config/src/index.ts'
 import { fileURLToPath } from 'node:url'
 
 const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url))
