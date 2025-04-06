@@ -105,6 +105,9 @@ importers:
       '@dewars/cuid2':
         specifier: npm:@jsr/dewars__cuid2@^0.1.0
         version: '@jsr/dewars__cuid2@0.1.0'
+      '@hyperjump/json':
+        specifier: ^0.2.1
+        version: 0.2.1
       '@keyv/sqlite':
         specifier: ^4.0.1
         version: 4.0.2
@@ -146,6 +149,9 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1
     devDependencies:
+      '@csjewell-activitypub/eslint-config':
+        specifier: workspace:^
+        version: link:../eslint-config
       tsup:
         specifier: ^8.4.0
         version: 8.4.0(jiti@2.4.2)(postcss@8.5.3)(typescript@5.8.3)(yaml@2.7.1)

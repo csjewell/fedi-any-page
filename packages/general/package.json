@@ -29,6 +29,7 @@
   "dependencies": {
     "@csjewell-activitypub/types": "workspace:^",
     "@dewars/cuid2": "npm:@jsr/dewars__cuid2@^0.1.0",
+    "@hyperjump/json": "^0.2.1",
     "@keyv/sqlite": "^4.0.1",
     "@std/jsonc": "npm:@jsr/std__jsonc@^1.0.1",
     "@std/uuid": "npm:@jsr/std__uuid@^1.0.6",

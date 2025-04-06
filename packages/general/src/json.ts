@@ -22,7 +22,7 @@
  * @module Json
  */
 import * as Json from '@hyperjump/json'
-import type * as AP from '../types/mod.ts'
+import type * as AP from '@csjewell-activitypub/types'
 
 type OrArray<T> = T | Array<T>
 
