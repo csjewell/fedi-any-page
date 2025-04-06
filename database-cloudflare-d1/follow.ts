@@ -2,14 +2,14 @@
 // import * as Json from '@csjewell-activitypub/json'
 import * as Kit from '@csjewell-activitypub/general'
 import { NotImplementedError } from '@csjewell-activitypub/general/errors'
+import { CloudflareD1Database } from './router.ts'
 import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
 import type { Database } from '@csjewell-activitypub/general/database/handler'
 import type * as AP from '@csjewell-activitypub/types'
-import { CloudflareD1Database } from './router.ts'
 import type { DBCount, DBId as _DBId } from './types.ts'
 
 export class FollowCFStorage extends CloudflareD1Database implements Database {
-  private readonly message: AP.Follow
+  private readonly message : AP.Follow
 
   constructor(env: Configuration, message: AP.Follow) {
     super(env)
@@ -27,12 +27,13 @@ export class FollowCFStorage extends CloudflareD1Database implements Database {
   async remove(): Promise<boolean> {
     // If from Mastodon - someone unfollowed me, we need to delete it from the store.
     const actorId = Kit.getEntityId(this.message.actor)
-    const { username, usernameId } = this.getUsername(this.message.object)
+    const { username, usernameId, } = this.getUsername(this.message.object)
+
     if (usernameId === undefined) {
       return false
     }
 
-    console.log(`Attempting to delete ${actorId} from followers of ${username}`)
+    console.log(`Attempting to delete ${ actorId } from followers of ${ username }`)
 
     let ok = false
     const stmtDel = this.handle.prepare('DELETE FROM followers WHERE username_id = ? AND actor_id = ?').bind(
@@ -40,8 +41,9 @@ export class FollowCFStorage extends CloudflareD1Database implements Database {
       actorId,
     )
     const resp = await stmtDel.run()
+
     if (resp.success && resp.meta.rows_written > 0) {
-      console.log(`Deleted Follow ${actorId}`, resp)
+      console.log(`Deleted Follow ${ actorId }`, resp)
       ok = true
     }
 
@@ -62,6 +64,7 @@ export class FollowCFStorage extends CloudflareD1Database implements Database {
       actorId,
     )
     const resp = await stmtGet.run()
+
     if (resp.success && (resp.results[0] as DBCount).count > 0) {
       ok = true
       console.log('Already Following')
@@ -71,13 +74,14 @@ export class FollowCFStorage extends CloudflareD1Database implements Database {
       return true
     }
 
-    console.log(`Adding follow message "${id}" to ${actorId}`)
+    console.log(`Adding follow message "${ id }" to ${ actorId }`)
     const stmtInsert = this.handle.prepare('INSERT INTO followers SET document_id = ?, actor_id = ?').bind(
       id,
       actorId,
       JSON.stringify(this.message),
     )
     const respInsert = await stmtInsert.run()
+
     if (respInsert.success && respInsert.meta.rows_written > 0) {
       ok = true
     }
@@ -86,11 +90,11 @@ export class FollowCFStorage extends CloudflareD1Database implements Database {
     const _user = this.env.username.toLowerCase()
 
     const _acceptRequest: AP.Accept = {
-      '@context': new URL('https://www.w3.org/ns/activitystreams'),
-      id: new URL(`${url}#${guid}`),
-      type: 'Accept',
-      actor: new URL(this.env.getActorURL('')),
-      object: this.message.id as URL,
+      '@context' : new URL('https://www.w3.org/ns/activitystreams'),
+      'id'       : new URL(`${ url }#${ guid }`),
+      'type'     : 'Accept',
+      'actor'    : new URL(this.env.getActorURL('')),
+      'object'   : this.message.id as URL,
     }
 
     return ok
@@ -110,6 +114,7 @@ export class FollowCFStorage extends CloudflareD1Database implements Database {
       actorId,
     )
     const resp = await stmtGet.run()
+
     if (resp.success && (resp.results[0] as DBCount).count > 0) {
       ok = true
       console.log('Already Following')

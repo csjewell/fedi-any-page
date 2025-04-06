@@ -1,9 +1,9 @@
 /* SPDX-License-Identifier: MIT */
-import type { Link, Mention } from './Link.ts'
-import type { Actor } from './Actor.ts'
 import type { Activity } from './Activity.ts'
+import type { Actor } from './Actor.ts'
 import type { AnyCollectionOrCollectionPage } from './Collection.ts'
 import type { ExtendedObject } from './ExtendedObject.ts'
+import type { Link, Mention } from './Link.ts'
 
 /**
  * The base type for all ActivityPub Object Types, including Actors, Activities,

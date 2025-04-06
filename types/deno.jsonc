@@ -15,8 +15,6 @@
       "mod.ts",
       "Activity.ts",
       "Actor.ts",
-      "ActorList.ts",
-      "SpecificActors.ts",
       "actorBase.ts",
       "Collection.ts",
       "CoreObject.ts",
@@ -24,11 +22,18 @@
       "Entity.ts",
       "ExtendedObject.ts",
       "Link.ts",
+      "SpecificActors.ts",
       "TypeAssert.ts",
       "TypeCast.ts",
       "TypeGuard.ts",
       "TypeLists.ts",
       "Utility.ts"
     ]
-  }
+  },
+  "compilerOptions": {
+    "strict": true
+  },
+  "unstable": [
+    "sloppy-imports"
+  ]
 }

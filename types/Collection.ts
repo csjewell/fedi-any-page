@@ -1,10 +1,33 @@
 /* SPDX-License-Identifier: MIT */
-import type { CollectionPageTypes, CollectionTypes } from './TypeLists.ts'
-import type { OrArray } from './Utility.ts'
 import type { CoreObjectProperties } from './CoreObject.ts'
 import type { EntityReference } from './CoreUtility.ts'
-import type { Link } from './Link.ts'
 import type { BaseEntity } from './Entity.ts'
+import type { Link } from './Link.ts'
+import type { OrArray } from './Utility.ts'
+
+/**
+ * An object containing all the types of Collections.
+ *
+ * @see Collection
+ *
+ * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection
+ */
+export const CollectionTypes = {
+  COLLECTION         : 'Collection',
+  ORDERED_COLLECTION : 'OrderedCollection',
+} as const
+
+/**
+ * An object containing all the types of CollectionPages.
+ *
+ * @see CollectionPage
+ *
+ * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collectionpage
+ */
+export const CollectionPageTypes = {
+  COLLECTION_PAGE         : 'CollectionPage',
+  ORDERED_COLLECTION_PAGE : 'OrderedCollectionPage',
+} as const
 
 /** A union of all Collection types. */
 export type AnyCollectionType = (typeof CollectionTypes)[keyof typeof CollectionTypes]
@@ -22,14 +45,14 @@ export type AnyCollectionOrCollectionPageType =
 /**
  * Properties common to all Collection types.
  */
-type CollectionProperties = {
-  totalItems?: number
-  items?: OrArray<EntityReference>
-  startIndex?: number
-  orderedItems?: OrArray<EntityReference>
-  current?: URL | CollectionPage | Link
-  first?: URL | CollectionPage | Link
-  last?: URL | CollectionPage | Link
+export type CollectionProperties = {
+  totalItems?   : number
+  items?        : OrArray<EntityReference>
+  startIndex?   : number
+  orderedItems? : OrArray<EntityReference>
+  current?      : URL | CollectionPage | Link
+  first?        : URL | CollectionPage | Link
+  last?         : URL | CollectionPage | Link
 }
 
 /**
@@ -91,9 +114,9 @@ export type OrderedCollection = BaseCollection<
  * Properties common to all CollectionPage types.
  */
 type CollectionPageProperties = {
-  partOf?: URL | EitherCollection | Link
-  next?: URL | CollectionPage | Link
-  prev?: URL | CollectionPage | Link
+  partOf? : URL | EitherCollection | Link
+  next?   : URL | CollectionPage | Link
+  prev?   : URL | CollectionPage | Link
 }
 
 /**

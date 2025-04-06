@@ -1,13 +1,18 @@
-/* SPDX-License-Identifier: MIT */
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
 import sanitizeHtml from 'sanitize-html'
 import * as AP from '@csjewell-activitypub/types'
 import type { OrArray } from './interfaces.ts'
 
+type UsernameType = {
+  username   : string;
+  usernameId : number
+}
+
 /*
  */
-export function getUsername(
-  _er: string | OrArray<AP.EntityReference>,
-): { username: string; usernameId: number } | undefined {
+export const getUsername = (_er: string | OrArray<AP.EntityReference>): UsernameType | undefined => {
   if (Array.isArray(_er)) {
     return undefined
   }
@@ -18,7 +23,7 @@ export function getUsername(
 
 /*
  */
-export function idToString(id: string | URL | undefined | null): string | undefined {
+export const idToString = (id: string | URL | undefined | null): string | undefined => {
   if (id === null || id === undefined) {
     return undefined
   }
@@ -27,10 +32,10 @@ export function idToString(id: string | URL | undefined | null): string | undefi
     return id
   }
 
-  return (id as URL).toString()
+  return id.toString()
 }
 
-export function entityRefToString(er: string | URL | AP.EntityReference | undefined | null): string | undefined {
+export const entityRefToString = (er: string | URL | AP.EntityReference | undefined | null): string | undefined => {
   if (er === undefined || er === null) {
     return undefined
   }
@@ -40,11 +45,11 @@ export function entityRefToString(er: string | URL | AP.EntityReference | undefi
   }
 
   if (er instanceof URL) {
-    return (er as URL).toString()
+    return er.toString()
   }
 
   // Checked inheritance, everything goes to BaseEntity, but that's not exported.
-  if (AP.guard.hasApType(er as AP.CoreObject | AP.Link) && ('id' in er)) {
+  if (AP.guard.hasApType(er) && 'id' in er) {
     idToString(er.id)
   }
 
@@ -53,44 +58,48 @@ export function entityRefToString(er: string | URL | AP.EntityReference | undefi
 
 /*
  */
-export function getEntityId(er: string | OrArray<AP.EntityReference>): string | undefined {
+export const getEntityId = (er: string | OrArray<AP.EntityReference>): string | undefined => {
   return Array.isArray(er) ? undefined : entityRefToString(er)
 }
 
 /*
  */
-export function idToURL(er: string | URL | null | undefined): URL | undefined {
+export const idToURL = (er: string | URL | null | undefined): URL | undefined => {
   if (er === undefined || er === null) {
     return undefined
   }
 
   if (typeof er === 'string') {
     let url: URL | undefined = undefined
+
     try {
       url = new URL(er)
-    } catch (caught) {
-      const typeCaught = caught as TypeError
-      console.log(`Error in entityRefToURL: Could not create a URL: ${typeCaught.message}`)
+    } catch (error) {
+      const typeCaught = error as TypeError
+
+      console.info(`Error in entityRefToURL: Could not create a URL: ${ typeCaught.message }`)
     }
 
     return url
   }
 
-  return er as URL
+  return er
 }
 
-export function entityRefToURL(er: string | URL | AP.EntityReference | null | undefined): URL | undefined {
+export const entityRefToURL = (er: string | URL | AP.EntityReference | null | undefined): URL | undefined => {
   if (er === undefined || er === null) {
     return undefined
   }
 
   if (typeof er === 'string') {
     let url: URL | undefined = undefined
+
     try {
       url = new URL(er)
-    } catch (caught) {
-      const typeCaught = caught as TypeError
-      console.log(`Error in entityRefToURL: Could not create a URL: ${typeCaught.message}`)
+    } catch (error) {
+      const typeCaught = error as TypeError
+
+      console.info(`Error in entityRefToURL: Could not create a URL: ${ typeCaught.message }`)
     }
 
     return url
@@ -100,7 +109,7 @@ export function entityRefToURL(er: string | URL | AP.EntityReference | null | un
     return er
   }
 
-  if (AP.guard.hasApType(er as AP.CoreObject | AP.Link) && ('id' in er)) {
+  if (AP.guard.hasApType(er) && 'id' in er) {
     return idToURL(er.id)
   }
 
@@ -109,10 +118,10 @@ export function entityRefToURL(er: string | URL | AP.EntityReference | null | un
 
 /*
  */
-export function isObjectOurs(
+export const isObjectOurs = (
   host: string,
   er: OrArray<AP.EntityReference> | string | URL | null | undefined,
-): boolean {
+): boolean => {
   if (er === undefined || er === null) {
     return false
   }
@@ -131,6 +140,7 @@ export function isObjectOurs(
   }
 
   const erURL = entityRefToURL(er)
+
   if (erURL === undefined) {
     return false
   }
@@ -140,9 +150,9 @@ export function isObjectOurs(
 
 /*
  */
-export function washHTML(html: string): string {
+export const washHTML = (html: string): string => {
   return sanitizeHtml(html, {
-    allowedTags: [
+    allowedTags : [
       'p',
       'span',
       'b',
@@ -161,54 +171,55 @@ export function washHTML(html: string): string {
       'abbr',
       'dfn',
     ],
-    allowedAttributes: {
-      a: ['href'],
-      abbr: ['title'],
-      p: ['style'],
-      span: ['style'],
-      dfn: ['title'],
+    allowedAttributes : {
+      a    : ['href'],
+      abbr : ['title'],
+      p    : ['style'],
+      span : ['style'],
+      dfn  : ['title'],
     },
-    allowedSchemes: ['http', 'https', 'ftp', 'mailto', 'tel', 'magnet'],
-    allowedStyles: {
-      '*': {
+    allowedSchemes : [ 'http', 'https', 'ftp', 'mailto', 'tel', 'magnet' ],
+    allowedStyles  : {
+      '*' : {
         // Match HEX and RGB
-        color: [/^#(0x)?[\da-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/],
-        'text-align': [/^left$/, /^right$/, /^center$/],
+        'color'       : [ /^#(0x)?[\da-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/ ],
+        'text-align'  : [ /^left$/, /^right$/, /^center$/ ],
         // Match any number with px, em, or %
-        'font-size': [/^\d+(?:px|em|%)$/],
-        'font-weight': [/^[247]00$/],
+        'font-size'   : [/^\d+(?:px|em|%)$/],
+        'font-weight' : [/^[247]00$/],
       },
     },
-    exclusiveFilter: function (frame: sanitizeHtml.IFrame): boolean {
+    exclusiveFilter(frame: sanitizeHtml.IFrame): boolean {
       // Remove empty a tags.
       return frame.tag === 'a' && !frame.text.trim()
     },
-    textFilter: function (text: string, tagName: string): string {
+    textFilter(text: string, tagName: string): string {
+      // Skip anchor tags
       if (['a'].includes(tagName)) {
-        return text // Skip anchor tags
+        return text
       }
 
       return text.replace(/\.{3}/, '&hellip;')
     },
-    transformTags: {
-      h1: 'strong',
-      h2: 'strong',
-      h3: 'strong',
-      h4: 'strong',
-      h5: 'strong',
-      h6: 'strong',
-      b: 'strong',
-      i: sanitizeHtml.simpleTransform('span', { style: 'font-family: italic' }),
-      ol: function (_tagName: string, _attribs: sanitizeHtml.Attributes): sanitizeHtml.Tag {
+    transformTags : {
+      h1 : 'strong',
+      h2 : 'strong',
+      h3 : 'strong',
+      h4 : 'strong',
+      h5 : 'strong',
+      h6 : 'strong',
+      b  : 'strong',
+      i  : sanitizeHtml.simpleTransform('span', { style: 'font-family: italic', }),
+      ol(_tagName: string, _attribs: sanitizeHtml.Attributes): sanitizeHtml.Tag {
         // My own custom magic goes here
         return {
-          tagName: 'ul',
-          attribs: {
-            class: 'foo',
+          tagName : 'ul',
+          attribs : {
+            class : 'foo',
           },
         }
       },
     },
-    nestingLimit: 6,
+    nestingLimit : 6,
   })
 }

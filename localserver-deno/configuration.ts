@@ -1,29 +1,30 @@
-/* SPDX */
-import { NotImplementedError } from '@csjewell-activitypub/general/errors'
-import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
-import * as AP from '@csjewell-activitypub/types'
-// import * from 'node:crypto'
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
+import { NotImplementedError } from '../general/errors.ts'
 import { db } from './database.ts'
+import type { DatabaseSync } from 'node:sqlite'
+import type { Configuration } from '../general/configuration.ts'
+import type * as AP from '../types/mod.ts'
 
-class TestConfig implements Configuration {
-  public readonly url: URL = new URL('http://test-deno.localhost/')
-  public readonly privateKey: string = 'locked'
+class TestConfig implements Configuration<DatabaseSync, void, unknown> {
+  public readonly url = new URL('http://test-deno.localhost/')
+  public readonly privateKey = 'locked'
+  public readonly debugDB  = false
+  public readonly siteName  = 'Test Site'
   public readonly database = db
-  public readonly username: string = 'testuser1'
-  public readonly debugDB: boolean = false
-  public readonly siteName: string = 'Test Site'
 
-  localGet(url: string | URL): AP.CoreObject | undefined {
+  localGet(_url: string | URL): AP.CoreObject | undefined {
     throw new NotImplementedError()
   }
 
-  getActorURL(username: string): string {
+  getActorURL(_username: string): string {
     throw new NotImplementedError()
   }
 
-  getActorBasedId(username: string, ending: string): string {
+  getActorBasedId(_username: string, _ending: string): string {
     throw new NotImplementedError()
   }
 }
 
-export const config = new TestConfig()
+export const Config = new TestConfig()

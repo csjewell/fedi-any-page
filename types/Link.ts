@@ -1,8 +1,19 @@
 /* SPDX-License-Identifier: MIT */
-import type { BaseEntity } from './Entity.ts'
-import type { LinkTypes } from './TypeLists.ts'
-import type { OrArray, StringReferenceMap } from './Utility.ts'
 import type { EntityReference } from './CoreUtility.ts'
+import type { BaseEntity } from './Entity.ts'
+import type { OrArray, StringReferenceMap } from './Utility.ts'
+
+/**
+ * An object containing all the types of Links.
+ *
+ * @see Link
+ *
+ * @see https://www.w3.org/TR/activitystreams-vocabulary/#links
+ */
+export const LinkTypes = {
+  LINK    : 'Link',
+  MENTION : 'Mention',
+} as const
 
 /**
  * A union of all Link types.
@@ -13,15 +24,15 @@ export type AnyLinkType = (typeof LinkTypes)[keyof typeof LinkTypes]
  * Properties common to all Link types.
  */
 export type LinkProperties = {
-  height?: number
-  href?: URL
-  hrefLang?: string
-  mediaType?: string
-  name?: string
-  nameMap?: StringReferenceMap
-  preview?: OrArray<EntityReference>
-  rel?: OrArray<string>
-  width?: number
+  height?    : number
+  href?      : URL
+  hrefLang?  : string
+  mediaType? : string
+  name?      : string
+  nameMap?   : StringReferenceMap
+  preview?   : OrArray<EntityReference>
+  rel?       : OrArray<string>
+  width?     : number
 }
 
 /**

@@ -1,13 +1,15 @@
 /* SPDX-License-Identifier: MIT */
-import type { Actor } from './Actor.ts'
+import * as guard from './TypeGuard.ts'
 import type { Activity, AnyTransitiveActivityType, TransitiveActivity } from './Activity.ts'
+import type { Actor } from './Actor.ts'
 import type { EitherCollection, EitherCollectionPage } from './Collection.ts'
 import type { CoreObject, Entity } from './CoreUtility.ts'
 import type { ExtendedObject } from './ExtendedObject.ts'
 import type { AnyType, TypeOrArrayWithType } from './Utility.ts'
-import * as guard from './TypeGuard.ts'
 
-export function exists(value: unknown): unknown | undefined {
+/* eslint-disable func-style */
+/* eslint-disable @typescript-eslint/no-unnecessary-type-parameters */
+export function exists(value: unknown): unknown {
   return guard.exists(value) ? value : undefined
 }
 
@@ -45,7 +47,7 @@ export function isArray(value: unknown): Array<unknown> | undefined {
 
 export function hasType(
   value: unknown,
-): { type: string | string[] } | undefined {
+): { type: string | Array<string> } | undefined {
   return guard.hasType(value) ? value : undefined
 }
 

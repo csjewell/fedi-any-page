@@ -1,30 +1,5 @@
-/* SPDX-License-Identifier: MIT */
-import type * as AP from '@csjewell-activitypub/types'
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
 
 export type OrArray<T> = T | Array<T>
-
-/*
- */
-export interface RequestHelper {
-  canAcceptHTML(): boolean
-}
-
-/*
- */
-export interface RequestHandler {
-  handle(): unknown
-}
-
-/*
- */
-export interface Sender {
-  sendSignedRequest(endpoint: URL, message: AP.Activity): Response
-}
-
-/*
- */
-export interface RequestRouter {
-  create(message: AP.Create): RequestHandler
-  follow(message: AP.Follow): RequestHandler
-  undo(message: AP.Undo): RequestHandler
-}

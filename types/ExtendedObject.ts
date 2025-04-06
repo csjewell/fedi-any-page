@@ -1,9 +1,25 @@
 /* SPDX-License-Identifier: MIT */
-import type { ExtendedObjectTypes } from './TypeLists.ts'
-import type { AnyType, OrArray, TypeOrArrayWithType } from './Utility.ts'
 import type { CoreObjectProperties } from './CoreObject.ts'
 import type { CoreObjectReference, EntityReference } from './CoreUtility.ts'
 import type { BaseEntity } from './Entity.ts'
+import type { AnyType, OrArray, TypeOrArrayWithType } from './Utility.ts'
+
+export const ExtendedObjectTypes = {
+  ARTICLE      : 'Article',
+  AUDIO        : 'Audio',
+  DOCUMENT     : 'Document',
+  EVENT        : 'Event',
+  IMAGE        : 'Image',
+  NOTE         : 'Note',
+  PAGE         : 'Page',
+  PLACE        : 'Place',
+  PROFILE      : 'Profile',
+  RELATIONSHIP : 'Relationship',
+  TOMBSTONE    : 'Tombstone',
+  VIDEO        : 'Video',
+  // Extension
+  HASHTAG      : 'Hashtag',
+} as const
 
 /**
  * A union of all Extended Object types.
@@ -50,8 +66,8 @@ export type Tombstone =
     typeof ExtendedObjectTypes.TOMBSTONE
   >
   & {
-    formerType?: TypeOrArrayWithType<AnyType>
-    deleted?: Date
+    formerType? : TypeOrArrayWithType<AnyType>
+    deleted?    : Date
   }
 
 /**
@@ -70,9 +86,9 @@ export type Relationship =
     typeof ExtendedObjectTypes.RELATIONSHIP
   >
   & {
-    subject?: EntityReference
-    object?: OrArray<EntityReference>
-    relationship?: CoreObjectReference
+    subject?      : EntityReference
+    object?       : OrArray<EntityReference>
+    relationship? : CoreObjectReference
   }
 
 /**
@@ -147,12 +163,12 @@ export type Event = BaseExtendedObject<typeof ExtendedObjectTypes.EVENT>
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#places
  */
 export type Place = BaseExtendedObject<typeof ExtendedObjectTypes.PLACE> & {
-  accuracy?: number
-  altitude?: number
-  latitude?: number
-  longitude?: number
-  radius?: number
-  units?: string
+  accuracy?  : number
+  altitude?  : number
+  latitude?  : number
+  longitude? : number
+  radius?    : number
+  units?     : string
 }
 
 /**
@@ -225,7 +241,7 @@ export type Video = BaseExtendedObject<typeof ExtendedObjectTypes.VIDEO>
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-profile
  */
 export type Profile = BaseExtendedObject<typeof ExtendedObjectTypes.PROFILE> & {
-  describes?: CoreObjectReference
+  describes? : CoreObjectReference
 }
 
 /**

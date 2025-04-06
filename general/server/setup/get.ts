@@ -1,7 +1,9 @@
-import type Responses from '../../responses.ts'
-// import './setup.html' with { type: 'text' }
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
+import type { Responses } from '../../responses.ts'
 
-export default function Get(resp: Responses): unknown {
+const setupGet = <SessionT, ResponseT>(resp: Responses<SessionT, ResponseT>): ResponseT => {
   // I wish we could just uncomment the line above, but it only works in Bun as of yet.
   const body = `<!DOCTYPE html>
 <html><head>
@@ -59,7 +61,10 @@ export default function Get(resp: Responses): unknown {
 `
 
   const addHeaders = {
-    'Content-Type': 'text/html',
+    'Content-Type' : 'text/html',
   }
-  return resp.success200Str({ body, addHeaders })
+
+  return resp.success200Str({ body, addHeaders, })
 }
+
+export default setupGet

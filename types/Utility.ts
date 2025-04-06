@@ -1,5 +1,24 @@
 /* SPDX-License-Identifier: MIT */
-import type { AllTypes } from './TypeLists.ts'
+import { CoreObjectTypes } from './CoreObject.ts'
+import { LinkTypes } from './Link.ts'
+
+/**
+ * All the types of Entities.
+ *
+ * @see Entity
+ *
+ * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object
+ * @see https://www.w3.org/TR/activitypub/#object
+ * @see https://www.w3.org/TR/activitystreams-core/#object
+ *
+ * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-link
+ * @see https://www.w3.org/TR/activitypub/#link
+ * @see https://www.w3.org/TR/activitystreams-core/#link
+ */
+export const AllTypes = {
+  ...CoreObjectTypes,
+  ...LinkTypes,
+} as const
 
 /**
  * Shorthand for a plain object with string keys and string values.
@@ -23,7 +42,7 @@ export type StringReferenceMap = Record<string, string>
  * const b: StringOrArrayOfStrings = ['foo', 'bar'];
  * ```
  */
-export type OrArray<T> = T | T[]
+export type OrArray<T> = T | Array<T>
 /**
  * A union of all Entity types.
  */
@@ -55,4 +74,4 @@ export type AnyType = (typeof AllTypes)[keyof typeof AllTypes]
  * @note Additional non-ActivityPub types may be included in the array, but
  * they will not be validated.
  */
-export type TypeOrArrayWithType<T extends AnyType> = T | [T, ...Array<AnyType>]
+export type TypeOrArrayWithType<T extends AnyType> = T | [T, ...Array<AnyType>,]

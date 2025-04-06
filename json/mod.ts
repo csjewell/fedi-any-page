@@ -20,20 +20,22 @@
  * @module Json
  */
 import * as Json from '@hyperjump/json'
-import type * as AP from '@csjewell-activitypub/types'
+import type * as AP from '../types/mod.ts'
 
-function desiredEntityReference(value: string | Array<string>): AP.EntityReference | Array<AP.EntityReference> {
+type OrArray<T> = T | Array<T>
+
+const desiredEntityReference = (value: OrArray<string>): OrArray<AP.EntityReference> => {
   if (typeof value === 'string') {
     return (new URL(value)) as AP.EntityReference
   }
 
-  return value.map((x) => new URL(x) as AP.EntityReference)
+  return value.map(x => new URL(x) as AP.EntityReference)
 }
 
 type ContextInEntry = string | Record<string, unknown>
 type ContextOutEntry = URL | Record<string, unknown>
 
-function oneContext(value: ContextInEntry): ContextOutEntry {
+const oneContext = (value: ContextInEntry): ContextOutEntry => {
   if (typeof value === 'string') {
     return new URL(value)
   }
@@ -47,10 +49,9 @@ function desiredContext(value: Array<ContextInEntry>): Array<ContextOutEntry> {
 }
 */
 
-/* eslint-disable-next-line complexity */
-function reviver(key: string, value: unknown, pointer: string): unknown {
+const reviver = (key: string, value: unknown, pointer: string): unknown => {
   // console.log(`REVIVER: "${pointer}", "${key}":`, value)
-  const keysAreURLs = ['id', 'url']
+  const keysAreURLs = [ 'id', 'url' ]
   const pointersAreURLs = [
     '/following',
     '/followers',
@@ -73,7 +74,7 @@ function reviver(key: string, value: unknown, pointer: string): unknown {
   switch (key) {
     case '@context': {
       return Array.isArray(value)
-        ? value.map((x) => oneContext(x as ContextInEntry))
+        ? value.map(x => oneContext(x as ContextInEntry))
         : oneContext(value as ContextInEntry)
     }
 
@@ -138,7 +139,7 @@ function reviver(key: string, value: unknown, pointer: string): unknown {
   }
 }
 
-function replacer(_key: string, value: unknown, _pointer: string): unknown {
+const replacer = (_key: string, value: unknown, _pointer: string): unknown => {
   // console.log(`REPLACER: "${pointer}", "${key}":`, value)
 
   if (value instanceof URL) {
@@ -160,7 +161,7 @@ function replacer(_key: string, value: unknown, _pointer: string): unknown {
  * @returns The JSON document
  */
 
-export function stringify(value: unknown): string {
+export const stringify = (value: unknown): string => {
   return Json.stringify(value, replacer)
 }
 
@@ -172,6 +173,6 @@ export function stringify(value: unknown): string {
  * @returns An object representing an ActivityPub document.
  */
 
-export function parse(value: string): unknown {
+export const parse = (value: string): unknown => {
   return Json.parse(value, reviver)
 }

@@ -1,15 +1,15 @@
 /* SPDX-License-Identifier: MIT */
-import * as Json from '@csjewell-activitypub/json'
 import { NotImplementedError } from '@csjewell-activitypub/general/errors'
+import * as Json from '@csjewell-activitypub/json'
+import { CloudflareD1Database } from './router.ts'
 import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
 import type { Database } from '@csjewell-activitypub/general/database/handler'
 import type * as AP from '@csjewell-activitypub/types'
-import { CloudflareD1Database } from './router.ts'
 import type { DBCount, DBId as _DBId } from './types.ts'
 
 export class NoteCFStorage extends CloudflareD1Database implements Database {
-  private readonly message: AP.Note
-  private dbNoteId: number | undefined = undefined
+  private readonly message : AP.Note
+  private dbNoteId         : number | undefined = undefined
 
   constructor(env: Configuration, message: AP.Note) {
     super(env)
@@ -46,6 +46,7 @@ export class NoteCFStorage extends CloudflareD1Database implements Database {
         objectId,
       )
     const resp = await stmtGet.run()
+
     if (resp.success && (resp.results[0] as DBCount).count > 0) {
       ok = true
     }
@@ -54,13 +55,14 @@ export class NoteCFStorage extends CloudflareD1Database implements Database {
       return true
     }
 
-    console.log(`Adding reply message "${id}" to ${objectId}`)
+    console.log(`Adding reply message "${ id }" to ${ objectId }`)
     const stmtInsert = this.handle.prepare(`
       INSERT
         INTO reply_notes (id, object_id, document_id)
       VALUES             ( ?,         ?,           ?)
     `).bind(id, objectId, Json.stringify(this.message))
     const respInsert = await stmtInsert.run()
+
     if (respInsert.success && respInsert.meta.rows_written === 1) {
       ok = true
     }

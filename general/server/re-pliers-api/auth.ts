@@ -1,79 +1,111 @@
-/* SPDX-License-Identifier: MIT */
-// import type * as AP from '@csjewell-activitypub/types'
-import type * as Kit from '../../interfaces.ts'
-import type Responses from '../../responses.ts'
-import type Configuration from '../../configuration.ts'
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
+import type { Configuration } from '../../configuration.ts'
+import type * as Request from '../../request.ts'
+import type { Responses } from '../../responses.ts'
 
-export async function Login(config: Configuration, req: Kit.RequestHelper, resp: Responses): unknown {
+type APIHandler = <DatabaseT, TableT, SessionT, ResponseT>(
+  config: Configuration<DatabaseT, TableT, SessionT>,
+  req: Request.Helper,
+  resp: Responses<SessionT, ResponseT>,
+) => Promise<ResponseT>
+
+export const Login: APIHandler = async <DatabaseT, TableT, SessionT, ResponseT>(
+  config: Configuration<DatabaseT, TableT, SessionT>,
+  req: Request.Helper,
+  resp: Responses<SessionT, ResponseT>,
+): Promise<ResponseT> => {
   const url = config.url.toString()
 
   if (req.canAcceptHTML()) {
-    return resp.redirect30x({ url, statusCode: 301 })
+    return resp.redirect30x({ url, statusCode: 301, })
   }
 
-  const { username, password } = req.getInputs()
+  const { username, password, } = req.getFormInputs()
 
-  const userinfo = config.database().users(username)
-  if (!userinfo.exists()) {
-    return resp.error404({ info: 'Login' })
+  const userinfo = config.database.users(username)
+
+  if (!await userinfo.exists()) {
+    return resp.error404({ info: 'Login', })
   }
 
-  if (!userinfo.goodPassword(password)) {
-    return resp.error404({ info: 'Login' })
+  if (!await userinfo.checkPassword(password)) {
+    return resp.error404({ info: 'Login', })
   }
 
-  const session = config.database().newSession(username)
-  if (!session.exists()) {
-    return resp.error503({ info: 'Could not create session' })
+  const actorFunc = (arg0: string): string => config.getActorURL(arg0)
+  const session = await config.database.newSession(username, actorFunc)
+
+  if (!await session.exists()) {
+    return resp.error503({ info: 'Could not create session', })
   }
 
   const body = {
-    success: true,
-    actor: session.actor(),
+    success : true,
+    actor   : config.getActorURL(username),
   }
+  const cookies = await session.getCookies(actorFunc)
 
-  return resp.success200Obj({ body, cookie: session.getCookie() })
+  return resp.success200Obj({ body, cookies, })
 }
 
-export async function Verify(config: Configuration, req: Kit.RequestHelper, resp: Responses): unknown {
+export const Verify: APIHandler = async <DatabaseT, TableT, SessionT, ResponseT>(
+  config: Configuration<DatabaseT, TableT, SessionT>,
+  req: Request.Helper,
+  resp: Responses<SessionT, ResponseT>,
+): Promise<ResponseT> => {
   const url = config.url.toString()
 
   if (req.canAcceptHTML()) {
-    return resp.redirect30x({ url, statusCode: 301 })
+    return resp.redirect30x({ url, statusCode: 301, })
   }
 
-  const { actor, sessionCookie } = req.getInputs()
+  const { actor, sessionCookie, } = req.getCookieInputs()
 
-  const session = config.database().session(sessionCookie)
-  if (!session.exists()) {
+  // TODO: [2025-04-07] Get the correct username parameter.
+  const session = await config.database.session('', sessionCookie as string)
+
+  if (!await session.exists()) {
     return resp.error403()
   }
 
-  if (!session.valid(actor)) {
-    return resp.error403()
-  }
+  // TODO: [2025-04-07] Get the type right and uncomment.
+  // if (!await session.valid(actor)) {
+  //   return resp.error403()
+  // }
 
+  const actorFunc = (username: string): string => config.getActorURL(username)
   const body = {
-    success: true,
+    success : true,
     actor,
   }
-  return resp.success200Obj({ body, cookie: session.refreshCookie() })
+  const cookies = await session.refreshCookies(actorFunc)
+
+  return resp.success200Obj({ body, cookies, })
 }
 
-export async function Logout(config: Configuration, req: Kit.RequestHelper, resp: Responses): unknown {
+export const Logout: APIHandler = async <DatabaseT, TableT, SessionT, ResponseT>(
+  config: Configuration<DatabaseT, TableT, SessionT>,
+  req: Request.Helper,
+  resp: Responses<SessionT, ResponseT>,
+): Promise<ResponseT> => {
   const url = config.url.toString()
 
   if (req.canAcceptHTML()) {
-    return resp.redirect30x({ url, statusCode: 301 })
+    return resp.redirect30x({ url, statusCode: 301, })
   }
 
-  const { actor, sessionCookie } = req.getInputs()
+  const { sessionCookie, } = req.getCookieInputs()
 
-  const session = config.database.session(sessionCookie)
-  if (!session.exists()) {
-    session.invalidate()
+  // TODO: [2025-04-07] Get the correct username parameter.
+  const session = await config.database.session('', sessionCookie as string)
+
+  if (await session.exists()) {
+    await session.invalidate()
   }
 
-  const body = { success: true, actor: '' }
-  return resp.success200({ body, cookie: session.clearingCookie() })
+  const body = { success: true, actor: '', }
+
+  return resp.success200Obj({ body, cookies: session.clearingCookies(), })
 }

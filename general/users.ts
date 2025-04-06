@@ -1,19 +1,23 @@
-/* SPDX-License-Identifier: MIT */
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
+/* eslint-disable -- need to de-Deno-ify this file. */
 import { parse } from '@std/jsonc'
 
 /*
  */
 export type User = {
-  fullname: string
-  homepage?: string
-  summary?: string
-  username?: string
-  aliases?: Array<string>
-  dId?: string // At Protocol.
+  fullname  : string
+  homepage? : string
+  summary?  : string
+  username? : string
+  aliases?  : Array<string>
+  // At Protocol.
+  dId?      : string
 }
 
 export class Users {
-  private users: Map<string, User>
+  private users : Map<string, User>
 
   constructor(userinfo: object | string) {
     this.users = new Map()
@@ -21,49 +25,50 @@ export class Users {
 
     if (typeof userinfo === 'string') {
       try {
-        parsedUsers = <object> parse(userinfo)
-      } catch (caught) {
-        if (caught instanceof SyntaxError) {
-          throw new SyntaxError('SyntaxError parsing user information', { cause: caught })
+        parsedUsers = parse(userinfo) as object
+      } catch (error) {
+        if (error instanceof SyntaxError) {
+          throw new SyntaxError('SyntaxError parsing user information', { cause: error, })
         }
-        if (caught instanceof TypeError) {
-          throw new SyntaxError('TypeError parsing user information', { cause: caught })
+        if (error instanceof TypeError) {
+          throw new SyntaxError('TypeError parsing user information', { cause: error, })
         }
       }
 
       if (parsedUsers === null) {
         throw new SyntaxError('How did parsing the users return nothing?')
       }
-    } else if ((typeof userinfo === 'object') && (userinfo !== null)) {
-      parsedUsers = { ...userinfo }
+    } else if (typeof userinfo === 'object' && userinfo !== null) {
+      parsedUsers = { ...userinfo, }
     }
 
-    for (const [k, v] of Object.entries(parsedUsers)) {
-      if ((k !== '**') && (k.search('[^-A-Za-z0-9.]') !== -1)) {
+    for (const [ k, v ] of Object.entries(parsedUsers)) {
+      if (k !== '**' && k.search('[^-A-Za-z0-9.]') !== -1) {
         throw new SyntaxError('Username not valid')
       }
 
       const username = k.toLowerCase()
 
       if (typeof v !== 'object' || v === null || v === undefined || Array.isArray(v)) {
-        throw new SyntaxError(`User not valid: ${v.toString()}`)
+        throw new SyntaxError(`User not valid: ${ v.toString() }`)
       }
 
-      Object.keys(v).forEach(function (key: string): void {
+      Object.keys(v).forEach((key: string): void => {
         const ok = key === 'fullname' || key === 'homepage' || key === 'summary' || key === 'aliases'
+
         if (!ok) {
-          throw new SyntaxError(`Extra key in user: ${key}`)
+          throw new SyntaxError(`Extra key in user: ${ key }`)
         }
       })
 
       if (typeof v.fullname !== 'string') {
-        throw new SyntaxError(`Name not valid in user: ${v.fullname.toString()}`)
+        throw new SyntaxError(`Name not valid in user: ${ v.fullname.toString() }`)
       }
 
-      const userObj: User = { fullname: v.fullname }
+      const userObj: User = { fullname: v.fullname, }
 
       if (!(v.homepage === undefined || typeof v.homepage === 'string')) {
-        throw new SyntaxError(`Homepage not valid in user: ${v.homepage.toString()}`)
+        throw new SyntaxError(`Homepage not valid in user: ${ v.homepage.toString() }`)
       }
 
       if (v.homepage) {
@@ -71,7 +76,7 @@ export class Users {
       }
 
       if (!(v.summary === undefined || typeof v.summary === 'string')) {
-        throw new SyntaxError(`Summary not valid in user: ${v.summary.toString()}`)
+        throw new SyntaxError(`Summary not valid in user: ${ v.summary.toString() }`)
       }
 
       if (v.summary) {
@@ -79,13 +84,13 @@ export class Users {
       }
 
       if (!(v.aliases === undefined || Array.isArray(v.aliases))) {
-        throw new SyntaxError(`Aliases not valid in user: ${v.aliases.toString()}`)
+        throw new SyntaxError(`Aliases not valid in user: ${ v.aliases.toString() }`)
       }
 
       if (v.aliases) {
         for (const alias of v.aliases) {
           if (typeof alias !== 'string') {
-            throw new SyntaxError(`Alias not valid in user aliases: ${alias.toString()}`)
+            throw new SyntaxError(`Alias not valid in user aliases: ${ alias.toString() }`)
           }
 
           //          if (alias.search('@\w+[.]\w+') < 1) {
@@ -107,12 +112,14 @@ export class Users {
   retrieveUser(un: string): User | undefined {
     const username = un.toLowerCase()
     const user: User | undefined = this.users.get(username) ?? undefined
+
     if (user === undefined) {
       return undefined
     }
 
     // Slip the username into the object we return so that people can get it back.
-    const newUser: User = { username, ...user }
+    const newUser: User = { username, ...user, }
+
     return newUser
   }
 

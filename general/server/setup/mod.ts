@@ -1,5 +1,7 @@
-import Get from './get.ts'
-import Post from './post.ts'
-import Options from './options.ts'
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
 
-export { Get, Options, Post }
+export { default as Get } from './get.ts'
+export { default as Options } from './options.ts'
+export { default as Post } from './post.ts'

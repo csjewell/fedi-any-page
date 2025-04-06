@@ -22,5 +22,22 @@
   },
   "publish": {
     "include": ["README.md", "LICENSE", "deno.jsonc", "mod.ts"]
-  }
+  },
+  "compilerOptions": {
+    "strict": true,
+    "lib": [
+      "DOM",
+      "ES2023"
+    ],
+    "checkJs": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitThis": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
+  },
+  "unstable": [
+    "sloppy-imports"
+  ]
 }

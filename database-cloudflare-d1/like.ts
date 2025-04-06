@@ -1,21 +1,21 @@
 /* SPDX-License-Identifier: MIT */
 import * as Kit from '@csjewell-activitypub/general'
 import { NotImplementedError } from '@csjewell-activitypub/general/errors'
-import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
-import type { Database } from '@csjewell-activitypub/general/database/handler'
 import * as Json from '@csjewell-activitypub/json'
 import * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
+import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
+import type { Database } from '@csjewell-activitypub/general/database/handler'
 import type { DBCount, DBDocumentInfo, DBId } from './types.ts'
 
 type LikeInfo = {
-  actorId: string
-  created: unknown
+  actorId : string
+  created : unknown
 }
 
 export class LikeCFStorage extends CloudflareD1Database implements Database {
-  private readonly message: AP.Like
-  private dbLikeId: number | undefined = undefined
+  private readonly message : AP.Like
+  private dbLikeId         : number | undefined = undefined
 
   constructor(env: Configuration, message: AP.Like) {
     super(env)
@@ -32,6 +32,7 @@ export class LikeCFStorage extends CloudflareD1Database implements Database {
 
   async count(er: AP.EntityReference): Promise<number> {
     const erURL = Kit.entityRefToURL(er)
+
     if (erURL === undefined) {
       return 0
     }
@@ -46,6 +47,7 @@ export class LikeCFStorage extends CloudflareD1Database implements Database {
       'SELECT COUNT(*) AS count FROM likes WHERE liked_id = ? AND deletable = 0',
     ).bind(erURL.toString())
     const resp = await stmtLikes.run()
+
     if (resp.success) {
       count = (resp.results[0] as DBCount).count
     }
@@ -55,6 +57,7 @@ export class LikeCFStorage extends CloudflareD1Database implements Database {
 
   async list(er: AP.EntityReference, getPrivate = false): Promise<Array<LikeInfo>> {
     const erURL = Kit.entityRefToURL(er)
+
     if (erURL === undefined) {
       return []
     }
@@ -68,11 +71,12 @@ export class LikeCFStorage extends CloudflareD1Database implements Database {
     const sqlPrivate = getPrivate ? '' : 'AND private = 0'
 
     const stmtLikes = this.handle.prepare(
-      `SELECT actor_id, created FROM likes WHERE liked_id = ? ${sqlPrivate} AND deletable = 0`,
+      `SELECT actor_id, created FROM likes WHERE liked_id = ? ${ sqlPrivate } AND deletable = 0`,
     ).bind(erURL.toString())
     const resp = await stmtLikes.run()
-    if (resp.success && (resp.results.length > 0)) {
-      ;(resp.results as Array<LikeInfo>).forEach((info) => likes.push(<LikeInfo> { ...info }))
+
+    if (resp.success && resp.results.length > 0) {
+      (resp.results as Array<LikeInfo>).forEach(info => likes.push(({ ...info, } as LikeInfo)))
     }
 
     return likes
@@ -82,18 +86,20 @@ export class LikeCFStorage extends CloudflareD1Database implements Database {
     // If from Mastodon - someone un-liked the post. We need to delete it from the store.
     const actorId = Kit.getEntityId(this.message.actor)
 
-    const { object } = this.getDocument(this.message.object)
+    const { object, } = this.getDocument(this.message.object)
+
     if (object === undefined) {
       return false
     }
 
     const likedId = object.id as string | URL | null | undefined
     const likedURL = Kit.idToURL(likedId)
+
     if (likedURL === undefined) {
       return false
     }
 
-    console.log(`Attempting to delete Like ${actorId} on ${likedURL.toString()}`)
+    console.log(`Attempting to delete Like ${ actorId } on ${ likedURL.toString() }`)
     if (likedURL.hostname !== this.env.url.hostname) {
       // If we aren't ourselves, we were never here.
       return true
@@ -102,9 +108,10 @@ export class LikeCFStorage extends CloudflareD1Database implements Database {
     let ok = false
     const stmtDel = this.handle.prepare('DELETE FROM likes WHERE liked_id = ? AND actor_id = ?').bind(likedURL, actorId)
     const resp = await stmtDel.run()
+
     if (resp.success) {
       ok = true
-      console.log(`Deleted Like of ${actorId} on ${likedURL.toString()}`, resp)
+      console.log(`Deleted Like of ${ actorId } on ${ likedURL.toString() }`, resp)
     }
 
     return ok
@@ -112,20 +119,24 @@ export class LikeCFStorage extends CloudflareD1Database implements Database {
 
   async save(): Promise<boolean> {
     const er = this.message.object
+
     if (Array.isArray(er)) {
       return false
     }
     const erURL = Kit.entityRefToURL(er)
-    if ((erURL === undefined) || (erURL.hostname !== this.env.url.hostname)) {
+
+    if (erURL === undefined || erURL.hostname !== this.env.url.hostname) {
       return false
     }
 
     const actorER = this.message.actor // EntityReference | Array<EntityReference>, required (so not undefined)
+
     if (Array.isArray(actorER)) {
       return false
     }
 
     const actorURL = Kit.entityRefToURL(actorER)
+
     if (actorURL === undefined) {
       return false
     }
@@ -137,6 +148,7 @@ export class LikeCFStorage extends CloudflareD1Database implements Database {
     this.message.actor = actorURL
 
     const documentObj = await this.documentEntry(this.message).shorten()
+
     if (documentObj.url === undefined) {
       return false
     }
@@ -147,6 +159,7 @@ export class LikeCFStorage extends CloudflareD1Database implements Database {
            VALUES       (       ?,        ?,           ?)
     `).bind(erURL.toString(), actorObj.id, documentObj.id)
     const resp = await stmtInsert.run()
+
     if (resp.success) {
       this.dbLikeId = resp.meta.last_row_id
       ok = true
@@ -162,13 +175,15 @@ export class LikeCFStorage extends CloudflareD1Database implements Database {
 
     const actorId = Kit.getEntityId(this.message.actor)
 
-    const { object } = this.getDocument(this.message.object)
+    const { object, } = this.getDocument(this.message.object)
+
     if (object === undefined) {
       return false
     }
 
     const likedId = object.id as string | URL | null | undefined
     const likedURL = Kit.idToURL(likedId)
+
     if (likedURL === undefined) {
       return false
     }
@@ -184,7 +199,8 @@ export class LikeCFStorage extends CloudflareD1Database implements Database {
       actorId,
     )
     const resp = await stmtExists.run()
-    if (resp.success && (resp.results.length === 1)) {
+
+    if (resp.success && resp.results.length === 1) {
       ok = true
       this.dbLikeId = (resp.results[0] as DBId).id
     }
@@ -202,12 +218,14 @@ export class LikeCFStorage extends CloudflareD1Database implements Database {
       'SELECT d.document AS doc, d.r2key, d.r2index, d.url FROM documents d JOIN likes l ON d.id = l.document_id WHERE l.liked_id = ?',
     ).bind(this.dbLikeId)
     const resp = await stmtExists.run()
-    if (resp.success && (resp.results.length === 1)) {
+
+    if (resp.success && resp.results.length === 1) {
       dbResp = (resp.results as Array<DBDocumentInfo>)[0]
     }
 
     if (dbResp !== undefined && this.assertIsDBDocumentInfo(dbResp)) {
       const info: DBDocumentInfo = dbResp
+
       if (info.r2key) {
         /*
         const cache = this.env.cache()
@@ -220,17 +238,18 @@ export class LikeCFStorage extends CloudflareD1Database implements Database {
       }
 
       if (info.url) {
-        return this.env.localGet(info.url) as AP.Like | undefined
+        return this.env.localGet(info.url)
       }
 
-      const ret = Json.parse(info.doc) as AP.Like | undefined
+      const ret = Json.parse(info.doc)
+
       if (ret !== undefined) {
         AP.assert.isApType<AP.Like>(ret, 'Like')
       }
 
       return ret
-    } else {
-      return undefined
     }
+
+    return undefined
   }
 }

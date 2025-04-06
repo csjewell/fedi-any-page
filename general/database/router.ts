@@ -1,23 +1,35 @@
-/* SPDX-License-Identifier: MIT */
-import type * as AP from '@csjewell-activitypub/types'
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
+import type {
+  ActorReference, Announce, CoreObject, CoreObjectReference, EntityReference,
+  Follow, Like, LinkReference, Note, OrArray,
+} from '../../types/mod.ts'
 import type { Database } from './handler.ts'
+import type { Session } from './session.ts'
+import type { UsersDB } from './users.ts'
 
-type OrArray<T> = T | Array<T>
+type OrPromise<T> = T | Promise<T>
 
 export type DBDocument = {
-  object: AP.CoreObject | undefined
-  objectId: number | undefined
+  object   : CoreObject | undefined
+  objectId : number | undefined
 }
+
+type ActorFunc = (username: string) => string
 
 /*
  */
-export interface DatabaseRouter {
-  dbHandle(): unknown
-  announce(message: AP.Announce): Database
-  follow(message: AP.Follow): Database
-  like(message: AP.Like): Database
-  note(message: AP.Note): Database
-  actor(message: AP.ActorReference): Database
-  documentEntry(message: AP.CoreObjectReference | AP.LinkReference): Database
-  getDocument(dr: string | OrArray<AP.EntityReference> | undefined): DBDocument
+export type DatabaseRouter<DatabaseT, TableT, SessionT> = {
+  dbHandle      : () => DatabaseT
+  announce      : (message: Announce) => Database<TableT>
+  follow        : (message: Follow) => Database<TableT>
+  like          : (message: Like) => Database<TableT>
+  note          : (message: Note) => Database<TableT>
+  actor         : (message: ActorReference) => Database<TableT>
+  documentEntry : (message: CoreObjectReference | LinkReference) => Database<TableT>
+  getDocument   : (dr: string | OrArray<EntityReference> | undefined) => DBDocument
+  users         : (username: string) => Database<TableT> & UsersDB
+  newSession    : (username: string, actorFunc: ActorFunc) => OrPromise<Database<TableT> & Session<SessionT>>
+  session       : (username: string, sessionKey: string) => OrPromise<Database<TableT> & Session<SessionT>>
 }

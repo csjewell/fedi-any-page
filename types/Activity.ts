@@ -1,9 +1,68 @@
 /* SPDX-License-Identifier: MIT */
-import type { ActivityTypes, IntransitiveActivityTypes, TransitiveActivityTypes } from './TypeLists.ts'
-import type { OrArray } from './Utility.ts'
 import type { CoreObjectProperties } from './CoreObject.ts'
 import type { EntityReference } from './CoreUtility.ts'
 import type { BaseEntity } from './Entity.ts'
+import type { OrArray } from './Utility.ts'
+
+/**
+ * An object containing all the types of Transitive Activities.
+ *
+ * @see TransitiveActivity
+ *
+ * @see https://www.w3.org/TR/activitystreams-vocabulary/#transitive-activity-types
+ */
+export const TransitiveActivityTypes = {
+  ACCEPT           : 'Accept',
+  ADD              : 'Add',
+  ANNOUNCE         : 'Announce',
+  BLOCK            : 'Block',
+  IGNORE           : 'Ignore',
+  CREATE           : 'Create',
+  DELETE           : 'Delete',
+  DISLIKE          : 'Dislike',
+  FLAG             : 'Flag',
+  FOLLOW           : 'Follow',
+  INVITE           : 'Invite',
+  JOIN             : 'Join',
+  LEAVE            : 'Leave',
+  LIKE             : 'Like',
+  LISTEN           : 'Listen',
+  MOVE             : 'Move',
+  OFFER            : 'Offer',
+  READ             : 'Read',
+  REJECT           : 'Reject',
+  REMOVE           : 'Remove',
+  TENTATIVE_ACCEPT : 'TentativeAccept',
+  TENTATIVE_REJECT : 'TentativeReject',
+  UNDO             : 'Undo',
+  UPDATE           : 'Update',
+  VIEW             : 'View',
+} as const
+
+/**
+ * An object containing all the types of Intransitive Activities.
+ *
+ * @see IntransitiveActivity
+ *
+ * @see https://www.w3.org/TR/activitystreams-vocabulary/#intransitive-activity-types
+ */
+export const IntransitiveActivityTypes = {
+  ARRIVE   : 'Arrive',
+  TRAVEL   : 'Travel',
+  QUESTION : 'Question',
+} as const
+
+/**
+ * An object containing all the types of Activities.
+ *
+ * @see Activity
+ *
+ * @see https://www.w3.org/TR/activitystreams-vocabulary/#activity-types
+ */
+export const ActivityTypes = {
+  ...TransitiveActivityTypes,
+  ...IntransitiveActivityTypes,
+} as const
 
 /**
  * A union of all Activity types.
@@ -24,12 +83,12 @@ export type AnyIntransitiveActivityType = (typeof IntransitiveActivityTypes)[key
  * Properties common to all Activity types.
  */
 export type ActivityProperties = {
-  actor: OrArray<EntityReference>
-  object?: OrArray<EntityReference>
-  target?: OrArray<EntityReference>
-  result?: OrArray<EntityReference>
-  origin?: OrArray<EntityReference>
-  instrument?: OrArray<EntityReference>
+  actor       : OrArray<EntityReference>
+  object?     : OrArray<EntityReference>
+  target?     : OrArray<EntityReference>
+  result?     : OrArray<EntityReference>
+  origin?     : OrArray<EntityReference>
+  instrument? : OrArray<EntityReference>
 }
 
 /**
@@ -37,7 +96,7 @@ export type ActivityProperties = {
  *
  * @extends CoreObject
  */
-type BaseActivity<T extends AnyActivityType> =
+export type BaseActivity<T extends AnyActivityType> =
   & BaseEntity<T>
   & CoreObjectProperties
   & ActivityProperties
@@ -45,8 +104,8 @@ type BaseActivity<T extends AnyActivityType> =
 /**
  * Properties common to all TransitiveActivity types.
  */
-type TransitiveActivityProperties = {
-  object: OrArray<EntityReference>
+export type TransitiveActivityProperties = {
+  object : OrArray<EntityReference>
 }
 
 /**
@@ -445,9 +504,9 @@ export type Dislike = TransitiveActivity<typeof ActivityTypes.DISLIKE>
  * @type IntransitiveActivity
  */
 export type Question = IntransitiveActivity<typeof ActivityTypes.QUESTION> & {
-  oneOf: OrArray<EntityReference>
-  anyOf: OrArray<EntityReference>
-  closed: EntityReference | Date | boolean
+  oneOf  : OrArray<EntityReference>
+  anyOf  : OrArray<EntityReference>
+  closed : EntityReference | Date | boolean
 }
 
 /**

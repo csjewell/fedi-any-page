@@ -1,6 +1,8 @@
-/* SPDX-License-Identifier: MIT */
-interface ErrorOptions {
-  cause?: Error
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
+type ErrorOptions = {
+  cause? : Error
 }
 
 export class DataError extends Error {
@@ -11,7 +13,7 @@ export class DataError extends Error {
 }
 
 export class NotImplementedError extends Error {
-  constructor(message: string = 'Not Implemented', options: ErrorOptions = {}) {
+  constructor(message = 'Not Implemented', options: ErrorOptions = {}) {
     super(message, options)
     this.name = 'NotImplementedError'
   }

@@ -1,0 +1,30 @@
+{
+  "name": "@csjewell-activitypub",
+  "version": "0.1.0",
+  "description": "ActivityPub Typescript Kit monorepu",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csjewell/activitypub-ts-kit.git"
+  },
+  "license": "MIT",
+  "keywords": [],
+  "author": {
+    "name": "Curtis Jewell",
+    "email": "swordsman+aptypescript@curtisjewell.name"
+  },
+  "type": "module",
+  "scripts": {
+    "format": "prettier .",
+    "lint": "eslint --flag unstable_config_lookup_from_file ."
+  },
+  "packageManager": "pnpm@10.7.1",
+  "engines": {
+    "node": ">=23.6.0"
+  },
+  "lint-staged": {
+    "**/*.{js,ts}": [
+      "eslint --fix"
+    ],
+    "**/*": "prettier --write --ignore-unknown"
+  }
+}

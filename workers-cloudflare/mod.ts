@@ -17,11 +17,11 @@ import type D1Database from '@cloudflare/workers-types'
 */
 
 export class CloudflareConfig implements Configuration {
-  public readonly url: URL
-  public readonly privateKey: string
-  public readonly database: D1Database
-  public readonly username: string = ''
-  public readonly siteName: string = ''
+  public readonly url        : URL
+  public readonly privateKey : string
+  public readonly database   : D1Database
+  public readonly username   : string = ''
+  public readonly siteName   : string = ''
 
   constructor(env: Record<string, unknown>, mapping: Record<string, string>) {
     this.url = new URL(env[mapping.url] as string)
@@ -38,7 +38,7 @@ export class CloudflareConfig implements Configuration {
   }
 
   localGet(url: string | URL): AP.CoreObject | undefined {
-    console.log(url)
+    console.info(url)
     throw new NotImplementedError()
   }
 }

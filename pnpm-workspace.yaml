@@ -1,0 +1,13 @@
+packages:
+  - json
+  - types
+  - general
+  - eslint-config
+  - localserver-hapi
+  - database-cloudflare-d1
+  - workers-cloudflare
+linkWorkspacePackages: true
+sharedWorkspaceLockfile: true
+onlyBuiltDependencies:
+  - esbuild
+  - sqlite3

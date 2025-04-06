@@ -1,22 +1,26 @@
-/* SPDX */
-import * as Kit from '@csjewell-activitypub/general'
-import { NotImplementedError } from '@csjewell-activitypub/general/errors'
-import type { Database } from '@csjewell-activitypub/general/database/handler'
-import type { DatabaseRouter, DBDocument } from '@csjewell-activitypub/general/database/router'
-import * as AP from '@csjewell-activitypub/types'
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
+ */
 import { DatabaseSync } from 'node:sqlite'
+import { NotImplementedError } from '../general/errors.ts'
+import type { Database } from '../general/database/handler.ts'
+import type { DatabaseRouter, DBDocument } from '../general/database/router.ts'
+import type { Session } from '../general/database/session.ts'
+import type { Users } from '../general/database/users.ts'
+import type * as AP from '../types/mod.ts'
+import type { OrArray } from '../types/mod.ts'
 
 // https://docs.deno.com/examples/sqlite/
 
-class LocalDB implements DatabaseRouter {
-  private handle: DatabaseSync
+class LocalDB implements DatabaseRouter<DatabaseSync, void, unknown> {
+  private handle : DatabaseSync
 
   constructor() {
     this.handle = new DatabaseSync('ap.sqlite.db')
     this.init()
   }
 
-  init(): void {
+  init = (): void => {
     this.handle.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -158,35 +162,53 @@ class LocalDB implements DatabaseRouter {
     this.handle.exec('INSERT INTO version (major, minor) VALUES (1, 0) ON CONFLICT(major) DO NOTHING')
   }
 
-  dbHandle(): DatabaseSync {
+  dbHandle = (): DatabaseSync => {
     return this.handle
   }
 
-  announce(message: AP.Announce): Database {
+  announce = (_message: AP.Announce): Database<void> => {
     throw new NotImplementedError()
   }
 
-  follow(message: AP.Follow): Database {
+  follow = (_message: AP.Follow): Database<void> => {
     throw new NotImplementedError()
   }
 
-  like(message: AP.Like): Database {
+  like = (_message: AP.Like): Database<void> => {
     throw new NotImplementedError()
   }
 
-  note(message: AP.Note): Database {
+  note = (_message: AP.Note): Database<void> => {
     throw new NotImplementedError()
   }
 
-  actor(message: AP.ActorReference): Database {
+  actor = (_message: AP.ActorReference): Database<void> => {
     throw new NotImplementedError()
   }
 
-  documentEntry(message: AP.CoreObjectReference | AP.LinkReference): Database {
+  documentEntry = (_message: AP.CoreObjectReference | AP.LinkReference): Database<void> => {
     throw new NotImplementedError()
   }
 
-  getDocument(dr: string | Kit.OrArray<AP.EntityReference> | undefined): DBDocument {
+  getDocument = (_dr: string | OrArray<AP.EntityReference> | undefined): DBDocument => {
+    throw new NotImplementedError()
+  }
+
+  users = (_username: string): Database<void> & Users => {
+    throw new NotImplementedError()
+  }
+
+  session = (
+    _username: string,
+    _sessionKey: string,
+  ): (Database<void> & Session<unknown>) | Promise<Database<void> & Session<unknown>> => {
+    throw new NotImplementedError()
+  }
+
+  newSession = (
+    _username: string,
+    _actorFunc: (username: string) => string,
+  ): (Database<void> & Session<unknown>) | Promise<Database<void> & Session<unknown>> => {
     throw new NotImplementedError()
   }
 }

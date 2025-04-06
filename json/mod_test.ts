@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 // deno-lint-ignore-file no-top-level-await
 // import { assertEquals } from '@std/assert'
+/* eslint-disable -- We need to un-deno-ify this file.*/
 import { assertSnapshot } from '@std/testing/snapshot'
 import { describe, it } from '@std/testing/bdd'
 

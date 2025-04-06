@@ -1,20 +1,20 @@
 /* SPDX-License-Identifier: MIT */
-import * as Json from '@csjewell-activitypub/json'
 import * as Kit from '@csjewell-activitypub/general'
 import { DataError } from '@csjewell-activitypub/general/errors'
-import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
-import type { Database } from '@csjewell-activitypub/general/database/handler'
+import * as Json from '@csjewell-activitypub/json'
 import * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
+import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
+import type { Database } from '@csjewell-activitypub/general/database/handler'
 import type { DBId } from './types.ts'
 
 export class ActorCFStorage extends CloudflareD1Database implements Database {
   /*
    * Store an Actor (a Person, Application, etc.) within the database
    */
-  private message: AP.ActorReference
-  private dbActorId: number | undefined
-  private dbDocumentId: number | undefined
+  private message      : AP.ActorReference
+  private dbActorId    : number | undefined
+  private dbDocumentId : number | undefined
 
   constructor(env: Configuration, message: AP.ActorReference) {
     super(env)
@@ -43,6 +43,7 @@ export class ActorCFStorage extends CloudflareD1Database implements Database {
     let ok = false
     const stmtDocument = this.handle.prepare('DELETE FROM actors WHERE id = ?').bind(this.dbActorId)
     const resp = await stmtDocument.run()
+
     if (resp.success) {
       ok = true
       this.dbActorId = undefined
@@ -55,6 +56,7 @@ export class ActorCFStorage extends CloudflareD1Database implements Database {
     let ok = false
     const stmtDocument = this.handle.prepare('DELETE FROM documents WHERE id = ?').bind(this.dbDocumentId)
     const resp = await stmtDocument.run()
+
     if (resp.success) {
       ok = true
       this.dbDocumentId = undefined
@@ -69,11 +71,13 @@ export class ActorCFStorage extends CloudflareD1Database implements Database {
     }
 
     const actor = await this.retrieve()
+
     return actor !== undefined
   }
 
   async exists(): Promise<boolean> {
     let checkId: string | undefined
+
     if (this.dbActorId !== undefined && this.dbDocumentId !== undefined) {
       return true
     }
@@ -83,7 +87,8 @@ export class ActorCFStorage extends CloudflareD1Database implements Database {
     }
 
     if (AP.guard.isApActor(this.message)) {
-      const id = (this.message as AP.Actor).id
+      const {id,} = this.message as AP.Actor
+
       if (id === null) {
         return false
       }
@@ -98,7 +103,8 @@ export class ActorCFStorage extends CloudflareD1Database implements Database {
     if (!this.dbActorId) {
       const stmtActor = this.handle.prepare('SELECT id FROM actors WHERE actor_id = ?').bind(checkId)
       const resp = await stmtActor.run()
-      if (resp.success && (resp.results.length === 1)) {
+
+      if (resp.success && resp.results.length === 1) {
         this.dbActorId = (resp.results[0] as DBId).id
       }
     }
@@ -106,12 +112,13 @@ export class ActorCFStorage extends CloudflareD1Database implements Database {
     if (!this.dbDocumentId) {
       const stmtActor = this.handle.prepare('SELECT id FROM documents WHERE document_id = ?').bind(checkId)
       const resp = await stmtActor.run()
-      if (resp.success && (resp.results.length === 1)) {
+
+      if (resp.success && resp.results.length === 1) {
         this.dbDocumentId = (resp.results[0] as DBId).id
       }
     }
 
-    return (!!this.dbDocumentId && !!this.dbActorId)
+    return Boolean(this.dbDocumentId) && Boolean(this.dbActorId)
   }
 
   async retrieve(): Promise<AP.Actor | undefined> {
@@ -120,6 +127,7 @@ export class ActorCFStorage extends CloudflareD1Database implements Database {
     }
 
     const er = AP.guard.isApActor(this.message) ? (this.message as AP.Actor).id : this.message
+
     if (er === undefined || er === null) {
       return undefined
     }
@@ -132,13 +140,13 @@ export class ActorCFStorage extends CloudflareD1Database implements Database {
 
     actorURL.hash = ''
 
-    console.log(`Retrieving actor message "${actorURL.toString()}"`)
+    console.log(`Retrieving actor message "${ actorURL.toString() }"`)
     const resp = await fetch(actorURL, {
-      headers: {
-        accept: 'application/activity+json, application/ld+json, application/json',
+      headers : {
+        accept : 'application/activity+json, application/ld+json, application/json',
       },
-      method: 'GET',
-      redirect: 'follow',
+      method   : 'GET',
+      redirect : 'follow',
     })
 
     const actorInfoJSON = await resp.text()
@@ -147,7 +155,7 @@ export class ActorCFStorage extends CloudflareD1Database implements Database {
       return undefined
     }
 
-    const actorInfo: AP.Actor = <AP.Actor> Json.parse(actorInfoJSON)
+    const actorInfo: AP.Actor = Json.parse(actorInfoJSON) as AP.Actor
 
     if (actorInfo.id === null || actorInfo.id === undefined) {
       return undefined
@@ -155,27 +163,29 @@ export class ActorCFStorage extends CloudflareD1Database implements Database {
 
     if (actorInfo.id.toString() !== actorURL.toString()) {
       console.log(
-        `Tried to retrieve actor at ${actorURL.toString()} and got an actor at ${actorInfo.id.toString()} instead`,
+        `Tried to retrieve actor at ${ actorURL.toString() } and got an actor at ${ actorInfo.id.toString() } instead`,
       )
       return undefined
     }
 
-    console.log(`Storing actor message "${actorURL.toString()}"`)
+    console.log(`Storing actor message "${ actorURL.toString() }"`)
     const stmtDocument = this.handle.prepare('INSERT INTO documents SET document_id = ?, type = ?, document = ?').bind(
       actorInfo.id,
       actorInfo.type,
       actorInfoJSON,
     )
     const respDocument = await stmtDocument.run()
+
     if (respDocument.success) {
       this.dbDocumentId = respDocument.meta.last_row_id
     }
 
-    const preferredUsername = actorInfo.preferredUsername
+    const {preferredUsername,} = actorInfo
     const stmtActor = this.handle.prepare(
       'INSERT INTO actors SET actor_id = ?, document_id = ?, inbox = ?, outbox = ?, preferred_username = ?',
     ).bind(actorInfo.id, this.dbDocumentId, actorInfo.inbox, actorInfo.outbox, preferredUsername)
     const respActor = await stmtActor.run()
+
     if (respActor.success) {
       this.dbActorId = respActor.meta.last_row_id
     } else {
@@ -183,6 +193,6 @@ export class ActorCFStorage extends CloudflareD1Database implements Database {
     }
 
     this.message = actorInfo
-    return <AP.Actor> this.message
+    return this.message as AP.Actor
   }
 }
