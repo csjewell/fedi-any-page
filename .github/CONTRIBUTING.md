@@ -6,7 +6,7 @@ Thanks for your interest in contributing to `activitypub-ts-kit`! 💖
 
 ## Code of Conduct
 
-This project contains a [Contributor Covenant code of conduct](./CODE_OF_CONDUCT.md) all contributors are expected to follow.
+This project contains a [Hacker code of conduct](./CODE_OF_CONDUCT.md) all contributors are expected to follow.
 
 ## Reporting Issues
 
@@ -88,7 +88,7 @@ Once all feedback is addressed and the PR is approved, we'll ensure the branch i
 #### Post-Merge Recognition
 
 Once your PR is merged, if you haven't yet been added to the [_Contributors_ table in the README.md](../README.md#contributors) for its [type of contribution](https://allcontributors.org/docs/en/emoji-key "Allcontributors emoji key"), you should be soon.
-Please do ping the maintainer who merged your PR if that doesn't happen within 24 hours - it was likely an oversight on our end!
+Please do ping the maintainer who merged your PR if that doesn't happen within 7 days - it was likely an oversight on our end!
 
 ## Emojis & Appreciation
 

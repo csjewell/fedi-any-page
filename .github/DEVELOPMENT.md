@@ -22,18 +22,18 @@ Add `--watch` to run the builder in a watch mode that continuously cleans and re
 pnpm build --watch
 ```
 
-## Formatting
+## License headers
 
-[Prettier](https://prettier.io) is used to format code.
-It should be applied automatically when you save files in VS Code or make a Git commit.
+The license in this repository is MIT, as a rule, with configuration files
+set to CC0. Copyright is not claimed on most configuration or other generated
+files. JavaScript and TypeScript files should have a license and copyright
+header stating so. JSON, YAML, Markdown, html, and generated files should
+be mentioned in REUSE.toml, instead.
 
-To manually reformat all files, you can run:
+We validate against the REUSE specification on push if Docker or
+Podman is available.
 
-```shell
-pnpm format --write
-```
-
-## Linting
+## Linting amd formatting
 
 This package includes several forms of linting to enforce consistent code quality and styling.
 Each should be shown in VS Code, and can be run manually on the command-line:
@@ -47,8 +47,6 @@ For example, ESLint can be run with `--fix` to auto-fix some lint rule complaint
 ```shell
 pnpm run lint --fix
 ```
-
-Note that you'll need to run `pnpm build` before `pnpm lint` so that lint rules which check the file system can pick up on any built files.
 
 ## Type Checking
 

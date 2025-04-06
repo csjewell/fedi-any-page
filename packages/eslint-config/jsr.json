@@ -1,0 +1,14 @@
+{
+  "name": "@csjewell-activitypub/eslint-config",
+  "version": "0.1.0",
+  "description": "ESLint options for @csjewell-activitypub",
+  "exports": "./index.ts",
+  "publish": {
+    "include": [
+      "LICENSE",
+      "README.md",
+      "index.ts",
+      "src/*.ts"
+    ]
+  }
+}
