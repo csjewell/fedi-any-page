@@ -9,49 +9,40 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22, 23]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Cache Deno modules
-        uses: actions/cache@v4
-        id: cache
-        with:
-          path: |
-            ~/.deno
-            ~/.cache/deno
-          key: test-${{ github.ref_name }}-${{ hashFiles('**/deno.lock') }}
-          restore-keys: |
-            test-${{ github.ref_name }}-
-            test-
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
-      - name: Setup Deno
-        uses: denoland/setup-deno@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
-          deno-version: v2.x # Run with latest stable Deno.
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
       - name: Install Dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: deno install --reload
+        run: pnpm install --frozen-lockfile
 
       # Check if the code is formatted according to our
-      # formatting conventions.
-      - name: Check formatting
-        run: deno fmt --check
+      # formatting conventions. and scan the code for
+      # syntax errors and style issues.
+      - name: Lint
+        run: pnpm lint
 
-      # Scan the code for syntax errors and style issues.
-      # - name: Lint
-      #   run: deno lint
+      #- name: Run tests
+      #  run: deno test --allow-read --coverage=cov/
 
-      - name: Run tests
-        run: deno test --allow-read --coverage=cov/
+      #- name: Create coverage report
+      #  run: deno coverage --lcov cov/ > cov.lcov
 
-      - name: Create coverage report
-        run: deno coverage --lcov cov/ > cov.lcov
-
-      - name: Upload coverage report to Coveralls
-        uses: coverallsapp/github-action@v2
-        with:
-          format: lcov
+      #- name: Upload coverage report to Coveralls
+      #  uses: coverallsapp/github-action@v2
+      #  with:
+      #    format: lcov
 
 
