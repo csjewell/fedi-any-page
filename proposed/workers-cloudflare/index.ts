@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { type Configuration, NotImplementedError } from '@csjewell-activitypub/general'
-import type D1Database from '@cloudflare/workers-types'
+import type { D1Database } from '@cloudflare/workers-types'
 import type * as AP from '@csjewell-activitypub/types'
 
 /* Example:

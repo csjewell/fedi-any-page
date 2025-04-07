@@ -1,9 +1,9 @@
 {
-  "name": "@csjewell-activitypub/handlers-response",
+  "name": "@csjewell-activitypub/database-cloudflare-d1",
   "version": "0.1.0",
-  "description": "Generic Response handler for ActivityPub servers.",
+  "description": "Handler for the Cloudflare D1 database for ActivityPub servers.",
   "type": "module",
-  "main": "mod.ts",
+  "main": "index.ts",
   "scripts": {
     "build": "tsup",
     "lint": "eslint --flag unstable_config_lookup_from_file",
@@ -14,7 +14,7 @@
   "files": [
     "LICENSE.md",
     "README.md",
-    "dist/",
+    "lib/",
     "package.json"
   ],
   "author": {
@@ -28,9 +28,18 @@
   },
   "packageManager": "pnpm@10.7.1",
   "dependencies": {
+    "@cloudflare/workers-types": "npm:@cloudflare/workers-types@^4.20250224.0",
     "@csjewell-activitypub/general": "workspace:^",
     "@csjewell-activitypub/types": "workspace:^",
-    "activitypub-http-signatures": "^2.5.0"
+    "@std/uuid": "npm:@jsr/std__uuid@^1.0.6"
+  },
+  "engines": {
+    "node": ">=23.6.0"
+  },
+  "lint-staged": {
+    "**/*.{js,ts}": [
+      "eslint --fix"
+    ]
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",
@@ -43,13 +52,5 @@
     "lint-staged": "^15.5.0",
     "tsup": "^8.4.0",
     "typescript": "^5.8.3"
-  },
-  "engines": {
-    "node": ">=23.6.0"
-  },
-  "lint-staged": {
-    "**/*.{js,ts}": [
-      "eslint --fix"
-    ]
   }
 }

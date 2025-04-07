@@ -1,7 +1,7 @@
 {
   "name": "@csjewell-activitypub",
   "version": "0.1.0",
-  "description": "ActivityPub Typescript Kit monorepu",
+  "description": "ActivityPub Typescript Kit monorepo",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/csjewell/activitypub-ts-kit.git"
@@ -14,8 +14,8 @@
   },
   "type": "module",
   "scripts": {
-    "format": "prettier .",
-    "lint": "eslint --flag unstable_config_lookup_from_file"
+    "lint": "eslint --flag unstable_config_lookup_from_file",
+    "prepare": "husky"
   },
   "packageManager": "pnpm@10.7.1",
   "engines": {
@@ -32,9 +32,15 @@
     }
   },
   "devDependencies": {
-    "@types/node": "^22.13.10",
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@csjewell-activitypub/eslint-config": "workspace:^",
+    "@types/node": "^22.14.0",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
-    "typescript": "^5.8.2"
+    "eslint": "^9.24.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
+    "typescript-eslint": "^8.29.0"
   }
 }

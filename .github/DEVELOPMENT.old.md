@@ -1,3 +1,8 @@
+# NOTE
+
+This is being merged into DEVELOPMENT.md - what isn't merged into that
+document does not apply here.
+
 # Contributing to re-pliers
 
 To check re-pliers out:
