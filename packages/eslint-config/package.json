@@ -18,7 +18,6 @@
   "type": "module",
   "main": "dist/index.js",
   "files": [
-    "LICENSE",
     "README.md",
     "dist/",
     "package.json"

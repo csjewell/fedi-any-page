@@ -1,4 +1,6 @@
 #!/bin/bash
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
 echo "Generating reference page information"
 echo -n "Current directory: "
 pwd

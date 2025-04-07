@@ -14,7 +14,7 @@ SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = "pnpm-lock.yaml"
+path = "pnpm-*.yaml"
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
@@ -24,12 +24,7 @@ SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = "**/tsconfig.json"
-SPDX-FileCopyrightText = "NONE"
-SPDX-License-Identifier = "CC0-1.0"
-
-[[annotations]]
-path = "**/package.json"
+path = ["**/tsconfig.json", "**/package.json", "**/jsr.json"]
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
@@ -59,7 +54,17 @@ SPDX-FileCopyrightText = "2025 Curtis Jewell and other contributors"
 SPDX-License-Identifier = "MIT"
 
 [[annotations]]
-path = "**/*.config.*"
+path = ["bin/**", "jsdoc-order.in.yaml"]
+SPDX-FileCopyrightText = "2025 Curtis Jewell and other contributors"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["**/*.config.*", "**/*.ts.snap", "**/test_data/**"]
+SPDX-FileCopyrightText = "2025 Curtis Jewell and other contributors"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "proposed/database-cloudflare-d1/schema.sql"
 SPDX-FileCopyrightText = "2025 Curtis Jewell and other contributors"
 SPDX-License-Identifier = "MIT"
 

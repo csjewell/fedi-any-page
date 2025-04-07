@@ -12,7 +12,6 @@
   },
   "keywords": [],
   "files": [
-    "LICENSE.md",
     "README.md",
     "dist/",
     "package.json"

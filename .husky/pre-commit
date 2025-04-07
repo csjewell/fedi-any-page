@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: MIT
 # SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
-### Not requiring REUSE yet. Getting there.
-# docker run --rm --volume $(git rev-parse --show-toplevel):/data fsfe/reuse lint
+docker run --rm --volume $(git rev-parse --show-toplevel):/data fsfe/reuse lint
 pnpm lint-staged
