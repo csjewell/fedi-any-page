@@ -31,13 +31,13 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Publish types package to jsr
-        run: cd packages/types && cp ../../LICENSES/MIT.txt LICENSE && pnpx jsr publish --provenance
+        run: cd packages/types && cp ../../LICENSES/MIT.txt LICENSE && pnpx jsr publish
 
       - name: Publish general package to jsr
-        run: cd packages/general && cp ../../LICENSES/MIT.txt LICENSE && pnpx jsr publish --provenance
+        run: cd packages/general && cp ../../LICENSES/MIT.txt LICENSE && pnpx jsr publish
 
       - name: Publish eslint-config package to jsr
-        run: cd packages/eslint-config && cp ../../LICENSES/MIT.txt LICENSE && pnpx jsr publish --provenance
+        run: cd packages/eslint-config && cp ../../LICENSES/MIT.txt LICENSE && pnpx jsr publish
 
       - name: Publish types package to npm
         run: cd packages/types && pnpm publish --access public --tag next --no-git-checks
