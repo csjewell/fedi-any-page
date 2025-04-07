@@ -1,6 +1,7 @@
 {
   "name": "@csjewell-activitypub/types",
   "version": "0.1.0",
+  "description": "Types library for ActivityPub messages.",
   "exports": {
     ".": "./index.ts"
   },
@@ -8,7 +9,7 @@
     "include": [
       "LICENSE",
       "README.md",
-      "package.json",
+      "jsr.json",
       "index.ts",
       "src/**/*.ts"
     ]

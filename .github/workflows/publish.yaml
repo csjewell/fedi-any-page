@@ -26,27 +26,35 @@ jobs:
         with:
           node-version: 23
           cache: 'pnpm'
+          registry-url: https://registry.npmjs.org
+
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Publish types package to jsr
-        run: cd packages/types && pnpm dlx jsr publish
+        run: cd packages/types && cp ../../LICENSES/MIT.txt LICENSE && pnpx jsr publish --provenance
 
       - name: Publish general package to jsr
-        run: cd packages/general && pnpm dlx jsr publish
+        run: cd packages/general && cp ../../LICENSES/MIT.txt LICENSE && pnpx jsr publish --provenance
 
       - name: Publish eslint-config package to jsr
-        run: cd packages/eslint-config && pnpm dlx jsr publish
+        run: cd packages/eslint-config && cp ../../LICENSES/MIT.txt LICENSE && pnpx jsr publish --provenance
 
       - name: Publish types package to npm
-        run: cd packages/types && pnpm publish --access public
+        run: cd packages/types && pnpm publish --access public --tag next --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish general package to npm
-        run: cd packages/general && pnpm publish --access public
+        run: cd packages/general && pnpm publish --access public --tag next --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish eslint-config package to jsr
-        run: cd packages/eslint-config && pnpm publish --access public
+      - name: Publish eslint-config package to npm
+        run: cd packages/eslint-config && pnpm publish --access public --tag next --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 #      - name: Publish database-cloudflare-d1 package to jsr
 #        run: cd proposed/database-cloudflare-d1 && pnpm dlx jsr publish

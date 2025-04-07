@@ -5,6 +5,7 @@ docsite/data/jsdoc-order.yaml
 proposed/localserver-deno/ap.sqlite.db
 packages/*/dist
 proposed/*/dist
+*.sw?
 
 node_modules
 

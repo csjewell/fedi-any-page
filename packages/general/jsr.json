@@ -1,6 +1,7 @@
 {
   "name": "@csjewell-activitypub/general",
   "version": "0.1.0",
+  "description": "Library to provide base classes and types for the ActivityPub toolkit.",
   "exports": {
     ".": "./index.ts",
     "./configuration": "./src/configuration.ts",
@@ -19,6 +20,7 @@
     "include": [
       "LICENSE",
       "README.md",
+      "jsr.json",
       "index.ts",
       "src/**/*.ts"
     ]
