@@ -12,9 +12,30 @@ jobs:
       contents: read
       id-token: write
 
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: 23
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Use Node.js 23
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Cache Deno modules
         uses: actions/cache@v4
@@ -38,17 +59,29 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: deno install --reload
 
-      - name: Publish json package
-        run: cd json && deno publish
+      - name: Publish types package to jsr
+        run: cd packages/types && pnpm dlx jsr publish
 
-      - name: Publish general package
-        run: cd general && deno publish
+      - name: Publish general package to jsr
+        run: cd packages/general && pnpm dlx jsr publish
 
-      - name: Publish database-cloudflare-d1 package
-        run: cd database-cloudflare-d1 && deno publish
+      - name: Publish eslint-config package to jsr
+        run: cd packages/eslint-config && pnpm dlx jsr publish
 
-      - name: Publish workers-cloudflare package
-        run: cd workers-cloudflare && deno publish
+      - name: Publish types package to npm
+        run: cd packages/types && pnpm publish --access public
 
-      - name: Publish handlers-response package
-        run: cd handlers-response && deno publish
+      - name: Publish general package to npm
+        run: cd packages/general && pnpm publish --access public
+
+      - name: Publish eslint-config package to jsr
+        run: cd packages/eslint-config && pnpm publish --access public
+
+#      - name: Publish database-cloudflare-d1 package to jsr
+#        run: cd proposed/database-cloudflare-d1 && pnpm dlx jsr publish
+
+#      - name: Publish workers-cloudflare package to jsr
+#        run: cd proposed/workers-cloudflare && pnpm dlx jsr publish
+
+#      - name: Publish handlers-response package to jsr
+#        run: cd proposed/handlers-response && pnpm dlx jsr publish
