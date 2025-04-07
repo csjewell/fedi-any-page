@@ -3,29 +3,42 @@
   "version": "0.1.0",
   "description": "Generic Response handler for ActivityPub servers.",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csjewell/activitypub-ts-kit.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Curtis Jewell",
+    "email": "swordsman+aptypescript@curtisjewell.name"
+  },
+  "packageManager": "pnpm@10.7.1",
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "lint-staged": {
+    "**/*.{js,ts}": [
+      "eslint --fix"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
   "main": "mod.ts",
+  "files": [
+    "README.md",
+    "dist/",
+    "package.json"
+  ],
+  "keywords": [],
   "scripts": {
     "build": "tsup",
     "lint": "eslint --flag unstable_config_lookup_from_file",
     "prepublishOnly": "tsup",
     "tsc": "tsc"
   },
-  "keywords": [],
-  "files": [
-    "README.md",
-    "dist/",
-    "package.json"
-  ],
-  "author": {
-    "name": "Curtis Jewell",
-    "email": "swordsman+aptypescript@curtisjewell.name"
-  },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/csjewell/activitypub-ts-kit.git"
-  },
-  "packageManager": "pnpm@10.7.1",
   "dependencies": {
     "@csjewell-activitypub/general": "workspace:^",
     "@csjewell-activitypub/types": "workspace:^",
@@ -42,13 +55,5 @@
     "lint-staged": "^15.5.0",
     "tsup": "^8.4.0",
     "typescript": "^5.8.3"
-  },
-  "engines": {
-    "node": ">=23.6.0"
-  },
-  "lint-staged": {
-    "**/*.{js,ts}": [
-      "eslint --fix"
-    ]
   }
 }
