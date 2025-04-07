@@ -24,7 +24,7 @@ SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = ["**/tsconfig.json", "**/package.json", "**/jsr.json"]
+path = ["**/tsconfig.json", "**/package.json", "**/package.json.not-yet", "**/jsr.json"]
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 

@@ -2,19 +2,19 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { DatabaseSync } from 'node:sqlite'
-import { NotImplementedError } from '../general/errors.ts'
-import type { Database } from '../general/database/handler.ts'
-import type { DatabaseRouter, DBDocument } from '../general/database/router.ts'
-import type { Session } from '../general/database/session.ts'
-import type { Users } from '../general/database/users.ts'
-import type { AuthCookies } from '../general/database-mock/session-type.ts'
-import type { OrArray } from '../general/interfaces.ts'
-import type * as AP from '../types/mod.ts'
+import { NotImplementedError } from '@csjewell-activitypub/general/errors.ts'
+import type { Database } from '@csjewell-activitypub/general/database/handler.ts'
+import type { DatabaseRouter, DBDocument } from '@csjewell-activitypub/general/database/router.ts'
+import type { Session } from '@csjewell-activitypub/general/database/session.ts'
+import type { Users } from '@csjewell-activitypub/general/database/users.ts'
+import type { AuthCookies } from '@csjewell-activitypub/general/database-mock/session-type.ts'
+import type { OrArray } from '@csjewell-activitypub/general/interfaces.ts'
+import type * as AP from '@csjewell-activitypub/types'
 
 // https://docs.deno.com/examples/sqlite/
 
 class LocalDB implements DatabaseRouter<DatabaseSync, void, AuthCookies> {
-  private handle : DatabaseSync
+  public handle : DatabaseSync
 
   constructor() {
     this.handle = new DatabaseSync('ap.sqlite.db')
