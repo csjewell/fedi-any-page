@@ -3,6 +3,7 @@ packages:
   - proposed/*
 linkWorkspacePackages: true
 sharedWorkspaceLockfile: true
+publishBranch: release
 onlyBuiltDependencies:
   - esbuild
   - sqlite3
