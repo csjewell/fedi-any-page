@@ -1,7 +1,7 @@
 {
-  "name": "@csjewell-activitypub/workers-cloudflare",
-  "version": "0.1.0-alpha-5",
-  "description": "TODESCRIBE.",
+  "name": "@csjewell-activitypub/database-cloudflare-d1",
+  "version": "0.1.0",
+  "description": "Classes that connect the ActivityPub toolkit to a Cloudflare D1 Database.",
   "type": "module",
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
   "main": "index.ts",
   "files": [
     "README.md",
-    "lib/",
+    "dist/",
     "package.json"
   ],
   "keywords": [],
@@ -40,9 +40,10 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "@cloudflare/workers-types": "^4.20250406.0",
+    "@cloudflare/workers-types": "npm:@cloudflare/workers-types@^4.20250224.0",
     "@csjewell-activitypub/general": "workspace:^",
-    "@csjewell-activitypub/types": "workspace:^"
+    "@csjewell-activitypub/types": "workspace:^",
+    "@std/uuid": "npm:@jsr/std__uuid@^1.0.6"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",

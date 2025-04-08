@@ -2,15 +2,13 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 
-/*
- */
+/** TODO: Document or eliminate [2015-4-12] */
 export type DBUsername = {
   username   : string | undefined
   usernameId : number | undefined
 }
 
-/*
- */
+/** TODO: Document or eliminate [2015-4-12] */
 export type DatabaseKey = {
   createKey : () => Promise<void>
 }

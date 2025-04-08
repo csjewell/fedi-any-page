@@ -3,12 +3,12 @@
  */
 import MockSession from './session.ts'
 import MockUsers from './users.ts'
+import type * as AP from '@csjewell-activitypub/types'
 import type { default as Keyv } from 'keyv'
-import type { Database } from '@csjewell-activitypub/general/database/handler'
-import type { DatabaseRouter, DBDocument } from '@csjewell-activitypub/general/database/router'
+import type { DatabaseRouter, DBDocument, StorageHandler, } from '../database/router.ts'
 import type { AuthCookies } from './session-type.ts'
 
-export default class MockDatabase implements DatabaseRouter<Keyv, void, AuthCookies> {
+export default class MockDatabase implements DatabaseRouter<Keyv, AuthCookies> {
   private cache : Keyv
 
   constructor(c: Keyv) {
@@ -16,12 +16,12 @@ export default class MockDatabase implements DatabaseRouter<Keyv, void, AuthCook
   }
 
   dbHandle(): Keyv { return this.cache }
-  announce(): Database<void> { throw new Error('unimplemented') }
-  follow(): Database<void> { throw new Error('unimplemented') }
-  like(): Database<void> { throw new Error('unimplemented') }
-  note(): Database<void> { throw new Error('unimplemented') }
-  actor(): Database<void> { throw new Error('unimplemented') }
-  documentEntry(): Database<void> { throw new Error('unimplemented') }
+  announce(): StorageHandler<AP.Announce> { throw new Error('unimplemented') }
+  follow(): StorageHandler<AP.Follow> { throw new Error('unimplemented') }
+  like(): StorageHandler<AP.Like> { throw new Error('unimplemented') }
+  note(): StorageHandler<AP.Note> { throw new Error('unimplemented') }
+  actor(): StorageHandler<AP.Actor> { throw new Error('unimplemented') }
+  documentEntry(): StorageHandler<AP.CoreObject> { throw new Error('unimplemented') }
   getDocument(): DBDocument { throw new Error('unimplemented') }
 
   users(username: string): MockUsers {

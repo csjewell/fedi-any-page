@@ -2,8 +2,6 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 
-/*
- */
 type HeadersParam = { cors?: boolean; addHeaders?: Record<string, string> }
 
 type BasicResponseParam = { info?: string; addHeaders?: Record<string, string> }
@@ -34,6 +32,7 @@ type ResponseParam404 = { info?: string; additional?: string; addHeaders?: Recor
 
 type ResponseParam405 = { info?: string; addMethods?: Array<string>; addHeaders?: Record<string, string> }
 
+/** The group of responses that are sent upon web requests */
 export type Responses<SessionT, T> = {
   getHeaders             : (arg0?: HeadersParam) => Record<string, string>
   success200Obj          : (arg0: ResponseParam200Obj<SessionT>) => T

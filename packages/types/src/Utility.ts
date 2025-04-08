@@ -45,6 +45,24 @@ export type StringReferenceMap = Record<string, string>
  * ```
  */
 export type OrArray<T> = T | Array<T>
+
+/**
+ * Shorthand for a value of a given type or a Promise that resolves
+ * to that type.
+ *
+ * @param T The type of the value to be mapped.
+ *
+ * @example
+ * ```ts
+ * type X {
+ *   // A function that returns a Response or a Promise that resolves to a Response.
+ *   const func = (): OrPromise<Response>
+ *   ...
+ * }
+ * ```
+ */
+export type OrPromise<T> = T | Promise<T>
+
 /**
  * A union of all Entity types.
  */

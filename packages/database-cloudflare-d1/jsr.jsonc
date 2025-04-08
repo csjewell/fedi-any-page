@@ -1,0 +1,19 @@
+{
+  "name": "@csjewell-activitypub/database-cloudflare-d1",
+  "version": "0.1.1-alpha.1",
+  "description": "Classes that connect the ActivityPub toolkit to a Cloudflare D1 Database.",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "publish": {
+    "include": [
+      "LICENSE",
+      "README.md",
+      "jsr.jsonc",
+      "index.ts",
+      "config.ts",
+      "src/**/*.ts"
+    ]
+  }
+}
+

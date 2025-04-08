@@ -5,12 +5,7 @@ import type { Configuration } from '../configuration.ts'
 import type * as Request from '../request.ts'
 import type { Responses } from '../responses.ts'
 import type { User } from '../users.ts'
-
-type APIHandlerSync = <DatabaseT, TableT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, TableT, SessionT>,
-  req: Request.Helper,
-  resp: Responses<SessionT, ResponseT>,
-) => ResponseT
+import type { APIHandlerSync } from './types.ts'
 
 type FingerHandlerServer = (account: string) => Record<string, unknown>
 
@@ -92,6 +87,19 @@ const fingerUser: FingerHandlerUser = <DatabaseT, TableT, SessionT>(
   return returnValue
 }
 
+/**
+ * Handles web queries to the /.well-known/webfinger?resource=... URL.
+ *
+ * See https://docs.joinmastodon.org/spec/webfinger/ ,
+ * https://datatracker.ietf.org/doc/rfc7033/ , and
+ * https://codeberg.org/fediverse/fep/src/branch/main/fep/d556/fep-d556.md
+ * for more information.
+ *
+ * @param config An object implementing Configuration
+ * @param req An object implementing Request.Helper
+ * @param resp An object implementing Responses
+ * @returns ResponseT An appropriate response to the request
+ */
 export const WebFinger: APIHandlerSync = <DatabaseT, TableT, SessionT, ResponseT>(
   config: Configuration<DatabaseT, TableT, SessionT>,
   req: Request.Helper,

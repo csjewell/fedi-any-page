@@ -2,44 +2,33 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 
-/**
- *
- */
-export type User = {
-  fullname  : string
-  homepage? : string
-  summary?  : string
-  username? : string
-  aliases?  : Array<string>
-  // At Protocol.
-  dId?      : string
-}
+import { StorageHandler } from '../database/router.ts'
+import { UsersStorage } from '../database/users.ts'
+import { User } from '../users.ts'
+import BaseMockUsers from './base-mock-users.ts'
 
-export class Users {
+export default class JsonUsers extends BaseMockUsers implements StorageHandler<User>, UsersStorage {
   private users : Map<string, User>
 
-  constructor(userinfo: object | string) {
+  constructor(userinfo: string) {
+    super()
     this.users = new Map()
     let parsedUsers: object = {}
 
-    if (typeof userinfo === 'string') {
-      try {
-        parsedUsers = JSON.parse(userinfo) as object
-      } catch (error) {
-        if (error instanceof SyntaxError) {
-          throw new SyntaxError('SyntaxError parsing user information', { cause: error, })
-        }
-        if (error instanceof TypeError) {
-          throw new SyntaxError('TypeError parsing user information', { cause: error, })
-        }
+    try {
+      parsedUsers = JSON.parse(userinfo) as object
+    } catch (error) {
+      if (error instanceof SyntaxError) {
+        throw new SyntaxError('SyntaxError parsing user information', { cause: error, })
       }
+      if (error instanceof TypeError) {
+        throw new SyntaxError('TypeError parsing user information', { cause: error, })
+      }
+    }
 
       if (parsedUsers === null) {
         throw new SyntaxError('How did parsing the users return nothing?')
       }
-    } else if (typeof userinfo === 'object' && userinfo !== null) {
-      parsedUsers = { ...userinfo, }
-    }
 
     for (const [ k, v ] of Object.entries(parsedUsers)) {
       if (k !== '**' && k.search('[^-A-Za-z0-9.]') !== -1) {
@@ -108,21 +97,25 @@ export class Users {
     }
   }
 
-  retrieveUser(un: string): User | undefined {
-    const username = un.toLowerCase()
-    const user: User | undefined = this.users.get(username) ?? undefined
-
-    if (user === undefined) {
-      return undefined
+  retrieve = async (...arguments_: Array<unknown>): Promise<User> => {
+    const username = arguments_[0] as string
+    if (!this.users.has(username)) {
+      throw new TypeError(`Could not get the user ${ username }`)
     }
-
-    // Slip the username into the object we return so that people can get it back.
-    const newUser: User = { username, ...user, }
-
-    return newUser
+    return this.users.get(username) as User
   }
 
-  existsUser(username: string): boolean {
-    return this.users.has(username.toLowerCase())
+  exists = async (): Promise<boolean> => {
+    return this.users.has(this.username)
+  }
+
+  existsUser = async (username: string): Promise<boolean> => {
+    this.username = username.toLowerCase()
+    return await this.exists()
+  }
+
+  checkPassword = async (_password: string): Promise<boolean> => {
+    // TODO: [2025-04-12] Implement
+    return false
   }
 }

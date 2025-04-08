@@ -1,12 +1,11 @@
 {
   // Each JSR package is in this list.
   "workspace": [
-    "./packages/general",
-    "./packages/types",
+    "./packages/database-cloudflare-d1",
     "./packages/eslint-config",
-    "./packages/handlers-response"
-//    "./proposed/database-cloudflare-d1",
-//    "./proposed/workers-cloudflare",
+    "./packages/general",
+    "./packages/handlers-response",
+    "./packages/types"
 //    "./proposed/localserver-deno",
 //    "./proposed/localserver-hapi"
   ]

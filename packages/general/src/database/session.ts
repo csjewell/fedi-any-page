@@ -2,9 +2,13 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 
-type ActorFunc = (username: string) => string
 
-export type Session<T> = {
+import type { ActorFunc } from "./router.ts"
+
+/**
+ * Additional methods the session storage needs to implement.
+ */
+export type SessionStorage<T> = {
   invalidate      : () => Promise<boolean>
   getCookies      : (actorFunc: ActorFunc) => Promise<T>
   valid           : (...arguments_: Array<unknown>) => Promise<boolean>

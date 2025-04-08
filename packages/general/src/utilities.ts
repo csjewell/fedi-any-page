@@ -3,7 +3,6 @@
  */
 import sanitizeHtml from 'sanitize-html'
 import * as AP from '@csjewell-activitypub/types'
-import type { OrArray } from './interfaces.ts'
 
 type UsernameType = {
   username   : string;
@@ -12,7 +11,7 @@ type UsernameType = {
 
 /*
  */
-export const getUsername = (_er: string | OrArray<AP.EntityReference>): UsernameType | undefined => {
+export const getUsername = (_er: string | AP.OrArray<AP.EntityReference>): UsernameType | undefined => {
   if (Array.isArray(_er)) {
     return undefined
   }
@@ -58,7 +57,7 @@ export const entityRefToString = (er: string | URL | AP.EntityReference | undefi
 
 /*
  */
-export const getEntityId = (er: string | OrArray<AP.EntityReference>): string | undefined => {
+export const getEntityId = (er: string | AP.OrArray<AP.EntityReference>): string | undefined => {
   return Array.isArray(er) ? undefined : entityRefToString(er)
 }
 

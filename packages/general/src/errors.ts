@@ -5,6 +5,7 @@ type ErrorOptions = {
   cause? : Error
 }
 
+/** The error that is to be thrown if something is incorrect... TODO */
 export class DataError extends Error {
   constructor(message: string, options: ErrorOptions = {}) {
     super(message, options)
@@ -12,6 +13,7 @@ export class DataError extends Error {
   }
 }
 
+/** The error that is to be thrown if a method or function has not been umplemented. */
 export class NotImplementedError extends Error {
   constructor(message = 'Not Implemented', options: ErrorOptions = {}) {
     super(message, options)

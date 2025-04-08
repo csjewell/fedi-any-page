@@ -48,7 +48,7 @@ export * as assert from './src/TypeAssert.ts'
 export * as cast from './src/TypeCast.ts'
 export * as guard from './src/TypeGuard.ts'
 export type {
-  AnyType, OrArray, StringReferenceMap, TypeOrArrayWithType,
+  AnyType, OrArray, OrPromise, StringReferenceMap, TypeOrArrayWithType,
 } from './src/Utility.ts'
 export { AllTypes } from './src/Utility.ts'
 

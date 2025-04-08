@@ -6,13 +6,13 @@
  *
  * ```ts
  * import * as AP from 'jsr:@csjewell-activitypub/types'
- * import Json from 'jsr:@csjewell-activitypub/general'
+ * import * as Kit from 'jsr:@csjewell-activitypub/general'
  *
  * const headers = new Headers({
  *   'User-Agent': 'ActivityPubTypeScript/0.1.0',
  *   'Accept': 'application/activity+json',
  * })
- * const activityPubObject = <AP.Actor>Json.parse(await
+ * const activityPubObject = <AP.Actor>Kit.Json.parse(await
  *   fetch('https://activitypub.example/users/potus', { headers }).then((resp) => {
  *     resp.text()
  *   })
@@ -24,9 +24,7 @@
 import * as Json from '@hyperjump/json'
 import type * as AP from '@csjewell-activitypub/types'
 
-type OrArray<T> = T | Array<T>
-
-const desiredEntityReference = (value: OrArray<string>): OrArray<AP.EntityReference> => {
+const desiredEntityReference = (value: AP.OrArray<string>): AP.OrArray<AP.EntityReference> => {
   if (typeof value === 'string') {
     return (new URL(value)) as AP.EntityReference
   }

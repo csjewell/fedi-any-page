@@ -2,9 +2,10 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { Cuid } from '@dewars/cuid2'
+import { NotImplementedError } from '../errors.ts'
 import type { default as Keyv } from 'keyv'
-import type { Database } from '../database/handler.ts'
-import type { Session } from '../database/session.ts'
+import type { ActorFunc, DBDocument, StorageHandler } from '../database/router.ts'
+import type { SessionStorage } from '../database/session.ts'
 import type { AuthCookies } from './session-type.ts'
 
 type SessionType = {
@@ -13,10 +14,9 @@ type SessionType = {
   expires  : number;
 }
 
-type SessionDB<TableT, SessionT> = Database<TableT> & Session<SessionT>
-type ActorFunc = (u: string) => string
+type SessionDB<SessionT> = StorageHandler<SessionT> & SessionStorage<SessionT>
 
-export default class MockSession implements SessionDB<void, AuthCookies> {
+export default class MockSession implements SessionDB<AuthCookies> {
   private c        : Keyv
   private username : string
   private session  : SessionType | undefined = undefined
@@ -34,13 +34,16 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
     return undefined
   }
 
-  document = (): void => {
-    return
+  document = (): AuthCookies | undefined => {
+    if (this.session === undefined) {
+      return undefined
+    }
+
+    return this._toCookies()
   }
 
-  /* eslint-disable-next-line @typescript-eslint/require-await -- we are mocking routines that will! */
   save = async (): Promise<boolean> => {
-    return true
+    return await this._setToCache()
   }
 
   /* eslint-disable-next-line @typescript-eslint/require-await -- we are mocking routines that will! */
@@ -75,7 +78,7 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
     return true
   }
 
-  async retrieve(...args: Array<unknown>): Promise<void> {
+  async retrieve(...args: Array<unknown>): Promise<AuthCookies> {
     const actorFunc = args[0] as ActorFunc
     let cookieId: string | undefined
     let isSessionSet: boolean
@@ -109,7 +112,7 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
       await this._setToCache()
     }
 
-    return Promise.resolve()
+    return this._toCookies()
   }
 
   /**
@@ -132,11 +135,11 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
   /**
    * Retrieves the session from the cache.
    *
-   * @returns {Promise<boolean>} We have a valid session if true
+   * @returns {Promise<boolean>} We have a valid session if the Promise resolves to true
    *
    * @private
    */
-  async _retrieveFromCache(): Promise<boolean> {
+  private async _retrieveFromCache(): Promise<boolean> {
     if (this.sessionKey === '') {
       return false
     }
@@ -157,7 +160,12 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
     return true
   }
 
-  _assertSession(value: unknown): asserts value is SessionType {
+/**
+ * Asserts that the object passed in is a valid SessionType object.
+ *
+ * @private
+ */
+  private _assertSession(value: unknown): asserts value is SessionType {
     if (
       value === undefined
       || value === null
@@ -167,7 +175,13 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
     }
   }
 
-  _toCookies(): AuthCookies {
+/**
+ * Converts the stored SessionType object to an AuthCookies object.
+ * @returns {AuthCookies} An AuthCookies object.
+ *
+ * @private
+ */
+  private _toCookies(): AuthCookies {
     this._assertSession(this.session)
     return {
       actinfo : this.sessionKey,
@@ -208,6 +222,7 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
     return this.session.actor === actor
   }
 
+  /** Returns a refreshed AuthCookies object. */
   async refreshCookies(actorFunc: ActorFunc): Promise<AuthCookies> {
     await this._retrieveFromCache()
 
@@ -219,6 +234,7 @@ export default class MockSession implements SessionDB<void, AuthCookies> {
     return this._toCookies()
   }
 
+  /** Returns an AuthCookies object that refers to nothing. */
   clearingCookies(): AuthCookies {
     return {
       actinf  : undefined,
