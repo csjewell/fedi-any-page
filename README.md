@@ -1,6 +1,5 @@
 # activitypage-ts-kit
 
-[![Coverage Status](https://coveralls.io/repos/github/csjewell/activitypub-ts-kit/badge.svg)](https://coveralls.io/github/csjewell/activitypub-ts-kit)
 [![libera manifesto](https://img.shields.io/badge/libera-manifesto-lightgrey.svg)](https://liberamanifesto.com)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
