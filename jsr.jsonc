@@ -9,6 +9,6 @@
 //    "./proposed/workers-cloudflare",
 //    "./proposed/localserver-deno",
 //    "./proposed/localserver-hapi"
-  ],
+  ]
 }
 
