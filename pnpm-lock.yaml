@@ -219,49 +219,6 @@ importers:
         specifier: ^5.8.3
         version: 5.8.3
 
-  proposed/workers-cloudflare:
-    dependencies:
-      '@cloudflare/workers-types':
-        specifier: ^4.20250406.0
-        version: 4.20250406.0
-      '@csjewell-activitypub/general':
-        specifier: workspace:^
-        version: link:../../packages/general
-      '@csjewell-activitypub/types':
-        specifier: workspace:^
-        version: link:../../packages/types
-    devDependencies:
-      '@commitlint/cli':
-        specifier: ^19.8.0
-        version: 19.8.0(@types/node@22.14.0)(typescript@5.8.3)
-      '@commitlint/config-conventional':
-        specifier: ^19.8.0
-        version: 19.8.0
-      '@csjewell-activitypub/eslint-config':
-        specifier: workspace:^
-        version: link:../../packages/eslint-config
-      '@types/node':
-        specifier: ^22.14.0
-        version: 22.14.0
-      commitizen:
-        specifier: ^4.3.1
-        version: 4.3.1(@types/node@22.14.0)(typescript@5.8.3)
-      cz-conventional-changelog:
-        specifier: ^3.3.0
-        version: 3.3.0(@types/node@22.14.0)(typescript@5.8.3)
-      husky:
-        specifier: ^9.1.7
-        version: 9.1.7
-      lint-staged:
-        specifier: ^15.5.0
-        version: 15.5.0
-      tsup:
-        specifier: ^8.4.0
-        version: 8.4.0(jiti@2.4.2)(postcss@8.5.3)(typescript@5.8.3)(yaml@2.7.1)
-      typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
-
 packages:
 
   '@babel/code-frame@7.26.2':
@@ -271,9 +228,6 @@ packages:
   '@babel/helper-validator-identifier@7.25.9':
     resolution: {integrity: sha512-Ed61U6XJc3CVRfkERJWDz4dJwKe7iLmmJsbOGu9wSloNSFttHV0I8g6UAgb7qnK5ly5bGLPd4oXZlxCdANBOWQ==}
     engines: {node: '>=6.9.0'}
-
-  '@cloudflare/workers-types@4.20250406.0':
-    resolution: {integrity: sha512-E42GP9oZFNOoykucfN9H9qaG3IeID6VMHc2zGjVuDYT2G55uESe56tstuGFYYwjMm36QeNob+ZryyiE92idFYA==}
 
   '@commitlint/cli@19.8.0':
     resolution: {integrity: sha512-t/fCrLVu+Ru01h0DtlgHZXbHV2Y8gKocTR5elDOqIRUzQd0/6hpt2VIWOj9b3NDo7y4/gfxeR2zRtXq/qO6iUg==}
@@ -3202,8 +3156,6 @@ snapshots:
       picocolors: 1.1.1
 
   '@babel/helper-validator-identifier@7.25.9': {}
-
-  '@cloudflare/workers-types@4.20250406.0': {}
 
   '@commitlint/cli@19.8.0(@types/node@22.14.0)(typescript@5.8.3)':
     dependencies:
