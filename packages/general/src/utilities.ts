@@ -119,7 +119,7 @@ export const entityRefToURL = (er: string | URL | AP.EntityReference | null | un
  */
 export const isObjectOurs = (
   host: string,
-  er: OrArray<AP.EntityReference> | string | URL | null | undefined,
+  er: AP.OrArray<AP.EntityReference> | string | URL | null | undefined,
 ): boolean => {
   if (er === undefined || er === null) {
     return false

@@ -64,7 +64,7 @@ SPDX-FileCopyrightText = "2025 Curtis Jewell and other contributors"
 SPDX-License-Identifier = "MIT"
 
 [[annotations]]
-path = "proposed/database-cloudflare-d1/schema.sql"
+path = "packages/database-cloudflare-d1/schema.sql"
 SPDX-FileCopyrightText = "2025 Curtis Jewell and other contributors"
 SPDX-License-Identifier = "MIT"
 
