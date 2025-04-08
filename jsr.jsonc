@@ -3,8 +3,8 @@
   "workspace": [
     "./packages/general",
     "./packages/types",
-    "./packages/eslint-config"
-//    "./proposed/handlers-response",
+    "./packages/eslint-config",
+    "./packages/handlers-response"
 //    "./proposed/database-cloudflare-d1",
 //    "./proposed/workers-cloudflare",
 //    "./proposed/localserver-deno",

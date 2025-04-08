@@ -20,7 +20,7 @@
     "include": [
       "LICENSE",
       "README.md",
-      "jsr.json",
+      "jsr.jsonc",
       "index.ts",
       "src/**/*.ts"
     ]

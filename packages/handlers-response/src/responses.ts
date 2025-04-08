@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import { Json, NotImplementedError, type Responses } from '@csjewell-activitypub/general/responses'
+import * as Kit from '@csjewell-activitypub/general'
 import type * as AP from '@csjewell-activitypub/types'
 import type { AuthCookies } from '../general/database-mock/session-type.ts'
 
@@ -23,7 +23,7 @@ type RedirectCode = 301 | 302 | 303 | 307 | 308
 const CORS = true,
   NO_CORS = false
 
-class StandardResponses implements Responses<AuthCookies, Response> {
+class StandardResponses implements Kit.Responses<AuthCookies, Response> {
   /*
    * Provides the default Headers for most routines in KitResponses
    *
@@ -51,7 +51,7 @@ class StandardResponses implements Responses<AuthCookies, Response> {
 
   success200Obj({ body = {} as Record<string, unknown>, addHeaders = {} as Record<string, string>, } = {}): Response {
     // TODO: Add an assertion here.
-    const json = Json.stringify(body as AP.CoreObject)
+    const json = Kit.Json.stringify(body as AP.CoreObject)
 
     return new Response(json, {
       status     : 200,
@@ -60,9 +60,8 @@ class StandardResponses implements Responses<AuthCookies, Response> {
     })
   }
 
-  // deno-lint-ignore no-unused-vars
-  success200Str({ body = '', addHeaders = {} as Record<string, string>, } = {}): Response {
-    throw new NotImplementedError()
+  success200Str({ _body = '', _addHeaders = {} as Record<string, string>, } = {}): Response {
+    throw new Kit.NotImplementedError()
   }
 
   /*
@@ -101,7 +100,7 @@ class StandardResponses implements Responses<AuthCookies, Response> {
     let statusText = 'No Content'
 
     if (info !== '') {
-      statusText = statusText.concat(` (${ info })`)
+      statusText = `${ statusText } (${ info })`
     }
 
     const headers = this._headers({ cors: NO_CORS, addHeaders, })
@@ -134,7 +133,8 @@ class StandardResponses implements Responses<AuthCookies, Response> {
       'Access-Control-Allow-Origin'  : '*',
       'Access-Control-Allow-Methods' : methods.join(', '),
       'Access-Control-Allow-Headers' : allowHeaders.join(', '),
-      'Access-Control-Max-Age'       : '31536000', // 1 year.
+      // Max-Age of 1 year.
+      'Access-Control-Max-Age'       : '31536000',
       'X-Clacks-Overhead'            : 'GNU Terry Pratchett',
     })
 
@@ -156,8 +156,8 @@ class StandardResponses implements Responses<AuthCookies, Response> {
   error403({ info = '', addHeaders = {} as Record<string, string>, } = {}): Response {
     let statusText = 'Forbidden'
 
-    if (info !== undefined) {
-      statusText = statusText.concat(` (${ info })`)
+    if (info !== '') {
+      statusText = `${ statusText } (${ info })`
     }
 
     return Response.json({
@@ -180,7 +180,7 @@ class StandardResponses implements Responses<AuthCookies, Response> {
     let statusText = `${ info } Not Found`
 
     if (additional !== '') {
-      statusText = statusText.concat(` (${ additional })`)
+      statusText = `${ statusText } (${ additional })`
     }
     const headers = this._headers({ cors: CORS, addHeaders, })
 
@@ -227,8 +227,8 @@ class StandardResponses implements Responses<AuthCookies, Response> {
   error422({ info = '', addHeaders = {} as Record<string, string>, } = {}): Response {
     let statusText = 'Unprocessable Request'
 
-    if (info !== undefined) {
-      statusText = statusText.concat(` (${ info })`)
+    if (info !== '') {
+      statusText = `${ statusText } (${ info })`
     }
 
     return Response.json({
@@ -246,7 +246,7 @@ class StandardResponses implements Responses<AuthCookies, Response> {
     let statusText = 'Server Error'
 
     if (info !== '') {
-      statusText = statusText.concat(` (${ info })`)
+      statusText = `${ statusText } (${ info })`
     }
 
     return Response.json({
@@ -262,8 +262,8 @@ class StandardResponses implements Responses<AuthCookies, Response> {
   error503({ info = '', addHeaders = {} as Record<string, string>, } = {}): Response {
     let statusText = 'Service Unavailable'
 
-    if (info !== undefined) {
-      statusText = statusText.concat(` (${ info })`)
+    if (info !== '') {
+      statusText = `${ statusText } (${ info })`
     }
 
     return Response.json({
@@ -292,7 +292,7 @@ export const ActivityPub: StandardResponses = new StandardResponses()
  * return Helpers.Responses.error404NotImplemented()
  * ```
  */
-class WebFingerStandardResponses extends StandardResponses implements Responses<AuthCookies, Response> {
+class WebFingerStandardResponses extends StandardResponses implements Kit.Responses<AuthCookies, Response> {
   /*
    * Provides the default Headers for most routines in KitResponses
    *
@@ -327,7 +327,7 @@ class WebFingerStandardResponses extends StandardResponses implements Responses<
     let statusText = 'No Content'
 
     if (info !== '') {
-      statusText = statusText.concat(` (${ info })`)
+      statusText = `${ statusText } (${ info })`
     }
 
     return new Response(null, {
@@ -340,7 +340,7 @@ class WebFingerStandardResponses extends StandardResponses implements Responses<
 
 export const WebFinger: WebFingerStandardResponses = new WebFingerStandardResponses()
 
-class NodeInfoStandardResponses extends WebFingerStandardResponses implements Responses<AuthCookies, Response> {
+class NodeInfoStandardResponses extends WebFingerStandardResponses implements Kit.Responses<AuthCookies, Response> {
   override getHeaders({ addHeaders = {} as Record<string, string>, } = {}): Record<string, string> {
     return {
       'Content-Type'                : 'application/json; profile="http://nodeinfo.diaspora.software/ns/schema/2.1#',

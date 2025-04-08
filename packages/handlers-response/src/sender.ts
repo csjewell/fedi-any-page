@@ -3,11 +3,10 @@
  */
 import { SignedFetch } from 'activitypub-http-signatures'
 import type * as Kit from '@csjewell-activitypub/general'
-import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
 import type * as AP from '@csjewell-activitypub/types'
 
-export class StandardSender implements Kit.Sender {
-  private config   : Configuration
+export class StandardSender implements Kit.Request.Sender<Response> {
+  private config   : Kit.Configuration<unknown, unknown, unknown>
   private username : string
 
   constructor(config: Configuration, username: string) {
@@ -16,10 +15,10 @@ export class StandardSender implements Kit.Sender {
   }
 
   sendSignedRequest(endpoint: URL, object: AP.Activity): Response {
-    const publicKeyId = `${ this.config.url }activitypub/${ this.username }#main-key`
+    const publicKeyId = `${ this.config.url.toString() }activitypub/${ this.username }#main-key`
     const {privateKey,} = this.config
 
-    console.log('object:', object)
+    console.info('object:', object)
 
     const signedFetch = SignedFetch.sha256(fetch, { publicKeyId, privateKey, })
     let response = new Response()

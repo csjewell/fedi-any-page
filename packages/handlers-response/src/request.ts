@@ -1,12 +1,12 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import type * as Request from '@csjewell-activitypub/general'
+import type * as Kit from '@csjewell-activitypub/general'
 
 /*
  * This class contains helpers to process Request objects within the ActivityPub toolkit.
  */
-export class StandardRequest implements Request.Helper {
+export class StandardRequest implements Kit.Request.Helper {
   req : Request
 
   constructor(req: Request) {
