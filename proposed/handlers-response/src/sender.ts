@@ -2,7 +2,6 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { SignedFetch } from 'activitypub-http-signatures'
-import * as Json from '@csjewell-activitypub/json'
 import type * as Kit from '@csjewell-activitypub/general'
 import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
 import type * as AP from '@csjewell-activitypub/types'
@@ -31,7 +30,7 @@ export class StandardSender implements Kit.Sender {
         'content-type' : 'application/activity+json',
         'accept'       : 'application/activity+json, application/ld+json',
       },
-      body : Json.stringify(object),
+      body : Kit.Json.stringify(object),
     }).then((resp) => {
       response = resp
     })

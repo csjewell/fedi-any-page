@@ -2,7 +2,6 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import * as Kit from '@csjewell-activitypub/general'
-import * as Json from '@csjewell-activitypub/json'
 import * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
 import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
@@ -118,7 +117,7 @@ export class DocumentCFStorage extends CloudflareD1Database implements Database 
         return undefined
       }
 
-      document = Json.parse(documentJSON) as AP.CoreObject
+      document = Kit.Json.parse(documentJSON) as AP.CoreObject
 
       if (document.id === null || document.id === undefined) {
         return undefined
@@ -134,7 +133,7 @@ export class DocumentCFStorage extends CloudflareD1Database implements Database 
       this.message = document
     } else {
       document = this.message
-      documentJSON = Json.stringify(document)
+      documentJSON = Kit.Json.stringify(document)
     }
 
     console.log(`Storing document "${ document.id!.toString() }"`)

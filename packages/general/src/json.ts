@@ -6,7 +6,7 @@
  *
  * ```ts
  * import * as AP from 'jsr:@csjewell-activitypub/types'
- * import * as Json from 'jsr:@csjewell-activitypub/json'
+ * import Json from 'jsr:@csjewell-activitypub/general'
  *
  * const headers = new Headers({
  *   'User-Agent': 'ActivityPubTypeScript/0.1.0',

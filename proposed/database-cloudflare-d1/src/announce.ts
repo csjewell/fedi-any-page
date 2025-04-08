@@ -8,7 +8,6 @@ import type { default as Configuration } from '@csjewell-activitypub/general/con
 import type { Database } from '@csjewell-activitypub/general/database/handler'
 import type * as AP from '@csjewell-activitypub/types'
 
-// import * as Json from '@csjewell-activitypub/json'
 // import type { DBCount, DBId } from './types.ts'
 
 export class AnnounceCFStorage extends CloudflareD1Database implements Database {

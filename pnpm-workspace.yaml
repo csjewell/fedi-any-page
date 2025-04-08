@@ -1,6 +1,5 @@
 packages:
   - packages/*
-  - proposed/*
 linkWorkspacePackages: true
 sharedWorkspaceLockfile: true
 publishBranch: release

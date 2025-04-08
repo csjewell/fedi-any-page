@@ -3,7 +3,6 @@
  */
 import * as Kit from '@csjewell-activitypub/general'
 import { NotImplementedError } from '@csjewell-activitypub/general/errors'
-import * as Json from '@csjewell-activitypub/json'
 import * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
 import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
@@ -243,7 +242,7 @@ export class LikeCFStorage extends CloudflareD1Database implements Database {
         return this.env.localGet(info.url)
       }
 
-      const ret = Json.parse(info.doc)
+      const ret = Kit.Json.parse(info.doc)
 
       if (ret !== undefined) {
         AP.assert.isApType<AP.Like>(ret, 'Like')
