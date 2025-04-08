@@ -11,7 +11,7 @@
     "./database/session": "./src/database/session.ts",
     "./database/users": "./src/database/users.ts",
     "./errors": "./src/errors.ts",
-    "./requests": "./src/requests.ts",
+    "./request": "./src/request.ts",
     "./responses": "./src/responses.ts",
     "./server": "./src/server/mod.ts",
     "./users": "./src/users.ts"

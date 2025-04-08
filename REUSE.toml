@@ -24,7 +24,12 @@ SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = ["**/tsconfig.json", "**/package.json", "**/package.json.not-yet", "**/jsr.json"]
+path = ["**/tsconfig.json", "**/package.json", "**/package.json.not-yet"]
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["**/deno.jsonc", "**/jsr.jsonc"]
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
@@ -35,11 +40,6 @@ SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
 path = "**/.npmrc"
-SPDX-FileCopyrightText = "NONE"
-SPDX-License-Identifier = "CC0-1.0"
-
-[[annotations]]
-path = "**/deno.jsonc"
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
