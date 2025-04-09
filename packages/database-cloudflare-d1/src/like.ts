@@ -1,12 +1,10 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import * as Kit from '@csjewell-activitypub/general'
-import { NotImplementedError } from '@csjewell-activitypub/general/errors'
+import { type Configuration, type Database, NotImplementedError } from '@csjewell-activitypub/general'
 import * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
-import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
-import type { Database } from '@csjewell-activitypub/general/database/handler'
+import type { D1Database } from '@cloudflare/workers-types'
 import type { DBCount, DBDocumentInfo, DBId } from './types.ts'
 
 type LikeInfo = {
@@ -14,11 +12,11 @@ type LikeInfo = {
   created : unknown
 }
 
-export class LikeCFStorage extends CloudflareD1Database implements Database {
+export class LikeCFStorage extends CloudflareD1Database implements Database.StorageHandler<AP.Like> {
   private readonly message : AP.Like
   private dbLikeId         : number | undefined = undefined
 
-  constructor(env: Configuration, message: AP.Like) {
+  constructor(env: Configuration<D1Database, unknown>, message: AP.Like) {
     super(env)
     this.message = message
   }

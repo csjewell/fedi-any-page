@@ -1,18 +1,17 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import * as Kit from '@csjewell-activitypub/general'
 import * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
-import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
-import type { Database } from '@csjewell-activitypub/general/database/handler'
+import type { D1Database } from '@cloudflare/workers-types'
+import type { Configuration, Database } from '@csjewell-activitypub/general'
 import type { DBId } from './types.ts'
 
-export class DocumentCFStorage extends CloudflareD1Database implements Database {
+export class DocumentCFStorage extends CloudflareD1Database implements Database.SessionStorage<AP.CoreObjectReference> {
   private message      : AP.CoreObjectReference
   private dbDocumentId : number | undefined = undefined
 
-  constructor(env: Configuration, message: AP.CoreObject) {
+  constructor(env: Configuration<D1Database, unknown>, message: AP.CoreObject) {
     super(env)
     this.message = message
   }

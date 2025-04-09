@@ -1,14 +1,14 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import { NotImplementedError } from '@csjewell-activitypub/general/errors'
+import { type Configuration, NotImplementedError, type Server } from '@csjewell-activitypub/general'
 import Db from './database.ts'
 import type { DatabaseSync } from 'node:sqlite'
-import type { Configuration } from '@csjewell-activitypub/general/configuration.ts'
-import type { AuthCookies } from '@csjewell-activitypub/general/database-mock/session-type'
 import type * as AP from '@csjewell-activitypub/types'
 
-export class TestConfig implements Configuration<DatabaseSync, void, AuthCookies> {
+type AuthCookies = Server.RePliers.AuthInfo
+
+export class TestConfig implements Configuration<DatabaseSync, AuthCookies> {
   public readonly url        : URL = new URL('http://test-deno.localhost/')
   public readonly privateKey : string = 'locked'
   public readonly database = Db

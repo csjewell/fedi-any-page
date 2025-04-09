@@ -3,4 +3,5 @@
  */
 
 export * as Auth from './auth.ts'
+export type * from './authinfo.ts'
 export * as Replies from './replies.ts'

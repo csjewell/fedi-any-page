@@ -3,8 +3,7 @@
  */
 import { Cuid } from '@dewars/cuid2'
 import type { default as Keyv } from 'keyv'
-import type { Database } from '@csjewell-activitypub/general'
-import type { AuthCookies } from './session-type.ts'
+import type { Database, Server } from '@csjewell-activitypub/general'
 
 type SessionType = {
   username : string;
@@ -12,6 +11,7 @@ type SessionType = {
   expires  : number;
 }
 
+type AuthCookies = Server.RePliers.AuthInfo
 type SessionDB<SessionT> = Database.StorageHandler<SessionT> & Database.SessionStorage<SessionT>
 
 export class MockSession implements SessionDB<AuthCookies> {

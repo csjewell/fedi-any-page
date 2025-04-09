@@ -8,19 +8,17 @@ import { FollowCFStorage } from './follow.ts'
 import { LikeCFStorage } from './like.ts'
 import { NoteCFStorage } from './note.ts'
 import type { D1Database } from '@cloudflare/workers-types'
-import type { Database } from '@csjewell-activitypub/general/database/handler'
-import type { DBUsername } from '@csjewell-activitypub/general/database/misc'
-import type { DatabaseRouter, DBDocument } from '@csjewell-activitypub/general/database/router'
+import type { Configuration, Database } from '@csjewell-activitypub/general'
 import type * as AP from '@csjewell-activitypub/types'
 import type { DBDocumentInfo } from './types.ts'
 
-export class CloudflareD1Database implements DatabaseRouter<D1Database, unknown, unknown> {
+export class CloudflareD1Database implements Database.Router<D1Database, unknown> {
   protected handle   : D1Database
   protected hostName : string
-  protected env      : Configuration<D1Database, unknown, unknown>
-  protected debugDB = false
+  protected env      : Configuration<D1Database, unknown>
+  protected debugDB  : boolean = false
 
-  constructor(env: Configuration) {
+  constructor(env: Configuration<D1Database, unknown>) {
     this.hostName = env.url.hostname
     this.handle = env.database
     if ('debugDB' in env) {

@@ -1,18 +1,17 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import { NotImplementedError } from '@csjewell-activitypub/general/errors'
+import { type Configuration, type Database, Json, NotImplementedError } from '@csjewell-activitypub/general'
 import { CloudflareD1Database } from './router.ts'
-import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
-import type { Database } from '@csjewell-activitypub/general/database/handler'
+import type { D1Database } from '@cloudflare/workers-types'
 import type * as AP from '@csjewell-activitypub/types'
 import type { DBCount, DBId as _DBId } from './types.ts'
 
-export class NoteCFStorage extends CloudflareD1Database implements Database {
+export class NoteCFStorage extends CloudflareD1Database implements Database.StorageHandler<AP.Note> {
   private readonly message : AP.Note
   private dbNoteId         : number | undefined = undefined
 
-  constructor(env: Configuration, message: AP.Note) {
+  constructor(env: Configuration<D1Database, unknown>, message: AP.Note) {
     super(env)
     this.message = message
   }
@@ -61,7 +60,7 @@ export class NoteCFStorage extends CloudflareD1Database implements Database {
       INSERT
         INTO reply_notes (id, object_id, document_id)
       VALUES             ( ?,         ?,           ?)
-    `).bind(id, objectId, Kit.Json.stringify(this.message))
+    `).bind(id, objectId, Json.stringify(this.message))
     const respInsert = await stmtInsert.run()
 
     if (respInsert.success && respInsert.meta.rows_written === 1) {
@@ -71,13 +70,12 @@ export class NoteCFStorage extends CloudflareD1Database implements Database {
     return ok
   }
 
-  // deno-lint-ignore require-await
-  async exists(): Promise<boolean> {
+  exists = async (): Promise<boolean> => {
     throw new NotImplementedError()
   }
 
   // deno-lint-ignore require-await
-  async retrieve(): Promise<unknown> {
+  retrieve = async (): Promise<AP.Note> => {
     throw new NotImplementedError()
   }
 }

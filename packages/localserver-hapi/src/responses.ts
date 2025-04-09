@@ -1,9 +1,10 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
+import type { Responses, Server } from '@csjewell-activitypub/general'
 import type Hapi from '@hapi/hapi'
-import type { AuthCookies } from '../general/database-mock/session-type.ts'
-import type { Responses } from '../general/responses.ts'
+
+type AuthCookies = Server.RePliers.AuthInfo
 
 /**
  * Provides the standard responses for the @csjewell-activitypub scope using

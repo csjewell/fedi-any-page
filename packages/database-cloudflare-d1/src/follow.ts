@@ -2,17 +2,16 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import * as Kit from '@csjewell-activitypub/general'
-import { NotImplementedError } from '@csjewell-activitypub/general/errors'
+import { type Configuration, type Database, NotImplementedError } from '@csjewell-activitypub/general'
 import { CloudflareD1Database } from './router.ts'
-import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
-import type { Database } from '@csjewell-activitypub/general/database/handler'
+import type { D1Database } from '@cloudflare/workers-types'
 import type * as AP from '@csjewell-activitypub/types'
 import type { DBCount, DBId as _DBId } from './types.ts'
 
-export class FollowCFStorage extends CloudflareD1Database implements Database {
+export class FollowCFStorage extends CloudflareD1Database implements Database.SessionStorage<AP.Follow> {
   private readonly message : AP.Follow
 
-  constructor(env: Configuration, message: AP.Follow) {
+  constructor(env: Configuration<D1Database, unknown>, message: AP.Follow) {
     super(env)
     this.message = message
   }
@@ -124,8 +123,7 @@ export class FollowCFStorage extends CloudflareD1Database implements Database {
     return ok
   }
 
-  // deno-lint-ignore require-await
-  async retrieve(): Promise<undefined> {
+  retrieve = async (): Promise<AP.Follow> => {
     throw new NotImplementedError()
   }
 }

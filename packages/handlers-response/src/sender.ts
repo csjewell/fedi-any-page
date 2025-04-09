@@ -2,14 +2,14 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { SignedFetch } from 'activitypub-http-signatures'
-import type * as Kit from '@csjewell-activitypub/general'
+import { type Configuration, Json, type Request } from '@csjewell-activitypub/general'
 import type * as AP from '@csjewell-activitypub/types'
 
-export class StandardSender implements Kit.Request.Sender<Response> {
-  private config   : Kit.Configuration<unknown, unknown, unknown>
+export class StandardSender implements Request.Sender<Response> {
+  private config   : Configuration<unknown, unknown>
   private username : string
 
-  constructor(config: Configuration, username: string) {
+  constructor(config: Configuration<unknown, unknown>, username: string) {
     this.config = config
     this.username = username
   }
@@ -29,7 +29,7 @@ export class StandardSender implements Kit.Request.Sender<Response> {
         'content-type' : 'application/activity+json',
         'accept'       : 'application/activity+json, application/ld+json',
       },
-      body : Kit.Json.stringify(object),
+      body : Json.stringify(object),
     }).then((resp) => {
       response = resp
     })

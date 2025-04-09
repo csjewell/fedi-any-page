@@ -18,7 +18,7 @@ import type * as AP from '@csjewell-activitypub/types'
  *  ```
  *
  */
-export class CloudflareConfig implements Configuration<D1Database, unknown, unknown> {
+export class CloudflareConfig implements Configuration<D1Database, unknown> {
   public readonly url        : URL
   public readonly privateKey : string
   public readonly database   : D1Database

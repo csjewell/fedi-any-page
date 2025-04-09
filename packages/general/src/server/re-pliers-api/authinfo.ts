@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 
-export type AuthCookies = {
+export type AuthInfo = {
   actinfo : undefined | string,
   actinf  : undefined | {
     actor   : string,

@@ -2,18 +2,14 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { DatabaseSync } from 'node:sqlite'
-import { NotImplementedError } from '@csjewell-activitypub/general/errors.ts'
-import type { Database } from '@csjewell-activitypub/general/database/handler.ts'
-import type { DatabaseRouter, DBDocument } from '@csjewell-activitypub/general/database/router.ts'
-import type { Session } from '@csjewell-activitypub/general/database/session.ts'
-import type { Users } from '@csjewell-activitypub/general/database/users.ts'
-import type { AuthCookies } from '@csjewell-activitypub/general/database-mock/session-type.ts'
-import type { OrArray } from '@csjewell-activitypub/general/interfaces.ts'
+import { type Database, NotImplementedError, type Server } from '@csjewell-activitypub/general'
 import type * as AP from '@csjewell-activitypub/types'
+
+type AuthCookies = Server.RePliers.AuthInfo
 
 // https://docs.deno.com/examples/sqlite/
 
-class LocalDB implements DatabaseRouter<DatabaseSync, void, AuthCookies> {
+class LocalDB implements Database.Router<DatabaseSync, AuthCookies> {
   public handle : DatabaseSync
 
   constructor() {
@@ -167,49 +163,49 @@ class LocalDB implements DatabaseRouter<DatabaseSync, void, AuthCookies> {
     return this.handle
   }
 
-  announce(_message: AP.Announce): Database<void> {
+  announce(_message: AP.Announce): Database.StorageHandler<AP.Announce> {
     throw new NotImplementedError()
   }
 
-  follow(_message: AP.Follow): Database<void> {
+  follow(_message: AP.Follow): Database.StorageHandler<AP.Follow> {
     throw new NotImplementedError()
   }
 
-  like(_message: AP.Like): Database<void> {
+  like(_message: AP.Like): Database.StorageHandler<AP.Like> {
     throw new NotImplementedError()
   }
 
-  note(_message: AP.Note): Database<void> {
+  note(_message: AP.Note): Database.StorageHandler<AP.Note> {
     throw new NotImplementedError()
   }
 
-  actor(_message: AP.ActorReference): Database<void> {
+  actor(_message: AP.ActorReference): Database.StorageHandler<AP.Actor> {
     throw new NotImplementedError()
   }
 
-  documentEntry(_message: AP.CoreObjectReference | AP.LinkReference): Database<void> {
+  documentEntry(_message: AP.CoreObjectReference | AP.LinkReference): Database.StorageHandler<AP.CoreObject> {
     throw new NotImplementedError()
   }
 
-  getDocument(_dr: string | OrArray<AP.EntityReference> | undefined): DBDocument {
+  getDocument(_dr: string | AP.OrArray<AP.EntityReference> | undefined): Database.DBDocument {
     throw new NotImplementedError()
   }
 
-  users(_username: string): Database<void> & Users {
+  users(): Database.UsersStorage {
     throw new NotImplementedError()
   }
 
   session(
     _username: string,
     _sessionKey: string,
-  ): (Database<void> & Session<AuthCookies>) | Promise<Database<void> & Session<AuthCookies>> {
+  ): AP.OrPromise<Database.SessionStorage<AuthCookies>> {
     throw new NotImplementedError()
   }
 
   newSession(
     _username: string,
     _actorFunc: (username: string) => string,
-  ): (Database<void> & Session<AuthCookies>) | Promise<Database<void> & Session<AuthCookies>> {
+  ): AP.OrPromise<Database.SessionStorage<AuthCookies>> {
     throw new NotImplementedError()
   }
 }

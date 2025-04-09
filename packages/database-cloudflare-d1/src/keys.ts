@@ -2,10 +2,9 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import crypto from 'node:crypto'
-import * as Kit from '@csjewell-activitypub/general'
-import { DataError } from '@csjewell-activitypub/general/errors'
+import { type Configuration, DataError } from '@csjewell-activitypub/general'
 import { CloudflareD1Database } from './router.ts'
-import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
+import type { D1Database } from '@cloudflare/workers-types'
 import type { DatabaseKey } from '@csjewell-activitypub/general/database/misc'
 import type * as AP from '@csjewell-activitypub/types'
 
@@ -22,7 +21,7 @@ export class KeysCFStorage extends CloudflareD1Database implements DatabaseKey {
   private dbKeyId       : number | undefined = undefined
   private dbDatabaseKey : DBDatabaseKey | undefined = undefined
 
-  constructor(env: Configuration, message: AP.ActorReference | string) {
+  constructor(env: Configuration<D1Database, unknown>, message: AP.ActorReference | string) {
     super(env)
     const actorId = Kit.entityRefToString(message as URL)
 

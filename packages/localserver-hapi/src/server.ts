@@ -4,11 +4,9 @@
  */
 import Brok from 'brok'
 import { Keyv } from 'keyv'
+import { Server } from '@csjewell-activitypub/general'
 import Hapi from '@hapi/hapi'
 import KeyvSqlite from '@keyv/sqlite'
-// import { RepliesAPI } from '../general/server/re-pliers-api/replies.ts'
-import * as Server from '@csjewell-activitypub/general/server/mod.ts'
-import * as AuthAPI from '@csjewell-activitypub/general/server/re-pliers-api/auth.ts'
 import { TestConfig } from './configuration.ts'
 import HAPIRequest from './request.ts'
 import HAPIResponses from './responses.ts'
@@ -36,7 +34,8 @@ export default class HAPIServer {
     const kvStore = new KeyvSqlite(`sqlite:/${ dbLocation }`)
     const _kvCache = new Keyv<string>({ store: kvStore, ttl: 28800, })
 
-    this.config = new TestConfig() // (new LocalDB(kvCache))
+    // ...(new LocalDB(kvCache))
+    this.config = new TestConfig()
 
     this.server = Hapi.server({
       host        : 'localhost',
@@ -88,7 +87,7 @@ export default class HAPIServer {
       path    : '/re-pliers-api/login',
       options : this.opts,
       handler : async (req: Hapi.Request, h: Hapi.ResponseToolkit): Promise<Hapi.ResponseObject> => {
-        return await AuthAPI.Login(this.config, reqh(req), resp(h))
+        return await Server.RePliers.Auth.Login(this.config, reqh(req), resp(h))
       },
     })
 
@@ -97,7 +96,7 @@ export default class HAPIServer {
       path    : '/re-pliers-api/verify',
       options : this.opts,
       handler : async (req: Hapi.Request, h: Hapi.ResponseToolkit): Promise<Hapi.ResponseObject> => {
-        return await AuthAPI.Verify(this.config, reqh(req), resp(h))
+        return await Server.RePliers.Auth.Verify(this.config, reqh(req), resp(h))
       },
     })
 
@@ -106,7 +105,7 @@ export default class HAPIServer {
       path    : '/re-pliers-api/logout',
       options : this.opts,
       handler : async (req: Hapi.Request, h: Hapi.ResponseToolkit): Promise<Hapi.ResponseObject> => {
-        return await AuthAPI.Logout(this.config, reqh(req), resp(h))
+        return await Server.RePliers.Auth.Logout(this.config, reqh(req), resp(h))
       },
     })
 

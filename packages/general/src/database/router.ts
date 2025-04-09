@@ -60,7 +60,7 @@ export type Router<DatabaseT, SessionReturnT> = {
   /** Returns the handler for the database table that stores user information. */
   users         : () => StorageHandler<User> & UsersStorage
   /** Returns a handler for the "session" table when we have no session established */
-  newSession    : (username: string, actorFunc: ActorFunc) => OrPromise<StorageHandler<SessionReturnT> & SessionStorage<SessionReturnT>>
+  newSession    : (username: string, actorFunc: ActorFunc) => OrPromise<SessionStorage<SessionReturnT>>
   /** Returns a handler for the "session" table when we have a session established already */
-  session       : (username: string, sessionKey: string) => OrPromise<StorageHandler<SessionReturnT> & SessionStorage<SessionReturnT>>
+  session       : (username: string, sessionKey: string) => OrPromise<SessionStorage<SessionReturnT>>
 }

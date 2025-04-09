@@ -1,12 +1,13 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import { Kit, DataError, Json, type Configuration, type Database } from '@csjewell-activitypub/general'
+import { DataError, Json, type Configuration, type Database } from '@csjewell-activitypub/general'
 import * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
 import type { DBId } from './types.ts'
+import { D1Database } from '@cloudflare/workers-types'
 
-export class ActorCFStorage extends CloudflareD1Database implements Database {
+export class ActorCFStorage extends CloudflareD1Database implements Database.StorageHandler<AP.ActorReference> {
   /*
    * Store an Actor (a Person, Application, etc.) within the database
    */
@@ -14,7 +15,7 @@ export class ActorCFStorage extends CloudflareD1Database implements Database {
   private dbActorId    : number | undefined
   private dbDocumentId : number | undefined
 
-  constructor(env: Configuration, message: AP.ActorReference) {
+  constructor(env: Configuration<D1Database, unknown>, message: AP.ActorReference) {
     super(env)
     this.message = message
     this.dbActorId = undefined

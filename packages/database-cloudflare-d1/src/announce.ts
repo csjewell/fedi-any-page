@@ -2,37 +2,34 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import * as Kit from '@csjewell-activitypub/general'
-import { NotImplementedError } from '@csjewell-activitypub/general/errors'
+import { NotImplementedError, type Configuration, type Database } from '@csjewell-activitypub/general'
 import { CloudflareD1Database } from './router.ts'
-import type { default as Configuration } from '@csjewell-activitypub/general/configuration'
-import type { Database } from '@csjewell-activitypub/general/database/handler'
 import type * as AP from '@csjewell-activitypub/types'
 
 // import type { DBCount, DBId } from './types.ts'
 
-export class AnnounceCFStorage extends CloudflareD1Database implements Database {
+export class AnnounceCFStorage extends CloudflareD1Database implements Database.StorageHandler<AP.Announce> {
   private message      : AP.Announce
   private dbAnnounceId : number | undefined = undefined
 
-  constructor(env: Configuration, message: AP.Announce) {
+  constructor(env: Configuration<D1Database, unknown>, message: AP.Announce) {
     super(env)
     this.message = message
   }
 
-  databaseId(): number | undefined {
+  databaseId = (): number | undefined => {
     return this.dbAnnounceId
   }
 
-  document(): AP.Announce {
+  document = (): AP.Announce => {
     return this.message
   }
 
-  // deno-lint-ignore require-await
-  async count(): Promise<number> {
+  count = async (): Promise<number> => {
     throw new NotImplementedError()
   }
 
-  async remove(): Promise<boolean> {
+  remove = async (): Promise<boolean> => {
     // If from Mastodon - someone un-announced the post. We need to delete it from the store.
     const actorId = Kit.getEntityId(this.message.actor)
 
@@ -76,7 +73,7 @@ export class AnnounceCFStorage extends CloudflareD1Database implements Database 
     return ok
   }
 
-  async save(): Promise<boolean> {
+  save = async (): Promise<boolean> => {
     const actorId = Kit.getEntityId(this.message.actor)
 
     const { object, } = this.getDocument(this.message.object)
@@ -96,7 +93,7 @@ export class AnnounceCFStorage extends CloudflareD1Database implements Database 
       return true
     }
 
-    console.log(`Attempting to store Announce ${ actorId } on ${ announceId.toString() }`)
+    console.info(`Attempting to store Announce ${ actorId } on ${ announceId.toString() }`)
 
     let ok = false
     const stmtInsert = this.handle.prepare(`
@@ -114,13 +111,11 @@ export class AnnounceCFStorage extends CloudflareD1Database implements Database 
     return ok
   }
 
-  // deno-lint-ignore require-await
-  async exists(): Promise<boolean> {
+  exists = async (): Promise<boolean> => {
     throw new NotImplementedError()
   }
 
-  // deno-lint-ignore require-await
-  async retrieve(): Promise<boolean> {
+  retrieve = async (): Promise<AP.Announce> => {
     throw new NotImplementedError()
   }
 }

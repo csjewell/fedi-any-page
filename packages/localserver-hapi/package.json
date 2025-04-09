@@ -1,7 +1,7 @@
 {
   "name": "@csjewell-activitypub/localserver-hapi",
-  "version": "0.1.0",
-  "description": "hapi-based server to local testing.",
+  "version": "0.1.1-alpha.1",
+  "description": "hapi-based server to do local testing with.",
   "type": "module",
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
     "name": "Curtis Jewell",
     "email": "swordsman+aptypescript@curtisjewell.name"
   },
-  "packageManager": "pnpm@10.7.1",
+  "packageManager": "pnpm@10.8.0",
   "engines": {
     "node": ">=22.6.0"
   },
@@ -40,7 +40,9 @@
     "tsc": "tsc"
   },
   "dependencies": {
+    "@csjewell-activitypub/database-mock": "workspace:^",
     "@csjewell-activitypub/general": "workspace:^",
+    "@csjewell-activitypub/types": "workspace:^",
     "@hapi/hapi": "^21.4.0",
     "@keyv/sqlite": "^4.0.2",
     "brok": "^6.0.0",

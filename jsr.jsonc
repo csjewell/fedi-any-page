@@ -2,12 +2,13 @@
   // Each JSR package is in this list.
   "workspace": [
     "./packages/database-cloudflare-d1",
+    "./packages/database-mock",
     "./packages/eslint-config",
     "./packages/general",
     "./packages/handlers-response",
+    "./proposed/localserver-hapi",
     "./packages/types"
 //    "./proposed/localserver-deno",
-//    "./proposed/localserver-hapi"
   ]
 }
 
