@@ -6,8 +6,8 @@ import type { Configuration } from '../../configuration.ts'
 import type * as Request from '../../request.ts'
 import type { Responses } from '../../responses.ts'
 
-const appIndex = <DatabaseT, TableT, SessionReturnT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, TableT, SessionReturnT>,
+const appIndex = <DatabaseT, SessionReturnT, SessionT, ResponseT>(
+  config: Configuration<DatabaseT, SessionReturnT>,
   req: Request.Helper,
   resp: Responses<SessionT, ResponseT>,
 ): ResponseT => {

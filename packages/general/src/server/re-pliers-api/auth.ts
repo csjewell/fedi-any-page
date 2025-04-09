@@ -5,14 +5,14 @@ import type { Configuration } from '../../configuration.ts'
 import type * as Request from '../../request.ts'
 import type { Responses } from '../../responses.ts'
 
-type APIHandler = <DatabaseT, TableT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, TableT, SessionT>,
+type APIHandler = <DatabaseT, SessionT, ResponseT>(
+  config: Configuration<DatabaseT, SessionT>,
   req: Request.Helper,
   resp: Responses<SessionT, ResponseT>,
 ) => Promise<ResponseT>
 
-export const Login: APIHandler = async <DatabaseT, TableT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, TableT, SessionT>,
+export const Login: APIHandler = async <DatabaseT, SessionT, ResponseT>(
+  config: Configuration<DatabaseT, SessionT>,
   req: Request.Helper,
   resp: Responses<SessionT, ResponseT>,
 ): Promise<ResponseT> => {
@@ -50,8 +50,8 @@ export const Login: APIHandler = async <DatabaseT, TableT, SessionT, ResponseT>(
   return resp.success200Obj({ body, cookies, })
 }
 
-export const Verify: APIHandler = async <DatabaseT, TableT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, TableT, SessionT>,
+export const Verify: APIHandler = async <DatabaseT, SessionT, ResponseT>(
+  config: Configuration<DatabaseT, SessionT>,
   req: Request.Helper,
   resp: Responses<SessionT, ResponseT>,
 ): Promise<ResponseT> => {
@@ -85,8 +85,8 @@ export const Verify: APIHandler = async <DatabaseT, TableT, SessionT, ResponseT>
   return resp.success200Obj({ body, cookies, })
 }
 
-export const Logout: APIHandler = async <DatabaseT, TableT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, TableT, SessionT>,
+export const Logout: APIHandler = async <DatabaseT, SessionT, ResponseT>(
+  config: Configuration<DatabaseT, SessionT>,
   req: Request.Helper,
   resp: Responses<SessionT, ResponseT>,
 ): Promise<ResponseT> => {

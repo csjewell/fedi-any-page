@@ -3,15 +3,15 @@
  */
 
 
-import type { ActorFunc } from "./router.ts"
+import type { ActorFunc } from './router.ts'
 
 /**
  * Additional methods the session storage needs to implement.
  */
-export type SessionStorage<T> = {
+export type SessionStorage<SessionReturnT> = {
   invalidate      : () => Promise<boolean>
-  getCookies      : (actorFunc: ActorFunc) => Promise<T>
+  getCookies      : (actorFunc: ActorFunc) => Promise<SessionReturnT>
   valid           : (...arguments_: Array<unknown>) => Promise<boolean>
-  refreshCookies  : (actorFunc: ActorFunc) => Promise<T>
-  clearingCookies : () => T
+  refreshCookies  : (actorFunc: ActorFunc) => Promise<SessionReturnT>
+  clearingCookies : () => SessionReturnT
 }

@@ -3,11 +3,11 @@
  */
 import type {
   Actor, ActorReference, Announce, CoreObject, CoreObjectReference, EntityReference,
-  Follow, Like, Link, LinkReference, Note, OrArray, OrPromise
+  Follow, Like, Link, LinkReference, Note, OrArray, OrPromise,
 } from '@csjewell-activitypub/types'
+import type { User } from '../users.ts'
 import type { SessionStorage } from './session.ts'
 import type { UsersStorage } from './users.ts'
-import type { User } from '../users.ts'
 
 /**
  * The methods that operate on storage of individual types
@@ -15,13 +15,13 @@ import type { User } from '../users.ts'
  * @param T The type of information returned from the storage
  */
 export type StorageHandler<T> = {
-  databaseId: () => number | undefined
-  document: () => T | undefined
-  remove: () => Promise<boolean>
-  save: (...arguments_: Array<unknown>) => Promise<boolean>
-  exists: () => Promise<boolean>
-  retrieve: (...arguments_: Array<unknown>) => Promise<T>
-  shorten: () => Promise<{ url: URL | undefined; id: number | undefined }>
+  databaseId : () => number | undefined
+  document   : () => T | undefined
+  remove     : () => Promise<boolean>
+  save       : (...arguments_: Array<unknown>) => Promise<boolean>
+  exists     : () => Promise<boolean>
+  retrieve   : (...arguments_: Array<unknown>) => Promise<T>
+  shorten    : () => Promise<{ url: URL | undefined; id: number | undefined }>
 }
 
 /** TODO: Document [2025-04-12] */
@@ -40,7 +40,7 @@ export type ActorFunc = (username: string) => string
  * @param TableT (TODOCUMENT)
  * @param SessionT The type of the session information
  */
-export interface DatabaseRouter<DatabaseT, SessionT> {
+export type Router<DatabaseT, SessionReturnT> = {
   /** Returns the handle to the database itself */
   dbHandle      : () => DatabaseT
   /** Returns the handler for the database table that srores references to Announce objects */
@@ -58,9 +58,9 @@ export interface DatabaseRouter<DatabaseT, SessionT> {
   /** Returns an ActivityPub document and its numeric id */
   getDocument   : (dr: string | OrArray<EntityReference> | undefined) => DBDocument
   /** Returns the handler for the database table that stores user information. */
-  users         : (username: string) => StorageHandler<User> & UsersStorage
+  users         : () => StorageHandler<User> & UsersStorage
   /** Returns a handler for the "session" table when we have no session established */
-  newSession    : (username: string, actorFunc: ActorFunc) => OrPromise<StorageHandler<SessionT> & SessionStorage<SessionT>>
+  newSession    : (username: string, actorFunc: ActorFunc) => OrPromise<StorageHandler<SessionReturnT> & SessionStorage<SessionReturnT>>
   /** Returns a handler for the "session" table when we have a session established already */
-  session       : (username: string, sessionKey: string) => OrPromise<StorageHandler<SessionT> & SessionStorage<SessionT>>
+  session       : (username: string, sessionKey: string) => OrPromise<StorageHandler<SessionReturnT> & SessionStorage<SessionReturnT>>
 }

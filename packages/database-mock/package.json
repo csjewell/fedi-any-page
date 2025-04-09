@@ -1,0 +1,67 @@
+{
+  "name": "@csjewell-activitypub/database-mock",
+  "version": "0.1.1-alpha.1",
+  "description": "Mock database to use when testing the ActivityPub toolkit.",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csjewell/activitypub-ts-kit.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Curtis Jewell",
+    "email": "swordsman+aptypescript@curtisjewell.name"
+  },
+  "packageManager": "pnpm@10.7.1",
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "lint-staged": {
+    "**/*.{js,ts}": [
+      "eslint --fix"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "main": "index.ts",
+  "publishConfig": {
+    "main": "dist/index.js",
+    "typings": "dist/index.d.ts"
+  },
+  "files": [
+    "README.md",
+    "dist/",
+    "package.json"
+  ],
+  "keywords": [
+    "activitypub"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "lint": "eslint --flag unstable_config_lookup_from_file",
+    "prepublishOnly": "tsup",
+    "tsc": "tsc"
+  },
+  "dependencies": {
+    "@csjewell-activitypub/general": "workspace:^",
+    "@csjewell-activitypub/types": "workspace:^",
+    "@dewars/cuid2": "npm:@jsr/dewars__cuid2@^0.1.0",
+    "@keyv/sqlite": "^4.0.1",
+    "keyv": "npm:keyv@^5.3.2"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@csjewell-activitypub/eslint-config": "workspace:^",
+    "@types/node": "^22.14.0",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3"
+  }
+}

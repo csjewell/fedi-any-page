@@ -1,16 +1,17 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import MockSession from './session.ts'
-import MockUsers from './users.ts'
-import type * as AP from '@csjewell-activitypub/types'
+import { AnyUsers } from './any-users.ts'
+import { MockSession } from './session.ts'
 import type { default as Keyv } from 'keyv'
-import type { DatabaseRouter, DBDocument, StorageHandler, } from '../database/router.ts'
+import type * as AP from '@csjewell-activitypub/types'
+import type { DatabaseRouter, DBDocument, StorageHandler } from '../database/router.ts'
 import type { AuthCookies } from './session-type.ts'
 
-export default class MockDatabase implements DatabaseRouter<Keyv, AuthCookies> {
+export class Database implements DatabaseRouter<Keyv, AuthCookies> {
   private cache : Keyv
 
+  // TODO: [2025-04-10] Pass in a string to create a JsonUsers, instead.
   constructor(c: Keyv) {
     this.cache = c
   }
@@ -24,12 +25,8 @@ export default class MockDatabase implements DatabaseRouter<Keyv, AuthCookies> {
   documentEntry(): StorageHandler<AP.CoreObject> { throw new Error('unimplemented') }
   getDocument(): DBDocument { throw new Error('unimplemented') }
 
-  users(username: string): MockUsers {
-    if (username.length < 6) {
-      return new MockUsers(username, false)
-    }
-
-    return new MockUsers(username, true)
+  users(): AnyUsers {
+    return new AnyUsers()
   }
 
   async newSession(username: string, actorFunc: (u: string) => string): Promise<MockSession> {

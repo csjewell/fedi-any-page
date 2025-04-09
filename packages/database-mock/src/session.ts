@@ -2,10 +2,8 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { Cuid } from '@dewars/cuid2'
-import { NotImplementedError } from '../errors.ts'
 import type { default as Keyv } from 'keyv'
-import type { ActorFunc, DBDocument, StorageHandler } from '../database/router.ts'
-import type { SessionStorage } from '../database/session.ts'
+import type { Database } from '@csjewell-activitypub/general'
 import type { AuthCookies } from './session-type.ts'
 
 type SessionType = {
@@ -14,9 +12,9 @@ type SessionType = {
   expires  : number;
 }
 
-type SessionDB<SessionT> = StorageHandler<SessionT> & SessionStorage<SessionT>
+type SessionDB<SessionT> = Database.StorageHandler<SessionT> & Database.SessionStorage<SessionT>
 
-export default class MockSession implements SessionDB<AuthCookies> {
+export class MockSession implements SessionDB<AuthCookies> {
   private c        : Keyv
   private username : string
   private session  : SessionType | undefined = undefined
@@ -79,7 +77,7 @@ export default class MockSession implements SessionDB<AuthCookies> {
   }
 
   async retrieve(...args: Array<unknown>): Promise<AuthCookies> {
-    const actorFunc = args[0] as ActorFunc
+    const actorFunc = args[0] as Database.ActorFunc
     let cookieId: string | undefined
     let isSessionSet: boolean
 
@@ -160,7 +158,7 @@ export default class MockSession implements SessionDB<AuthCookies> {
     return true
   }
 
-/**
+  /**
  * Asserts that the object passed in is a valid SessionType object.
  *
  * @private
@@ -175,7 +173,7 @@ export default class MockSession implements SessionDB<AuthCookies> {
     }
   }
 
-/**
+  /**
  * Converts the stored SessionType object to an AuthCookies object.
  * @returns {AuthCookies} An AuthCookies object.
  *
@@ -197,7 +195,7 @@ export default class MockSession implements SessionDB<AuthCookies> {
     return this.remove()
   }
 
-  async getCookies(actorFunc: ActorFunc): Promise<AuthCookies> {
+  async getCookies(actorFunc: Database.ActorFunc): Promise<AuthCookies> {
     if (this.session === undefined) {
       await this.retrieve(actorFunc)
     }
@@ -223,7 +221,7 @@ export default class MockSession implements SessionDB<AuthCookies> {
   }
 
   /** Returns a refreshed AuthCookies object. */
-  async refreshCookies(actorFunc: ActorFunc): Promise<AuthCookies> {
+  async refreshCookies(actorFunc: Database.ActorFunc): Promise<AuthCookies> {
     await this._retrieveFromCache()
 
     if (this.session === undefined) {

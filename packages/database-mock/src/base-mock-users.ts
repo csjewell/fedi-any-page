@@ -2,9 +2,9 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 
-import { BaseUsersStorage, } from '../database/users.ts'
+import { Database } from '@csjewell-activitypub/general'
 
-export default class BaseMockUsers extends BaseUsersStorage {
+export class BaseMockUsers extends Database.BaseUsersStorage {
   databaseId = (): undefined => {
     return undefined
   }

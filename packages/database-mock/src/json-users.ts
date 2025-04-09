@@ -2,18 +2,28 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 
-import { StorageHandler } from '../database/router.ts'
-import { UsersStorage } from '../database/users.ts'
-import { User } from '../users.ts'
-import BaseMockUsers from './base-mock-users.ts'
+import { BaseMockUsers } from './base-mock-users.ts'
+import type { Database, User } from '@csjewell-activitypub/general'
 
-export default class JsonUsers extends BaseMockUsers implements StorageHandler<User>, UsersStorage {
-  private users : Map<string, User>
+type ExtendedUser = Omit<User, 'username'> & {
+  password : string
+}
+
+type ExtendedUserRead = Omit<User, 'username'> & {
+  password : string | undefined
+}
+
+export class JsonUsers extends BaseMockUsers implements Database.UsersStorage {
+  private users : Map<string, ExtendedUser>
 
   constructor(userinfo: string) {
     super()
     this.users = new Map()
     let parsedUsers: object = {}
+
+    if (userinfo === '') {
+      throw new SyntaxError('Cannot parse an empty string?')
+    }
 
     try {
       parsedUsers = JSON.parse(userinfo) as object
@@ -26,10 +36,8 @@ export default class JsonUsers extends BaseMockUsers implements StorageHandler<U
       }
     }
 
-      if (parsedUsers === null) {
-        throw new SyntaxError('How did parsing the users return nothing?')
-      }
-
+    // TODO: Implement using valibot
+    /* eslint-disable */
     for (const [ k, v ] of Object.entries(parsedUsers)) {
       if (k !== '**' && k.search('[^-A-Za-z0-9.]') !== -1) {
         throw new SyntaxError('Username not valid')
@@ -42,7 +50,7 @@ export default class JsonUsers extends BaseMockUsers implements StorageHandler<U
       }
 
       Object.keys(v).forEach((key: string): void => {
-        const ok = key === 'fullname' || key === 'homepage' || key === 'summary' || key === 'aliases'
+        const ok = key === 'fullname' || key === 'homepage' || key === 'summary' || key === 'aliases' || key === 'password'
 
         if (!ok) {
           throw new SyntaxError(`Extra key in user: ${ key }`)
@@ -53,7 +61,7 @@ export default class JsonUsers extends BaseMockUsers implements StorageHandler<U
         throw new SyntaxError(`Name not valid in user: ${ v.fullname.toString() }`)
       }
 
-      const userObj: User = { fullname: v.fullname, }
+      const userObj: ExtendedUserRead = { fullname: v.fullname, password: undefined, }
 
       if (!(v.homepage === undefined || typeof v.homepage === 'string')) {
         throw new SyntaxError(`Homepage not valid in user: ${ v.homepage.toString() }`)
@@ -69,6 +77,14 @@ export default class JsonUsers extends BaseMockUsers implements StorageHandler<U
 
       if (v.summary) {
         userObj.summary = v.summary
+      }
+
+      if (!(v.password === undefined || typeof v.password !== 'string')) {
+        throw new SyntaxError('Password not valid in user')
+      }
+
+      if (v.password) {
+        userObj.password = v.password
       }
 
       if (!(v.aliases === undefined || Array.isArray(v.aliases))) {
@@ -89,22 +105,31 @@ export default class JsonUsers extends BaseMockUsers implements StorageHandler<U
         userObj.aliases = v.aliases
       }
 
-      this.users.set(username, userObj)
+      this.users.set(username, userObj as ExtendedUser)
     }
+    /* eslint-enable */
 
     if (this.users.size === 0) {
       throw new SyntaxError('Parsing the users returned nothing')
     }
   }
 
+  /* eslint-disable-next-line @typescript-eslint/require-await -- We are mocking a routine that COULD await. */
   retrieve = async (...arguments_: Array<unknown>): Promise<User> => {
-    const username = arguments_[0] as string
+    const username = (arguments_[0] as string).toLowerCase()
+
     if (!this.users.has(username)) {
       throw new TypeError(`Could not get the user ${ username }`)
     }
-    return this.users.get(username) as User
+
+    this.username = username
+    const eUser = this.users.get(username)
+    const { fullname, homepage, summary, aliases, dId, } = eUser as ExtendedUser
+
+    return { username, fullname, homepage, summary, aliases, dId, }
   }
 
+  /* eslint-disable-next-line @typescript-eslint/require-await -- We are mocking a routine that COULD await. */
   exists = async (): Promise<boolean> => {
     return this.users.has(this.username)
   }
@@ -114,8 +139,15 @@ export default class JsonUsers extends BaseMockUsers implements StorageHandler<U
     return await this.exists()
   }
 
-  checkPassword = async (_password: string): Promise<boolean> => {
-    // TODO: [2025-04-12] Implement
-    return false
+  /* eslint-disable-next-line @typescript-eslint/require-await -- We are mocking a routine that COULD await. */
+  checkPassword = async (pwToCheck: string): Promise<boolean> => {
+    if (!this.users.has(this.username)) {
+      throw new TypeError(`Could not get the user ${ this.username }`)
+    }
+
+    const eUser = this.users.get(this.username)
+    const { password, } = eUser as ExtendedUser
+
+    return pwToCheck === password
   }
 }

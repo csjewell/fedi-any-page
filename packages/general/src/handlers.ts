@@ -5,21 +5,21 @@ import { NAMESPACE_URL, v5 as uuid } from '@std/uuid'
 import * as KitUtils from './utilities.ts'
 import type * as AP from '@csjewell-activitypub/types'
 import type { Configuration } from './configuration.ts'
-import type { DatabaseRouter } from './database/router.ts'
+import type { Router } from './database/router.ts'
 import type * as Request from './request.ts'
 import type { Responses } from './responses.ts'
 
-export class Router<SessionT, ResponseT>
+export class RouterClass<SessionT, ResponseT>
 implements Request.Router<SessionT, ResponseT> {
-  protected kdb               : DatabaseRouter<unknown, unknown, unknown>
+  protected kdb               : Router<unknown, unknown>
   protected resp              : Responses<SessionT, ResponseT>
-  protected readonly env      : Configuration<unknown, unknown, unknown>
+  protected readonly env      : Configuration<unknown, unknown>
   protected readonly username : string
 
   constructor(
-    kdb: DatabaseRouter<unknown, unknown, unknown>,
+    kdb: Router<unknown, unknown>,
     resp: Responses<SessionT, ResponseT>,
-    env: Configuration<unknown, unknown, unknown>,
+    env: Configuration<unknown, unknown>,
     username: string,
   ) {
     this.kdb = kdb

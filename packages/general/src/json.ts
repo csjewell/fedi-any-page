@@ -24,6 +24,7 @@
 import * as Json from '@hyperjump/json'
 import type * as AP from '@csjewell-activitypub/types'
 
+/* eslint-disable-next-line sonarjs/function-return-type */
 const desiredEntityReference = (value: AP.OrArray<string>): AP.OrArray<AP.EntityReference> => {
   if (typeof value === 'string') {
     return (new URL(value)) as AP.EntityReference

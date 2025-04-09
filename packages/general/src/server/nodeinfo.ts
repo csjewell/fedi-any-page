@@ -5,14 +5,14 @@ import type { Configuration } from '../configuration.ts'
 import type * as Request from '../request.ts'
 import type { Responses } from '../responses.ts'
 
-type APIHandlerSync = <DatabaseT, TableT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, TableT, SessionT>,
+type APIHandlerSync = <DatabaseT, SessionT, ResponseT>(
+  config: Configuration<DatabaseT, SessionT>,
   req: Request.Helper,
   resp: Responses<SessionT, ResponseT>,
 ) => ResponseT
 
-export const NodeInfo: APIHandlerSync = <DatabaseT, TableT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, TableT, SessionT>,
+export const NodeInfo: APIHandlerSync = <DatabaseT, SessionT, ResponseT>(
+  config: Configuration<DatabaseT, SessionT>,
   _req: Request.Helper,
   resp: Responses<SessionT, ResponseT>,
 ): ResponseT => {

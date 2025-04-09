@@ -2,15 +2,15 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import type * as AP from '@csjewell-activitypub/types'
-import type { DatabaseRouter } from './database/router.ts'
+import type * as Database from './database/mod.ts'
 
 /**
  * Defines an abstract configuration class
  */
-export type Configuration<DatabaseT, TableT, SessionReturnT> = {
+export type Configuration<DatabaseT, SessionReturnT> = {
   url        : URL
   privateKey : string
-  database   : DatabaseRouter<DatabaseT, TableT, SessionReturnT>
+  database   : Database.Router<DatabaseT, SessionReturnT>
   debugDB?   : boolean
   siteName   : string
 

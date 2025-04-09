@@ -5,18 +5,18 @@ import type { Configuration } from '../configuration.ts'
 import type * as Request from '../request.ts'
 import type { Responses } from '../responses.ts'
 import type { User } from '../users.ts'
-import type { APIHandlerSync } from './types.ts'
+import type { APIHandler } from './types.ts'
 
 type FingerHandlerServer = (account: string) => Record<string, unknown>
 
-type FingerHandlerMastodon = <DatabaseT, TableT, SessionT>(
+type FingerHandlerMastodon = <DatabaseT, SessionT>(
   account: string,
-  config: Configuration<DatabaseT, TableT, SessionT>,
+  config: Configuration<DatabaseT, SessionT>,
 ) => Record<string, unknown>
 
-type FingerHandlerUser = <DatabaseT, TableT, SessionT>(
+type FingerHandlerUser = <DatabaseT, SessionT>(
   account: string,
-  config: Configuration<DatabaseT, TableT, SessionT>,
+  config: Configuration<DatabaseT, SessionT>,
   user: User,
 ) => Record<string, unknown>
 
@@ -33,9 +33,9 @@ const fingerServer: FingerHandlerServer = (account: string): Record<string, unkn
   } as Record<string, unknown>
 }
 
-const fingerServerMastodon: FingerHandlerMastodon = <DatabaseT, TableT, SessionT>(
+const fingerServerMastodon: FingerHandlerMastodon = <DatabaseT, SessionT>(
   account : string,
-  config  : Configuration<DatabaseT, TableT, SessionT>,
+  config  : Configuration<DatabaseT, SessionT>,
 ): Record<string, unknown> => {
   return {
     subject : account,
@@ -49,9 +49,9 @@ const fingerServerMastodon: FingerHandlerMastodon = <DatabaseT, TableT, SessionT
   } as Record<string, unknown>
 }
 
-const fingerUser: FingerHandlerUser = <DatabaseT, TableT, SessionT>(
+const fingerUser: FingerHandlerUser = <DatabaseT, SessionT>(
   account: string,
-  config: Configuration<DatabaseT, TableT, SessionT>,
+  config: Configuration<DatabaseT, SessionT>,
   user: User,
 ): Record<string, unknown> => {
   const returnValue = {
@@ -100,11 +100,11 @@ const fingerUser: FingerHandlerUser = <DatabaseT, TableT, SessionT>(
  * @param resp An object implementing Responses
  * @returns ResponseT An appropriate response to the request
  */
-export const WebFinger: APIHandlerSync = <DatabaseT, TableT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, TableT, SessionT>,
+export const WebFinger: APIHandler = async <DatabaseT, SessionT, ResponseT>(
+  config: Configuration<DatabaseT, SessionT>,
   req: Request.Helper,
   resp: Responses<SessionT, ResponseT>,
-): ResponseT => {
+): Promise<ResponseT> => {
   const { url, } = req
   const { users, } = config.database
 
@@ -161,7 +161,7 @@ export const WebFinger: APIHandlerSync = <DatabaseT, TableT, SessionT, ResponseT
     }
 
     const username = account.slice(5, matchloc)
-    const user = users(username).retrieveUser()
+    const user = await users().retrieveUser(username)
 
     if (user === undefined) {
       return resp.error404({ info: 'Resource', additional: 'No user by that name?', })
