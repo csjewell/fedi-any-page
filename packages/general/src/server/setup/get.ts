@@ -3,7 +3,7 @@
  */
 import type { Responses } from '../../responses.ts'
 
-const setupGet = <SessionT, ResponseT>(resp: Responses<SessionT, ResponseT>): ResponseT => {
+export const setupGet = <SessionT, ResponseT>(resp: Responses<SessionT, ResponseT>): ResponseT => {
   // I wish we could just uncomment the line above, but it only works in Bun as of yet.
   const body = `<!DOCTYPE html>
 <html><head>
@@ -67,4 +67,3 @@ const setupGet = <SessionT, ResponseT>(resp: Responses<SessionT, ResponseT>): Re
   return resp.success200Str({ body, addHeaders, })
 }
 
-export default setupGet

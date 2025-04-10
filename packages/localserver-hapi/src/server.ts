@@ -8,14 +8,14 @@ import { Server } from '@csjewell-activitypub/general'
 import Hapi from '@hapi/hapi'
 import KeyvSqlite from '@keyv/sqlite'
 import { TestConfig } from './configuration.ts'
-import HAPIRequest from './request.ts'
-import HAPIResponses from './responses.ts'
+import { HAPIRequest } from './request.ts'
+import { HAPIResponses } from './responses.ts'
 // import LocalDB from './database.ts'
 
 const reqh = (req: Hapi.Request): HAPIRequest => new HAPIRequest(req)
 const resp = (h: Hapi.ResponseToolkit): HAPIResponses => new HAPIResponses(h)
 
-export default class HAPIServer {
+export class HAPIServer {
   private config        : TestConfig
   private server        : Hapi.Server
   private readonly opts : Hapi.RouteOptions = {

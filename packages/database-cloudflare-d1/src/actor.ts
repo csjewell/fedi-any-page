@@ -3,9 +3,10 @@
  */
 import { DataError, Json, type Configuration, type Database } from '@csjewell-activitypub/general'
 import * as AP from '@csjewell-activitypub/types'
-import { CloudflareD1Database } from './router.ts'
-import type { DBId } from './types.ts'
 import { D1Database } from '@cloudflare/workers-types'
+import { CloudflareD1Database } from './router.ts'
+import type { CloudflareConfig } from './config.ts'
+import type { DBId } from './types.ts'
 
 export class ActorCFStorage extends CloudflareD1Database implements Database.StorageHandler<AP.ActorReference> {
   /*
@@ -15,7 +16,7 @@ export class ActorCFStorage extends CloudflareD1Database implements Database.Sto
   private dbActorId    : number | undefined
   private dbDocumentId : number | undefined
 
-  constructor(env: Configuration<D1Database, unknown>, message: AP.ActorReference) {
+  constructor(env: CloudflareConfig, message: AP.ActorReference) {
     super(env)
     this.message = message
     this.dbActorId = undefined
@@ -39,29 +40,29 @@ export class ActorCFStorage extends CloudflareD1Database implements Database.Sto
   }
 
   private async removeActorQuick(): Promise<boolean> {
-    let ok = false
+    let isOK = false
     const stmtDocument = this.handle.prepare('DELETE FROM actors WHERE id = ?').bind(this.dbActorId)
     const resp = await stmtDocument.run()
 
     if (resp.success) {
-      ok = true
+      isOK = true
       this.dbActorId = undefined
     }
 
-    return ok
+    return isOK
   }
 
   private async removeDocumentQuick(): Promise<boolean> {
-    let ok = false
+    let isOK = false
     const stmtDocument = this.handle.prepare('DELETE FROM documents WHERE id = ?').bind(this.dbDocumentId)
     const resp = await stmtDocument.run()
 
     if (resp.success) {
-      ok = true
+      isOK = true
       this.dbDocumentId = undefined
     }
 
-    return ok
+    return isOK
   }
 
   async save(): Promise<boolean> {

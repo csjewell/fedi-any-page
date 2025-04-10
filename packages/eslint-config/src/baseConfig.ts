@@ -182,5 +182,6 @@ const BaseConfig = (gitignorePath: string): ConfigArray => [
   },
 ] as ConfigArray
 
+/* eslint-disable-next-line import-x/no-default-export */
 export default BaseConfig
 

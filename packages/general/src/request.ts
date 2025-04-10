@@ -3,12 +3,12 @@
  */
 import type * as AP from '@csjewell-activitypub/types'
 
-type SessionInputs = {
+export type SessionInputs = {
   actor         : string;
   sessionCookie : unknown;
 }
 
-type AuthInputs = {
+export type AuthInputs = {
   username : string;
   password : string;
 }

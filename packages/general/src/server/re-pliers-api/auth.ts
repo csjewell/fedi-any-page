@@ -24,8 +24,9 @@ export const Login: APIHandler = async <DatabaseT, SessionT, ResponseT>(
 
   const { username, password, } = req.getFormInputs()
 
-  const userinfo = config.database.users(username)
+  const userinfo = config.database.users()
 
+  // TODO: Make sure username is in the userinfo object somehow.
   if (!await userinfo.exists()) {
     return resp.error404({ info: 'Login', })
   }

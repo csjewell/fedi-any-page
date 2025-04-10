@@ -3,10 +3,9 @@
  */
 import type { Responses } from '../../responses.ts'
 
-const setupPost = <SessionT, ResponseT>(resp: Responses<SessionT, ResponseT>): ResponseT => {
+export const setupPost = <SessionT, ResponseT>(resp: Responses<SessionT, ResponseT>): ResponseT => {
   return resp.error404NotImplemented()
 
   // Content-Disposition: attachment; filename="users.json"
 }
 
-export default setupPost

@@ -2,11 +2,10 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import crypto from 'node:crypto'
-import { type Configuration, DataError } from '@csjewell-activitypub/general'
+import { type Database, DataError, Utils } from '@csjewell-activitypub/general'
 import { CloudflareD1Database } from './router.ts'
-import type { D1Database } from '@cloudflare/workers-types'
-import type { DatabaseKey } from '@csjewell-activitypub/general/database/misc'
 import type * as AP from '@csjewell-activitypub/types'
+import type { CloudflareConfig } from './config.ts'
 
 type DBDatabaseKey = {
   id         : number
@@ -16,14 +15,14 @@ type DBDatabaseKey = {
   expires?   : unknown
 }
 
-export class KeysCFStorage extends CloudflareD1Database implements DatabaseKey {
+export class KeysCFStorage extends CloudflareD1Database implements Database.DatabaseKey {
   private actorId       : string
   private dbKeyId       : number | undefined = undefined
   private dbDatabaseKey : DBDatabaseKey | undefined = undefined
 
-  constructor(env: Configuration<D1Database, unknown>, message: AP.ActorReference | string) {
+  constructor(env: CloudflareConfig, message: AP.ActorReference | string) {
     super(env)
-    const actorId = Kit.entityRefToString(message as URL)
+    const actorId = Utils.entityRefToString(message as URL)
 
     if (actorId === undefined) {
       throw new DataError('Was not sent correct actor information')
@@ -59,20 +58,19 @@ export class KeysCFStorage extends CloudflareD1Database implements DatabaseKey {
       throw new DataError(`Already have public/private keypair in database for ${ this.actorId }`)
     }
 
-    const EXPORTABLE = true
-    const keyPair = await crypto.subtle.generateKey('Ed25519', EXPORTABLE, [ 'sign', 'verify' ])
+    const keyPair = await crypto.subtle.generateKey('Ed25519', true, [ 'sign', 'verify' ])
 
     const publicKey = await crypto.subtle.exportKey('spki', (keyPair as CryptoKeyPair).publicKey).then(
-      (publicKey: ArrayBuffer): string => {
-        const body = btoa(String.fromCharCode(...new Uint8Array(publicKey))).match(/.{1,64}/g)!.join('\n')
+      (pubKey: ArrayBuffer): string => {
+        const body = btoa(String.fromCharCode(...new Uint8Array(pubKey))).match(/.{1,64}/g)!.join('\n')
 
         return `-----BEGIN PUBLIC KEY-----\n${ body }\n-----END PUBLIC KEY-----`
       },
     )
 
     const privateKey = await crypto.subtle.exportKey('pkcs8', (keyPair as CryptoKeyPair).privateKey).then(
-      (privateKey: ArrayBuffer): string => {
-        const body = btoa(String.fromCharCode(...new Uint8Array(privateKey))).match(/.{1,64}/g)!.join('\n')
+      (priKey: ArrayBuffer): string => {
+        const body = btoa(String.fromCharCode(...new Uint8Array(priKey))).match(/.{1,64}/g)!.join('\n')
 
         return `-----BEGIN PRIVATE KEY-----\n${ body }\n-----END PRIVATE KEY-----`
       },
@@ -84,19 +82,13 @@ export class KeysCFStorage extends CloudflareD1Database implements DatabaseKey {
 
     const resp = await stmtInsert.run()
 
-    if (resp.success) {
-      this.dbKeyId = resp.meta.last_row_id
-      this.dbDatabaseKey = {
-        id      : resp.meta.last_row_id,
-        actorId : this.actorId,
-        publicKey,
-        privateKey,
-      }
-    } else {
-      throw new Error('Failed saving keys to database')
+    this.dbKeyId = resp.meta.last_row_id
+    this.dbDatabaseKey = {
+      id      : resp.meta.last_row_id,
+      actorId : this.actorId,
+      publicKey,
+      privateKey,
     }
-
-    return
   }
 
   async exists(): Promise<boolean> {
@@ -116,7 +108,7 @@ export class KeysCFStorage extends CloudflareD1Database implements DatabaseKey {
 
     const resp = await stmtKeys.run()
 
-    if (resp.success && resp.results.length > 0) {
+    if (resp.results.length > 0) {
       this.dbDatabaseKey = resp.results[0] as DBDatabaseKey
       this.dbKeyId = resp.meta.last_row_id
       return true

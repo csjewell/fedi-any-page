@@ -3,7 +3,7 @@
  */
 import type { Responses } from '../../responses.ts'
 
-const setupOptions = <SessionT, ResponseT>(resp: Responses<SessionT, ResponseT>): ResponseT => {
+export const setupOptions = <SessionT, ResponseT>(resp: Responses<SessionT, ResponseT>): ResponseT => {
   const addHeaders = {
     Allow : 'OPTIONS, GET, HEAD, POST',
   }
@@ -11,4 +11,3 @@ const setupOptions = <SessionT, ResponseT>(resp: Responses<SessionT, ResponseT>)
   return resp.options204({ addHeaders, })
 }
 
-export default setupOptions

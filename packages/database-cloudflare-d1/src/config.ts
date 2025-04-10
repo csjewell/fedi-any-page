@@ -1,7 +1,8 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import { type Configuration, NotImplementedError } from '@csjewell-activitypub/general'
+import { type Configuration, type Database, NotImplementedError } from '@csjewell-activitypub/general'
+import { CloudflareD1Database } from './router.ts'
 import type { D1Database } from '@cloudflare/workers-types'
 import type * as AP from '@csjewell-activitypub/types'
 
@@ -21,15 +22,15 @@ import type * as AP from '@csjewell-activitypub/types'
 export class CloudflareConfig implements Configuration<D1Database, unknown> {
   public readonly url        : URL
   public readonly privateKey : string
-  public readonly database   : D1Database
+  public readonly database   : Database.Router<D1Database, unknown>
   public readonly siteName   : string = ''
   private readonly pattern   : string = ''
   public debugDb = false
 
   constructor(env: Record<string, unknown>, mapping: Record<string, string>) {
     this.url = new URL(env[mapping.url] as string)
-    this.database = env[mapping.database] as D1Database
     this.privateKey = ''
+    this.database = new CloudflareD1Database(this, env[mapping.database] as D1Database)
   }
 
   getActorURL = (_username: string): string => {

@@ -210,6 +210,4 @@ class LocalDB implements Database.Router<DatabaseSync, AuthCookies> {
   }
 }
 
-const Db = new LocalDB()
-
-export default Db
+export const LocalDatabase = new LocalDB()

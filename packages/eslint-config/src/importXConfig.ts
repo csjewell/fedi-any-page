@@ -23,13 +23,13 @@ const ImportXConfig: ConfigArray = [
       'import-x/namespace'                   : 'error',
       'import-x/newline-after-import'        : 'error',
       'import-x/no-anonymous-default-export' : 'error',
-      'import-x/no-default-export'           : 'off',
+      'import-x/no-default-export'           : 'warn',
       'import-x/no-deprecated'               : 'warn',
       'import-x/no-duplicates'               : [ 'error', { 'prefer-inline': true, }],
       'import-x/no-extraneous-dependencies'  : 'error',
       'import-x/no-named-as-default'         : 'error',
       'import-x/no-useless-path-segments'    : [ 'error', { noUselessIndex: true, }],
-      'import-x/prefer-default-export'       : [ 'warn', { target: 'single',}],
+      'import-x/prefer-default-export'       : 'off',
     // 'import/consistent-type-specifier-style': ['error', 'prefer-inline'],
     // This is not actually needed when "@typescript-eslint/no-import-type-side-effects is set.
     // Explanation here: https://github.com/import-js/eslint-plugin-import/issues/2676#issuecomment-1407107260
@@ -60,4 +60,5 @@ const ImportXConfig: ConfigArray = [
   },
 ]
 
+/* eslint-disable-next-line import-x/no-default-export */
 export default ImportXConfig

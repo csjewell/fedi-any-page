@@ -1,17 +1,17 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
+import { type Database, Json, Utils } from '@csjewell-activitypub/general'
 import * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
-import type { D1Database } from '@cloudflare/workers-types'
-import type { Configuration, Database } from '@csjewell-activitypub/general'
+import type { CloudflareConfig } from './config.ts'
 import type { DBId } from './types.ts'
 
-export class DocumentCFStorage extends CloudflareD1Database implements Database.SessionStorage<AP.CoreObjectReference> {
+export class DocumentCFStorage extends CloudflareD1Database implements Database.StorageHandler<AP.CoreObjectReference> {
   private message      : AP.CoreObjectReference
   private dbDocumentId : number | undefined = undefined
 
-  constructor(env: Configuration<D1Database, unknown>, message: AP.CoreObject) {
+  constructor(env: CloudflareConfig, message: AP.CoreObject) {
     super(env)
     this.message = message
   }
@@ -29,16 +29,11 @@ export class DocumentCFStorage extends CloudflareD1Database implements Database.
       await this.exists()
     }
 
-    let ok = false
     const stmtDelete = this.handle.prepare('DELETE FROM documents WHERE id = ?').bind(this.dbDocumentId)
-    const resp = await stmtDelete.run()
 
-    if (resp.success) {
-      ok = true
-      this.dbDocumentId = undefined
-    }
-
-    return ok
+    await stmtDelete.run()
+    this.dbDocumentId = undefined
+    return true
   }
 
   async save(): Promise<boolean> {
@@ -63,16 +58,16 @@ export class DocumentCFStorage extends CloudflareD1Database implements Database.
     }
 
     if (AP.guard.isApCoreObject(this.message)) {
-      const {id,} = this.message as AP.CoreObject
+      const {id,} = this.message
 
       if (id === null) {
         return false
       }
 
-      checkId = Kit.entityRefToString(id)
+      checkId = Utils.entityRefToString(id)
     }
 
-    if (checkId === undefined || checkId === null) {
+    if (checkId === undefined) {
       return false
     }
 
@@ -101,7 +96,7 @@ export class DocumentCFStorage extends CloudflareD1Database implements Database.
 
       documentURL.hash = ''
 
-      console.log(`Retrieving actor message "${ documentURL.toString() }"`)
+      console.info(`Retrieving actor message "${ documentURL.toString() }"`)
       const resp = await fetch(documentURL, {
         headers : {
           accept : 'application/activity+json, application/ld+json, application/json',
@@ -111,19 +106,14 @@ export class DocumentCFStorage extends CloudflareD1Database implements Database.
       })
 
       documentJSON = await resp.text()
-
-      if (documentJSON === undefined) {
-        return undefined
-      }
-
-      document = Kit.Json.parse(documentJSON) as AP.CoreObject
+      document = Json.parse(documentJSON) as AP.CoreObject
 
       if (document.id === null || document.id === undefined) {
         return undefined
       }
 
       if (document.id.toString() !== documentURL.toString()) {
-        console.log(
+        console.info(
           `Tried to retrieve document at ${ documentURL.toString() } and got a document at ${ document.id.toString() } instead`,
         )
         return undefined
@@ -132,10 +122,10 @@ export class DocumentCFStorage extends CloudflareD1Database implements Database.
       this.message = document
     } else {
       document = this.message
-      documentJSON = Kit.Json.stringify(document)
+      documentJSON = Json.stringify(document)
     }
 
-    console.log(`Storing document "${ document.id!.toString() }"`)
+    console.info(`Storing document "${ document.id!.toString() }"`)
     const stmtDocument = this.handle.prepare(`
       INSERT
         INTO documents (document_id, type, document)
@@ -147,6 +137,6 @@ export class DocumentCFStorage extends CloudflareD1Database implements Database.
       this.dbDocumentId = respDocument.meta.last_row_id
     }
 
-    return this.message as AP.CoreObject
+    return this.message
   }
 }

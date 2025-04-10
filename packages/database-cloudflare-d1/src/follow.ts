@@ -1,17 +1,16 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import * as Kit from '@csjewell-activitypub/general'
-import { type Configuration, type Database, NotImplementedError } from '@csjewell-activitypub/general'
+import { type Database, NotImplementedError, Utils } from '@csjewell-activitypub/general'
 import { CloudflareD1Database } from './router.ts'
-import type { D1Database } from '@cloudflare/workers-types'
 import type * as AP from '@csjewell-activitypub/types'
-import type { DBCount, DBId as _DBId } from './types.ts'
+import type { CloudflareConfig } from './config.ts'
+import type { DBCount } from './types.ts'
 
-export class FollowCFStorage extends CloudflareD1Database implements Database.SessionStorage<AP.Follow> {
+export class FollowCFStorage extends CloudflareD1Database implements Database.StorageHandler<AP.Follow> {
   private readonly message : AP.Follow
 
-  constructor(env: Configuration<D1Database, unknown>, message: AP.Follow) {
+  constructor(env: CloudflareConfig, message: AP.Follow) {
     super(env)
     this.message = message
   }
@@ -26,39 +25,41 @@ export class FollowCFStorage extends CloudflareD1Database implements Database.Se
 
   async remove(): Promise<boolean> {
     // If from Mastodon - someone unfollowed me, we need to delete it from the store.
-    const actorId = Kit.getEntityId(this.message.actor)
+    const actorId = Utils.getEntityId(this.message.actor)
     const { username, usernameId, } = this.getUsername(this.message.object)
 
     if (usernameId === undefined) {
       return false
     }
 
-    console.log(`Attempting to delete ${ actorId } from followers of ${ username }`)
+    console.info(`Attempting to delete ${ actorId } from followers of ${ username }`)
 
-    let ok = false
+    let isOK = false
     const stmtDel = this.handle.prepare('DELETE FROM followers WHERE username_id = ? AND actor_id = ?').bind(
       usernameId,
       actorId,
     )
     const resp = await stmtDel.run()
 
-    if (resp.success && resp.meta.rows_written > 0) {
-      console.log(`Deleted Follow ${ actorId }`, resp)
-      ok = true
+    if (resp.meta.rows_written > 0) {
+      console.info(`Deleted Follow ${ actorId }`, resp)
+      isOK = true
     }
 
-    return ok
+    return isOK
   }
 
-  async save(guid: string): Promise<boolean> {
+  async save(...args: Array<unknown>): Promise<boolean> {
+    const guid = args[0] as string
+
     if (this.message.id === null) {
       return false
     }
 
     const id = (this.message.id as URL).toString()
-    const actorId = Kit.getEntityId(this.message.actor as AP.EntityReference)!.toString()
+    const actorId = Utils.getEntityId(this.message.actor as AP.EntityReference)!.toString()
 
-    let ok = false
+    let isOK = false
     const stmtGet = this.handle.prepare('SELECT document_id FROM followers WHERE id = ? AND actor_id = ?').bind(
       id,
       actorId,
@@ -66,15 +67,15 @@ export class FollowCFStorage extends CloudflareD1Database implements Database.Se
     const resp = await stmtGet.run()
 
     if (resp.success && (resp.results[0] as DBCount).count > 0) {
-      ok = true
-      console.log('Already Following')
+      isOK = true
+      console.info('Already Following')
     }
 
-    if (ok) {
+    if (isOK) {
       return true
     }
 
-    console.log(`Adding follow message "${ id }" to ${ actorId }`)
+    console.info(`Adding follow message "${ id }" to ${ actorId }`)
     const stmtInsert = this.handle.prepare('INSERT INTO followers SET document_id = ?, actor_id = ?').bind(
       id,
       actorId,
@@ -83,7 +84,7 @@ export class FollowCFStorage extends CloudflareD1Database implements Database.Se
     const respInsert = await stmtInsert.run()
 
     if (respInsert.success && respInsert.meta.rows_written > 0) {
-      ok = true
+      isOK = true
     }
 
     const url = this.env.url.toString()
@@ -97,7 +98,7 @@ export class FollowCFStorage extends CloudflareD1Database implements Database.Se
       'object'   : this.message.id as URL,
     }
 
-    return ok
+    return isOK
   }
 
   async exists(): Promise<boolean> {
@@ -108,7 +109,7 @@ export class FollowCFStorage extends CloudflareD1Database implements Database.Se
     const id = (this.message.id as URL).toString()
     const actorId = '' // TODO: this.env.getActorId(this.message.actor as AP.EntityReference).toString()
 
-    let ok = false
+    let isOK = false
     const stmtGet = this.handle.prepare('SELECT COUNT(*) AS count FROM followers WHERE Id = ? AND ActorId = ?').bind(
       id,
       actorId,
@@ -116,11 +117,11 @@ export class FollowCFStorage extends CloudflareD1Database implements Database.Se
     const resp = await stmtGet.run()
 
     if (resp.success && (resp.results[0] as DBCount).count > 0) {
-      ok = true
+      isOK = true
       console.log('Already Following')
     }
 
-    return ok
+    return isOK
   }
 
   retrieve = async (): Promise<AP.Follow> => {

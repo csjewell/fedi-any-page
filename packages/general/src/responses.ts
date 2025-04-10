@@ -2,39 +2,43 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 
-type HeadersParam = { cors?: boolean; addHeaders?: Record<string, string> }
+type ResolvedHeader = [string, string,]
+type ResolvedHeadersType = Array<ResolvedHeader>
+type HeadersType = ResolvedHeadersType | Record<string, string>
 
-type BasicResponseParam = { info?: string; addHeaders?: Record<string, string> }
+type HeadersParam = { cors?: boolean; addHeaders?: ResolvedHeadersType }
+
+type BasicResponseParam = { info?: string; addHeaders?: HeadersType }
 
 type ResponseParam200Obj<SessionT> = {
-  body        : Record<string, unknown>;
-  addHeaders? : Record<string, string>
+  body        : Record<string, unknown>
+  addHeaders? : HeadersType
   cookies?    : SessionT,
 }
 
 type ResponseParam200Str<SessionT> = {
   body        : string;
-  addHeaders? : Record<string, string>
+  addHeaders? : HeadersType
   cookies?    : SessionT
 }
 
 type ResponseParam204 = { info?: string }
 
 type ResponseParam204Options = {
-  addHeaders?   : Record<string, string>
+  addHeaders?   : HeadersType
   methods?      : Array<string>
   allowHeaders? : Array<string>
 }
 
 type ResponseParam30x = { url: string; statusCode?: 301 | 302 | 303 | 307 | 308 }
 
-type ResponseParam404 = { info?: string; additional?: string; addHeaders?: Record<string, string> }
+type ResponseParam404 = { info?: string; additional?: string; addHeaders?: HeadersType }
 
-type ResponseParam405 = { info?: string; addMethods?: Array<string>; addHeaders?: Record<string, string> }
+type ResponseParam405 = { info?: string; addMethods?: Array<string>; addHeaders?: HeadersType }
 
 /** The group of responses that are sent upon web requests */
 export type Responses<SessionT, T> = {
-  getHeaders             : (arg0?: HeadersParam) => Record<string, string>
+  getHeaders             : (arg0?: HeadersParam) => ResolvedHeadersType
   success200Obj          : (arg0: ResponseParam200Obj<SessionT>) => T
   success200Str          : (arg0: ResponseParam200Str<SessionT>) => T
   success202             : (arg0?: BasicResponseParam) => T

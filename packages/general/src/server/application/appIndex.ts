@@ -6,7 +6,7 @@ import type { Configuration } from '../../configuration.ts'
 import type * as Request from '../../request.ts'
 import type { Responses } from '../../responses.ts'
 
-const appIndex = <DatabaseT, SessionReturnT, SessionT, ResponseT>(
+export const appIndex = <DatabaseT, SessionReturnT, SessionT, ResponseT>(
   config: Configuration<DatabaseT, SessionReturnT>,
   req: Request.Helper,
   resp: Responses<SessionT, ResponseT>,
@@ -41,5 +41,3 @@ const appIndex = <DatabaseT, SessionReturnT, SessionT, ResponseT>(
 
   return resp.success200Obj({ body, })
 }
-
-export default appIndex

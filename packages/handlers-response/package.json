@@ -42,6 +42,7 @@
   "dependencies": {
     "@csjewell-activitypub/general": "workspace:^",
     "@csjewell-activitypub/types": "workspace:^",
+    "ab64": "^0.1.5",
     "activitypub-http-signatures": "^2.5.0"
   },
   "devDependencies": {

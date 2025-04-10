@@ -1,11 +1,17 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import * as Kit from '@csjewell-activitypub/general'
+import { encodeUrl as toBase64 } from 'ab64'
+import { Json, NotImplementedError, type Responses, type Server } from '@csjewell-activitypub/general'
 import type * as AP from '@csjewell-activitypub/types'
-import type { AuthCookies } from '../general/database-mock/session-type.ts'
+
+type AuthCookies = Server.RePliers.AuthInfo
 
 type RedirectCode = 301 | 302 | 303 | 307 | 308
+
+/* eslint-disable-next-line @stylistic/comma-dangle -- false alarm */
+type ResolvedHeadersType = Array<[string, string]>
+type HeadersType = Record<string, string> | ResolvedHeadersType
 
 /*
  * This class contains helpers to return the appropriate Response within the ActivityPub toolkit.
@@ -14,16 +20,15 @@ type RedirectCode = 301 | 302 | 303 | 307 | 308
  * {@link https://developer.mozilla.org/en-US/docs/Web/API/Response | Response objects }
  * that they construct.
  *
- * @example ```ts
+ * @example
+ * ```ts
  * import * as Helpers from 'jsr:@csjewell-activitypub/general'
+import type { AuthCookies from '@csjewell-activitypub/general/database-mock/session-type.ts';
  *
  * return Helpers.Responses.error404NotImplemented()
  * ```
  */
-const CORS = true,
-  NO_CORS = false
-
-class StandardResponses implements Kit.Responses<AuthCookies, Response> {
+class StandardResponses implements Responses<AuthCookies, Response> {
   /*
    * Provides the default Headers for most routines in KitResponses
    *
@@ -31,37 +36,83 @@ class StandardResponses implements Kit.Responses<AuthCookies, Response> {
    *
    * @private
    */
-  getHeaders({ cors = CORS, addHeaders = {} as Record<string, string>, } = {}): Record<string, string> {
-    const addH = addHeaders
-    const h: Record<string, string> = {
-      'Content-Type'      : 'application/activity+json',
-      'X-Clacks-Overhead' : 'GNU Terry Pratchett',
+  getHeaders({
+    hasCors = true,
+    addHeaders = [] as ResolvedHeadersType,
+  } = {}): ResolvedHeadersType {
+    const hdr: ResolvedHeadersType = [
+      [ 'Content-Type', 'application/x-re-pliers+json' ],
+      [ 'X-Clacks-Overhead', 'GNU Terry Pratchett' ],
+    ]
+
+    if (hasCors) {
+      hdr.push([ 'Access-Control-Allow-Origin', '*' ])
     }
 
-    if (cors) {
-      h['Access-Control-Allow-Origin'] = '*'
+    return [ ...hdr, ...addHeaders ]
+  }
+
+  _resolve(
+    headers = {} as HeadersType,
+    cookies = undefined as AuthCookies | undefined,
+  ): ResolvedHeadersType {
+    const addH: ResolvedHeadersType = []
+
+    if (Array.isArray(headers) && Array.isArray(headers[0])) {
+      addH.push(...headers)
+    } else {
+      for (const [ k, v ] of Object.entries(headers as Record<string, string>)) {
+        addH.push([ k, v ])
+      }
     }
 
-    return { ...h, ...addH, }
+    if (cookies !== undefined) {
+      if (cookies.actinfo === undefined) {
+        addH.push([ 'Set-Cookie', 'actinfo=; Max-Age=-1; SameSite=Strict; Secure; HttpOnly;' ])
+      } else {
+        addH.push([ 'Set-Cookie', `actinfo=${ cookies.actinfo }; Max-Age=28800; SameSite=Strict; Secure; HttpOnly;` ])
+      }
+
+      if (cookies.actinf === undefined) {
+        addH.push([ 'Set-Cookie', 'actinf=; Max-Age=-1; SameSite=Strict; Secure;' ])
+      } else {
+        const info = toBase64(JSON.stringify(cookies.actinf))
+
+        addH.push([ 'Set-Cookie', `actinfo=${ info }; Max-Age=28800; SameSite=Strict; Secure; HttpOnly;` ])
+      }
+    }
+
+    return addH
   }
 
-  _headers({ cors = CORS, addHeaders = {} as Record<string, string>, } = {}): Headers {
-    return new Headers(this.getHeaders({ cors, addHeaders, }))
+  _headers({
+    hasCors = true,
+    addHeaders = {} as HeadersType,
+    cookies = undefined as AuthCookies | undefined,
+  } = {}): Headers {
+    return new Headers(this.getHeaders({ hasCors, addHeaders: this._resolve(addHeaders, cookies), }))
   }
 
-  success200Obj({ body = {} as Record<string, unknown>, addHeaders = {} as Record<string, string>, } = {}): Response {
+  success200Obj({
+    body = {} as Record<string, unknown>,
+    addHeaders = {} as HeadersType,
+    cookies = undefined as AuthCookies | undefined,
+  } = {}): Response {
     // TODO: Add an assertion here.
-    const json = Kit.Json.stringify(body as AP.CoreObject)
+    const json = Json.stringify(body as AP.CoreObject)
 
     return new Response(json, {
       status     : 200,
       statusText : 'OK',
-      headers    : this._headers({ addHeaders, }),
+      headers    : this._headers({ addHeaders, cookies, }),
     })
   }
 
-  success200Str({ _body = '', _addHeaders = {} as Record<string, string>, } = {}): Response {
-    throw new Kit.NotImplementedError()
+  success200Str({
+    /* eslint-disable-next-line @typescript-eslint/no-unused-vars -- not implemented yet */
+    body = '', addHeaders = {} as HeadersType, cookies = undefined as AuthCookies | undefined,
+  } = {}): Response {
+    throw new NotImplementedError()
   }
 
   /*
@@ -72,7 +123,7 @@ class StandardResponses implements Kit.Responses<AuthCookies, Response> {
    *
    * @returns Response to return to browser.
    */
-  success202({ info = 'Created Reply', addHeaders = {} as Record<string, string>, } = {}): Response {
+  success202({ info = 'Created Reply', addHeaders = {} as HeadersType, } = {}): Response {
     let statusText = 'Accepted'
 
     if (info !== '') {
@@ -96,14 +147,14 @@ class StandardResponses implements Kit.Responses<AuthCookies, Response> {
    *
    * @returns Response to return to browser.
    */
-  success204({ info = '', addHeaders = {} as Record<string, string>, } = {}): Response {
+  success204({ info = '', addHeaders = {} as HeadersType, } = {}): Response {
     let statusText = 'No Content'
 
     if (info !== '') {
       statusText = `${ statusText } (${ info })`
     }
 
-    const headers = this._headers({ cors: NO_CORS, addHeaders, })
+    const headers = this._headers({ hasCors: false, addHeaders, })
 
     return new Response(null, {
       status : 204,
@@ -153,7 +204,7 @@ class StandardResponses implements Kit.Responses<AuthCookies, Response> {
     return Response.redirect(url, statusCode)
   }
 
-  error403({ info = '', addHeaders = {} as Record<string, string>, } = {}): Response {
+  error403({ info = '', addHeaders = {} as HeadersType, } = {}): Response {
     let statusText = 'Forbidden'
 
     if (info !== '') {
@@ -176,13 +227,13 @@ class StandardResponses implements Kit.Responses<AuthCookies, Response> {
    * @param info The type of thing that has not been found
    * @default 'User'
    */
-  error404({ info = 'User', additional = '', addHeaders = {} as Record<string, string>, } = {}): Response {
+  error404({ info = 'User', additional = '', addHeaders = {} as HeadersType, } = {}): Response {
     let statusText = `${ info } Not Found`
 
     if (additional !== '') {
       statusText = `${ statusText } (${ additional })`
     }
-    const headers = this._headers({ cors: CORS, addHeaders, })
+    const headers = this._headers({ hasCors: true, addHeaders, })
 
     return Response.json({
       success : false,
@@ -207,24 +258,27 @@ class StandardResponses implements Kit.Responses<AuthCookies, Response> {
   }
 
   /* */
-  error405(
-    { info = 'POST', addMethods = [] as Array<string>, addHeaders = {} as Record<string, string>, } = {},
-  ): Response {
-    addMethods.unshift('OPTIONS', 'GET', 'HEAD')
-    const methods = addMethods.join(', ')
+  error405({
+    info = 'POST',
+    addMethods = [] as Array<string>,
+    addHeaders = {} as HeadersType,
+  } = {}): Response {
+    const headers: ResolvedHeadersType = this._resolve(addHeaders)
 
+    addMethods.unshift('OPTIONS', 'GET', 'HEAD')
+    headers.push([ 'Allow', addMethods.join(', ') ])
     return Response.json({
       success : false,
       error   : `${ info } Not Allowed`,
     }, {
       status     : 405,
       statusText : 'Method Not Allowed',
-      headers    : this._headers({ addHeaders: { ...addHeaders, Allow: methods, }, }),
+      headers    : this._headers({ addHeaders: headers, }),
     })
   }
 
   /* */
-  error422({ info = '', addHeaders = {} as Record<string, string>, } = {}): Response {
+  error422({ info = '', addHeaders = {} as HeadersType, } = {}): Response {
     let statusText = 'Unprocessable Request'
 
     if (info !== '') {
@@ -242,7 +296,7 @@ class StandardResponses implements Kit.Responses<AuthCookies, Response> {
   }
 
   /* */
-  error500({ info = '', addHeaders = {} as Record<string, string>, } = {}): Response {
+  error500({ info = '', addHeaders = {} as HeadersType, } = {}): Response {
     let statusText = 'Server Error'
 
     if (info !== '') {
@@ -259,7 +313,7 @@ class StandardResponses implements Kit.Responses<AuthCookies, Response> {
     })
   }
 
-  error503({ info = '', addHeaders = {} as Record<string, string>, } = {}): Response {
+  error503({ info = '', addHeaders = {} as HeadersType, } = {}): Response {
     let statusText = 'Service Unavailable'
 
     if (info !== '') {
@@ -288,11 +342,12 @@ export const ActivityPub: StandardResponses = new StandardResponses()
  *
  * @example ```ts
  * import * as Helpers from 'jsr:@csjewell-activitypub/general'
+import toBase64 from 'core-js-pure/modules/esnext.uint8-array.to-base64';
  *
  * return Helpers.Responses.error404NotImplemented()
  * ```
  */
-class WebFingerStandardResponses extends StandardResponses implements Kit.Responses<AuthCookies, Response> {
+class WebFingerStandardResponses extends StandardResponses implements Responses<AuthCookies, Response> {
   /*
    * Provides the default Headers for most routines in KitResponses
    *
@@ -300,21 +355,21 @@ class WebFingerStandardResponses extends StandardResponses implements Kit.Respon
    *
    * @private
    */
-  override getHeaders({ addHeaders = {} as Record<string, string>, } = {}): Record<string, string> {
-    return {
-      'Content-Type'                : 'application/jrd+json',
-      'X-Clacks-Overhead'           : 'GNU Terry Pratchett',
-      'Access-Control-Allow-Origin' : '*',
+  override getHeaders({ addHeaders = [] as ResolvedHeadersType, } = {}): ResolvedHeadersType {
+    return [
+      [ 'Content-Type', 'application/jrd+json' ],
+      [ 'X-Clacks-Overhead', 'GNU Terry Pratchett' ],
+      [ 'Access-Control-Allow-Origin', '*' ],
       ...addHeaders,
-    } as Record<string, string>
+    ]
   }
 
-  override _headers({ addHeaders = {} as Record<string, string>, } = {}): Headers {
-    return new Headers(this.getHeaders({ addHeaders, }))
+  override _headers({ addHeaders = {} as HeadersType, } = {}): Headers {
+    return new Headers(this.getHeaders({ addHeaders: this._resolve(addHeaders), }))
   }
 
   override success200Obj(
-    { body = {} as Record<string, unknown>, addHeaders = {} as Record<string, string>, } = {},
+    { body = {} as Record<string, unknown>, addHeaders = {} as HeadersType, } = {},
   ): Response {
     return Response.json(body, {
       status     : 200,
@@ -323,7 +378,7 @@ class WebFingerStandardResponses extends StandardResponses implements Kit.Respon
     })
   }
 
-  override success204({ info = '', addHeaders = {} as Record<string, string>, } = {}): Response {
+  override success204({ info = '', addHeaders = {} as HeadersType, } = {}): Response {
     let statusText = 'No Content'
 
     if (info !== '') {
@@ -340,30 +395,33 @@ class WebFingerStandardResponses extends StandardResponses implements Kit.Respon
 
 export const WebFinger: WebFingerStandardResponses = new WebFingerStandardResponses()
 
-class NodeInfoStandardResponses extends WebFingerStandardResponses implements Kit.Responses<AuthCookies, Response> {
-  override getHeaders({ addHeaders = {} as Record<string, string>, } = {}): Record<string, string> {
-    return {
-      'Content-Type'                : 'application/json; profile="http://nodeinfo.diaspora.software/ns/schema/2.1#',
-      'X-Clacks-Overhead'           : 'GNU Terry Pratchett',
-      'Access-Control-Allow-Origin' : '*',
+class NodeInfoStandardResponses extends WebFingerStandardResponses implements Responses<AuthCookies, Response> {
+  override getHeaders({ addHeaders = {} as ResolvedHeadersType, } = {}): ResolvedHeadersType {
+    return [
+      [ 'Content-Type', 'application/json; profile="http://nodeinfo.diaspora.software/ns/schema/2.1#' ],
+      [ 'X-Clacks-Overhead', 'GNU Terry Pratchett' ],
+      [ 'Access-Control-Allow-Origin', '*' ],
       ...addHeaders,
-    } as Record<string, string>
+    ]
   }
 }
 
 export const NodeInfo: NodeInfoStandardResponses = new NodeInfoStandardResponses()
 
 class HTMLStandardResponses extends StandardResponses implements Responses<AuthCookies, Response> {
-  override getHeaders({ addHeaders = {} as Record<string, string>, } = {}): Record<string, string> {
-    return {
-      'Content-Type'      : 'text/html',
-      'X-Clacks-Overhead' : 'GNU Terry Pratchett',
+  override getHeaders({ addHeaders = {} as ResolvedHeadersType, } = {}): ResolvedHeadersType {
+    return [
+      [ 'Content-Type', 'text/html' ],
+      [ 'X-Clacks-Overhead', 'GNU Terry Pratchett' ],
       ...addHeaders,
-    } as Record<string, string>
+    ]
   }
 
-  override success200Str({ body = '', addHeaders = {} as Record<string, string>, } = {}): Response {
-    const headers = new Headers(this.getHeaders({ addHeaders, }))
+  override success200Str({
+    body = '',
+    addHeaders = {} as HeadersType,
+  } = {}): Response {
+    const headers = this._headers({ addHeaders, })
 
     return new Response(body, {
       status     : 200,

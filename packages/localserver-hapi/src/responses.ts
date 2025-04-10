@@ -6,14 +6,18 @@ import type Hapi from '@hapi/hapi'
 
 type AuthCookies = Server.RePliers.AuthInfo
 
+/* eslint-disable-next-line @stylistic/comma-dangle -- false alarm */
+type ResolvedHeadersType = Array<[string, string]>
+type HeadersType = Record<string, string> | ResolvedHeadersType
+
 /**
- * Provides the standard responses for the @csjewell-activitypub scope using
- * the @hapi/hapi framework.
+ * Provides the standard responses for the \@csjewell-activitypub scope using
+ * the \@hapi/hapi framework.
  *
  * @class
  */
 /* eslint "sonarjs/no-identical-functions": "off" -- The overrides just work that way */
-class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject> {
+export class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject> {
   private h    : Hapi.ResponseToolkit
   private resp : Hapi.ResponseObject | undefined = undefined
 
@@ -28,31 +32,45 @@ class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject> {
    *
    * @private
    */
-  getHeaders({ cors = true, addHeaders = {} as Record<string, string>, } = {}): Record<string, string> {
-    const addH = addHeaders
-    const hdr: Record<string, string> = {
-      'Content-Type'      : 'application/x-re-pliers+json',
-      'X-Clacks-Overhead' : 'GNU Terry Pratchett',
+  getHeaders({ hasCors = true, addHeaders = [] as ResolvedHeadersType, } = {}): ResolvedHeadersType {
+    const hdr: ResolvedHeadersType = [
+      [ 'Content-Type', 'application/x-re-pliers+json' ],
+      [ 'X-Clacks-Overhead', 'GNU Terry Pratchett' ],
+    ]
+
+    if (hasCors) {
+      hdr.push([ 'Access-Control-Allow-Origin', '*' ])
     }
 
-    if (cors) {
-      hdr['Access-Control-Allow-Origin'] = '*'
-    }
-
-    return { ...hdr, ...addH, }
+    return [ ...hdr, ...addHeaders ]
   }
 
-  _headers({ cors = true, addHeaders = {} as Record<string, string>, } = {}): Hapi.ResponseObject {
+  _resolve(headers = {} as HeadersType): ResolvedHeadersType {
+    if (Array.isArray(headers) && Array.isArray(headers[0])) {
+      return headers
+    }
+
+    const addH: ResolvedHeadersType = []
+
+    for (const [ k, v ] of Object.entries(headers as Record<string, string>)) {
+      addH.push([ k, v ])
+    }
+
+    return addH
+  }
+
+  _headers({ hasCors = true, addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
     const { resp, } = this
 
     if (resp === undefined) {
       throw new TypeError('Needed to call _body first')
     }
 
-    for (const [ key, value ] of Object.entries(this.getHeaders({ cors, addHeaders, }))) {
-      resp.header(key, value)
-    }
+    this.getHeaders({ hasCors, addHeaders: this._resolve(addHeaders), }).forEach((element) => {
+      const [ key, value ] = element
 
+      resp.header(key, value)
+    })
     return resp
   }
 
@@ -87,7 +105,7 @@ class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject> {
 
   success200Obj({
     body = {} as Record<string, unknown>,
-    addHeaders = {} as Record<string, string>,
+    addHeaders = {} as HeadersType,
     cookies = undefined as AuthCookies | undefined,
   } = {}): Hapi.ResponseObject {
     this._body(body)
@@ -101,7 +119,7 @@ class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject> {
 
   success200Str({
     body = '',
-    addHeaders = {} as Record<string, string>,
+    addHeaders = {} as HeadersType,
     cookies = undefined as AuthCookies | undefined,
   } = {}): Hapi.ResponseObject {
     this._body(body)
@@ -122,7 +140,7 @@ class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject> {
    *
    * @returns Response to return to browser.
    */
-  success202({ info = 'Created Reply', addHeaders = {} as Record<string, string>, } = {}): Hapi.ResponseObject {
+  success202({ info = 'Created Reply', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
     const statusText = info === '' ? 'Accepted' : info
 
     this._body({ message: info, })
@@ -137,7 +155,7 @@ class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject> {
    *
    * @returns Response to return to browser.
    */
-  success204({ info = '', addHeaders = {} as Record<string, string>, } = {}): Hapi.ResponseObject {
+  success204({ info = '', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
     let statusText = 'No Content'
 
     if (info !== '') {
@@ -145,7 +163,7 @@ class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject> {
     }
 
     this._body()
-    return this._headers({ cors: false, addHeaders, }).message(statusText).code(204)
+    return this._headers({ hasCors: false, addHeaders, }).message(statusText).code(204)
   }
 
   // Unused, HAPI does its own OPTIONS handling.
@@ -177,7 +195,7 @@ class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject> {
    *
    * @param addHeaders - TODO [2025-04-10]
    */
-  error403({ info = '', addHeaders = {} as Record<string, string>, } = {}): Hapi.ResponseObject {
+  error403({ info = '', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
     let statusText = 'Forbidden'
 
     if (info !== '') {
@@ -199,7 +217,7 @@ class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject> {
    *
    * @param addHeaders - TODO [2025-04-10]
    */
-  error404({ info = 'User', additional = '', addHeaders = {} as Record<string, string>, } = {}): Hapi.ResponseObject {
+  error404({ info = 'User', additional = '', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
     let statusText = `${ info } Not Found`
 
     if (additional !== '') {
@@ -210,7 +228,7 @@ class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject> {
       success : false,
       error   : statusText,
     })
-    return this._headers({ cors: true, addHeaders, }).message(statusText).code(404)
+    return this._headers({ hasCors: true, addHeaders, }).message(statusText).code(404)
   }
 
   /**
@@ -236,22 +254,24 @@ class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject> {
    *
    * @param addHeaders {Record<string, string>} - TODO [2025-04-10]
    */
-  error405(
-    { info = 'POST', addMethods = [] as Array<string>, addHeaders = {} as Record<string, string>, } = {},
-  ): Hapi.ResponseObject {
+  error405({
+    info = 'POST',
+    addMethods = [] as Array<string>,
+    addHeaders = {} as HeadersType,
+  } = {}): Hapi.ResponseObject {
     addMethods.unshift('OPTIONS', 'GET', 'HEAD')
-    const methods = addMethods.join(', ')
-    const hdrs = { addHeaders: { ...addHeaders, Allow: methods, }, }
+    const hdrs = this._resolve(addHeaders)
 
+    hdrs.push([ 'Allow', addMethods.join(', ') ])
     this._body({
       success : false,
       error   : `${ info } Not Allowed`,
     })
-    return this._headers(hdrs).message('Method Not Allowed').code(405)
+    return this._headers({ addHeaders: hdrs, }).message('Method Not Allowed').code(405)
   }
 
   /* */
-  error422({ info = '', addHeaders = {} as Record<string, string>, } = {}): Hapi.ResponseObject {
+  error422({ info = '', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
     let statusText = 'Unprocessable Request'
 
     if (info !== '') {
@@ -266,7 +286,7 @@ class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject> {
   }
 
   /* */
-  error500({ info = '', addHeaders = {} as Record<string, string>, } = {}): Hapi.ResponseObject {
+  error500({ info = '', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
     let statusText = 'Server Error'
 
     if (info !== '') {
@@ -281,7 +301,7 @@ class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject> {
   }
 
   /* */
-  error503({ info = '', addHeaders = {} as Record<string, string>, } = {}): Hapi.ResponseObject {
+  error503({ info = '', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
     let statusText = 'Service Unavailable'
 
     if (info !== '') {
@@ -295,5 +315,3 @@ class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject> {
     return this._headers({ addHeaders, }).message(statusText).code(503)
   }
 }
-
-export default HAPIResponses

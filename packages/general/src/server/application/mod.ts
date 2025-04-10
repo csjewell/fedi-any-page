@@ -2,4 +2,4 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 
-export { default as Index } from './appIndex.ts'
+export { appIndex as Index } from './appIndex.ts'
