@@ -5,8 +5,8 @@
   "exports": {
     ".": "./index.ts",
     "./configuration": "./src/configuration.ts",
+    "./database": "./src/database/mod.ts",
     "./database/router": "./src/database/router.ts",
-    "./database/handler": "./src/database/handler.ts",
     "./database/misc": "./src/database/misc.ts",
     "./database/session": "./src/database/session.ts",
     "./database/users": "./src/database/users.ts",

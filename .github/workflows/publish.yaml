@@ -26,33 +26,16 @@ jobs:
           cache: 'pnpm'
           registry-url: https://registry.npmjs.org
 
-
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Publish types package to jsr
-        run: cd packages/types && cp ../../LICENSES/MIT.txt LICENSE && pnpx jsr publish
-
-      - name: Publish general package to jsr
-        run: cd packages/general && cp ../../LICENSES/MIT.txt LICENSE && pnpx jsr publish
-
-      - name: Publish eslint-config package to jsr
-        run: cd packages/eslint-config && cp ../../LICENSES/MIT.txt LICENSE && pnpx jsr publish
-
-      - name: Publish types package to npm
-        run: cd packages/types && pnpm publish --access public --tag next --no-git-checks
+      - name: Publish all packages to npm
+        run: pnpm -r publish --access public --tag next --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish general package to npm
-        run: cd packages/general && pnpm publish --access public --tag next --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish eslint-config package to npm
-        run: cd packages/eslint-config && pnpm publish --access public --tag next --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish all packages to jsr
+        run: ./copy-license.sh && pnpx jsr publish
 
 #      - name: Publish database-cloudflare-d1 package to jsr
 #        run: cd proposed/database-cloudflare-d1 && pnpm dlx jsr publish

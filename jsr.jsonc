@@ -6,7 +6,7 @@
     "./packages/eslint-config",
     "./packages/general",
     "./packages/handlers-response",
-    "./proposed/localserver-hapi",
+    "./packages/localserver-hapi",
     "./packages/types"
 //    "./proposed/localserver-deno",
   ]

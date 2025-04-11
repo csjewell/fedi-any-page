@@ -32,7 +32,7 @@
   "scripts": {
     "lint": "eslint --flag unstable_config_lookup_from_file",
     "postinstall": "husky",
-    "prepublishOnly": "false"
+    "publish": "true"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",
