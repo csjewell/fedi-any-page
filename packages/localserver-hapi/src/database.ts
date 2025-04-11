@@ -17,7 +17,7 @@ class LocalDB implements Database.Router<DatabaseSync, AuthCookies> {
     this.init()
   }
 
-  init(): void {
+  init = (): void => {
     this.handle.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -159,53 +159,57 @@ class LocalDB implements Database.Router<DatabaseSync, AuthCookies> {
     this.handle.exec('INSERT INTO version (major, minor) VALUES (1, 0) ON CONFLICT(major) DO NOTHING')
   }
 
-  dbHandle(): DatabaseSync {
+  dbHandle = (): DatabaseSync => {
     return this.handle
   }
 
-  announce(_message: AP.Announce): Database.StorageHandler<AP.Announce> {
+  announce = (_message: AP.Announce): Database.StorageHandler<AP.Announce> => {
     throw new NotImplementedError()
   }
 
-  follow(_message: AP.Follow): Database.StorageHandler<AP.Follow> {
+  follow = (_message: AP.Follow): Database.StorageHandler<AP.Follow> => {
     throw new NotImplementedError()
   }
 
-  like(_message: AP.Like): Database.StorageHandler<AP.Like> {
+  like = (_message: AP.Like): Database.StorageHandler<AP.Like> => {
     throw new NotImplementedError()
   }
 
-  note(_message: AP.Note): Database.StorageHandler<AP.Note> {
+  note = (_message: AP.Note): Database.StorageHandler<AP.Note> => {
     throw new NotImplementedError()
   }
 
-  actor(_message: AP.ActorReference): Database.StorageHandler<AP.Actor> {
+  actor = (_message: AP.ActorReference): Database.StorageHandler<AP.Actor> => {
     throw new NotImplementedError()
   }
 
-  documentEntry(_message: AP.CoreObjectReference | AP.LinkReference): Database.StorageHandler<AP.CoreObject> {
+  documentEntry = (_message: AP.CoreObjectReference | AP.LinkReference): Database.StorageHandler<AP.CoreObject> => {
     throw new NotImplementedError()
   }
 
-  getDocument(_dr: string | AP.OrArray<AP.EntityReference> | undefined): Database.DBDocument {
+  getDocument = (_dr: string | AP.OrArray<AP.EntityReference> | undefined): Database.DBDocument => {
     throw new NotImplementedError()
   }
 
-  users(): Database.UsersStorage {
+  users = (): Database.UsersStorage => {
     throw new NotImplementedError()
   }
 
-  session(
+  session = (
     _username: string,
     _sessionKey: string,
-  ): AP.OrPromise<Database.SessionStorage<AuthCookies>> {
+  ): AP.OrPromise<Database.SessionStorage<AuthCookies>> => {
     throw new NotImplementedError()
   }
 
-  newSession(
+  newSession = (
     _username: string,
     _actorFunc: (username: string) => string,
-  ): AP.OrPromise<Database.SessionStorage<AuthCookies>> {
+  ): AP.OrPromise<Database.SessionStorage<AuthCookies>> => {
+    throw new NotImplementedError()
+  }
+
+  sendToOutbox = (_usernameId: number, _actor: string, _message: AP.CoreObject): AP.OrPromise<boolean> => {
     throw new NotImplementedError()
   }
 }

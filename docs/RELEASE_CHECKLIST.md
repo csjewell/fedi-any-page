@@ -12,6 +12,7 @@ the release.
 
 ```
 ... (dev +=)$ pnpm lint
+... (dev +=)$ pnpm -r build
 ... (dev +=)$ pnpm test
 ... (dev +=)$ git commit
 ... (dev>)$ pnpx jsr publish --dry-run

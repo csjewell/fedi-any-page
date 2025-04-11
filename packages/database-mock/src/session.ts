@@ -134,10 +134,8 @@ export class MockSession implements SessionDB<AuthCookies> {
    * Retrieves the session from the cache.
    *
    * @returns {Promise<boolean>} We have a valid session if the Promise resolves to true
-   *
-   * @private
    */
-  private async _retrieveFromCache(): Promise<boolean> {
+  async _retrieveFromCache(): Promise<boolean> {
     if (this.sessionKey === '') {
       return false
     }
