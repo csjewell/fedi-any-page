@@ -20,7 +20,7 @@ export type StorageHandler<T> = {
   remove     : () => Promise<boolean>
   save       : (...arguments_: Array<unknown>) => Promise<boolean>
   exists     : () => Promise<boolean>
-  retrieve   : (...arguments_: Array<unknown>) => Promise<T>
+  retrieve   : (...arguments_: Array<unknown>) => Promise<T | undefined>
   shorten    : () => Promise<{ url: URL | undefined; id: number | undefined }>
 }
 
@@ -63,4 +63,6 @@ export type Router<DatabaseT, SessionReturnT> = {
   newSession    : (username: string, actorFunc: ActorFunc) => OrPromise<SessionStorage<SessionReturnT>>
   /** Returns a handler for the "session" table when we have a session established already */
   session       : (username: string, sessionKey: string) => OrPromise<SessionStorage<SessionReturnT>>
+  /** Store a generated CoreObject to be sent out later. */
+  sendToOutbox  : (usernameId: number, actor: string, message: CoreObject) => OrPromise<boolean>
 }

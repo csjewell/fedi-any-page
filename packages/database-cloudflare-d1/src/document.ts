@@ -1,27 +1,35 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import { type Database, Json, Utils } from '@csjewell-activitypub/general'
+import { type Database, DataError, Json, Utils } from '@csjewell-activitypub/general'
 import * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
 import type { CloudflareConfig } from './config.ts'
 import type { DBId } from './types.ts'
 
-export class DocumentCFStorage extends CloudflareD1Database implements Database.StorageHandler<AP.CoreObjectReference> {
-  private message      : AP.CoreObjectReference
-  private dbDocumentId : number | undefined = undefined
+export class DocumentCFStorage extends CloudflareD1Database implements Database.StorageHandler<AP.CoreObject> {
+  private message         : AP.CoreObjectReference
+  private resolvedMessage : AP.CoreObject | undefined = undefined
+  private dbDocumentId    : number | undefined = undefined
 
-  constructor(env: CloudflareConfig, message: AP.CoreObject) {
+  constructor(env: CloudflareConfig, message: AP.CoreObjectReference) {
     super(env)
     this.message = message
+    if (AP.guard.isApCoreObject(this.message)) {
+      this.resolvedMessage = this.message
+    }
   }
 
   databaseId(): number | undefined {
     return this.dbDocumentId
   }
 
-  document(): AP.CoreObjectReference {
-    return this.message
+  document(): AP.CoreObject {
+    if (this.resolvedMessage === undefined) {
+      throw new DataError('Document not resolved yet')
+    }
+
+    return this.resolvedMessage
   }
 
   async remove(): Promise<boolean> {
@@ -58,7 +66,8 @@ export class DocumentCFStorage extends CloudflareD1Database implements Database.
     }
 
     if (AP.guard.isApCoreObject(this.message)) {
-      const {id,} = this.message
+      this.resolvedMessage = this.message
+      const { id, } = this.message
 
       if (id === null) {
         return false
@@ -71,23 +80,30 @@ export class DocumentCFStorage extends CloudflareD1Database implements Database.
       return false
     }
 
-    if (!this.dbDocumentId) {
-      const stmtDocument = this.handle.prepare('SELECT id FROM documents WHERE document_id = ?').bind(checkId)
-      const resp = await stmtDocument.run()
+    const stmtDocument = this.handle.prepare('SELECT id FROM documents WHERE document_id = ?').bind(checkId)
+    const resp = await stmtDocument.run()
 
-      if (resp.success && resp.results.length === 1) {
-        this.dbDocumentId = (resp.results[0] as DBId).id
-      }
+    if (resp.results.length === 1) {
+      this.dbDocumentId = (resp.results[0] as DBId).id
     }
 
     return Boolean(this.dbDocumentId)
   }
 
   async retrieve(): Promise<AP.CoreObject | undefined> {
-    if (this.dbDocumentId !== undefined) {
-      return this.message as AP.CoreObject
+    // If we've already stored and resolved it, just return the resolved message
+    if (this.dbDocumentId !== undefined && this.resolvedMessage !== undefined) {
+      return this.resolvedMessage
     }
 
+    // Check if it exists - if it does, and it is resolved already, return that message.
+    if (await this.exists() && this.resolvedMessage !== undefined) {
+      return this.resolvedMessage
+    }
+
+    // TODO: [2025-04-12] Try to get the document from the database
+
+    // Try and get the document from the web and store it.
     let document: AP.CoreObject
     let documentJSON: string
 
@@ -113,30 +129,35 @@ export class DocumentCFStorage extends CloudflareD1Database implements Database.
       }
 
       if (document.id.toString() !== documentURL.toString()) {
-        console.info(
+        console.error(
           `Tried to retrieve document at ${ documentURL.toString() } and got a document at ${ document.id.toString() } instead`,
         )
         return undefined
       }
 
-      this.message = document
+      this.resolvedMessage = document
     } else {
-      document = this.message
+      this.resolvedMessage = this.message
+      document = this.resolvedMessage
       documentJSON = Json.stringify(document)
+
+      if (document.id === null || document.id === undefined) {
+        console.error(`tried to store document without an id: ${ documentJSON }`)
+        return undefined
+      }
     }
 
-    console.info(`Storing document "${ document.id!.toString() }"`)
+    const documentId = document.id.toString()
+
+    console.info(`Storing document "${ documentId }"`)
     const stmtDocument = this.handle.prepare(`
       INSERT
         INTO documents (document_id, type, document)
       VALUES           (          ?,    ?,        ?)
-    `).bind(document.id!.toString(), document.type, documentJSON)
+    `).bind(documentId, document.type, documentJSON)
     const respDocument = await stmtDocument.run()
 
-    if (respDocument.success) {
-      this.dbDocumentId = respDocument.meta.last_row_id
-    }
-
-    return this.message
+    this.dbDocumentId = respDocument.meta.last_row_id
+    return this.resolvedMessage
   }
 }

@@ -1,5 +1,3 @@
-import { CloudflareConfig } from './src/config.ts'
-
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */

@@ -16,20 +16,20 @@ export class NoteCFStorage extends CloudflareD1Database implements Database.Stor
     this.message = message
   }
 
-  databaseId(): number | undefined {
+  databaseId = (): number | undefined => {
     return this.dbNoteId
   }
 
-  document(): AP.Note {
+  document = (): AP.Note => {
     return this.message
   }
 
   /* eslint-disable-next-line @typescript-eslint/require-await -- Not implemented yet */
-  async remove(): Promise<boolean> {
+  remove = async (): Promise<boolean> => {
     throw new NotImplementedError()
   }
 
-  async save(): Promise<boolean> {
+  save = async (): Promise<boolean> => {
     console.info('Save Reply', this.message)
 
     if (this.message.id === null || this.message.id === undefined) {

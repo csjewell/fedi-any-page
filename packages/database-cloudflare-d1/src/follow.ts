@@ -7,6 +7,15 @@ import type * as AP from '@csjewell-activitypub/types'
 import type { CloudflareConfig } from './config.ts'
 import type { DBCount } from './types.ts'
 
+type ValidFollow = { isValid: false } | {
+  isValid    : true,
+  actorId    : string,
+  followedId : string,
+  username   : string,
+  usernameId : number,
+}
+
+// "actor" follows "object"
 export class FollowCFStorage extends CloudflareD1Database implements Database.StorageHandler<AP.Follow> {
   private readonly message : AP.Follow
 
@@ -23,14 +32,51 @@ export class FollowCFStorage extends CloudflareD1Database implements Database.St
     return this.message
   }
 
+  private validateMessage = (): ValidFollow => {
+    const actorId = Utils.getEntityId(this.message.actor)
+
+    if (actorId === undefined) {
+      console.error('A Follow cannot be anonymous.')
+      return { isValid: false, }
+    }
+
+    // Resolve the thing being followed.
+    // (We need the object, where we could get a ref)
+    // TODO: [2025-04-19] We could optimize this, since we know this is OUR actor.
+    const { object, } = this.getDocument(this.message.object)
+
+    if (object === undefined) {
+      console.error('What object are we trying to follow?')
+      return { isValid: false, }
+    }
+
+    const followedId = object.id
+
+    if (followedId === null || followedId === undefined) {
+      console.error('The object we are trying to follow has no id.')
+      return { isValid: false, }
+    }
+
+    // If it is not OUR content being announced, do not need to delete it, for it was never saved.
+    if (followedId.hostname !== this.env.url.hostname) {
+      console.error('The object we are trying to follow is not ours.')
+      return { isValid: false, }
+    }
+
+    // TODO: [2025-04-19] Resolve the followedId to a username, and then to a usernameId
+    return { isValid: true, actorId, followedId: followedId.toString(), username: '', usernameId: -1, }
+  }
+
+
   async remove(): Promise<boolean> {
     // If from Mastodon - someone unfollowed me, we need to delete it from the store.
-    const actorId = Utils.getEntityId(this.message.actor)
-    const { username, usernameId, } = this.getUsername(this.message.object)
+    const messageInfo = this.validateMessage()
 
-    if (usernameId === undefined) {
+    if (!messageInfo.isValid) {
       return false
     }
+
+    const { actorId, username, usernameId, } = messageInfo
 
     console.info(`Attempting to delete ${ actorId } from followers of ${ username }`)
 
@@ -50,54 +96,55 @@ export class FollowCFStorage extends CloudflareD1Database implements Database.St
   }
 
   async save(...args: Array<unknown>): Promise<boolean> {
-    const guid = args[0] as string
+    const messageInfo = this.validateMessage()
 
-    if (this.message.id === null) {
+    if (!messageInfo.isValid) {
       return false
     }
 
-    const id = (this.message.id as URL).toString()
-    const actorId = Utils.getEntityId(this.message.actor as AP.EntityReference)!.toString()
+    const { actorId, username, usernameId, } = messageInfo
+    const guid = args[0] as string
+    const documentId = this.message.id
+
+    if (documentId === null || documentId === undefined) {
+      return false
+    }
 
     let isOK = false
-    const stmtGet = this.handle.prepare('SELECT document_id FROM followers WHERE id = ? AND actor_id = ?').bind(
-      id,
+    const stmtGet = this.handle.prepare('SELECT document_id FROM followers WHERE username_id = ? AND actor_id = ?').bind(
+      usernameId,
       actorId,
     )
     const resp = await stmtGet.run()
 
-    if (resp.success && (resp.results[0] as DBCount).count > 0) {
-      isOK = true
+    if ((resp.results[0] as DBCount).count > 0) {
       console.info('Already Following')
-    }
-
-    if (isOK) {
       return true
     }
 
-    console.info(`Adding follow message "${ id }" to ${ actorId }`)
-    const stmtInsert = this.handle.prepare('INSERT INTO followers SET document_id = ?, actor_id = ?').bind(
-      id,
+    console.info(`Adding follow message "${ documentId.toString() }" (${ actorId } is following ${ username })`)
+    const stmtInsert = this.handle.prepare('INSERT INTO followers SET document_id = ?, actor_id = ?, username_id = ?').bind(
+      documentId.toString(),
       actorId,
-      JSON.stringify(this.message),
+      usernameId,
     )
     const respInsert = await stmtInsert.run()
 
-    if (respInsert.success && respInsert.meta.rows_written > 0) {
+    if (respInsert.meta.rows_written > 0) {
       isOK = true
     }
 
     const url = this.env.url.toString()
-    const _user = this.env.username.toLowerCase()
 
-    const _acceptRequest: AP.Accept = {
+    const acceptRequest: AP.Accept = {
       '@context' : new URL('https://www.w3.org/ns/activitystreams'),
       'id'       : new URL(`${ url }#${ guid }`),
       'type'     : 'Accept',
-      'actor'    : new URL(this.env.getActorURL('')),
-      'object'   : this.message.id as URL,
+      'actor'    : new URL(this.env.getActorURL(username)),
+      'object'   : documentId,
     }
 
+    isOK = isOK && await this.env.database.sendToOutbox(usernameId, actorId, acceptRequest)
     return isOK
   }
 
@@ -106,24 +153,26 @@ export class FollowCFStorage extends CloudflareD1Database implements Database.St
       return false
     }
 
-    const id = (this.message.id as URL).toString()
-    const actorId = '' // TODO: this.env.getActorId(this.message.actor as AP.EntityReference).toString()
+    const documentId = (this.message.id as URL).toString()
+    // TODO: this.env.getActorId(this.message.actor as AP.EntityReference).toString()
+    const actorId = ''
 
     let isOK = false
     const stmtGet = this.handle.prepare('SELECT COUNT(*) AS count FROM followers WHERE Id = ? AND ActorId = ?').bind(
-      id,
+      documentId,
       actorId,
     )
     const resp = await stmtGet.run()
 
-    if (resp.success && (resp.results[0] as DBCount).count > 0) {
+    if ((resp.results[0] as DBCount).count > 0) {
       isOK = true
-      console.log('Already Following')
+      console.info('Already Following')
     }
 
     return isOK
   }
 
+  /* eslint-disable-next-line @typescript-eslint/require-await -- Not implemented yet */
   retrieve = async (): Promise<AP.Follow> => {
     throw new NotImplementedError()
   }

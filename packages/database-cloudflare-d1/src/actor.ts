@@ -1,37 +1,38 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import { DataError, Json, type Configuration, type Database } from '@csjewell-activitypub/general'
+import { type Database, Json, NotImplementedError, Utils } from '@csjewell-activitypub/general'
 import * as AP from '@csjewell-activitypub/types'
-import { D1Database } from '@cloudflare/workers-types'
 import { CloudflareD1Database } from './router.ts'
 import type { CloudflareConfig } from './config.ts'
 import type { DBId } from './types.ts'
 
-export class ActorCFStorage extends CloudflareD1Database implements Database.StorageHandler<AP.ActorReference> {
+export class ActorCFStorage extends CloudflareD1Database implements Database.StorageHandler<AP.Actor> {
   /*
    * Store an Actor (a Person, Application, etc.) within the database
    */
   private message      : AP.ActorReference
+  private _msgResolved : AP.Actor | undefined
   private dbActorId    : number | undefined
   private dbDocumentId : number | undefined
 
   constructor(env: CloudflareConfig, message: AP.ActorReference) {
     super(env)
     this.message = message
+    this._msgResolved = undefined
     this.dbActorId = undefined
     this.dbDocumentId = undefined
   }
 
-  databaseId(): number | undefined {
+  databaseId = (): number | undefined => {
     return this.dbActorId
   }
 
-  document(): AP.ActorReference {
-    return this.message
+  document = (): AP.Actor => {
+    throw new NotImplementedError()
   }
 
-  async remove(): Promise<boolean> {
+  remove = async (): Promise<boolean> => {
     if (!this.dbActorId || !this.dbDocumentId) {
       await this.exists()
     }
@@ -39,33 +40,23 @@ export class ActorCFStorage extends CloudflareD1Database implements Database.Sto
     return await this.removeActorQuick() && await this.removeDocumentQuick()
   }
 
-  private async removeActorQuick(): Promise<boolean> {
-    let isOK = false
+  private removeActorQuick = async (): Promise<boolean> => {
     const stmtDocument = this.handle.prepare('DELETE FROM actors WHERE id = ?').bind(this.dbActorId)
-    const resp = await stmtDocument.run()
 
-    if (resp.success) {
-      isOK = true
-      this.dbActorId = undefined
-    }
-
-    return isOK
+    await stmtDocument.run()
+    this.dbActorId = undefined
+    return true
   }
 
-  private async removeDocumentQuick(): Promise<boolean> {
-    let isOK = false
+  private removeDocumentQuick = async (): Promise<boolean> => {
     const stmtDocument = this.handle.prepare('DELETE FROM documents WHERE id = ?').bind(this.dbDocumentId)
-    const resp = await stmtDocument.run()
 
-    if (resp.success) {
-      isOK = true
-      this.dbDocumentId = undefined
-    }
-
-    return isOK
+    await stmtDocument.run()
+    this.dbDocumentId = undefined
+    return true
   }
 
-  async save(): Promise<boolean> {
+  save = async (): Promise<boolean> => {
     if (await this.exists()) {
       return true
     }
@@ -75,7 +66,7 @@ export class ActorCFStorage extends CloudflareD1Database implements Database.Sto
     return actor !== undefined
   }
 
-  async exists(): Promise<boolean> {
+  exists = async (): Promise<boolean> => {
     let checkId: string | undefined
 
     if (this.dbActorId !== undefined && this.dbDocumentId !== undefined) {
@@ -87,16 +78,16 @@ export class ActorCFStorage extends CloudflareD1Database implements Database.Sto
     }
 
     if (AP.guard.isApActor(this.message)) {
-      const {id,} = this.message as AP.Actor
+      const {id,} = this.message
 
       if (id === null) {
         return false
       }
 
-      checkId = Kit.entityRefToString(id)
+      checkId = Utils.entityRefToString(id)
     }
 
-    if (checkId === undefined || checkId === null) {
+    if (checkId === undefined) {
       return false
     }
 
@@ -104,7 +95,7 @@ export class ActorCFStorage extends CloudflareD1Database implements Database.Sto
       const stmtActor = this.handle.prepare('SELECT id FROM actors WHERE actor_id = ?').bind(checkId)
       const resp = await stmtActor.run()
 
-      if (resp.success && resp.results.length === 1) {
+      if (resp.results.length === 1) {
         this.dbActorId = (resp.results[0] as DBId).id
       }
     }
@@ -113,7 +104,7 @@ export class ActorCFStorage extends CloudflareD1Database implements Database.Sto
       const stmtActor = this.handle.prepare('SELECT id FROM documents WHERE document_id = ?').bind(checkId)
       const resp = await stmtActor.run()
 
-      if (resp.success && resp.results.length === 1) {
+      if (resp.results.length === 1) {
         this.dbDocumentId = (resp.results[0] as DBId).id
       }
     }
@@ -121,18 +112,18 @@ export class ActorCFStorage extends CloudflareD1Database implements Database.Sto
     return Boolean(this.dbDocumentId) && Boolean(this.dbActorId)
   }
 
-  async retrieve(): Promise<AP.Actor | undefined> {
+  retrieve = async (): Promise<AP.Actor | undefined> => {
     if (this.dbActorId !== undefined) {
       return this.message as AP.Actor
     }
 
-    const er = AP.guard.isApActor(this.message) ? (this.message as AP.Actor).id : this.message
+    const er = AP.guard.isApActor(this.message) ? this.message.id : this.message
 
     if (er === undefined || er === null) {
       return undefined
     }
 
-    const actorURL = Kit.entityRefToURL(er)
+    const actorURL = Utils.entityRefToURL(er)
 
     if (actorURL === undefined) {
       return undefined
@@ -140,7 +131,7 @@ export class ActorCFStorage extends CloudflareD1Database implements Database.Sto
 
     actorURL.hash = ''
 
-    console.log(`Retrieving actor message "${ actorURL.toString() }"`)
+    console.info(`Retrieving actor message "${ actorURL.toString() }"`)
     const resp = await fetch(actorURL, {
       headers : {
         accept : 'application/activity+json, application/ld+json, application/json',
@@ -150,11 +141,6 @@ export class ActorCFStorage extends CloudflareD1Database implements Database.Sto
     })
 
     const actorInfoJSON = await resp.text()
-
-    if (actorInfoJSON === undefined) {
-      return undefined
-    }
-
     const actorInfo: AP.Actor = Json.parse(actorInfoJSON) as AP.Actor
 
     if (actorInfo.id === null || actorInfo.id === undefined) {
@@ -162,13 +148,13 @@ export class ActorCFStorage extends CloudflareD1Database implements Database.Sto
     }
 
     if (actorInfo.id.toString() !== actorURL.toString()) {
-      console.log(
+      console.info(
         `Tried to retrieve actor at ${ actorURL.toString() } and got an actor at ${ actorInfo.id.toString() } instead`,
       )
       return undefined
     }
 
-    console.log(`Storing actor message "${ actorURL.toString() }"`)
+    console.info(`Storing actor message "${ actorURL.toString() }"`)
     const stmtDocument = this.handle.prepare('INSERT INTO documents SET document_id = ?, type = ?, document = ?').bind(
       actorInfo.id,
       actorInfo.type,
@@ -176,23 +162,19 @@ export class ActorCFStorage extends CloudflareD1Database implements Database.Sto
     )
     const respDocument = await stmtDocument.run()
 
-    if (respDocument.success) {
-      this.dbDocumentId = respDocument.meta.last_row_id
-    }
+    this.dbDocumentId = respDocument.meta.last_row_id
 
     const {preferredUsername,} = actorInfo
     const stmtActor = this.handle.prepare(
       'INSERT INTO actors SET actor_id = ?, document_id = ?, inbox = ?, outbox = ?, preferred_username = ?',
-    ).bind(actorInfo.id, this.dbDocumentId, actorInfo.inbox, actorInfo.outbox, preferredUsername)
+    ).bind(
+      /* eslint-disable-next-line unicorn/consistent-destructuring */
+      actorInfo.id, this.dbDocumentId, actorInfo.inbox, actorInfo.outbox, preferredUsername,
+    )
     const respActor = await stmtActor.run()
 
-    if (respActor.success) {
-      this.dbActorId = respActor.meta.last_row_id
-    } else {
-      throw new DataError('I do not know.') // TODO:
-    }
-
+    this.dbActorId = respActor.meta.last_row_id
     this.message = actorInfo
-    return this.message as AP.Actor
+    return this.message
   }
 }

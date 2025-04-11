@@ -56,11 +56,11 @@ export class CloudflareD1Database implements Database.Router<D1Database, unknown
   }
 
   /** */
-  documentEntry(_message: AP.CoreObjectReference | AP.LinkReference): Database.StorageHandler<AP.CoreObject> {
+  documentEntry = (_message: AP.CoreObjectReference | AP.LinkReference): Database.StorageHandler<AP.CoreObject> => {
     throw new NotImplementedError()
   }
 
-  getUsername(dr: string | AP.EntityReference | Array<AP.EntityReference> | null | undefined): Database.DBUsername {
+  getUsername = (dr: string | AP.EntityReference | Array<AP.EntityReference> | null | undefined): Database.DBUsername => {
     if (Array.isArray(dr) || dr === undefined || dr === null) {
       return { username: undefined, usernameId: undefined, } as Database.DBUsername
     }
@@ -76,7 +76,7 @@ export class CloudflareD1Database implements Database.Router<D1Database, unknown
   }
 
   /** */
-  getDocument(dr: string | AP.EntityReference | Array<AP.EntityReference> | null | undefined): Database.DBDocument {
+  getDocument = (dr: string | AP.EntityReference | Array<AP.EntityReference> | null | undefined): Database.DBDocument => {
     if (Array.isArray(dr) || dr === undefined || dr === null) {
       return { object: undefined, objectId: undefined, } as Database.DBDocument
     }
@@ -91,11 +91,11 @@ export class CloudflareD1Database implements Database.Router<D1Database, unknown
     throw new NotImplementedError()
   }
 
-  isDBDocumentInfo(info: unknown): info is DBDocumentInfo {
+  isDBDocumentInfo = (info: unknown): info is DBDocumentInfo => {
     return info !== undefined && info !== null && typeof info === 'object' && 'doc' in info
   }
 
-  assertIsDBDocumentInfo(info: DBDocumentInfo | undefined): asserts info is DBDocumentInfo {
+  assertIsDBDocumentInfo = (info: DBDocumentInfo | undefined): asserts info is DBDocumentInfo => {
     if (!this.isDBDocumentInfo(info)) {
       throw new TypeError('Value passed in is not document information (DBDocumentInfo)')
     }
@@ -133,7 +133,11 @@ export class CloudflareD1Database implements Database.Router<D1Database, unknown
     throw new NotImplementedError()
   }
 
-  session = (_username: string, _sessionKey: string): AP.OrPromise<Kit.Database.SessionStorage<unknown>> => {
+  session = (_username: string, _sessionKey: string): AP.OrPromise<Database.SessionStorage<unknown>> => {
+    throw new NotImplementedError()
+  }
+
+  sendToOutbox = (_usernameId: number, _actor: string, _message: AP.CoreObject): AP.OrPromise<boolean> => {
     throw new NotImplementedError()
   }
 }

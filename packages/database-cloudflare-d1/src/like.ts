@@ -200,7 +200,7 @@ export class LikeCFStorage extends CloudflareD1Database implements Database.Stor
     return isOK
   }
 
-  async retrieve(): Promise<AP.Like | undefined> {
+  retrieve = async (): Promise<AP.Like | undefined> => {
     if (!this.exists()) {
       return undefined
     }
@@ -230,7 +230,12 @@ export class LikeCFStorage extends CloudflareD1Database implements Database.Stor
       }
 
       if (info.url) {
-        return this.env.localGet(info.url)
+        const doc = await this.env.localGet(info.url)
+        if (doc !== undefined) {
+          AP.assert.isApType<AP.Like>(doc, 'Like')
+        }
+
+        return doc
       }
 
       const ret = Json.parse(info.doc)
