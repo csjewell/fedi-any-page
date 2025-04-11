@@ -15,7 +15,7 @@ export type Configuration<DatabaseT, SessionReturnT> = {
   siteName   : string
 
   /** Gets a pre-generated ActivityPub document object */
-  localGet        : (url: string | URL) => AP.CoreObject | undefined
+  localGet        : (url: string | URL) => AP.OrPromise<AP.CoreObject | undefined>
   /** Gets the URL for an actor based on a username */
   getActorURL     : (username: string) => string
   /** Gets an identifier based on a username */

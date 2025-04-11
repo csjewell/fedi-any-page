@@ -24,7 +24,7 @@ export class CloudflareConfig implements Configuration<D1Database, unknown> {
   public readonly privateKey : string
   public readonly database   : Database.Router<D1Database, unknown>
   public readonly siteName   : string = ''
-  private readonly pattern   : string = ''
+  // private readonly pattern   : string = ''
   public debugDb = false
 
   constructor(env: Record<string, unknown>, mapping: Record<string, string>) {
@@ -41,7 +41,8 @@ export class CloudflareConfig implements Configuration<D1Database, unknown> {
     throw new NotImplementedError()
   }
 
-  localGet = (url: string | URL): AP.CoreObject | undefined => {
+  /* eslint-disable-next-line @typescript-eslint/require-await -- Not implemented yet */
+  localGet = async (url: string | URL): Promise<AP.CoreObject | undefined> => {
     console.info(url)
     throw new NotImplementedError()
   }

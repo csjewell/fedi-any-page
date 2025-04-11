@@ -12,6 +12,12 @@ type LikeInfo = {
   created : unknown
 }
 
+type ValidLike = { isValid: false } | {
+  isValid : true,
+  actorId : string,
+  likedId : string,
+}
+
 export class LikeCFStorage extends CloudflareD1Database implements Database.StorageHandler<AP.Like> {
   private readonly message : AP.Like
   private dbLikeId         : number | undefined = undefined
@@ -27,6 +33,37 @@ export class LikeCFStorage extends CloudflareD1Database implements Database.Stor
 
   document(): AP.Like {
     return this.message
+  }
+
+  private validateMessage = (): ValidLike => {
+    const actorId = Utils.getEntityId(this.message.actor)
+
+    if (actorId === undefined) {
+      console.error('A Like cannot be anonymous.')
+      return { isValid: false, }
+    }
+
+    // Resolve the thing being liked.
+    // (We need the object, where we could get a ref)
+    // TODO: [2025-04-19] We could optimize this, since we know this is OUR object being liked.
+    const { object, } = this.getDocument(this.message.object)
+
+    if (object === undefined) {
+      return { isValid: false, }
+    }
+
+    const likedId = object.id
+
+    if (likedId === undefined || likedId === null) {
+      return { isValid: false, }
+    }
+
+    if (likedId.hostname !== this.env.url.hostname) {
+      // If we aren't ourselves, we were never here.
+      return { isValid: false, }
+    }
+
+    return { isValid: true, actorId, likedId: likedId.toString(), }
   }
 
   async count(er: AP.EntityReference): Promise<number> {
@@ -80,64 +117,36 @@ export class LikeCFStorage extends CloudflareD1Database implements Database.Stor
 
   async remove(): Promise<boolean> {
     // If from Mastodon - someone un-liked the post. We need to delete it from the store.
-    const actorId = Utils.getEntityId(this.message.actor)
+    const messageInfo = this.validateMessage()
 
-    const { object, } = this.getDocument(this.message.object)
-
-    if (object === undefined) {
+    if (!messageInfo.isValid) {
       return false
     }
 
-    const likedId = object.id as string | URL | null | undefined
-    const likedURL = Utils.idToURL(likedId)
+    const { actorId, likedId, } = messageInfo
 
-    if (likedURL === undefined) {
-      return false
-    }
+    console.info(`Attempting to delete Like ${ actorId } on ${ likedId }`)
 
-    console.info(`Attempting to delete Like ${ actorId } on ${ likedURL.toString() }`)
-    if (likedURL.hostname !== this.env.url.hostname) {
-      // If we aren't ourselves, we were never here.
-      return true
-    }
-
-    const stmtDel = this.handle.prepare('DELETE FROM likes WHERE liked_id = ? AND actor_id = ?').bind(likedURL, actorId)
+    const stmtDel = this.handle.prepare('DELETE FROM likes WHERE liked_id = ? AND actor_id = ?').bind(likedId, actorId)
     const resp = await stmtDel.run()
 
-    console.info(`Deleted Like of ${ actorId } on ${ likedURL.toString() }`, resp)
+    console.info(`Deleted Like of ${ actorId } on ${ likedId }`)
+    console.info(resp)
     return true
   }
 
   async save(): Promise<boolean> {
-    const er = this.message.object
+    const messageInfo = this.validateMessage()
 
-    if (Array.isArray(er)) {
-      return false
-    }
-    const erURL = Utils.entityRefToURL(er)
-
-    if (erURL === undefined || erURL.hostname !== this.env.url.hostname) {
+    if (!messageInfo.isValid) {
       return false
     }
 
-    // EntityReference | Array<EntityReference>, required (so not undefined)
-    const actorER = this.message.actor
-
-    if (Array.isArray(actorER)) {
-      return false
-    }
-
-    const actorURL = Utils.entityRefToURL(actorER)
-
-    if (actorURL === undefined) {
-      return false
-    }
-
-    const actorObj = await this.actor(actorURL).shorten()
+    const { actorId, likedId, } = messageInfo
 
     // Shorten up what gets saved.
-    this.message.object = erURL
-    this.message.actor = actorURL
+    this.message.object = new URL(likedId)
+    this.message.actor = new URL(actorId)
 
     const documentObj = await this.documentEntry(this.message).shorten()
 
@@ -145,19 +154,14 @@ export class LikeCFStorage extends CloudflareD1Database implements Database.Stor
       return false
     }
 
-    let isOK = false
     const stmtInsert = this.handle.prepare(`
       INSERT INTO likes (liked_id, actor_id, document_id)
            VALUES       (       ?,        ?,           ?)
-    `).bind(erURL.toString(), actorObj.id, documentObj.id)
+    `).bind(likedId, actorId, documentObj.id)
     const resp = await stmtInsert.run()
 
-    if (resp.success) {
-      this.dbLikeId = resp.meta.last_row_id
-      isOK = true
-    }
-
-    return isOK
+    this.dbLikeId = resp.meta.last_row_id
+    return true
   }
 
   async exists(): Promise<boolean> {
@@ -165,34 +169,22 @@ export class LikeCFStorage extends CloudflareD1Database implements Database.Stor
       return true
     }
 
-    const actorId = Utils.getEntityId(this.message.actor)
+    const messageInfo = this.validateMessage()
 
-    const { object, } = this.getDocument(this.message.object)
-
-    if (object === undefined) {
+    if (!messageInfo.isValid) {
       return false
     }
 
-    const likedId = object.id as string | URL | null | undefined
-    const likedURL = Utils.idToURL(likedId)
-
-    if (likedURL === undefined) {
-      return false
-    }
-
-    if (likedURL.hostname !== this.env.url.hostname) {
-      // If we aren't ourselves, we were never here.
-      return false
-    }
+    const { actorId, likedId, } = messageInfo
 
     let isOK = false
     const stmtExists = this.handle.prepare('SELECT id FROM likes WHERE liked_id = ? AND actor_id = ?').bind(
-      likedURL.toString(),
+      likedId,
       actorId,
     )
     const resp = await stmtExists.run()
 
-    if (resp.success && resp.results.length === 1) {
+    if (resp.results.length === 1) {
       isOK = true
       this.dbLikeId = (resp.results[0] as DBId).id
     }
@@ -201,7 +193,7 @@ export class LikeCFStorage extends CloudflareD1Database implements Database.Stor
   }
 
   retrieve = async (): Promise<AP.Like | undefined> => {
-    if (!this.exists()) {
+    if (!await this.exists()) {
       return undefined
     }
 
@@ -211,42 +203,41 @@ export class LikeCFStorage extends CloudflareD1Database implements Database.Stor
     ).bind(this.dbLikeId)
     const resp = await stmtExists.run()
 
-    if (resp.success && resp.results.length === 1) {
+    if (resp.results.length === 1) {
       dbResp = (resp.results as Array<DBDocumentInfo>)[0]
     }
 
-    if (dbResp !== undefined && this.assertIsDBDocumentInfo(dbResp)) {
-      const info: DBDocumentInfo = dbResp
-
-      if (info.r2key) {
-        /*
-        const cache = this.env.cache()
-        if (!cache) {
-          return undefined;
-        }
-        return cache.get(info.r2key, info.r2index) as AP.Like | undefined
-        */
-        throw new NotImplementedError()
-      }
-
-      if (info.url) {
-        const doc = await this.env.localGet(info.url)
-        if (doc !== undefined) {
-          AP.assert.isApType<AP.Like>(doc, 'Like')
-        }
-
-        return doc
-      }
-
-      const ret = Json.parse(info.doc)
-
-      if (ret !== undefined) {
-        AP.assert.isApType<AP.Like>(ret, 'Like')
-      }
-
-      return ret
+    if (dbResp === undefined) {
+      return undefined
     }
 
-    return undefined
+    if (dbResp.r2key) {
+      /*
+      const cache = this.env.cache()
+      if (!cache) {
+        return undefined;
+      }
+      return cache.get(info.r2key, info.r2index) as AP.Like | undefined
+      */
+      throw new NotImplementedError()
+    }
+
+    if (dbResp.url) {
+      const doc = await this.env.localGet(dbResp.url)
+
+      if (doc !== undefined) {
+        AP.assert.isApType<AP.Like>(doc, 'Like')
+      }
+
+      return doc
+    }
+
+    const ret = Json.parse(dbResp.doc)
+
+    if (ret !== undefined) {
+      AP.assert.isApType<AP.Like>(ret, 'Like')
+    }
+
+    return ret
   }
 }
