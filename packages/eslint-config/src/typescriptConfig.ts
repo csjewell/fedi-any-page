@@ -3,6 +3,7 @@
  */
 import tseslint, { type ConfigWithExtends } from 'typescript-eslint'
 
+/** Define the rules from typescript-eslint we want to follow. */
 const TypescriptConfig: Array<ConfigWithExtends> = [
   {
     extends         : tseslint.configs.strictTypeChecked,

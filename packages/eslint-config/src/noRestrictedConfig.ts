@@ -92,6 +92,7 @@ const noRestrictedProperties = createNoRestrictedProperties(
   },
 )
 
+/** Define what syntax and properties we restrict ourselves from using. */
 const NoRestrictedConfig: Array<ConfigWithExtends> = [
   {
     extends : [noRestrictedSyntax.configs.recommended],

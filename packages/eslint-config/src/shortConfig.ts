@@ -8,6 +8,10 @@ import sonarjs from 'eslint-plugin-sonarjs'
 import tsdoc from 'eslint-plugin-tsdoc'
 import type { InfiniteDepthConfigWithExtends } from 'typescript-eslint'
 
+/**
+ * Define the configuration for the tsdoc, regexp, sonarjs,
+ * erasable-syntax-only, and simple-import-sort plugins.
+ */
 const ShortConfig: Array<InfiniteDepthConfigWithExtends> = [
   erasableSyntaxOnly.configs.recommended as InfiniteDepthConfigWithExtends,
   {

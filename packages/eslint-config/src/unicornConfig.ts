@@ -5,6 +5,7 @@ import unicorn from 'eslint-plugin-unicorn'
 import globals from 'globals'
 import type { ConfigArray } from 'typescript-eslint'
 
+/** Define the rules from eslint-plugin-unicorn we want to follow. */
 const UnicornConfig: ConfigArray = [
   {
     files           : ['**/*{js,ts}'],

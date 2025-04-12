@@ -4,7 +4,7 @@
 import vitest from '@vitest/eslint-plugin'
 import type { ConfigArray } from 'typescript-eslint'
 
-
+/** Define the rules from eslint-plugin-vitest we want out tests to follow. */
 const VitestConfig: ConfigArray = [
   {
     files : [

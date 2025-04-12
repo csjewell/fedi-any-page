@@ -4,6 +4,7 @@
 import stylistic from '@stylistic/eslint-plugin'
 import type { ConfigArray } from 'typescript-eslint'
 
+/** Define the style rules we want to follow. */
 const StylisticConfig: ConfigArray = [
   {
     files   : ['**/*{js,ts}'],

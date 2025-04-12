@@ -66,6 +66,12 @@ const confusingBrowserGlobals = [
   'top',
 ]
 
+/**
+ * Define what rules we use that come from ESLint itself.
+ * @param gitIgnorePath The path of the .gitignore file.
+ *
+ * Note: All files within the .gitconfig are ignored.
+ */
 const BaseConfig = (gitignorePath: string): ConfigArray => [
   includeIgnoreFile(gitignorePath),
   {
