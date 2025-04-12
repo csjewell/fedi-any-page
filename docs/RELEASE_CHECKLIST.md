@@ -27,7 +27,8 @@ To actually DO the release, follow these directions.
 ```
 ... (dev $=)$ git checkout release
 ... (release $%=)$ git merge --ff origin/dev
-... (release $=)$ git tag v0.1.0-alpha.3
+... (release $%=)$ git push
+... (release $=)$ git tag v0.1.1-alpha.2
 ... (release $=)$ git push --tags
 ... (release $=)$ git checkout dev
 [hack, hack, hack...]

@@ -3,17 +3,19 @@
  */
 import { type Database, NotImplementedError, type Server } from '@csjewell-activitypub/general'
 import { AnyUsers } from './any-users.ts'
+import { JsonUsers } from './json-users.ts'
 import { MockSession } from './session.ts'
 import type { default as Keyv } from 'keyv'
 import type * as AP from '@csjewell-activitypub/types'
 
 type AuthCookies = Server.RePliers.AuthInfo
 export class DatabaseMock implements Database.Router<Keyv, AuthCookies> {
-  private cache : Keyv
+  private cache    : Keyv
+  private usersObj : AnyUsers | JsonUsers
 
-  // TODO: [2025-04-12] Pass in a string to create a JsonUsers, instead.
-  constructor(c: Keyv) {
+  constructor(c: Keyv, users?: string) {
     this.cache = c
+    this.usersObj = users === undefined ? new AnyUsers() : new JsonUsers(users)
   }
 
   dbHandle = (): Keyv => { return this.cache }
@@ -28,18 +30,18 @@ export class DatabaseMock implements Database.Router<Keyv, AuthCookies> {
     throw new NotImplementedError()
   }
 
-  users(): AnyUsers {
-    return new AnyUsers()
+  users = (): AnyUsers | JsonUsers => {
+    return this.usersObj
   }
 
-  async newSession(username: string, actorFunc: (u: string) => string): Promise<MockSession> {
+  newSession = async (username: string, actorFunc: (u: string) => string): Promise<MockSession> => {
     const sess = new MockSession(username, this.cache)
 
     await sess.retrieve(actorFunc)
     return sess
   }
 
-  async session(username: string, sessionKey: string): Promise<MockSession> {
+  session = async (username: string, sessionKey: string): Promise<MockSession> => {
     const sess = new MockSession(username, this.cache, sessionKey)
 
     await sess._retrieveFromCache()
