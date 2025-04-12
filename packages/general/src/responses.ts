@@ -11,14 +11,20 @@ type HeadersParam = { cors?: boolean; addHeaders?: ResolvedHeadersType }
 type BasicResponseParam = { info?: string; addHeaders?: HeadersType }
 
 type ResponseParam200Obj<SessionT> = {
+  /** The body of the response as an object to be JSON-stringified. */
   body        : Record<string, unknown>
+  /** Additional headers to be sent with the response. */
   addHeaders? : HeadersType
+  /** Cookies to be sent with the response. */
   cookies?    : SessionT,
 }
 
 type ResponseParam200Str<SessionT> = {
+  /** The body of the response as a string. */
   body        : string;
+  /** Additional headers to be sent with the response. */
   addHeaders? : HeadersType
+  /** Cookies to be sent with the response. */
   cookies?    : SessionT
 }
 
@@ -34,22 +40,38 @@ type ResponseParam30x = { url: string; statusCode?: 301 | 302 | 303 | 307 | 308 
 
 type ResponseParam404 = { info?: string; additional?: string; addHeaders?: HeadersType }
 
-type ResponseParam405 = { info?: string; addMethods?: Array<string>; addHeaders?: HeadersType }
+/**
+ * The parameters that could be given to... TODO
+ *
+ * @public
+ */
+type ResponseParam405 = {
+  info?       : string;
+  addMethods? : Array<string>;
+  addHeaders? : HeadersType
+}
 
-/** The group of responses that are sent upon web requests */
-export type Responses<SessionT, T> = {
-  getHeaders             : (arg0?: HeadersParam) => ResolvedHeadersType
-  success200Obj          : (arg0: ResponseParam200Obj<SessionT>) => T
-  success200Str          : (arg0: ResponseParam200Str<SessionT>) => T
-  success202             : (arg0?: BasicResponseParam) => T
-  success204             : (arg0?: ResponseParam204) => T
-  options204             : (arg0?: ResponseParam204Options) => T
-  redirect30x            : (arg0: ResponseParam30x) => T
-  error403               : (arg0?: BasicResponseParam) => T
-  error404               : (arg0?: ResponseParam404) => T
-  error404NotImplemented : () => T
-  error405               : (arg0?: ResponseParam405) => T
-  error422               : (arg0?: BasicResponseParam) => T
-  error500               : (arg0?: BasicResponseParam) => T
-  error503               : (arg0?: BasicResponseParam) => T
+/**
+ * The group of responses that are sent upon web requests.
+ *
+ * @param SessionT - The variables stored within the local session storage for the user.
+ * @param ResponseT - The type of response to be sent back to the web server
+ */
+export type Responses<SessionT, ResponseT> = {
+  getHeaders             : (argHash?: HeadersParam) => ResolvedHeadersType
+  /** Respond with a 200 success message based on a JSON-stringifiable object */
+  success200Obj          : (argHash: ResponseParam200Obj<SessionT>) => ResponseT
+  /** Respond with a 200 success message based on a (text) message */
+  success200Str          : (argHash: ResponseParam200Str<SessionT>) => ResponseT
+  success202             : (argHash?: BasicResponseParam) => ResponseT
+  success204             : (argHash?: ResponseParam204) => ResponseT
+  options204             : (argHash?: ResponseParam204Options) => ResponseT
+  redirect30x            : (argHash: ResponseParam30x) => ResponseT
+  error403               : (argHash?: BasicResponseParam) => ResponseT
+  error404               : (argHash?: ResponseParam404) => ResponseT
+  error404NotImplemented : () => ResponseT
+  error405               : (argHash?: ResponseParam405) => ResponseT
+  error422               : (argHash?: BasicResponseParam) => ResponseT
+  error500               : (argHash?: BasicResponseParam) => ResponseT
+  error503               : (argHash?: BasicResponseParam) => ResponseT
 }

@@ -5,14 +5,18 @@ import type * as AP from '@csjewell-activitypub/types'
 import type * as Database from './database/mod.ts'
 
 /**
- * Defines an abstract configuration class
+ * Defines an abstract configuration class, to be implemented by modules that
+ * implement using a particular database.
  */
 export type Configuration<DatabaseT, SessionReturnT> = {
-  url        : URL
-  privateKey : string
-  database   : Database.Router<DatabaseT, SessionReturnT>
-  debugDB?   : boolean
-  siteName   : string
+  /** The main URL of the site */
+  url      : URL
+  /** The name of the site */
+  siteName : string
+  /** An instance of the database's Router class. */
+  database : Database.Router<DatabaseT, SessionReturnT>
+  /** Whether to show debugging information about the database */
+  debugDB? : boolean
 
   /** Gets a pre-generated ActivityPub document object */
   localGet        : (url: string | URL) => AP.OrPromise<AP.CoreObject | undefined>

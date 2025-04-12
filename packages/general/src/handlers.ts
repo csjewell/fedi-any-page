@@ -20,11 +20,16 @@ import type { Responses } from './responses.ts'
  */
 export class RouterClass<SessionT, ResponseT>
 implements Request.Router<SessionT, ResponseT> {
+  /** ... */
   protected kdb               : Router<unknown, unknown>
+  /** ... */
   protected resp              : Responses<SessionT, ResponseT>
+  /** ... */
   protected readonly env      : Configuration<unknown, unknown>
+  /** ... */
   protected readonly username : string
 
+  /** ... */
   constructor(
     kdb: Router<unknown, unknown>,
     resp: Responses<SessionT, ResponseT>,
@@ -37,7 +42,17 @@ implements Request.Router<SessionT, ResponseT> {
     this.username = username.toLowerCase()
   }
 
-  async create(message: AP.Create): Promise<ResponseT> {
+  /**
+   * Handles receiving a Create message.
+   *
+   * The case we handle is when another server is asking us to create a "Note"
+   * on our server - meaning that they've replied to an Article or a Note
+   * that is on this server (because eventually, you can go "up the chain" to
+   * an article on this server.)
+   *
+   * @param message - The Create message that was sent to us.
+   */
+  create = async (message: AP.Create): Promise<ResponseT> => {
     console.info('Handling Create message')
     // Someone is sending us a message.
 
@@ -81,7 +96,16 @@ implements Request.Router<SessionT, ResponseT> {
     })
   }
 
-  async follow(message: AP.Follow): Promise<ResponseT> {
+  /**
+   * Handles receiving a Follow message.
+   *
+   * This mean that a user on another server (or even on this one) wants sent
+   * anything that a particular user on this server publishes.
+   *
+   * @param message - The Follow message that was sent to us.
+   * @returns - A primise to a  to the server.
+   */
+  follow = async (message: AP.Follow): Promise<ResponseT> => {
     // We are following.
     if (message.id === null) {
       return this.resp.error422({
@@ -128,7 +152,15 @@ implements Request.Router<SessionT, ResponseT> {
     return this.resp.error422()
   }
 
-  async undo(message: AP.Undo): Promise<ResponseT> {
+  /**
+   * Handles receiving an Undo message.
+   *
+   * This means that another server is asking us to undo an action that
+   * they previously requested us to do.
+   *
+   * @param message - The Undo message that was sent to us.
+   */
+  undo = async (message: AP.Undo): Promise<ResponseT> => {
     if (message.id === null) {
       return this.resp.error422({ info: 'No object ID', })
     }

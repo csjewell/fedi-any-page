@@ -29,7 +29,7 @@ SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = ["**/deno.jsonc", "**/jsr.jsonc"]
+path = ["**/deno.jsonc", "**/jsr.jsonc", "**/typedoc.jsonc"]
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
