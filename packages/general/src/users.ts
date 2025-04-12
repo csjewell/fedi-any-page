@@ -3,7 +3,8 @@
  */
 
 /**
- *
+ * The information about a particular local user that the ActivityPub toolkit
+ * needs to know.
  */
 export type User = {
   fullname  : string

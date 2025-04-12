@@ -15,6 +15,11 @@ import { HAPIResponses } from './responses.ts'
 const reqh = (req: Hapi.Request): HAPIRequest => new HAPIRequest(req)
 const resp = (h: Hapi.ResponseToolkit): HAPIResponses => new HAPIResponses(h)
 
+
+/**
+ * Class that implements the server routing.
+ * @class
+ */
 export class HAPIServer {
   private config        : TestConfig
   private server        : Hapi.Server
@@ -174,6 +179,7 @@ export class HAPIServer {
     */
   }
 
+  /** Starts the server. */
   start = async (): Promise<void> => {
     await this.server.register({
       plugin  : Brok,

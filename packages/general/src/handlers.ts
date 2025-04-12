@@ -9,6 +9,15 @@ import type { Router } from './database/router.ts'
 import type * as Request from './request.ts'
 import type { Responses } from './responses.ts'
 
+/**
+ * Implements the "business logic" of a server-to-server ActivityPub connection
+ *
+ * @param SessionT The type of the session object
+ * @param ResponseT The type of the response object handed back to the server
+ * framework.
+ *
+ * @class
+ */
 export class RouterClass<SessionT, ResponseT>
 implements Request.Router<SessionT, ResponseT> {
   protected kdb               : Router<unknown, unknown>

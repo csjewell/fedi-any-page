@@ -103,6 +103,15 @@ export class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject
     return this.resp
   }
 
+  /**
+   * Returns a standard 200 response
+   *
+   * @param body - Object to stringify and put into the body of the response.
+   * @param addHeaders {Record<string, string> | Array<[string, string]>} - Additional headers to add to the response
+   * @param cookies {undefined | AuthCookies} - Cookies to send with the response
+   *
+   * @returns Response to return to browser.
+   */
   success200Obj({
     body = {} as Record<string, unknown>,
     addHeaders = {} as HeadersType,
@@ -117,6 +126,15 @@ export class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject
     return this._headers({ addHeaders, }).code(200)
   }
 
+  /**
+   * Returns a standard 200 response
+   *
+   * @param body - String to put into the body of the response.
+   * @param addHeaders {Record<string, string> | Array<[string, string]>} - Additional headers to add to the response
+   * @param cookies {undefined | AuthCookies} - Cookies to send with the response
+   *
+   * @returns Response to return to browser.
+   */
   success200Str({
     body = '',
     addHeaders = {} as HeadersType,
@@ -137,6 +155,7 @@ export class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject
    * @param info - String to put into the response and into the response's
    * status text.
    * @default 'Accepted'.
+   * @param addHeaders {Record<string, string> | Array<[string, string]>} - Additional headers to add to the response
    *
    * @returns Response to return to browser.
    */
@@ -150,8 +169,7 @@ export class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject
   /**
    * Returns a 204 response
    *
-   * @param info String to append to the response's status text.
-   *             The default is 'No Content'.
+   * @param info {string} String to append to the response's status text.
    *
    * @returns Response to return to browser.
    */
@@ -172,8 +190,8 @@ export class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject
   /**
    * Returns a 30x response
    *
-   * @param url - URL to redirect to.
-   * @param statusCode - which status code to use when redirecting.
+   * @param url {string} - URL to redirect to.
+   * @param statusCode {301|302|303|307|308} - which status code to use when redirecting.
    *
    * @returns A redirection response to be sent to the browser.
    * @throws {TypeError} - URL was empty.
@@ -190,10 +208,9 @@ export class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject
   /**
    * Returns a 403 response
    *
-   * @param info - Information on what or why something is forbidden,
+   * @param info - Information on what or why something is forbidden, if any.
    * @default ''
-   *
-   * @param addHeaders - TODO [2025-04-10]
+   * @param addHeaders {Record<string, string> | Array<[string, string]>} - Additional headers to add to the response
    */
   error403({ info = '', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
     let statusText = 'Forbidden'
@@ -214,8 +231,7 @@ export class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject
    *
    * @param info The type of thing that has not been found
    * @default 'User'
-   *
-   * @param addHeaders - TODO [2025-04-10]
+   * @param addHeaders {Record<string, string> | Array<[string, string]>} - Additional headers to add to the response
    */
   error404({ info = 'User', additional = '', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
     let statusText = `${ info } Not Found`
@@ -251,8 +267,7 @@ export class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject
    * @default 'POST'
    *
    * @param addMethods {Array<string>} - The additional methods that are allowed.
-   *
-   * @param addHeaders {Record<string, string>} - TODO [2025-04-10]
+   * @param addHeaders {Record<string, string> | Array<[string, string]>} - Additional headers to add to the response
    */
   error405({
     info = 'POST',
@@ -270,7 +285,12 @@ export class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject
     return this._headers({ addHeaders: hdrs, }).message('Method Not Allowed').code(405)
   }
 
-  /* */
+  /**
+   * Returns a 422 (Unprocessable request) response
+   *
+   * @param info {string} - Information about why the request was unprocessable, if any.
+   * @param addHeaders {Record<string, string> | Array<[string, string]>} - Additional headers to add to the response
+   */
   error422({ info = '', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
     let statusText = 'Unprocessable Request'
 
@@ -285,7 +305,12 @@ export class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject
     return this._headers({ addHeaders, }).message(statusText).code(422)
   }
 
-  /* */
+  /**
+   * Returns a 500 (Server Error) response
+   *
+   * @param info {string} - Information about what error the server had, if any
+   * @param addHeaders {Record<string, string> | Array<[string, string]>} - Additional headers to add to the response
+   */
   error500({ info = '', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
     let statusText = 'Server Error'
 
@@ -300,7 +325,12 @@ export class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject
     return this._headers({ addHeaders, }).message(statusText).code(500)
   }
 
-  /* */
+  /**
+   * Returns a 500 (Server Error) response
+   *
+   * @param info {string} - Information about why the service was unavailable, if any
+   * @param addHeaders {Record<string, string> | Array<[string, string]>} - Additional headers to add to the response
+   */
   error503({ info = '', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
     let statusText = 'Service Unavailable'
 
