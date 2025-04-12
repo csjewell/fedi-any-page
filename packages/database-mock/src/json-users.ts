@@ -14,11 +14,11 @@ type ExtendedUserRead = Omit<User, 'username'> & {
 }
 
 export class JsonUsers extends BaseMockUsers implements Database.UsersStorage {
-  private users : Map<string, ExtendedUser>
+  private usersObj : Map<string, ExtendedUser>
 
   constructor(userinfo: string) {
     super()
-    this.users = new Map()
+    this.usersObj = new Map()
     let parsedUsers: object = {}
 
     if (userinfo === '') {
@@ -105,11 +105,11 @@ export class JsonUsers extends BaseMockUsers implements Database.UsersStorage {
         userObj.aliases = v.aliases
       }
 
-      this.users.set(username, userObj as ExtendedUser)
+      this.usersObj.set(username, userObj as ExtendedUser)
     }
     /* eslint-enable */
 
-    if (this.users.size === 0) {
+    if (this.usersObj.size === 0) {
       throw new SyntaxError('Parsing the users returned nothing')
     }
   }
@@ -118,12 +118,12 @@ export class JsonUsers extends BaseMockUsers implements Database.UsersStorage {
   retrieve = async (...arguments_: Array<unknown>): Promise<User> => {
     const username = (arguments_[0] as string).toLowerCase()
 
-    if (!this.users.has(username)) {
+    if (!this.usersObj.has(username)) {
       throw new TypeError(`Could not get the user ${ username }`)
     }
 
     this.username = username
-    const eUser = this.users.get(username)
+    const eUser = this.usersObj.get(username)
     const { fullname, homepage, summary, aliases, dId, } = eUser as ExtendedUser
 
     return { username, fullname, homepage, summary, aliases, dId, }
@@ -131,7 +131,7 @@ export class JsonUsers extends BaseMockUsers implements Database.UsersStorage {
 
   /* eslint-disable-next-line @typescript-eslint/require-await -- We are mocking a routine that COULD await. */
   exists = async (): Promise<boolean> => {
-    return this.users.has(this.username)
+    return this.usersObj.has(this.username)
   }
 
   existsUser = async (username: string): Promise<boolean> => {
@@ -141,11 +141,11 @@ export class JsonUsers extends BaseMockUsers implements Database.UsersStorage {
 
   /* eslint-disable-next-line @typescript-eslint/require-await -- We are mocking a routine that COULD await. */
   checkPassword = async (pwToCheck: string): Promise<boolean> => {
-    if (!this.users.has(this.username)) {
+    if (!this.usersObj.has(this.username)) {
       throw new TypeError(`Could not get the user ${ this.username }`)
     }
 
-    const eUser = this.users.get(this.username)
+    const eUser = this.usersObj.get(this.username)
     const { password, } = eUser as ExtendedUser
 
     return pwToCheck === password
