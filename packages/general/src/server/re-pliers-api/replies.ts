@@ -4,15 +4,10 @@
 import type { Configuration } from '../../configuration.ts'
 import type * as Request from '../../request.ts'
 import type { Responses } from '../../responses.ts'
+import type { APIHandler } from './types.ts'
 
 // TODO: [2025-04-09] Remove the line below.
 /* eslint '@typescript-eslint/require-await': 'warn' */
-
-type APIHandler = <DatabaseT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, SessionT>,
-  req: Request.Helper,
-  resp: Responses<SessionT, ResponseT>,
-) => Promise<ResponseT>
 
 export const Like: APIHandler = async <DatabaseT, SessionT, ResponseT>(
   config: Configuration<DatabaseT, SessionT>,

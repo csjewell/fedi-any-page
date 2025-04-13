@@ -232,12 +232,9 @@ export class LikeCFStorage extends CloudflareD1Database implements Database.Stor
       return doc
     }
 
-    const ret = Json.parse(dbResp.doc)
+    const ret = Json.parse<AP.Like>(dbResp.doc)
 
-    if (ret !== undefined) {
-      AP.assert.isApType<AP.Like>(ret, 'Like')
-    }
-
+    AP.assert.isApType<AP.Like>(ret, 'Like')
     return ret
   }
 }

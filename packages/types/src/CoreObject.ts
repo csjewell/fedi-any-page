@@ -16,7 +16,7 @@ import type { OrArray, StringReferenceMap } from './Utility.ts'
 /**
  * An object containing all the types of CoreObjects.
  *
- * @see CoreObject
+ * @see {@link CoreObject}
  *
  * @see https://www.w3.org/TR/activitystreams-core/#object
  */
@@ -38,7 +38,7 @@ export type AnyCoreObjectType = (typeof CoreObjectTypes)[keyof typeof CoreObject
  *
  * @see https://www.w3.org/TR/activitystreams-core/#object
  *
- * @note The `sensitive` property is not included in the spec, but it is
+ * @remarks The `sensitive` property is not included in the spec, but it is
  * included because it is common to all ActivityPub objects in practice
  * by way of an extension to the spec.
  */

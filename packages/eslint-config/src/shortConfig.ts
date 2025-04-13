@@ -34,6 +34,7 @@ const ShortConfig: Array<InfiniteDepthConfigWithExtends> = [
       'sonarjs/cognitive-complexity'         : 'off',
       'sonarjs/no-duplicate-string'          : 'off',
       'sonarjs/no-ignored-exceptions'        : 'warn',
+      'sonarjs/no-nested-conditional'        : 'off',
       'sonarjs/no-unused-vars'               : 'off',
       'sonarjs/prefer-single-boolean-return' : 'off',
       'sonarjs/prefer-immediate-return'      : 'off',

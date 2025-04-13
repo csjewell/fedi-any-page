@@ -16,7 +16,7 @@ type UsersStorageMethods = {
 
 export type UsersStorage = StorageHandler<User> & UsersStorageMethods
 
-/** Class to extend  */
+/** Class to extend */
 export class BaseUsersStorage {
   protected user : User | undefined = undefined
   protected username = ''
@@ -30,9 +30,9 @@ export class BaseUsersStorage {
   /**
    * Retrieves information about the current user.
    *
-   * @param username {string} The username of the user being retrieved.
-   * @returns A Promise that either resolves to a User object if there is
-   * a user by that username, or undefined otherwise.
+   * @param username - The username of the user being retrieved.
+   * @returns - A {@link Promise} that either resolves to a {@link User} object
+   * if there is a user by that username, or undefined otherwise.
    */
   retrieveUser = async (username: string): Promise<User | undefined> => {
     if (this.user !== undefined && this.user.username === username) {

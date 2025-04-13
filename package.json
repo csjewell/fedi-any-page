@@ -1,6 +1,6 @@
 {
   "name": "@csjewell-activitypub/monorepo",
-  "version": "0.1.1-alpha.1",
+  "version": "0.1.1",
   "description": "ActivityPub Typescript Kit monorepo",
   "type": "module",
   "repository": {
@@ -31,8 +31,9 @@
   "keywords": [],
   "scripts": {
     "lint": "eslint --flag unstable_config_lookup_from_file",
+    "docs": "typedoc",
     "postinstall": "husky",
-    "publish": "true"
+    "publish": "false"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",
@@ -44,6 +45,8 @@
     "eslint": "^9.24.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
+    "typedoc": "^0.28.2",
+    "typedoc-plugin-markdown": "^4.6.2",
     "typescript-eslint": "^8.29.0"
   }
 }

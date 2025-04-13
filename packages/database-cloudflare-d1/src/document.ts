@@ -122,7 +122,7 @@ export class DocumentCFStorage extends CloudflareD1Database implements Database.
       })
 
       documentJSON = await resp.text()
-      document = Json.parse(documentJSON) as AP.CoreObject
+      document = Json.parse<AP.CoreObject>(documentJSON)
 
       if (document.id === null || document.id === undefined) {
         return undefined

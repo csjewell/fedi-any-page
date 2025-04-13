@@ -1,6 +1,6 @@
 {
   "name": "@csjewell-activitypub/database-mock",
-  "version": "0.1.1-alpha.3",
+  "version": "0.1.1",
   "description": "Mock database to use when testing the ActivityPub toolkit.",
   "type": "module",
   "repository": {

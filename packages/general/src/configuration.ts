@@ -7,6 +7,9 @@ import type * as Database from './database/mod.ts'
 /**
  * Defines an abstract configuration class, to be implemented by modules that
  * implement using a particular database.
+ *
+ * @typeParam DatabaseT - The type of the database's low-level handle
+ * @typeParam SessionReturnT - TODOCUMENT
  */
 export type Configuration<DatabaseT, SessionReturnT> = {
   /** The main URL of the site */
@@ -18,7 +21,7 @@ export type Configuration<DatabaseT, SessionReturnT> = {
   /** Whether to show debugging information about the database */
   debugDB? : boolean
 
-  /** Gets a pre-generated ActivityPub document object */
+  /** Retrieves a pre-generated ActivityPub document object */
   localGet        : (url: string | URL) => AP.OrPromise<AP.CoreObject | undefined>
   /** Gets the URL for an actor based on a username */
   getActorURL     : (username: string) => string

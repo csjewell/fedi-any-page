@@ -1,6 +1,6 @@
 {
   "name": "@csjewell-activitypub/general",
-  "version": "0.1.1-alpha.1",
+  "version": "0.1.1",
   "description": "Library to provide base classes and types for the ActivityPub toolkit.",
   "type": "module",
   "repository": {
@@ -43,7 +43,9 @@
     "build": "tsup",
     "lint": "eslint --flag unstable_config_lookup_from_file",
     "prepublishOnly": "tsup",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest watch"
   },
   "dependencies": {
     "@csjewell-activitypub/types": "workspace:^",
@@ -70,6 +72,7 @@
     "typedoc-plugin-markdown": "^4.6.2",
     "typedoc-plugin-mdn-links": "^5.0.1",
     "typedoc-plugin-missing-exports": "^4.0.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.1"
   }
 }

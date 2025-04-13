@@ -7,7 +7,9 @@
  * needs to know.
  */
 export type User = {
+  /** The full name of the user */
   fullname  : string
+  /** If the user has a homepage, what is it? */
   homepage? : string
   summary?  : string
   username? : string

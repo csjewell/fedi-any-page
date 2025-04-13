@@ -12,8 +12,8 @@ import type { Responses } from './responses.ts'
 /**
  * Implements the "business logic" of a server-to-server ActivityPub connection
  *
- * @param SessionT The type of the session object
- * @param ResponseT The type of the response object handed back to the server
+ * @typeParam SessionT The type of the session object
+ * @typeParam ResponseT The type of the response object handed back to the server
  * framework.
  *
  * @class
@@ -26,7 +26,7 @@ implements Request.Router<SessionT, ResponseT> {
   protected resp              : Responses<SessionT, ResponseT>
   /** ... */
   protected readonly env      : Configuration<unknown, unknown>
-  /** ... */
+  /** The username ... */
   protected readonly username : string
 
   /** ... */
@@ -51,6 +51,7 @@ implements Request.Router<SessionT, ResponseT> {
    * an article on this server.)
    *
    * @param message - The Create message that was sent to us.
+   * @returns A {@link Promise} that returns a {@link ResponseT}
    */
   create = async (message: AP.Create): Promise<ResponseT> => {
     console.info('Handling Create message')

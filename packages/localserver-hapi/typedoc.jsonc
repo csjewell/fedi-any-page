@@ -3,6 +3,5 @@
   "includeVersion": true,
   "disableSources": true,
   "excludeExternals": true,
-  "externalPattern": ["../types/**/*.ts"],
 }
 

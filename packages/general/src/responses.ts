@@ -28,7 +28,10 @@ type ResponseParam200Str<SessionT> = {
   cookies?    : SessionT
 }
 
-type ResponseParam204 = { info?: string }
+type ResponseParam204 = {
+  /** Information about why there is no body to the response. */
+  info? : string
+}
 
 type ResponseParam204Options = {
   addHeaders?   : HeadersType
@@ -36,7 +39,12 @@ type ResponseParam204Options = {
   allowHeaders? : Array<string>
 }
 
-type ResponseParam30x = { url: string; statusCode?: 301 | 302 | 303 | 307 | 308 }
+type ResponseParam30x = {
+  /** The URL to redirect to */
+  url         : string;
+  /** The type of redirection to do */
+  statusCode? : 301 | 302 | 303 | 307 | 308
+}
 
 type ResponseParam404 = { info?: string; additional?: string; addHeaders?: HeadersType }
 
@@ -52,7 +60,7 @@ type ResponseParam405 = {
 }
 
 /**
- * The group of responses that are sent upon web requests.
+ * The group of responses that are sent as replies to web requests.
  *
  * @param SessionT - The variables stored within the local session storage for the user.
  * @param ResponseT - The type of response to be sent back to the web server
@@ -63,15 +71,22 @@ export type Responses<SessionT, ResponseT> = {
   success200Obj          : (argHash: ResponseParam200Obj<SessionT>) => ResponseT
   /** Respond with a 200 success message based on a (text) message */
   success200Str          : (argHash: ResponseParam200Str<SessionT>) => ResponseT
+  /** */
   success202             : (argHash?: BasicResponseParam) => ResponseT
   success204             : (argHash?: ResponseParam204) => ResponseT
+  /** Returns the response for the OPTIONS request. */
   options204             : (argHash?: ResponseParam204Options) => ResponseT
+  /** Response used when a redirection is needed */
   redirect30x            : (argHash: ResponseParam30x) => ResponseT
   error403               : (argHash?: BasicResponseParam) => ResponseT
+  /** Response used when something was not found */
   error404               : (argHash?: ResponseParam404) => ResponseT
+  /** Response used when something was not implemented yet */
   error404NotImplemented : () => ResponseT
   error405               : (argHash?: ResponseParam405) => ResponseT
   error422               : (argHash?: BasicResponseParam) => ResponseT
+  /** Response returned when the server encountered an internal error */
   error500               : (argHash?: BasicResponseParam) => ResponseT
+  /** Response returned when the service is not available */
   error503               : (argHash?: BasicResponseParam) => ResponseT
 }

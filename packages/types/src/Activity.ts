@@ -114,7 +114,7 @@ export type TransitiveActivityProperties = {
  * The base type for all TransitiveActivity entities, meaning those that have an
  * `object` property.
  *
- * @note This is not in the spec, but it is useful for type checking.
+ * @remarks This is not in the spec, but it is useful for type checking.
  *
  * Inversing the definition of IntransitiveActivity from the ActivityStreams
  * Vocabulary spec:
@@ -524,34 +524,34 @@ export type Question = IntransitiveActivity<typeof ActivityTypes.QUESTION> & {
  *
  * @extends CoreObject
  *
- * @instance Accept
- * @instance TentativeAccept
- * @instance Add
- * @instance Arrive
- * @instance Create
- * @instance Delete
- * @instance Follow
- * @instance Ignore
- * @instance Join
- * @instance Leave
- * @instance Like
- * @instance Offer
- * @instance Invite
- * @instance Reject
- * @instance TentativeReject
- * @instance Remove
- * @instance Undo
- * @instance Update
- * @instance View
- * @instance Listen
- * @instance Read
- * @instance Move
- * @instance Travel
- * @instance Announce
- * @instance Block
- * @instance Flag
- * @instance Dislike
- * @instance Question
+ * @see {@link Accept}
+ * @see {@link TentativeAccept}
+ * @see {@link Add}
+ * @see {@link Arrive}
+ * @see {@link Create}
+ * @see {@link Delete}
+ * @see {@link Follow}
+ * @see {@link Ignore}
+ * @see {@link Join}
+ * @see {@link Leave}
+ * @see {@link Like}
+ * @see {@link Offer}
+ * @see {@link Invite}
+ * @see {@link Reject}
+ * @see {@link TentativeReject}
+ * @see {@link Remove}
+ * @see {@link Undo}
+ * @see {@link Update}
+ * @see {@link View}
+ * @see {@link Listen}
+ * @see {@link Read}
+ * @see {@link Move}
+ * @see {@link Travel}
+ * @see {@link Announce}
+ * @see {@link Block}
+ * @see {@link Flag}
+ * @see {@link Dislike}
+ * @see {@link Question}
  */
 export type Activity =
   | Accept

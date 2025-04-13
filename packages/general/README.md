@@ -1,5 +1,3 @@
-# @csjewell-activitypub/general
-
 This module is used to provide the 'business logic' handlers that will be common between servers.
 
 [![libera manifesto](https://img.shields.io/badge/libera-manifesto-lightgrey.svg)](https://liberamanifesto.com)

@@ -16,7 +16,9 @@ export class StandardSender implements Request.Sender<Response> {
 
   sendSignedRequest(endpoint: URL, object: AP.Activity): Response {
     const publicKeyId = `${ this.config.url.toString() }activitypub/${ this.username }#main-key`
-    const {privateKey,} = this.config
+
+    // TODO: [2025-04-19] Get this right.
+    const privateKey = ''
 
     console.info('object:', object)
 

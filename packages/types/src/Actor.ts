@@ -9,7 +9,7 @@ import type { StringReferenceMap } from './Utility.ts'
 /**
  * An object containing all the types of Actors.
  *
- * @see Actor
+ * @see {@link Actor}
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#actors
  */
@@ -31,7 +31,7 @@ export type AnyActorType = (typeof ActorTypes)[keyof typeof ActorTypes]
  *
  * @see https://www.w3.org/TR/activitypub/#actors
  *
- * @note The `manuallyApprovesFollowers` property is not included in the spec,
+ * @remarks The `manuallyApprovesFollowers` property is not included in the spec,
  * but it is included because it is common to all ActivityPub objects in
  * practice by way of an extension to the spec.
  */
@@ -66,11 +66,6 @@ export type ActorProperties = {
  *
  * @extends BaseEntity
  *
- * @instance Application
- * @instance Group
- * @instance Organization
- * @instance Person
- * @instance Service
  */
 export type BaseActor<T extends AnyActorType> =
   & BaseEntity<T>
@@ -131,11 +126,6 @@ export type Service = BaseActor<typeof ActorTypes.SERVICE>
  *
  * @extends CoreObject
  *
- * @instance Application
- * @instance Group
- * @instance Organization
- * @instance Person
- * @instance Service
  */
 export type Actor = Application | Service | Group | Organization | Person
 

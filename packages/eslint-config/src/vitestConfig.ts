@@ -16,7 +16,7 @@ const VitestConfig: ConfigArray = [
       vitest,
     },
     rules : {
-      'vitest/consistent-test-it'            : [ 'error', { fn: 'test', withinDescribe: 'test', }],
+      'vitest/consistent-test-it'            : [ 'error', { fn: 'test', withinDescribe: 'it', }],
       'vitest/expect-expect'                 : 'error',
       'vitest/no-commented-out-tests'        : 'error',
       'vitest/no-conditional-expect'         : 'error',

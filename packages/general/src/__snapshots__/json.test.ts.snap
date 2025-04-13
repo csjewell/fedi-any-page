@@ -1,0 +1,88 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Encoding and decoding an Actor > Parse a Person correctly 1`] = `
+{
+  "@context": [
+    "https://www.w3.org/ns/activitystreams",
+    "https://w3id.org/security/v1",
+    {
+      "PropertyValue": "schema:PropertyValue",
+      "alsoKnownAs": {
+        "@id": "as:alsoKnownAs",
+        "@type": "@id",
+      },
+      "attributionDomains": {
+        "@id": "toot:attributionDomains",
+        "@type": "@id",
+      },
+      "discoverable": "toot:discoverable",
+      "featured": {
+        "@id": "toot:featured",
+        "@type": "@id",
+      },
+      "featuredTags": {
+        "@id": "toot:featuredTags",
+        "@type": "@id",
+      },
+      "focalPoint": {
+        "@container": "@list",
+        "@id": "toot:focalPoint",
+      },
+      "indexable": "toot:indexable",
+      "manuallyApprovesFollowers": "as:manuallyApprovesFollowers",
+      "memorial": "toot:memorial",
+      "movedTo": {
+        "@id": "as:movedTo",
+        "@type": "@id",
+      },
+      "schema": "http://schema.org#",
+      "suspended": "toot:suspended",
+      "toot": "http://joinmastodon.org/ns#",
+      "value": "schema:value",
+    },
+  ],
+  "attachment": [],
+  "discoverable": true,
+  "endpoints": {
+    "sharedInbox": "https://mastodon.example/inbox",
+  },
+  "featured": "https://mastodon.example/users/CSJewell/collections/featured",
+  "featuredTags": "https://mastodon.example/users/CSJewell/collections/tags",
+  "followers": "https://mastodon.example/users/CSJewell/followers",
+  "following": "https://mastodon.example/users/CSJewell/following",
+  "id": "https://mastodon.example/users/CSJewell",
+  "image": {
+    "mediaType": "image/jpeg",
+    "type": "Image",
+    "url": "https://files.mastodon.example/accounts/headers/123/456/original/milkaholic.jpeg",
+  },
+  "inbox": "https://mastodon.example/users/CSJewell/inbox",
+  "indexable": true,
+  "manuallyApprovesFollowers": false,
+  "memorial": false,
+  "name": "CSJewell",
+  "outbox": "https://mastodon.example/users/CSJewell/outbox",
+  "preferredUsername": "CSJewell",
+  "publicKey": {
+    "id": "https://mastodon.example/users/CSJewell#main-key",
+    "owner": "https://mastodon.example/users/CSJewell",
+    "publicKeyPem": "-----BEGIN PUBLIC KEY-----
+...
+...
+...
+...
+...
+...
+...
+-----END PUBLIC KEY-----
+",
+  },
+  "published": 2025-02-07T00:00:00.000Z,
+  "summary": "<p>I&#39;m working on my own fediverse-attached blog.</p>",
+  "tag": [],
+  "type": "Person",
+  "url": "https://mastodon.example/@CSJewell",
+}
+`;
+
+exports[`Encoding and decoding an Actor > Roundtrip test 1`] = `"{"@context":["https://www.w3.org/ns/activitystreams","https://w3id.org/security/v1",{"manuallyApprovesFollowers":"as:manuallyApprovesFollowers","toot":"http://joinmastodon.org/ns#","featured":{"@id":"toot:featured","@type":"@id"},"featuredTags":{"@id":"toot:featuredTags","@type":"@id"},"alsoKnownAs":{"@id":"as:alsoKnownAs","@type":"@id"},"movedTo":{"@id":"as:movedTo","@type":"@id"},"schema":"http://schema.org#","PropertyValue":"schema:PropertyValue","value":"schema:value","discoverable":"toot:discoverable","suspended":"toot:suspended","memorial":"toot:memorial","indexable":"toot:indexable","attributionDomains":{"@id":"toot:attributionDomains","@type":"@id"},"focalPoint":{"@container":"@list","@id":"toot:focalPoint"}}],"id":"https://mastodon.example/users/CSJewell","type":"Person","following":"https://mastodon.example/users/CSJewell/following","followers":"https://mastodon.example/users/CSJewell/followers","inbox":"https://mastodon.example/users/CSJewell/inbox","outbox":"https://mastodon.example/users/CSJewell/outbox","featured":"https://mastodon.example/users/CSJewell/collections/featured","featuredTags":"https://mastodon.example/users/CSJewell/collections/tags","preferredUsername":"CSJewell","name":"CSJewell","summary":"<p>I&#39;m working on my own fediverse-attached blog.</p>","url":"https://mastodon.example/@CSJewell","manuallyApprovesFollowers":false,"discoverable":true,"indexable":true,"published":"2025-02-07T00:00:00.000Z","memorial":false,"publicKey":{"id":"https://mastodon.example/users/CSJewell#main-key","owner":"https://mastodon.example/users/CSJewell","publicKeyPem":"-----BEGIN PUBLIC KEY-----\\n...\\n...\\n...\\n...\\n...\\n...\\n...\\n-----END PUBLIC KEY-----\\n"},"tag":[],"attachment":[],"endpoints":{"sharedInbox":"https://mastodon.example/inbox"},"image":{"type":"Image","mediaType":"image/jpeg","url":"https://files.mastodon.example/accounts/headers/123/456/original/milkaholic.jpeg"}}"`;

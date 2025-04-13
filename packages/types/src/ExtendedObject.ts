@@ -34,19 +34,19 @@ export type AnyExtendedObjectType = (typeof ExtendedObjectTypes)[keyof typeof Ex
  * @extends BaseEntity
  * @extends CoreObjectProperties
  *
- * @instance Article
- * @instance Event
- * @instance Note
- * @instance Page
- * @instance Place
- * @instance Relationship
- * @instance Tombstone
- * @instance Profile
- * @instance Video
- * @instance Document
- * @instance Audio
- * @instance Image
- * @instance Hashtag
+ * @see {@link Article}
+ * @see {@link Event}
+ * @see {@link Note}
+ * @see {@link Page}
+ * @see {@link Place}
+ * @see {@link Relationship}
+ * @see {@link Tombstone}
+ * @see {@link Profile}
+ * @see {@link Video}
+ * @see {@link Document}
+ * @see {@link Audio}
+ * @see {@link Image}
+ * @see {@link Hashtag}
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#extended-types
  */
@@ -125,7 +125,7 @@ export type Note = BaseExtendedObject<typeof ExtendedObjectTypes.NOTE>
  *
  * @type ExtendedObject
  *
- * @note Technically this extends Document, but Document has no special
+ * @remarks Technically this extends Document, but Document has no special
  * properties.
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-page
@@ -182,7 +182,7 @@ export type Place = BaseExtendedObject<typeof ExtendedObjectTypes.PLACE> & {
  *
  * @type ExtendedObject
  *
- * @note Technically several other types extend Document, but Document has no
+ * @remarks Technically several other types extend Document, but Document has no
  * special properties. The types include: Image, Audio, Video, and Profile.
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-document
@@ -196,7 +196,7 @@ export type Document = BaseExtendedObject<typeof ExtendedObjectTypes.DOCUMENT>
  *
  * @type ExtendedObject
  *
- * @note Technically this extends Document, but Document has no special
+ * @remarks Technically this extends Document, but Document has no special
  * properties.
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-image
@@ -210,7 +210,7 @@ export type Image = BaseExtendedObject<typeof ExtendedObjectTypes.IMAGE>
  *
  * @type ExtendedObject
  *
- * @note Technically this extends Document, but Document has no special
+ * @remarks Technically this extends Document, but Document has no special
  * properties.
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-audio
@@ -224,7 +224,7 @@ export type Audio = BaseExtendedObject<typeof ExtendedObjectTypes.AUDIO>
  *
  * @type ExtendedObject
  *
- * @note Technically this extends Document, but Document has no special
+ * @remarks Technically this extends Document, but Document has no special
  * properties.
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-video
@@ -251,7 +251,7 @@ export type Profile = BaseExtendedObject<typeof ExtendedObjectTypes.PROFILE> & {
  *
  * @type ExtendedObject
  *
- * @note This is not part of the ActivityPub spec, but it is common in practice
+ * @remarks This is not part of the ActivityPub spec, but it is common in practice
  * by way of extensions to the spec.
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-hashtag

@@ -141,7 +141,7 @@ export class ActorCFStorage extends CloudflareD1Database implements Database.Sto
     })
 
     const actorInfoJSON = await resp.text()
-    const actorInfo: AP.Actor = Json.parse(actorInfoJSON) as AP.Actor
+    const actorInfo: AP.Actor = Json.parse<AP.Actor>(actorInfoJSON)
 
     if (actorInfo.id === null || actorInfo.id === undefined) {
       return undefined

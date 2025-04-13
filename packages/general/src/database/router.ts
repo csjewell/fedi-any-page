@@ -1,10 +1,7 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import type {
-  Actor, ActorReference, Announce, CoreObject, CoreObjectReference, EntityReference,
-  Follow, Like, Link, LinkReference, Note, OrArray, OrPromise,
-} from '@csjewell-activitypub/types'
+import type * as AP from '@csjewell-activitypub/types'
 import type { User } from '../users.ts'
 import type { SessionStorage } from './session.ts'
 import type { UsersStorage } from './users.ts'
@@ -12,7 +9,7 @@ import type { UsersStorage } from './users.ts'
 /**
  * The methods that operate on storage of individual types
  *
- * @param T The type of information returned from the storage
+ * @typeParam T The type of information returned from the storage
  */
 export type StorageHandler<T> = {
   databaseId : () => number | undefined
@@ -26,7 +23,7 @@ export type StorageHandler<T> = {
 
 /** TODO: Document [2025-04-12] */
 export type DBDocument = {
-  object   : CoreObject | undefined
+  object   : AP.CoreObject | undefined
   objectId : number | undefined
 }
 
@@ -36,33 +33,32 @@ export type ActorFunc = (username: string) => string
 /**
  * The methods that act on a database as a whole.
  *
- * @param DatabaseT The type of the database handle itself.
- * @param TableT (TODOCUMENT)
- * @param SessionT The type of the session information
+ * @typeParam DatabaseT The type of the database handle itself.
+ * @typeParam SessionT The type of the session information
  */
 export type Router<DatabaseT, SessionReturnT> = {
   /** Returns the handle to the database itself */
   dbHandle      : () => DatabaseT
   /** Returns the handler for the database table that srores references to Announce objects */
-  announce      : (message: Announce) => StorageHandler<Announce>
+  announce      : (message: AP.Announce) => StorageHandler<AP.Announce>
   /** Returns the handler for the database table that srores references to Follow objects */
-  follow        : (message: Follow) => StorageHandler<Follow>
+  follow        : (message: AP.Follow) => StorageHandler<AP.Follow>
   /** Returns the handler for the database table that stores references to Like objects */
-  like          : (message: Like) => StorageHandler<Like>
+  like          : (message: AP.Like) => StorageHandler<AP.Like>
   /** Returns the handler for the database table that stores references to Note objects */
-  note          : (message: Note) => StorageHandler<Note>
+  note          : (message: AP.Note) => StorageHandler<AP.Note>
   /** Returns the handler for the database table that stores references to Actor objects */
-  actor         : (message: ActorReference) => StorageHandler<Actor>
+  actor         : (message: AP.ActorReference) => StorageHandler<AP.Actor>
   /** Returns the handler for the database table that stores ActivityPub objects */
-  documentEntry : (message: CoreObjectReference | LinkReference) => StorageHandler<CoreObject | Link>
+  documentEntry : (message: AP.CoreObjectReference | AP.LinkReference) => StorageHandler<AP.CoreObject | AP.Link>
   /** Returns an ActivityPub document and its numeric id */
-  getDocument   : (dr: string | OrArray<EntityReference> | undefined) => DBDocument
+  getDocument   : (dr: string | AP.OrArray<AP.EntityReference> | undefined) => DBDocument
   /** Returns the handler for the database table that stores user information. */
   users         : () => StorageHandler<User> & UsersStorage
   /** Returns a handler for the "session" table when we have no session established */
-  newSession    : (username: string, actorFunc: ActorFunc) => OrPromise<SessionStorage<SessionReturnT>>
+  newSession    : (username: string, actorFunc: ActorFunc) => AP.OrPromise<SessionStorage<SessionReturnT>>
   /** Returns a handler for the "session" table when we have a session established already */
-  session       : (username: string, sessionKey: string) => OrPromise<SessionStorage<SessionReturnT>>
+  session       : (username: string, sessionKey: string) => AP.OrPromise<SessionStorage<SessionReturnT>>
   /** Store a generated CoreObject to be sent out later. */
-  sendToOutbox  : (usernameId: number, actor: string, message: CoreObject) => OrPromise<boolean>
+  sendToOutbox  : (usernameId: number, actor: string, message: AP.CoreObject) => AP.OrPromise<boolean>
 }

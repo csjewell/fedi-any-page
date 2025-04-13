@@ -40,14 +40,14 @@ export type LinkProperties = {
 /**
  * The base type for all Link types.
  *
- * @note This differs from Link, which is the type for a Link entity
+ * @remarks This differs from Link, which is the type for a Link entity
  * specifically. This is the base type for all Link types, including the Link
  * and Mention types.
  *
  * @extends BaseEntity
  *
- * @instance Link
- * @instance Mention
+ * @see {@link Link}
+ * @see {@link Mention}
  */
 export type BaseLink<T extends AnyLinkType> = BaseEntity<T> & LinkProperties
 

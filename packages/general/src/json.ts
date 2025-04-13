@@ -6,14 +6,14 @@
  *
  * ```ts
  * import * as AP from 'jsr:@csjewell-activitypub/types'
- * import * as Kit from 'jsr:@csjewell-activitypub/general'
+ * import * from 'jsr:@csjewell-activitypub/general'
  *
  * const headers = new Headers({
  *   'User-Agent': 'ActivityPubTypeScript/0.1.0',
  *   'Accept': 'application/activity+json',
  * })
- * const activityPubObject = <AP.Actor>Kit.Json.parse(await
- *   fetch('https://activitypub.example/users/potus', { headers }).then((resp) => {
+ * const activityPubObject = <AP.Actor>Json.parse(await
+ *   fetch('https://activitypub.example.com/users/potus', { headers }).then((resp) => {
  *     resp.text()
  *   })
  * )
@@ -21,34 +21,8 @@
  *
  * @module Json
  */
+import * as AP from '@csjewell-activitypub/types'
 import * as Json from '@hyperjump/json'
-import type * as AP from '@csjewell-activitypub/types'
-
-/* eslint-disable-next-line sonarjs/function-return-type */
-const desiredEntityReference = (value: AP.OrArray<string>): AP.OrArray<AP.EntityReference> => {
-  if (typeof value === 'string') {
-    return (new URL(value)) as AP.EntityReference
-  }
-
-  return value.map(x => new URL(x) as AP.EntityReference)
-}
-
-type ContextInEntry = string | Record<string, unknown>
-type ContextOutEntry = URL | Record<string, unknown>
-
-const oneContext = (value: ContextInEntry): ContextOutEntry => {
-  if (typeof value === 'string') {
-    return new URL(value)
-  }
-
-  return value
-}
-
-/*
-function desiredContext(value: Array<ContextInEntry>): Array<ContextOutEntry> {
-  return value.map(x => oneContext(x))
-}
-*/
 
 const reviver = (key: string, value: unknown, pointer: string): unknown => {
   // console.log(`REVIVER: "${pointer}", "${key}":`, value)
@@ -74,9 +48,10 @@ const reviver = (key: string, value: unknown, pointer: string): unknown => {
 
   switch (key) {
     case '@context': {
+      /* eslint-disable-next-line no-nested-ternary -- This is clear enough. */
       return Array.isArray(value)
-        ? value.map(x => oneContext(x as ContextInEntry))
-        : oneContext(value as ContextInEntry)
+        ? value.map(x => typeof x === 'string' ? new URL(x) : x as string)
+        : typeof value === 'string' ? new URL(value) : value
     }
 
     // EntityReference fields
@@ -94,8 +69,8 @@ const reviver = (key: string, value: unknown, pointer: string): unknown => {
     case 'tag':
     case 'to': {
       return Array.isArray(value)
-        ? desiredEntityReference(value as Array<string>)
-        : desiredEntityReference(value as string)
+        ? value.map(x => new URL(x as string) as AP.EntityReference)
+        : new URL(value as string) as AP.EntityReference
     }
 
     /*
@@ -155,25 +130,29 @@ const replacer = (_key: string, value: unknown, _pointer: string): unknown => {
 }
 
 /**
- * Returns a JSON document based on the value passed in (defined as an
- * `unknown`, but really an `AP.` type or a `Record<string, any>`.)
+ * Returns a JSON document based on the {@link AP.Entity} passed in
  *
  * @param value The value to be stringified
  * @returns The JSON document
  */
 
-export const stringify = (value: unknown): string => {
+export const stringify = (value: AP.Entity): string => {
+  AP.assert.isApEntity(value)
   return Json.stringify(value, replacer)
 }
 
 /**
- * Returns an ActivityPub document as an `unknown` which can be cast into
+ * Returns an ActivityPub document as an {@link AP.Entity} which can be cast into
  * the appropriate type.
  *
+ * @typeParam APType - the type to return.
  * @param value A JSON document.
  * @returns An object representing an ActivityPub document.
  */
+/* eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters -- we still want this type parameter */
+export const parse = <APType extends AP.Entity = AP.Entity>(value: string): APType => {
+  const parsed = Json.parse(value, reviver)
 
-export const parse = (value: string): unknown => {
-  return Json.parse(value, reviver)
+  AP.assert.isApEntity(parsed)
+  return parsed as APType
 }

@@ -1,6 +1,9 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
+/**
+ * @module AP
+ */
 export type {
   Accept, Activity, ActivityProperties, ActivityReference, Add, Announce,
   AnyActivityType, AnyIntransitiveActivityType, AnyTransitiveActivityType,

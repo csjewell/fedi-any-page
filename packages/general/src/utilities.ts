@@ -9,7 +9,8 @@ type UsernameType = {
   usernameId : number
 }
 
-/*
+/**
+ * Retrieves a username from an entity reference.
  */
 export const getUsername = (_er: string | AP.OrArray<AP.EntityReference>): UsernameType | undefined => {
   if (Array.isArray(_er)) {

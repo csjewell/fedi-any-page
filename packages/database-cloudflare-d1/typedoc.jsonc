@@ -3,6 +3,10 @@
   "includeVersion": true,
   "disableSources": true,
   "excludeExternals": true,
-  "externalPattern": ["../types/**/*.ts"],
+  "externalPattern": [
+    "../types/**/*.ts",
+    "../general/**/*.ts",
+    "./node_modules",
+  ],
 }
 

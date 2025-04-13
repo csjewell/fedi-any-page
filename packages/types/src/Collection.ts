@@ -74,10 +74,10 @@ export type CollectionProperties = {
  * @extends CoreObjectProperties
  * @extends CollectionProperties
  *
- * @instance Collection
- * @instance OrderedCollection
- * @instance CollectionPage
- * @instance OrderedCollectionPage
+ * @see {@link Collection}
+ * @see {@link OrderedCollection}
+ * @see {@link CollectionPage}
+ * @see {@link OrderedCollectionPage}
  *
  * @see https://www.w3.org/TR/activitypub/#collection
  */
@@ -89,7 +89,7 @@ export type BaseCollection<T extends AnyCollectionOrCollectionPageType> =
 /**
  * This type indicates a Collection object with a type of `Collection`.
  *
- * @note Although use of "orderedItems" with "Collection" is not prohibited by
+ * @remarks Although use of "orderedItems" with "Collection" is not prohibited by
  * the spec, it is not recommended. Use "OrderedCollection" instead.
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-collection
@@ -101,7 +101,7 @@ export type Collection = BaseCollection<typeof CollectionTypes.COLLECTION>
 /**
  * This type indicates a Collection object with a type of `OrderedCollection`.
  *
- * @note Although use of "items" with "OrderedCollection" is not prohibited by
+ * @remarks Although use of "items" with "OrderedCollection" is not prohibited by
  * the spec, it is not recommended. Use "Collection" instead.
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-orderedcollection
@@ -126,8 +126,8 @@ type CollectionPageProperties = {
  *
  * @extends Collection
  *
- * @instance CollectionPage
- * @instance OrderedCollectionPage
+ * @see {@link CollectionPage}
+ * @see {@link OrderedCollectionPage}
  */
 type BaseCollectionPage<T extends AnyCollectionPageType> =
   & BaseCollection<T>
@@ -173,7 +173,7 @@ export type CollectionPage = BaseCollectionPage<
  *
  * @extends CollectionPage
  *
- * @see CollectionPage
+ * @see {@link CollectionPage}
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-orderedcollectionpage
  * @see https://www.w3.org/TR/activitystreams-core/#orderedcollectionpage
@@ -233,7 +233,7 @@ export type EitherCollectionPageReference = URL | EitherCollectionPage
  * Any among a Collection, OrderedCollection, CollectionPage, or
  * OrderedCollectionPage object.
  *
- * @note This is useful for functions that accept any type that descends
+ * @remarks This is useful for functions that accept any type that descends
  * from BaseCollection.
  */
 export type AnyCollectionOrCollectionPage =

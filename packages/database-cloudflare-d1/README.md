@@ -1,5 +1,3 @@
-# @csjewell-activitykit/database-cloudflare-d1
-
 This is a concrete implementation of the database interfaces within acttivitypub-ts-kit for a Cloudflare D1 database.
 
 [![libera manifesto](https://img.shields.io/badge/libera-manifesto-lightgrey.svg)](https://liberamanifesto.com)
@@ -17,11 +15,8 @@ pnpm install @csjewell-activitypub/database-cloudflare-d1
 ```
 
 ```ts
-
 import { CloudflareConfig } from '@csjewell-activitypub/database-cloudflare-d1'
-
-
-
+# TODO
 ```
 
 ## Development
