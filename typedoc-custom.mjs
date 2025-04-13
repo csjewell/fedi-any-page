@@ -65,7 +65,7 @@ export function load(app) {
 
     navigation.forEach((value) => pages.push({
       title : value.title,
-      slug  : `${ value.title.substring(value.title.lastIndexOf('/') + 1) }`
+      slug  : `${ value.title.substring(value.title.lastIndexOf('/')) }/start/`
     }));
 
     let out = [{
