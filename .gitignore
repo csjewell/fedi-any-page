@@ -1,7 +1,10 @@
 docsite/.hugo_build.lock
-docsite/content/en/docs/latest
+docsite/content/en/docs
 docsite/data/navigation.json
 docsite/public
+!docsite/content/en/docs/overview.md
+!docsite/content/en/docs/getting-started.md
+!docsite/content/en/docs/contributing.md
 
 proposed/localserver-deno/ap.sqlite.db
 packages/*/dist

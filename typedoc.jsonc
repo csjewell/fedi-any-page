@@ -5,6 +5,7 @@
     "typedoc-plugin-frontmatter",
     "typedoc-plugin-mdn-links",
     "typedoc-plugin-missing-exports",
+    "typedoc-plugin-remark",
     "./typedoc-custom.mjs"
   ],
   "entryPoints": ["packages/*"],
@@ -14,10 +15,10 @@
   "entryPointStrategy": "packages",
   "includeVersion": false,
   "excludeExternals": true,
-  "cleanOutputDir": true,
-  "out": "docsite/content/en/docs/latest",
+  "cleanOutputDir": false,
+  "out": "docsite/content/en/docs",
   "router": "module",
-  "entryFileName": "index",
+  "entryFileName": "start",
   "excludeScopesInPaths": true,
   "expandParameters": true,
   "hidePageHeader": true,
@@ -33,6 +34,12 @@
     "excludeReferences": true
   },
   "categorizeByGroup": false,
-  "publicPath": "https://csjewell.github.io/activitypub-ts-kit/docs/latest",
+  "defaultRemarkPlugins": {
+    "gfm": false,
+    "frontmatter": true,
+    "mdx": false
+  },
+  "remarkPlugins": ["./remark-custom.js"],
+  "publicPath": "https://csjewell.github.io/activitypub-ts-kit/docs",
 }
 
