@@ -6,11 +6,11 @@ title: 'Contributing'
 
 Thanks for your interest in contributing to `activitypub-ts-kit`! 💖
 
-> After this page, see [DEVELOPMENT.md](https://github.com/csjewell/activitypub-ts-kit/docs/DEVELOPMENT.md) for local development instructions.
+> After this page, see [DEVELOPMENT.md](https://github.com/csjewell/activitypub-ts-kit/tree/dev/.github/DEVELOPMENT.md) for local development instructions.
 
 ## Code of Conduct
 
-This project contains a [Hacker code of conduct](https://github.com/csjewell/activitypub-ts-kit/docs/CODE_OF_CONDUCT.md) all contributors are expected to follow.
+This project contains a [Hacker code of conduct](https://github.com/csjewell/activitypub-ts-kit/tree/dev/docs/CODE_OF_CONDUCT.md) all contributors are expected to follow.
 
 ## Reporting Issues
 

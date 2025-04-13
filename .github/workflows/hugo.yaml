@@ -60,19 +60,16 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Generate Markdown documentation
-        run: pnpm typedoc
-
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
 
-      - name: Build with Hugo
+      - name: Build with Hugo and Typedoc
         env:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
           HUGO_ENVIRONMENT: production
         run: |
-          cd docsite && hugo \
+          pnpm typedoc && cd docsite && hugo \
             --minify \
             --baseURL "${{ steps.pages.outputs.base_url }}/"
 

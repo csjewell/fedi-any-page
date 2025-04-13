@@ -21,6 +21,7 @@
   "excludeScopesInPaths": true,
   "expandParameters": true,
   "hidePageHeader": true,
+  "hideBreadcrumbs": true,
   "indexFormat": "table",
   "useHTMLAnchors": true,
   "anchorPrefix": "tdmd-",
