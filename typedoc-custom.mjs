@@ -2,10 +2,10 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 //@ ts-check
-import { cwd } from 'node:process';
 import { writeFileSync } from 'node:fs';
-import { MarkdownPageEvent } from 'typedoc-plugin-markdown';
+import { cwd } from 'node:process';
 import { ReflectionKind } from 'typedoc';
+import { MarkdownPageEvent } from 'typedoc-plugin-markdown';
 
 /**
  * @param {import('typedoc-plugin-markdown').MarkdownApplication} app
@@ -54,19 +54,27 @@ export function load(app) {
           ...page.frontmatter,
         }
       }
-      weight = weight + 1;
+      weight = weight + 1
     },
   );
   app.renderer.postRenderAsyncJobs.push(async (renderer) => {
     // The navigation JSON structure is available on the navigation object.
-    const navigation = renderer.navigation;
-
-    let pages = [];
+    const navigation = renderer.navigation
+    const slugs = {
+      'localserver-hapi'       : 'localserver-hapi',
+      'eslint-config'          : 'eslint-config',
+      'database-cloudflare-d1' : 'database-cloudflare-d1/start',
+      'database-mock'          : 'database-mock/start',
+      'general'                : 'general/start',
+      'handlers-response'      : 'handlers-response/start',
+      'types'                  : 'types/start'
+    }
+    let pages = []
 
     navigation.forEach((value) => pages.push({
       title : value.title,
-      slug  : `${ value.title.substring(value.title.lastIndexOf('/')) }/start`
-    }));
+      slug  : slugs[ value.title.substring(value.title.lastIndexOf('/')) ]
+    }))
 
     let out = [{
       title: 'Basics',
@@ -81,6 +89,6 @@ export function load(app) {
     }]
 
     out.push({ title: 'Module Documentation', pages, })
-    writeFileSync(`${ cwd() }/docsite/data/navigation.json`, JSON.stringify(out));
-  });
+    writeFileSync(`${ cwd() }/docsite/data/navigation.json`, JSON.stringify(out))
+  })
 }
