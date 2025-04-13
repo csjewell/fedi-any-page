@@ -1,7 +1,8 @@
 docsite/.hugo_build.lock
+docsite/content/en/docs/latest
+docsite/data/navigation.json
 docsite/public
-docsite/assets/jsdoc/*.json
-docsite/data/jsdoc-order.yaml
+
 proposed/localserver-deno/ap.sqlite.db
 packages/*/dist
 packages/*/new-docs
@@ -13,20 +14,15 @@ proposed/*/dist
 
 node_modules
 
-# Temporary directories I'm still working in before I commit them.
-bin
-create
+# Temporary directories and files I'm still working in before I commit them.
 local-test-server-*
-workers-deno-deploy
-database-postgres
-database-bun-sqlite
-pages-plugin
 bin/pre-push
 bundling
-my-preact-test
+typedoc.html.jsonc
 
 # This allows me to take notes that I'll need later.
 **/NOTES.md
+**/NOTES.*.md
 **/NOTES.txt
 **/NOTES.*.txt
 **/NOTES.*.ts.txt

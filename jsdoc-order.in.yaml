@@ -1,3 +1,0 @@
-- name: json-module
-  title: JSON Parsing module
-  source: json/mod.ts

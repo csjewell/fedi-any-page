@@ -23,5 +23,5 @@ const doSomething = (createMsg: AP.Create): boolean => {
 
 ## Development
 
-See [`docs/CONTRIBUTING.md`](../../docs/CONTRIBUTING.md), then [`.github/DEVELOPMENT.md`](../../.github/DEVELOPMENT.md).
+See the documentation on [how to contribute](https://csjewell.github.io/activitypub-ts-kit/docs/contributing).
 Thanks! 💖

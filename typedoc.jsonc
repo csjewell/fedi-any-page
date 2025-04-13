@@ -1,24 +1,37 @@
 {
-  "$schema": "https://typedoc.org/schema.json",
-  "plugin": ["typedoc-plugin-markdown", "typedoc-plugin-mdn-links", "typedoc-plugin-missing-exports"],
+  "$schema": "https://typedoc-plugin-markdown.org/schema.json",
+  "plugin": [
+    "typedoc-plugin-markdown",
+    "typedoc-plugin-frontmatter",
+    "typedoc-plugin-mdn-links",
+    "typedoc-plugin-missing-exports",
+    "./typedoc-custom.mjs"
+  ],
   "entryPoints": ["packages/*"],
   "packageOptions": {
-    "entryPoints": ["index.ts"],
+    "entryPoints": ["index.ts"]
   },
   "entryPointStrategy": "packages",
   "includeVersion": false,
   "excludeExternals": true,
-  "outputs": [{
-    "name": "html",
-    "path": "new-docs",
-    "router": "structure",
-    "lang": "en-021",
-    "hideGenerator": true,
-    "searchInDocuments": true,
-  },{
-    "name": "markdown",
-    "path": "new-docs-md",
-    "router": "structure",
-  }]
+  "cleanOutputDir": true,
+  "out": "docsite/content/en/docs/latest",
+  "router": "module",
+  "entryFileName": "index",
+  "excludeScopesInPaths": true,
+  "expandParameters": true,
+  "hidePageHeader": true,
+  "indexFormat": "table",
+  "useHTMLAnchors": true,
+  "anchorPrefix": "tdmd-",
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": false,
+    "includeFolders": true,
+    "compactFolders": false,
+    "excludeReferences": true
+  },
+  "categorizeByGroup": false,
+  "publicPath": "https://csjewell.github.io/activitypub-ts-kit/docs/latest",
 }
 

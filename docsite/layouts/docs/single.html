@@ -33,7 +33,7 @@
       <a href="{{ $root }}" class="site-logo">{{ .Site.Title }}</a>
 
       <nav role="navigation">
-        {{ $data := $.Site.Store.Get "sidebar" }}
+        {{ $data := or $.Site.Data.navigation $.Site.Data.sidebar }}
 
         {{- $url := split .Permalink "/" -}}
         {{- $urlPageSlug := index $url (sub (len $url) 2) -}}
