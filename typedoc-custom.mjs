@@ -71,10 +71,13 @@ export function load(app) {
     }
     let pages = []
 
-    navigation.forEach((value) => pages.push({
-      title : value.title,
-      slug  : slugs[ value.title.substring(value.title.lastIndexOf('/')) ]
-    }))
+    navigation.forEach((value) => {
+      const slugString = value.title.substring(value.title.lastIndexOf('/') + 1)
+      pages.push({
+        title : value.title,
+        slug  : slugs[ slugString ]
+      })
+    })
 
     let out = [{
       title: 'Basics',
