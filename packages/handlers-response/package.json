@@ -1,6 +1,6 @@
 {
   "name": "@csjewell-activitypub/handlers-response",
-  "version": "0.1.1",
+  "version": "0.1.22",
   "description": "Generic Response handler for ActivityPub servers.",
   "type": "module",
   "repository": {

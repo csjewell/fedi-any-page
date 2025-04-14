@@ -1,6 +1,6 @@
 {
   "name": "@csjewell-activitypub/eslint-config",
-  "version": "0.1.1-alpha.3",
+  "version": "0.1.2",
   "description": "ESLint options for @csjewell-activitypub",
   "exports": "./index.ts",
   "publish": {

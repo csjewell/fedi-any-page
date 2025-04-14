@@ -30,12 +30,12 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Publish all packages to npm
-        run: pnpm -r publish --access public --tag next --no-git-checks
+        run: bin/build-pnpm.sh
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish all packages to jsr
-        run: ./copy-license.sh && pnpx jsr publish
+        run: pnpx jsr publish
 
 #      - name: Publish database-cloudflare-d1 package to jsr
 #        run: cd proposed/database-cloudflare-d1 && pnpm dlx jsr publish
