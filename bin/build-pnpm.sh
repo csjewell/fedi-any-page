@@ -14,4 +14,5 @@ cd ../../packages/localserver-hapi
 pnpm publish --access public --tag next --no-git-checks
 cd ../../packages/types
 pnpm publish --access public --tag next --no-git-checks
+exit 0
 

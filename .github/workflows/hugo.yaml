@@ -2,9 +2,9 @@
 name: Deploy Hugo site to Pages
 
 on:
-  # Runs on pushes targeting the default branch - don't do that right now.
-  # push:
-  #   branches: release
+  # Runs on pushes targeting the release branch.
+  push:
+    branches: release
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
