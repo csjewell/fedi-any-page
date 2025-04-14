@@ -1,6 +1,8 @@
-# Security Policy
-
-(also on the [documentation site](http://csjewell.github.io/activitypub-ts-kit/))
+---
+weight: 50
+date: '2025-04-13T16:02:00-07:00'
+title: 'Security Policy'
+---
 
 We take all security vulnerabilities seriously.
 If you have a vulnerability or other security issues to disclose:

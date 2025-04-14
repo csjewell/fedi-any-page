@@ -85,6 +85,10 @@ export function load(app) {
         title: 'Overview',
       }, {
         title: 'Getting Started',
+      }, {
+        title: 'Security',
+      }, {
+        title: 'Code of Conduct',
       }],
     }, {
       title: 'Beyond The Basics',

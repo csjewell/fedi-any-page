@@ -5,6 +5,8 @@ docsite/public
 !docsite/content/en/docs/overview.md
 !docsite/content/en/docs/getting-started.md
 !docsite/content/en/docs/contributing.md
+!docsite/content/en/docs/code-of-conduct.md
+!docsite/content/en/docs/security.md
 
 proposed/localserver-deno/ap.sqlite.db
 packages/*/dist

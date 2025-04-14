@@ -1,4 +1,8 @@
-# The Hacker Code of Conduct
+---
+weight: 50
+date: '2025-04-13T14:42:00-07:00'
+title: 'The Hacker Code of Conduct'
+---
 
 This project abides by the following code of conduct:
 
@@ -9,6 +13,3 @@ Both this project and its maintainer(s) welcome all ideas, and are willing to in
 - The values we uphold are: excellence, innovation, freedom, and fairness
 
 Violations of the above rules will be handled on a case-by-case basis, in a direct and reasonable way.
-
-(also on the [documentation site](http://csjewell.github.io/activitypub-ts-kit/))
-
