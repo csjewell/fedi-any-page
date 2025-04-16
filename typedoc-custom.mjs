@@ -61,13 +61,13 @@ export function load(app) {
     // The navigation JSON structure is available on the navigation object.
     const navigation = renderer.navigation
     const slugs = {
-      'localserver-hapi'       : 'localserver-hapi',
-      'eslint-config'          : 'eslint-config',
-      'database-cloudflare-d1' : 'database-cloudflare-d1/start',
-      'database-mock'          : 'database-mock/start',
-      'general'                : 'general/start',
-      'handlers-response'      : 'handlers-response/start',
-      'types'                  : 'types/start'
+      'localserver-hapi'       : 'latest/localserver-hapi',
+      'eslint-config'          : 'latest/eslint-config',
+      'database-cloudflare-d1' : 'latest/database-cloudflare-d1/start',
+      'database-mock'          : 'latest/database-mock/start',
+      'general'                : 'latest/general/start',
+      'handlers-response'      : 'latest/handlers-response/start',
+      'types'                  : 'latest/types/start'
     }
     let pages = []
 
@@ -96,6 +96,6 @@ export function load(app) {
     }]
 
     out.push({ title: 'Module Documentation', pages, })
-    writeFileSync(`${ cwd() }/docsite/data/navigation.json`, JSON.stringify(out))
+    writeFileSync(`${ cwd() }/../fedi-any-page-docs/data/navigation.json`, JSON.stringify(out))
   })
 }

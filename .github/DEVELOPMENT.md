@@ -1,12 +1,30 @@
 # Development
 
-After [forking the repo from GitHub](https://help.github.com/articles/fork-a-repo) and [installing pnpm](https://pnpm.io/installation):
+After installing Git and [installing pnpm](https://pnpm.io/installation):
 
 ```shell
-git clone https://github.com/(your-name-here)/activitypub-ts-kit
-cd activitypub-ts-kit
+git clone https://git.sr.ht/~csjewell/fedi-any-page
+cd fedi-any-page
 pnpm install
 ```
+
+You do not NEED to create a fork in order to send a pull request, because
+"Pull Requests" as Github implements them are not a thing SourceHub does.
+Instead, you submit a patch or series of patches to a mailing list - in
+this case, [the fedi-any-page-devel mailing list](https://lists.sr.ht/~csjewell/fedi-any-page-devel).
+To subscribe to it, send an e-mail to `~csjewell/fedi-any-page-devel+subscribe@lists.sr.ht`
+and follow the directions it gives you. To send an e-mail to it once you
+have subscribed, the address is ~csjewell/fedi-any-page-devel@lists.sr.ht .
+
+Please read the ettiquete directions linked from the mailing list's web page.
+
+See [git-send-email.io] in order to get yourself set up to use git in an
+e-mail-centric fashion. Read through it again, especially [step 4](https://git-send-email.io/#step-4).
+
+If you see a patch series on the mailing list that you wish to reply to -
+feel free to. That's part of the reason it's a public mailing list - anybody
+can contribute to the discussion. Just remember that the [code of conduct](https://csjewell.github.io/activitypub-ts-dev/docs/code-of-conduct/)
+applies to the mailing list, and I prefer not needing to wield a ban hammer.
 
 ## Building
 
@@ -45,7 +63,7 @@ Read the individual documentation for each linter to understand how it can be co
 For example, ESLint can be run with `--fix` to auto-fix some lint rule complaints:
 
 ```shell
-pnpm run lint --fix
+pnpm lint --fix
 ```
 
 ## Type Checking
@@ -63,3 +81,6 @@ Add `--watch` to keep the type checker running in a watch mode that updates the 
 ```shell
 pnpm tsc --watch
 ```
+
+## Sending patches
+

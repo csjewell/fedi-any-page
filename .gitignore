@@ -1,22 +1,12 @@
-docsite/.hugo_build.lock
-docsite/content/en/docs
-docsite/data/navigation.json
-docsite/public
-!docsite/content/en/docs/overview.md
-!docsite/content/en/docs/getting-started.md
-!docsite/content/en/docs/contributing.md
-!docsite/content/en/docs/code-of-conduct.md
-!docsite/content/en/docs/security.md
-
-proposed/localserver-deno/ap.sqlite.db
 packages/*/dist
 packages/*/new-docs
 packages/*/new-docs-md
 packages/*/dist
 packages/*/LICENSE
+proposed/localserver-deno/ap.sqlite.db
 proposed/*/dist
-*.sw?
 
+*.sw?
 node_modules
 
 # Temporary directories and files I'm still working in before I commit them.
@@ -24,6 +14,7 @@ local-test-server-*
 bin/pre-push
 bundling
 typedoc.html.jsonc
+proposed/create
 
 # This allows me to take notes that I'll need later.
 **/NOTES.md

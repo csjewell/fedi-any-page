@@ -16,7 +16,7 @@
   "includeVersion": false,
   "excludeExternals": true,
   "cleanOutputDir": false,
-  "out": "docsite/content/en/docs",
+  "out": "../fedi-any-page-docs/content/en/docs/latest",
   "router": "module",
   "entryFileName": "start",
   "excludeScopesInPaths": true,
@@ -40,6 +40,6 @@
     "mdx": false
   },
   "remarkPlugins": ["./remark-custom.js"],
-  "publicPath": "https://csjewell.github.io/activitypub-ts-kit/docs",
+  "publicPath": "https://fedi-any-page.curtisjewell.dev/docs/latest",
 }
 
