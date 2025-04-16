@@ -21,9 +21,9 @@ export const NodeInfo21: APIHandlerSync = <DatabaseT, SessionT, ResponseT>(
     body : {
       version  : '2.1',
       software : {
-        name       : 'Fedipage-kit',
-        repository : 'https://github.com/csjewell/activitypage-ts-kit/',
-        homepage   : 'https://csjewell.github.io/activitypage-ts-kit/',
+        name       : 'Fedi Any Page kit',
+        repository : 'https://git.sr.ht/~csjewell/fedi-any-page',
+        homepage   : 'https://fedi-any-page.curtisjewell.dev/',
         version    : 'v0.1.0',
       },
       protocols : ['activitypub'],

@@ -3,9 +3,11 @@
   "version": "0.1.2",
   "description": "Library to provide base classes and types for the ActivityPub toolkit.",
   "type": "module",
+  "homepage": "https://fedi-any-page.curtisjewell.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/csjewell/activitypub-ts-kit.git"
+    "url": "git+https://git.sr.ht/~csjewell/fedi-any-page",
+    "directory": "packages/general"
   },
   "license": "MIT",
   "author": {
@@ -49,13 +51,9 @@
   },
   "dependencies": {
     "@csjewell-activitypub/types": "workspace:^",
-    "@dewars/cuid2": "npm:@jsr/dewars__cuid2@^0.1.0",
     "@hyperjump/json": "^0.2.1",
-    "@keyv/sqlite": "^4.0.1",
-    "@std/jsonc": "npm:@jsr/std__jsonc@^1.0.1",
     "@std/uuid": "npm:@jsr/std__uuid@^1.0.6",
     "@types/sanitize-html": "^2.15.0",
-    "keyv": "npm:keyv@^5.3.2",
     "sanitize-html": "npm:sanitize-html@^2.14.0"
   },
   "devDependencies": {
@@ -65,8 +63,6 @@
     "@types/node": "^22.14.0",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^9.1.7",
-    "lint-staged": "^15.5.0",
     "tsup": "^8.4.0",
     "typedoc": "^0.28.2",
     "typedoc-plugin-markdown": "^4.6.2",

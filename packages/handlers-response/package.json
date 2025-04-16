@@ -3,9 +3,11 @@
   "version": "0.1.22",
   "description": "Generic Response handler for ActivityPub servers.",
   "type": "module",
+  "homepage": "https://fedi-any-page.curtisjewell.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/csjewell/activitypub-ts-kit.git"
+    "url": "git+https://git.sr.ht/~csjewell/fedi-any-page",
+    "directory": "packages/handlers-response"
   },
   "license": "MIT",
   "author": {
@@ -52,8 +54,6 @@
     "@types/node": "^22.14.0",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^9.1.7",
-    "lint-staged": "^15.5.0",
     "tsup": "^8.4.0",
     "typescript": "^5.8.3"
   }

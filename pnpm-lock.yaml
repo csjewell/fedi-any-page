@@ -50,6 +50,12 @@ importers:
       typedoc-plugin-markdown:
         specifier: ^4.6.2
         version: 4.6.2(typedoc@0.28.2(typescript@5.8.3))
+      typedoc-plugin-mdn-links:
+        specifier: ^5.0.1
+        version: 5.0.1(typedoc@0.28.2(typescript@5.8.3))
+      typedoc-plugin-missing-exports:
+        specifier: ^4.0.0
+        version: 4.0.0(typedoc@0.28.2(typescript@5.8.3))
       typedoc-plugin-remark:
         specifier: ^1.3.0
         version: 1.3.0(typedoc-plugin-markdown@4.6.2(typedoc@0.28.2(typescript@5.8.3)))
@@ -68,9 +74,6 @@ importers:
       '@csjewell-activitypub/types':
         specifier: workspace:^
         version: link:../types
-      '@std/uuid':
-        specifier: npm:@jsr/std__uuid@^1.0.6
-        version: '@jsr/std__uuid@1.0.6'
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.8.0
@@ -90,12 +93,6 @@ importers:
       cz-conventional-changelog:
         specifier: ^3.3.0
         version: 3.3.0(@types/node@22.14.0)(typescript@5.8.3)
-      husky:
-        specifier: ^9.1.7
-        version: 9.1.7
-      lint-staged:
-        specifier: ^15.5.0
-        version: 15.5.0
       tsup:
         specifier: ^8.4.0
         version: 8.4.0(jiti@2.4.2)(postcss@8.5.3)(typescript@5.8.3)(yaml@2.7.1)
@@ -139,12 +136,6 @@ importers:
       cz-conventional-changelog:
         specifier: ^3.3.0
         version: 3.3.0(@types/node@22.14.0)(typescript@5.8.3)
-      husky:
-        specifier: ^9.1.7
-        version: 9.1.7
-      lint-staged:
-        specifier: ^15.5.0
-        version: 15.5.0
       tsup:
         specifier: ^8.4.0
         version: 8.4.0(jiti@2.4.2)(postcss@8.5.3)(typescript@5.8.3)(yaml@2.7.1)
@@ -221,12 +212,6 @@ importers:
       cz-conventional-changelog:
         specifier: ^3.3.0
         version: 3.3.0(@types/node@22.14.0)(typescript@5.8.3)
-      husky:
-        specifier: ^9.1.7
-        version: 9.1.7
-      lint-staged:
-        specifier: ^15.5.0
-        version: 15.5.0
       tsup:
         specifier: ^8.4.0
         version: 8.4.0(jiti@2.4.2)(postcss@8.5.3)(typescript@5.8.3)(yaml@2.7.1)
@@ -239,27 +224,15 @@ importers:
       '@csjewell-activitypub/types':
         specifier: workspace:^
         version: link:../types
-      '@dewars/cuid2':
-        specifier: npm:@jsr/dewars__cuid2@^0.1.0
-        version: '@jsr/dewars__cuid2@0.1.0'
       '@hyperjump/json':
         specifier: ^0.2.1
         version: 0.2.1
-      '@keyv/sqlite':
-        specifier: ^4.0.1
-        version: 4.0.2
-      '@std/jsonc':
-        specifier: npm:@jsr/std__jsonc@^1.0.1
-        version: '@jsr/std__jsonc@1.0.1'
       '@std/uuid':
         specifier: npm:@jsr/std__uuid@^1.0.6
         version: '@jsr/std__uuid@1.0.6'
       '@types/sanitize-html':
         specifier: ^2.15.0
         version: 2.15.0
-      keyv:
-        specifier: npm:keyv@^5.3.2
-        version: 5.3.2
       sanitize-html:
         specifier: npm:sanitize-html@^2.14.0
         version: 2.15.0
@@ -282,12 +255,6 @@ importers:
       cz-conventional-changelog:
         specifier: ^3.3.0
         version: 3.3.0(@types/node@22.14.0)(typescript@5.8.3)
-      husky:
-        specifier: ^9.1.7
-        version: 9.1.7
-      lint-staged:
-        specifier: ^15.5.0
-        version: 15.5.0
       tsup:
         specifier: ^8.4.0
         version: 8.4.0(jiti@2.4.2)(postcss@8.5.3)(typescript@5.8.3)(yaml@2.7.1)
@@ -343,12 +310,6 @@ importers:
       cz-conventional-changelog:
         specifier: ^3.3.0
         version: 3.3.0(@types/node@22.14.0)(typescript@5.8.3)
-      husky:
-        specifier: ^9.1.7
-        version: 9.1.7
-      lint-staged:
-        specifier: ^15.5.0
-        version: 15.5.0
       tsup:
         specifier: ^8.4.0
         version: 8.4.0(jiti@2.4.2)(postcss@8.5.3)(typescript@5.8.3)(yaml@2.7.1)
@@ -395,12 +356,6 @@ importers:
       cz-conventional-changelog:
         specifier: ^3.3.0
         version: 3.3.0(@types/node@22.14.0)(typescript@5.8.3)
-      husky:
-        specifier: ^9.1.7
-        version: 9.1.7
-      lint-staged:
-        specifier: ^15.5.0
-        version: 15.5.0
       tsup:
         specifier: ^8.4.0
         version: 8.4.0(jiti@2.4.2)(postcss@8.5.3)(typescript@5.8.3)(yaml@2.7.1)
@@ -409,10 +364,6 @@ importers:
         version: 5.8.3
 
   packages/types:
-    dependencies:
-      '@hyperjump/json':
-        specifier: ^0.2.1
-        version: 0.2.1
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.8.0
@@ -432,12 +383,6 @@ importers:
       cz-conventional-changelog:
         specifier: ^3.3.0
         version: 3.3.0(@types/node@22.14.0)(typescript@5.8.3)
-      husky:
-        specifier: ^9.1.7
-        version: 9.1.7
-      lint-staged:
-        specifier: ^15.5.0
-        version: 15.5.0
       tsup:
         specifier: ^8.4.0
         version: 8.4.0(jiti@2.4.2)(postcss@8.5.3)(typescript@5.8.3)(yaml@2.7.1)
@@ -1110,15 +1055,6 @@ packages:
 
   '@jsr/std__crypto@1.0.4':
     resolution: {integrity: sha512-qtfyxcQbfhqTEOYRel8h6vssKpT2yD4kC39mzzwN1KsH53+nbiQZfXC5lmBxcfyihH7V2EibbP/MvSsYMmv6ZA==, tarball: https://npm.jsr.io/~/11/@jsr/std__crypto/1.0.4.tgz}
-
-  '@jsr/std__json@1.0.1':
-    resolution: {integrity: sha512-H0ZB3UqM2xwstrPuwFEe0fkV8/YBsfz1EQo5V78R4Iyetvp1YK/EfMK1hpatsLIfXust2aQb/Ihp9z6yix+yaQ==, tarball: https://npm.jsr.io/~/11/@jsr/std__json/1.0.1.tgz}
-
-  '@jsr/std__jsonc@1.0.1':
-    resolution: {integrity: sha512-fQTEKMCiRWdecz0RE2+6KXIjo0sxpyiMBrx4jhNXvTmCytylC2vMzfHZcL1qbYrc3sEdV8v/WVxP0fnbIxsHiQ==, tarball: https://npm.jsr.io/~/11/@jsr/std__jsonc/1.0.1.tgz}
-
-  '@jsr/std__streams@1.0.9':
-    resolution: {integrity: sha512-nPkEijnOPwLQt6ZtvOajE6F2hCmRILaq0kR6I0JFVvxSsvhdeyFMGc8F4DqypCpfq/U+8umLcE0RNMcYdx4NlQ==, tarball: https://npm.jsr.io/~/11/@jsr/std__streams/1.0.9.tgz}
 
   '@jsr/std__uuid@1.0.6':
     resolution: {integrity: sha512-z/WzlLjuWHwghoRlMnAFGjB5o8xc5V2wedp2o4DPcjgdvt7w6tNK2RpTYthcHX83XVaeeI69pFmppbLP60cwlg==, tarball: https://npm.jsr.io/~/11/@jsr/std__uuid/1.0.6.tgz}
@@ -7320,18 +7256,6 @@ snapshots:
   '@jsr/std__bytes@1.0.5': {}
 
   '@jsr/std__crypto@1.0.4': {}
-
-  '@jsr/std__json@1.0.1':
-    dependencies:
-      '@jsr/std__streams': 1.0.9
-
-  '@jsr/std__jsonc@1.0.1':
-    dependencies:
-      '@jsr/std__json': 1.0.1
-
-  '@jsr/std__streams@1.0.9':
-    dependencies:
-      '@jsr/std__bytes': 1.0.5
 
   '@jsr/std__uuid@1.0.6':
     dependencies:
