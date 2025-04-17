@@ -1,0 +1,1 @@
+config/bump.config.ts

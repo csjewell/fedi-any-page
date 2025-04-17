@@ -1,7 +1,1 @@
-{
-  "$schema": "https://typedoc.org/schema.json",
-  "includeVersion": true,
-  "disableSources": true,
-  "excludeExternals": true,
-}
-
+../../config/typedoc.packages.jsonc

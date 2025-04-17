@@ -1,8 +1,6 @@
 packages/*/dist
 packages/*/new-docs
 packages/*/new-docs-md
-packages/*/dist
-packages/*/LICENSE
 proposed/localserver-deno/ap.sqlite.db
 proposed/*/dist
 
@@ -13,8 +11,9 @@ node_modules
 local-test-server-*
 bin/pre-push
 bundling
-typedoc.html.jsonc
+config/typedoc.html.jsonc
 proposed/create
+proposed/create-proposed
 
 # This allows me to take notes that I'll need later.
 **/NOTES.md
@@ -22,3 +21,7 @@ proposed/create
 **/NOTES.txt
 **/NOTES.*.txt
 **/NOTES.*.ts.txt
+
+# These are temporary until I pull all private data out so they can be used for test data.
+packages/general/test_data/outbox-page.json
+packages/general/test_data/outbox.json

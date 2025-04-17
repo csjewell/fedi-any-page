@@ -1,6 +1,6 @@
 {
   "name": "@csjewell-activitypub/monorepo",
-  "version": "0.1.2",
+  "version": "0.1.3-alpha-1",
   "description": "ActivityPub Typescript Kit monorepo",
   "type": "module",
   "repository": {
@@ -18,20 +18,35 @@
   },
   "lint-staged": {
     "**/*.{js,ts}": [
-      "eslint --fix"
+      "eslint --config config/eslint.config.js --fix"
     ]
   },
   "config": {
     "commitizen": {
-      "path": "cz-conventional-changelog"
+      "path": "./node_modules/cz-conventional-changelog",
+      "maxHeaderWidth": 55,
+      "maxLineWidth": 80
     }
   },
+  "workspaces": [
+    "packages/eslint-config",
+    "packages/types",
+    "packages/general",
+    "packages/handlers-response",
+    "packages/database-cloudflare-d1",
+    "packages/database-mock",
+    "packages/localserver-hapi"
+  ],
   "main": "",
   "files": [],
   "keywords": [],
   "scripts": {
-    "lint": "eslint --flag unstable_config_lookup_from_file",
-    "typedoc": "typedoc",
+    "bumpp": "cd `git rev-parse --show-toplevel`; bumpp --no-verify",
+    "knip": "knip",
+    "eslint": "eslint --config `git rev-parse --show-toplevel`/config/eslint.config.js",
+    "lint": "pnpm eslint",
+    "typedoc": "cd `git rev-parse --show-toplevel`; typedoc --options config/typedoc.toplevel.jsonc",
+    "typedoc:html": "cd `git rev-parse --show-toplevel`; typedoc --options config/typedoc.html.jsonc",
     "postinstall": "husky",
     "publish": "false"
   },
@@ -39,20 +54,23 @@
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
     "@csjewell-activitypub/eslint-config": "workspace:^",
-    "@types/node": "^22.14.0",
+    "@types/node": "^22.14.1",
+    "bumpp": "^10.1.0",
     "commitizen": "^4.3.1",
+    "conventional-changelog-conventionalcommits": "^8.0.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.24.0",
     "husky": "^9.1.7",
-    "lint-staged": "^15.5.0",
+    "knip": "^5.50.5",
+    "lint-staged": "^15.5.1",
     "remark-link-rewrite": "^1.0.7",
-    "renovate": "^39.245.0",
+    "tsup": "^8.4.0",
     "typedoc": "^0.28.2",
     "typedoc-plugin-frontmatter": "^1.3.0",
     "typedoc-plugin-markdown": "^4.6.2",
     "typedoc-plugin-mdn-links": "^5.0.1",
     "typedoc-plugin-missing-exports": "^4.0.0",
     "typedoc-plugin-remark": "^1.3.0",
-    "typescript-eslint": "^8.29.0"
+    "typescript-eslint": "^8.30.1"
   }
 }

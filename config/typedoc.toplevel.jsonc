@@ -6,9 +6,9 @@
     "typedoc-plugin-mdn-links",
     "typedoc-plugin-missing-exports",
     "typedoc-plugin-remark",
-    "./typedoc-custom.mjs"
+    "./helpers/typedoc.js"
   ],
-  "entryPoints": ["packages/*"],
+  "entryPoints": ["../packages/*"],
   "packageOptions": {
     "entryPoints": ["index.ts"]
   },
@@ -16,7 +16,7 @@
   "includeVersion": false,
   "excludeExternals": true,
   "cleanOutputDir": false,
-  "out": "../fedi-any-page-docs/content/en/docs/latest",
+  "out": "../../fedi-any-page-docs/content/en/docs/latest",
   "router": "module",
   "entryFileName": "start",
   "excludeScopesInPaths": true,
@@ -39,7 +39,7 @@
     "frontmatter": true,
     "mdx": false
   },
-  "remarkPlugins": ["./remark-custom.js"],
+  "remarkPlugins": ["./config/helpers/remark.js"],
   "publicPath": "https://fedi-any-page.curtisjewell.dev/docs/latest",
 }
 

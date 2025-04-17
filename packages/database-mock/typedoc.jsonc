@@ -1,12 +1,1 @@
-{
-  "$schema": "https://typedoc.org/schema.json",
-  "includeVersion": true,
-  "disableSources": true,
-  "excludeExternals": true,
-  "externalPattern": [
-    "../types/**/*.ts",
-    "../general/**/*.ts",
-    "./node_modules",
-  ],
-}
-
+../../config/typedoc.packages.jsonc

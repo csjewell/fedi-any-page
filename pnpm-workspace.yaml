@@ -6,3 +6,11 @@ publishBranch: release
 onlyBuiltDependencies:
   - esbuild
   - sqlite3
+overrides:
+  "cacache": "^19.0.1"
+  "shelljs": "^0.9.2"
+  "node-gyp": "^11.2.0"
+# I tried overriding glob, instead, and it broke commitizen.
+allowedDeprecatedVersions:
+  glob: "7.2.3"
+  inflight: "1.0.6"

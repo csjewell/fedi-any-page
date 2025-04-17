@@ -1,68 +1,44 @@
 version = 1
-SPDX-PackageName = "re-pliers"
+SPDX-PackageName = "fedi-any-page"
 SPDX-PackageSupplier = "Curtis Jewell <swordsman+aptypescript@curtisjewell.name>"
-SPDX-PackageDownloadLocation = "https://git.sr.ht/~csjewell/ap-typescript"
+SPDX-PackageDownloadLocation = "https://git.sr.ht/~csjewell/fedi-any-page"
 
+# Editor configuration.
 [[annotations]]
-path = ".vscode/**.json"
+path = [".vscode/**.json", ".editorconfig"]
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
+# Build configuration files
 [[annotations]]
-path = ".editorconfig"
+path = ["**/.npmrc", "**/tsconfig.json", "**/package.json", "pnpm-*.yaml", "**/deno.jsonc", "**/jsr.jsonc", "**/typedoc.jsonc", "config/typedoc.*.jsonc"]
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
-[[annotations]]
-path = "pnpm-*.yaml"
-SPDX-FileCopyrightText = "NONE"
-SPDX-License-Identifier = "CC0-1.0"
-
-[[annotations]]
-path = "**/.git*"
-SPDX-FileCopyrightText = "NONE"
-SPDX-License-Identifier = "CC0-1.0"
-
-[[annotations]]
-path = ["**/tsconfig.json", "**/package.json", "**/package.json.not-yet"]
-SPDX-FileCopyrightText = "NONE"
-SPDX-License-Identifier = "CC0-1.0"
-
-[[annotations]]
-path = ["**/deno.jsonc", "**/jsr.jsonc", "**/typedoc.jsonc"]
-SPDX-FileCopyrightText = "NONE"
-SPDX-License-Identifier = "CC0-1.0"
-
+# Documentation
 [[annotations]]
 path = "**.md"
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
+# Repository configuration files
 [[annotations]]
-path = "**/.npmrc"
+path = [".github/**", "**/.git*"]
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = ".github/**"
-SPDX-FileCopyrightText = "NONE"
-SPDX-License-Identifier = "CC0-1.0"
-
-[[annotations]]
-path = "docsite/**"
+path = ["bin/**"]
 SPDX-FileCopyrightText = "2025 Curtis Jewell and other contributors"
 SPDX-License-Identifier = "MIT"
 
-[[annotations]]
-path = ["bin/**", "jsdoc-order.in.yaml"]
-SPDX-FileCopyrightText = "2025 Curtis Jewell and other contributors"
-SPDX-License-Identifier = "MIT"
-
+# Configuration and test data.
 [[annotations]]
 path = ["**/*.config.*", "**/*.ts.snap", "**/test_data/**"]
 SPDX-FileCopyrightText = "2025 Curtis Jewell and other contributors"
 SPDX-License-Identifier = "MIT"
 
+# SQL file.
 [[annotations]]
 path = "packages/database-cloudflare-d1/schema.sql"
 SPDX-FileCopyrightText = "2025 Curtis Jewell and other contributors"
