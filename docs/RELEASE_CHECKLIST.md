@@ -28,8 +28,11 @@ To actually DO the release, follow these directions.
 ... (dev $=)$ git checkout release
 ... (release $%=)$ git merge --ff origin/dev
 ... (release $%=)$ git push
+... (release $%=)$ git push origin
 ... (release $=)$ git tag v0.1.1-alpha.2
 ... (release $=)$ git push --tags
 ... (release $=)$ git checkout dev
+... (dev $=)$ git push --tags
+... (dev $=)$ pnpm bumpp
 [hack, hack, hack...]
 ```

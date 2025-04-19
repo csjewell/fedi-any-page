@@ -1,6 +1,6 @@
 {
   "name": "@csjewell-activitypub/eslint-config",
-  "version": "0.1.3-alpha-1",
+  "version": "0.1.3-alpha.2",
   "description": "ESLint options for @csjewell-activitypub",
   "type": "module",
   "homepage": "https://fedi-any-page.curtisjewell.dev",
