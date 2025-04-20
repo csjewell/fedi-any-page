@@ -40,7 +40,7 @@
   ],
   "keywords": [],
   "scripts": {
-    "tsup": "tsup --config `git rev-parse --show-toplevel`/config/tsup.config.ts",
+    "tsup": "tsup --config `git rev-parse --show-toplevel`/.config/tsup.config.ts",
     "build": "pnpm tsup",
     "prepublishOnly": "pnpm tsup",
     "tsc": "tsc"
