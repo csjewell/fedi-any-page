@@ -1,6 +1,6 @@
 {
   "name": "@csjewell-activitypub/monorepo",
-  "version": "0.1.3-alpha.2",
+  "version": "0.2.0-alpha.1",
   "description": "ActivityPub Typescript Kit monorepo",
   "type": "module",
   "repository": {

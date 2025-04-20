@@ -16,8 +16,8 @@ the release.
 ... (dev +=)$ pnpm test
 ... (dev +=)$ git commit
 ... (dev>)$ pnpx jsr publish --dry-run
-... (dev>)$ pnpm publish --dry-run
-... (dev>)$ git push
+... (dev>)$ pnpm publish --recursive --tag next --dry-run
+... (dev>)$ git push origin; git push github
 ```
 
 ## How to release
@@ -27,12 +27,10 @@ To actually DO the release, follow these directions.
 ```
 ... (dev $=)$ git checkout release
 ... (release $%=)$ git merge --ff origin/dev
-... (release $%=)$ git push
-... (release $%=)$ git push origin
-... (release $=)$ git tag v0.1.1-alpha.2
-... (release $=)$ git push --tags
+... (release $%=)$ git push origin; git push github
+... (release $=)$ git tag `bin/get_current_version.js`
+... (release $=)$ git push origin --tags; git push github --tags
 ... (release $=)$ git checkout dev
-... (dev $=)$ git push --tags
 ... (dev $=)$ pnpm bumpp
 [hack, hack, hack...]
 ```
