@@ -11,7 +11,7 @@ node_modules
 local-test-server-*
 bin/pre-push
 bundling
-config/typedoc.html.jsonc
+.config/typedoc.html.jsonc
 proposed/create
 proposed/create-proposed
 

@@ -20,7 +20,7 @@
   },
   "lint-staged": {
     "**/*.{js,ts}": [
-      "eslint --config `git rev-parse --show-toplevel`/config/eslint.config.js --fix"
+      "eslint --fix"
     ]
   },
   "config": {
@@ -45,19 +45,17 @@
     "tsup": "tsup --config `git rev-parse --show-toplevel`/config/tsup.config.ts",
     "build": "pnpm tsup",
     "prepublishOnly": "pnpm tsup",
-    "eslint": "eslint --config `git rev-parse --show-toplevel`/config/eslint.config.js",
-    "lint": "pnpm eslint",
     "tsc": "tsc"
   },
   "dependencies": {
     "@csjewell-activitypub/general": "workspace:^",
     "@csjewell-activitypub/types": "workspace:^",
     "@dewars/cuid2": "npm:@jsr/dewars__cuid2@^0.1.0",
-    "@keyv/sqlite": "^4.0.1",
     "keyv": "npm:keyv@^5.3.2"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
+    "eslint": "^9.24.0",
     "typescript": "^5.8.3"
   }
 }

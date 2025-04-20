@@ -1,1 +1,1 @@
-config/bump.config.ts
+.config/bump.config.ts

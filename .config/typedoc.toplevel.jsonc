@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: CC0-1.0
+// SPDX-FileCopyrightText: NONE
 {
   "$schema": "https://typedoc-plugin-markdown.org/schema.json",
   "plugin": [
@@ -39,7 +41,7 @@
     "frontmatter": true,
     "mdx": false
   },
-  "remarkPlugins": ["./config/helpers/remark.js"],
+  "remarkPlugins": ["./.config/helpers/remark.js"],
   "publicPath": "https://fedi-any-page.curtisjewell.dev/docs/latest",
 }
 

@@ -4,12 +4,7 @@
 import type { Configuration } from '../configuration.ts'
 import type * as Request from '../request.ts'
 import type { Responses } from '../responses.ts'
-
-type APIHandlerSync = <DatabaseT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, SessionT>,
-  req: Request.Helper,
-  resp: Responses<SessionT, ResponseT>,
-) => ResponseT
+import type { APIHandlerSync } from './types.ts'
 
 // TODO: [2025-04-10] This should read the usage data from the database
 export const NodeInfo21: APIHandlerSync = <DatabaseT, SessionT, ResponseT>(

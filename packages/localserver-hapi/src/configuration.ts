@@ -27,5 +27,3 @@ export class TestConfig implements Configuration<DatabaseSync, AuthCookies> {
     throw new NotImplementedError()
   }
 }
-
-export const Config = new TestConfig()

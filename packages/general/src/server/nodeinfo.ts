@@ -4,12 +4,7 @@
 import type { Configuration } from '../configuration.ts'
 import type * as Request from '../request.ts'
 import type { Responses } from '../responses.ts'
-
-type APIHandlerSync = <DatabaseT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, SessionT>,
-  req: Request.Helper,
-  resp: Responses<SessionT, ResponseT>,
-) => ResponseT
+import type { APIHandlerSync } from './types.ts'
 
 export const NodeInfo: APIHandlerSync = <DatabaseT, SessionT, ResponseT>(
   config: Configuration<DatabaseT, SessionT>,
