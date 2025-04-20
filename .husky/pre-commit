@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT
 # SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
 docker run --rm --volume $(git rev-parse --show-toplevel):/data fsfe/reuse lint
-pnpm knip
+# pnpm knip # Currently off because re-pliers is not completely handled.
 pnpm lint-staged
