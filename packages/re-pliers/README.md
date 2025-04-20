@@ -16,15 +16,50 @@ right now.
 
 ## How it is looking
 
-This is with some mock data:
+This is with some mock data as of 2 or so weeks ago (early April):
 
 ![Screenshot](assets/Re-pliers.webp "Screenshot")
 
-
 ## Usage
 
+This is how the re-pliers script will eventually be put into your web pages.
+It'll coordinate with the web worker that'll be set up for your blog.
+
 ```html
-<!-- TODO -->
+<!DOCTYPE html>
+<html lang="en-019" data-theme="dark"><head>
+  <!-- You'll need the next 6 lines, plus the 'data-theme' attribute above, within the HTML header. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="https://esm.sh/jsr/@csjewell-activitypub/re-pliers/dist/re-pliers.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- ... -->
+</head><body>
+  <!-- Your page content goes here, of course! -->
+  <!--
+    After that, you'll need to have someplace to PUT the component on your page,
+    (shown as the 'div' tag below), and the short (6 lines) of script
+    below that, which will show the component.
+
+    This should work on most modern browsers released since 2018, including modern ones.
+    See https://caniuse.com/es6-module for where the syntax below will work.
+
+    The stylesheet, however, uses syntax that browsers started providing in 2023.
+    https://caniuse.com/css-nesting will show you which browsers support that syntax.
+  -->
+  <div id="pliers"></div>
+  <script type="module">
+    import { showRepliers } from "https://esm.sh/jsr/@csjewell-activitypub/re-pliers@1.0.0?standalone";
+    showRepliers({
+      page   : 'https://activitypub.example.com/blog/entry/', // The canonical URL of the current page.
+      user   : 'username', // The local username of the person creating the blog entry.
+      domain : 'activitypub.example.com',  // The domain of the site.
+    }, document.querySelector('#pliers')); // The location on the page to put the re-pliers component within
+  </script>
+  <!-- ... -->
+</body></html>
 ```
 
 ## Development

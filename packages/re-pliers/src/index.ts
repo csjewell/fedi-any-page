@@ -15,5 +15,5 @@ const replyListCtx = toReplyListCtxType(complicatedReplyJSON)
 // eslint-disable-next-line import-x/no-deprecated -- Not using the deprecated functionality
 render(
   html`<${ AppTest } user="csjewell" domain="curtisjewell.dev" testData=${ replyListCtx } />`,
-  document.querySelector('#pliers'),
+  document.querySelector('#pliers') as HTMLElement,
 )
