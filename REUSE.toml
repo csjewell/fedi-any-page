@@ -27,6 +27,13 @@ path = [".github/**", "**/.git*"]
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
+# Web assets.
+[[annotations]]
+path = ["**/assets/**", "**/index.html"]
+SPDX-FileCopyrightText = "2025 Curtis Jewell and other contributors"
+SPDX-License-Identifier = "MIT"
+
+# Scripts to help things out.
 [[annotations]]
 path = ["bin/**"]
 SPDX-FileCopyrightText = "2025 Curtis Jewell and other contributors"
@@ -34,7 +41,7 @@ SPDX-License-Identifier = "MIT"
 
 # Configuration and test data.
 [[annotations]]
-path = ["**/*.config.*", "**/*.ts.snap", "**/test_data/**"]
+path = ["**/*.config.*", "**/*.ts.snap", "**/test_data/**", "**/replytesting.json"]
 SPDX-FileCopyrightText = "2025 Curtis Jewell and other contributors"
 SPDX-License-Identifier = "MIT"
 
@@ -43,4 +50,7 @@ SPDX-License-Identifier = "MIT"
 path = "packages/database-cloudflare-d1/schema.sql"
 SPDX-FileCopyrightText = "2025 Curtis Jewell and other contributors"
 SPDX-License-Identifier = "MIT"
+
+
+
 

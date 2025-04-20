@@ -7,6 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Local box area.
 *.local
 
 # Generated areas.
@@ -23,10 +24,6 @@ stats.html
 *.njsproj
 *.sln
 *.sw?
-
-# Ignoring some files for now until I get them right.
-.build.yml
-jsr.json
 
 # My own note-taking area.
 NOTES.*

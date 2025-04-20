@@ -28,7 +28,7 @@
       "path": "cz-conventional-changelog"
     }
   },
-  "main": "index.ts",
+  "main": "src/index.ts",
   "publishConfig": {
     "module": "dist/re-pliers.mjs",
     "exports": {

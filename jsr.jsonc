@@ -7,8 +7,9 @@
     "./packages/general",
     "./packages/handlers-response",
     "./packages/localserver-hapi",
-    "./packages/types"
-//    "./proposed/localserver-deno",
+    "./packages/types",
+    "./packages/re-pliers"
+    //    "./proposed/localserver-deno",
   ]
 }
 

@@ -1,0 +1,8 @@
+{
+  "name": "@csjewell-activitypub/re-pliers",
+  "version": "0.2.0-alpha.1",
+  "exports": "src/index.ts",
+  "publish": {
+    "include": ["src","docs","README.md"]
+  }
+}

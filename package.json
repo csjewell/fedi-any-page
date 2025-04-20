@@ -32,6 +32,7 @@
     "packages/eslint-config",
     "packages/types",
     "packages/general",
+    "packages/re-pliers",
     "packages/handlers-response",
     "packages/database-cloudflare-d1",
     "packages/database-mock",
