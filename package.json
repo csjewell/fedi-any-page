@@ -49,7 +49,7 @@
     "typedoc": "cd `git rev-parse --show-toplevel`; typedoc --options .config/typedoc.toplevel.jsonc",
     "typedoc:html": "cd `git rev-parse --show-toplevel`; typedoc --options .config/typedoc.html.jsonc",
     "postinstall": "husky",
-    "publish": "false"
+    "publish": "true"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",
