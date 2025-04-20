@@ -1,0 +1,81 @@
+{
+  "success": true,
+  "start": 0,
+  "totalReplies": 7,
+  "replies": [{
+    "identifier": "https://mock.response.example.org/12345",
+    "replyTo"   : { "username": "mockery", "actorLink": "https://mock.response.example.org/actor/mockery" },
+    "date"      : "2025-03-03T20:00:00.000-07:00",
+    "content"   : "<p>This is the first reply</p>",
+    "numLikes"  : 1,
+    "liked"     : true,
+    "replyIndex": [{
+      "index": 1,
+      "identifier": "https://mock.response.example.org/12346"
+    }, {
+      "index": 3,
+      "identifier": "https://mock.response.example.org/12348"
+    }]
+  }, {
+    "identifier": "https://mock.response.example.org/12346",
+    "replyTo"   : { "username": "silly", "actorLink": "https://mock.response.example.org/actor/silly" },
+    "date"      : "2025-03-03T20:10:00.000-07:00",
+    "content"   : "<p>This is the first reply to the first reply</p>",
+    "numLikes"  : 1,
+    "liked"     : true
+  }, {
+    "identifier": "https://mock.response.example.org/12347",
+    "replyTo"   : { "username": "mocked", "actorLink": "https://mock.response.example.org/actor/mockery" },
+    "date"      : "2025-03-03T20:20:00.000-07:00",
+    "content"   : "<p>This is the second reply</p>",
+    "numLikes"  : 1,
+    "liked"     : true,
+    "replyIndex": [{
+      "index": 4,
+      "identifier": "https://mock.response.example.org/12349"
+    }]
+  }, {
+    "identifier": "https://mock.response.example.org/12348",
+    "replyTo"   : { "username": "mockery", "actorLink": "https://mock.response.example.org/actor/mockery" },
+    "date"      : "2025-03-03T20:30:00.000-07:00",
+    "content"   : "<p>This is the second reply to the first reply</p>",
+    "numLikes"  : 1,
+    "liked"     : true
+  }, {
+    "identifier": "https://mock.response.example.org/12349",
+    "replyTo"   : { "username": "silly", "actorLink": "https://mock.response.example.org/actor/silly" },
+    "date"      : "2025-03-03T20:40:00.000-07:00",
+    "content"   : "<pre>This is the first reply to the second reply</pre>",
+    "numLikes"  : 1,
+    "liked"     : true,
+    "replyIndex": [{
+      "index": 5,
+      "identifier": "https://mock.response.example.org/12350"
+    }]
+  }, {
+    "identifier": "https://mock.response.example.org/12350",
+    "replyTo"   : { "username": "sillier", "actorLink": "https://mock.response.example.org/actor/sillier" },
+    "date"      : "2025-03-03T20:50:00.000-07:00",
+    "content"   : "<blockquote>This is the first reply to the first reply to the second reply</blockquote>",
+    "numLikes"  : 1,
+    "liked"     : true,
+    "replyIndex": [{
+      "index": 6,
+      "identifier": "https://mock.response.example.org/12351"
+    }]
+  }, {
+    "identifier": "https://mock.response.example.org/12351",
+    "replyTo"   : { "username": "sillier", "actorLink": "https://mock.response.example.org/actor/sillier" },
+    "date"      : "2025-03-03T20:50:00.000-07:00",
+    "content"   : "<p><code>This is the first reply to the first reply to the first reply to the second reply</code></p>",
+    "numLikes"  : 1,
+    "liked"     : true
+  }],
+  "replyIndex"  : [{
+    "index": 0,
+    "identifier": "https://mock.response.example.org/12345"
+  }, {
+    "index": 2,
+    "identifier": "https://mock.response.example.org/12347"
+  }]
+}

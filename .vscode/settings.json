@@ -1,4 +1,5 @@
 {
+  "typescript.tsdk": "node_modules/typescript/lib",
   "deno.lint": false,
   "editor.tabSize": 2,
   "editor.fontFamily": "'Monaspace Argon', 'Droid Sans Mono', 'monospace', monospace",

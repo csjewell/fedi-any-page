@@ -1,0 +1,32 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+*.local
+
+# Generated areas.
+node_modules
+dist
+dist-ssr
+stats.html
+
+# Editor directories and files
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Ignoring some files for now until I get them right.
+.build.yml
+jsr.json
+
+# My own note-taking area.
+NOTES.*

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark"><head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Re-pliers styling and testing page for Vite</title>
+  <link rel="stylesheet" href="src/re-pliers.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    html {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      vertical-align: baseline;
+      /* Prevent adjustments of font size after orientation changes */
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    body {
+      font: inherit;
+      font-weight: 400;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      font-size: 19px;
+      font-optical-sizing: auto;
+      font-style: normal;
+      font-variation-settings: "wdth" 100;
+      line-height: 1.15;
+      text-rendering: optimizeLegibility;
+      margin: 0 3px;
+    }
+    h1 {
+      font-size: 2.441rem;
+      margin: 0.67em 0;
+      border-bottom: 1px solid green;
+    }
+    h2 { font-size: 1.953rem; margin: 0.50em 0; }
+    h3 { font-size: 1.563rem; margin: 0.25em 0; }
+    h4 { font-size: 1.250rem; margin: 0.10em 0; }
+    p { font-size: 1.000rem; }
+    small { font-size: 0.800rem; }
+</style>
+</head><body>
+  <h1>Re-pliers Test Page</h1>
+  <p>Here's a tag to start with, to help you try and find your way if you can't see the re-pliers script (which should appear after this...).</p>
+  <div id="pliers"></div>
+  <script type="module" src="src/index.ts"></script>
+</body></html>

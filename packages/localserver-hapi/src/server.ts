@@ -66,7 +66,6 @@ export class HAPIServer {
       encoding     : 'iron',
       clearInvalid : true,
       strictHeader : true,
-      // eslint-disable-next-line sonarjs/no-hardcoded-passwords
       password     : 'I saw the sign. Life is demanding, without understanding...',
       iron         : {
         encryption : {

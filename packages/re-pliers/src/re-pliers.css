@@ -1,0 +1,300 @@
+/* SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2025 Curtis Jewell
+ */
+ @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+/*
+ * I REALLY wish the CSS Nesting Module ( https://drafts.csswg.org/css-nesting/ )
+ * had even more browser support than it does. It's useful here.
+ * We are at 86% full support as of March 2025. Will use it anyway.
+ * They call it part of "Baseline 2023".
+ * Check https://caniuse.com/css-nesting for the percentage.
+ */
+
+details.re-pliers[data-color=light] {
+  --re-pliers-default-text: black;
+  --re-pliers-link-text: #0070F3;
+  --re-pliers-link-hover-text: #0366D6;
+  --re-pliers-selection-text: #0C4047;
+  --re-pliers-default-background: white;
+  --re-pliers-clickable-background: #F6F8FA;
+  --re-pliers-selection-background: #79FFE1;
+  --re-pliers-blockquote-background: #F6F8FA;
+  --re-pliers-link-underline: midnightblue;
+  --re-pliers-blockquote-left-border: #E5E7EB;
+  --re-pliers-border-color: darkslateblue;
+}
+
+details.re-pliers[data-color=dark] {
+  --re-pliers-default-text: white;
+  --re-pliers-link-text: #3291FF;
+  --re-pliers-link-hover-text: #0070F3;
+  --re-pliers-selection-text: #F3B0A9;
+  --re-pliers-default-background: black;
+  --re-pliers-clickable-background: #111111;
+  --re-pliers-blockquote-left-border: #222222;
+  --re-pliers-selection-background: #777777;
+  --re-pliers-blockquote-background: #111111;
+  --re-pliers-link-underline: #0366D6;
+  --re-pliers-border-color: rebeccapurple;
+}
+
+details.re-pliers {
+  --re-pliers-font-sans: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  --re-pliers-font-mono: 'Fira Code', Consolas, monaco, 'Ubuntu Mono', 'Liberation Mono', 'Courier New', Courier, monospace;
+  -webkit-font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 1, "lnum" 0, "dlig" 0;
+     -moz-font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 1, "lnum" 0, "dlig" 0;
+          font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "pnum" 1, "tnum" 0, "onum" 1, "lnum" 0, "dlig" 0;
+  font: inherit;
+  font-weight: 400;
+  font-family: var(--re-pliers-font-sans);
+  font-size: 19px;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+  line-height: 1.4;
+  padding: 0;
+  border-style: solid;
+  border-color: var(--re-pliers-border-color);
+  border-radius: 2%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  margin: auto;
+  display: block;
+  overflow-x: hidden;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  color: var(--re-pliers-default-text);
+  background-color: var(--re-pliers-default-background);
+  /* Prevent adjustments of font size after orientation changes */
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+
+  & p {
+    font-size: 100%;
+    margin-left: 1em;
+  }
+
+  > p.info {
+    background: var(--re-pliers-blockquote-left-border);
+  }
+
+  > span.reply-buttons {
+    margin-left: 1em;
+    padding-bottom: 0.25em;
+  }
+
+  > summary {
+    display: list-item;
+    cursor: pointer;
+    font-weight: normal;
+    background-color: var(--re-pliers-clickable-background);
+    margin-left: 1em;
+  }
+
+  & hr {
+    box-sizing: content-box;
+    height: 0;
+    color: var(--re-pliers-border-color);
+  }
+
+  & q { quotes: auto; }
+  & q::after { content: close-quote; }
+  & q::before { content: open-quote; }
+
+  & a {
+    color: var(--re-pliers-link-text);
+    background-color: var(--re-pliers-clickable-background);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: var(--re-pliers-link-underline)
+  }
+  & a:hover { color: var(--re-pliers-link-hover-text); }
+
+  & span.clickable {
+    background: var(--re-pliers-clickable-background);
+  }
+
+  & svg {
+    margin-left: 0.5em;
+    vertical-align: baseline;
+  }
+
+  > form.create-reply {
+    & span > textarea {
+      overflow: scroll;  /* Put the scroll bars in. */
+      font-family: inherit;
+      font-size: 100%;
+      line-height: 1.40;
+      max-width: 96.5%;
+      margin-left: 0.5em;
+      margin-right: 0.5em;
+      margin-bottom: 0.2em;
+      resize: none;
+    }
+
+    & span > svg.markdown {
+      margin-left: 0.5em;
+      position: absolute;
+      left: 5px;
+      bottom: 5px;
+      opacity: 0.3;
+    }
+
+    > select {
+      margin-left: 0.5em;
+      margin-bottom: 0.75em;
+    }
+
+    > span.create-reply-button {
+      display: inline-block;
+      margin-top: 0.5em;
+      margin-bottom: 0.25em;
+      vertical-align: bottom;
+    }
+
+    > span#mdinfo {
+      float: right;
+      margin-right: 0.5em;
+    }
+  }
+
+  @media only screen and (min-width: 1px) {
+    & { width: 90%; border-width: 1px; }
+  }
+
+  @media only screen and (min-width: 600px) {
+    & { width: 50%; border-width: 2px; }
+  }
+
+  @media not screen {
+    & { width: 50%; border-width: 2px; }
+  }
+}
+
+details.re-pliers ::selection {
+  background: var(--re-pliers-selection-background);
+  color: var(--re-pliers-selection-text);
+}
+
+/******
+ ****** After this point is the allowed HTML that users can use.
+ ******/
+
+/*
+ * https://docs.joinmastodon.org/spec/activitypub/#sanitization specifies
+ * that they'll sanitize HTML down to this, so we will, too.
+
+  <p>
+  <blockquote>
+
+  <a> (href, rel, class)
+  <span> (class)
+  <br>
+  <del>
+  <pre>
+  <code>
+  <strong>
+  <b>
+  <em>
+  <i>
+  <u>
+
+  <ul>
+  <ol> (start, reversed)
+  <li> (value)
+
+  When classes are allowed, these are the possible classes:
+
+  Microformat classes:
+    h-*
+    p-*
+    u-*
+    dt-*
+    e-*
+
+  Semantic classes:
+    mention
+    hashtag
+
+  Link shortening classes: (special CSS handling for these on "& a[href] span.X")
+    ellipsis
+    invisible
+*/
+
+details.re-pliers .reply-box {
+  margin-left: 0;
+  color: var(--re-pliers-default-text);
+  background-color: var(--re-pliers-default-background);
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: 100%;
+  font-family: var(--re-pliers-font-sans);
+
+  & p, & span, & del, & u, & b, & strong, & pre, & code, & em, & i, & li, & ol, & ul, & a {
+    margin-left: 0;
+    color: var(--re-pliers-default-text);
+    background-color: var(--re-pliers-default-background);
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-size: 100%;
+    font-family: var(--re-pliers-font-sans);
+  }
+
+  & a[href] {
+    background-color: var(--re-pliers-clickable-background);
+    color: var(--re-pliers-link-text);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: var(--re-pliers-link-underline)
+  }
+  & a[href]:hover { color: var(--re-pliers-link-hover-text); }
+
+  /*
+  * https://docs.joinmastodon.org/api/guidelines/#links specifies shortening of long links in a weird way.
+  * The next 2 classes support that.
+  */
+
+  & a[href] span.invisible {
+    display: none;
+  }
+
+  & a[href] span.ellipsis::after {
+    content: '&#8230;';
+  }
+
+  & blockquote {
+    quotes: auto;
+    display: block;
+    background-color: var(--re-pliers-blockquote-background);
+    border-left: 6px solid var(--re-pliers-blockquote-left-border);
+    color: var(--re-pliers-default-text);
+    margin-block: 0.5em;
+    padding-left: 0.3em;
+    font-size: 100%;
+  }
+
+  & u {
+    text-decoration-thickness: 1px;
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-color: var(--re-pliers-default-text);
+  }
+
+  & del {
+    text-decoration-thickness: 1px;
+    text-decoration-line: line-through;
+    text-decoration-style: solid;
+    text-decoration-color: var(--re-pliers-default-text);
+  }
+
+  & ol { list-style-type: decimal; }
+  & ul { list-style-type: disc; }
+  & b, & strong { font-weight: bolder; }
+  & em, & i { font-style: italic; }
+  & pre, & code { font-family: var(--re-pliers-font-mono); }
+}
+
+
