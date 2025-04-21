@@ -21,6 +21,6 @@ import { CloudflareConfig } from '@csjewell-activitypub/database-cloudflare-d1'
 
 ## Development
 
-See the documentation on [how to contribute](https://csjewell.github.io/activitypub-ts-kit/docs/contributing).
+See the documentation on [how to contribute](https://fedi-any-page.curtisjewell.dev/docs/contributing/).
 Thanks! 💖
 

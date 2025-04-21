@@ -20,6 +20,6 @@ pnpm install @csjewell-activitypub/localserver-hapi
 
 ## Development
 
-See the documentation on [how to contribute](https://csjewell.github.io/activitypub-ts-kit/docs/contributing).
+See the documentation on [how to contribute](https://fedi-any-page.curtisjewell.dev/docs/contributing/).
 Thanks! 💖
 
