@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: CC0-1.0
+// SPDX-FileCopyrightText: NONE
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "plugin": [
+    "typedoc-plugin-mdn-links",
+    "typedoc-plugin-missing-exports",
+  ],
+  "entryPoints": ["../packages/*"],
+  "packageOptions": {
+    "entryPoints": ["index.ts"],
+    "includeVersion": true,
+    "excludeExternals": true,
+    "disableSources": false,
+  },
+  "entryPointStrategy": "packages",
+  "includeVersion": false,
+  "excludeExternals": true,
+  "cleanOutputDir": true,
+  "out": "../test-docs",
+  "router": "structure",
+  "lang": "en",
+  "hideGenerator": true,
+  "searchInDocuments": true,
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": false,
+    "includeFolders": true,
+    "compactFolders": false,
+    "excludeReferences": true
+  },
+  "categorizeByGroup": false,
+}
+

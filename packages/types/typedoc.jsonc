@@ -2,9 +2,8 @@
 // SPDX-FileCopyrightText: NONE
 {
   "$schema": "https://typedoc.org/schema.json",
-  "entryPoints": ["./index.ts"],
-  "includeVersion": true,
-  "disableSources": true,
-  "excludeExternals": true,
+  "externalPattern": [
+    "**/node_modules/**",
+  ],
 }
 

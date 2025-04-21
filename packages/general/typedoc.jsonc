@@ -2,9 +2,9 @@
 // SPDX-FileCopyrightText: NONE
 {
   "$schema": "https://typedoc.org/schema.json",
-  "includeVersion": true,
-  "disableSources": true,
-  "excludeExternals": true,
-  "externalPattern": ["../types/**/*.ts"],
+  "externalPattern": [
+    "../types/**/*.ts",
+    "**/node_modules/**",
+  ],
 }
 

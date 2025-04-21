@@ -311,9 +311,6 @@ importers:
       fetch-mock:
         specifier: ^12.5.2
         version: 12.5.2
-      jiti:
-        specifier: ^2.4.2
-        version: 2.4.2
       jsdom:
         specifier: ^26.1.0
         version: 26.1.0

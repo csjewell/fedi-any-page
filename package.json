@@ -47,7 +47,7 @@
     "eslint": "eslint --config `git rev-parse --show-toplevel`/.config/eslint.config.js",
     "knip": "knip",
     "lint": "pnpm eslint",
-    "typedoc": "cd `git rev-parse --show-toplevel`; typedoc --options .config/typedoc.toplevel.jsonc",
+    "typedoc:md": "cd `git rev-parse --show-toplevel`; typedoc --options .config/typedoc.toplevel.jsonc",
     "typedoc:html": "cd `git rev-parse --show-toplevel`; typedoc --options .config/typedoc.html.jsonc",
     "postinstall": "husky",
     "publish": "true"

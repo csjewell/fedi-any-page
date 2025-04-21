@@ -12,12 +12,15 @@
   ],
   "entryPoints": ["../packages/*"],
   "packageOptions": {
-    "entryPoints": ["index.ts"]
+    "entryPoints": ["index.ts"],
+    "includeVersion": true,
+    "excludeExternals": true,
+    "disableSources": true,
   },
   "entryPointStrategy": "packages",
   "includeVersion": false,
   "excludeExternals": true,
-  "cleanOutputDir": false,
+  "cleanOutputDir": true,
   "out": "../../fedi-any-page-docs/content/en/docs/latest",
   "router": "module",
   "entryFileName": "start",

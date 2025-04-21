@@ -1,31 +1,27 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "target": "ES2023",
-    "lib": ["DOM","ES2023"],
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
     "noEmit": true,
-    "allowJs": true,
-    "checkJs": false,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2023",
+    "lib": ["DOM","ES2023"],
     "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitOverride": true,
     "noImplicitThis": true,
-    "rewriteRelativeImportExtensions": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
-    "skipLibCheck": true,
     "erasableSyntaxOnly": true,
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
-    "paths": {
-      "react": ["./node_modules/preact/compat/"],
-      "react-dom": ["./node_modules/preact/compat/"]
-    }
+    "sourceMap": true
   },
-  "include": ["node_modules/vite/client.d.ts", "**/*"]
+  "include": ["node_modules/vite/client.d.ts", "index.ts", "src"]
 }

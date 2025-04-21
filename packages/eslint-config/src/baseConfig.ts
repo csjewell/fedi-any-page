@@ -79,7 +79,6 @@ const BaseConfig = (gitignorePath: string): ConfigArray => [
     files   : ['**/*{js}'],
   },
   {
-    files         : ['**/*{js,ts}'],
     linterOptions : {
       reportUnusedDisableDirectives : 'error',
     },

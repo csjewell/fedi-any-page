@@ -15,13 +15,16 @@ pnpm install -D @csjewell-activitypub/eslint-config
 ```
 
 ```ts
-import tseslint from 'typescript-eslint';
-import Config from './src/index.ts';
+// eslint.config.js
+import { config } from 'typescript-eslint';
+import { Config } from '@csjewell-activitypub/eslint-config'
+import { fileURLToPath } from 'node:url'
 
-export default tseslint.config(
+const gitignorePath = fileURLToPath(new URL('./.gitignore', import.meta.url))
+
+export default config(
   { ignores: ['lib', 'node_modules', 'pnpm-lock.yaml'] },
-  { linterOptions: { reportUnusedDisableDirectives: 'error' } },
-  Config(),
+  Config(gitignorePath),
 );
 ```
 

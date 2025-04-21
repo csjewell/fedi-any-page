@@ -1,6 +1,5 @@
+test-docs
 packages/*/dist
-packages/*/new-docs
-packages/*/new-docs-md
 proposed/localserver-deno/ap.sqlite.db
 proposed/*/dist
 
@@ -8,10 +7,8 @@ proposed/*/dist
 node_modules
 
 # Temporary directories and files I'm still working in before I commit them.
-local-test-server-*
 bin/pre-push
 bundling
-.config/typedoc.html.jsonc
 proposed/create
 proposed/create-proposed
 

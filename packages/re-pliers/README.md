@@ -52,11 +52,12 @@ It'll coordinate with the web worker that'll be set up for your blog.
   <div id="pliers"></div>
   <script type="module">
     import { showRepliers } from "https://esm.sh/jsr/@csjewell-activitypub/re-pliers@1.0.0?standalone";
+    let cache = {}; // Have the static-page generator get what the contents of this are.
     showRepliers({
       page   : 'https://activitypub.example.com/blog/entry/', // The canonical URL of the current page.
       user   : 'username', // The local username of the person creating the blog entry.
       domain : 'activitypub.example.com',  // The domain of the site.
-    }, document.querySelector('#pliers')); // The location on the page to put the re-pliers component within
+    }, document.querySelector('#pliers'), cache); // The location on the page to put the re-pliers component within
   </script>
   <!-- ... -->
 </body></html>
