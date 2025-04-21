@@ -29,10 +29,20 @@
   "hidePageHeader": true,
   "hideBreadcrumbs": true,
   "indexFormat": "table",
+  "parametersFormat": "table",
+  "tableColumnSettings": {
+    "hideDefaults": false,
+    "hideInherited": false,
+    "hideModifiers": false,
+    "hideOverrides": false,
+    "hideSources": false,
+    "hideValues": false,
+    "leftAlignHeaders": false
+  },
   "useHTMLAnchors": true,
   "anchorPrefix": "tdmd-",
   "navigation": {
-    "includeCategories": true,
+    "includeCategories": false,
     "includeGroups": false,
     "includeFolders": true,
     "compactFolders": false,

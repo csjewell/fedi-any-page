@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 //@ ts-check
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { cwd } from 'node:process';
 import { ReflectionKind } from 'typedoc';
 import { MarkdownPageEvent } from 'typedoc-plugin-markdown';
@@ -63,6 +63,7 @@ export function load(app) {
     const slugs = {
       'localserver-hapi'       : 'latest/localserver-hapi',
       'eslint-config'          : 'latest/eslint-config',
+      're-pliers'              : 'latest/re-pliers',
       'database-cloudflare-d1' : 'latest/database-cloudflare-d1/start',
       'database-mock'          : 'latest/database-mock/start',
       'general'                : 'latest/general/start',
@@ -79,22 +80,7 @@ export function load(app) {
       })
     })
 
-    let out = [{
-      title: 'Basics',
-      pages: [{
-        title: 'Overview',
-      }, {
-        title: 'Getting Started',
-      }, {
-        title: 'Security',
-      }, {
-        title: 'Code of Conduct',
-      }],
-    }, {
-      title: 'Beyond The Basics',
-      pages: [{ title: 'Contributing' }]
-    }]
-
+    const out = JSON.parse(readFileSync(`${cwd()}/../fedi-any-page-docs/data/sidebar.json`))
     out.push({ title: 'Module Documentation', pages, })
     writeFileSync(`${ cwd() }/../fedi-any-page-docs/data/navigation.json`, JSON.stringify(out))
   })
