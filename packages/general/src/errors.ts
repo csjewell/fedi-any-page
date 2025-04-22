@@ -4,6 +4,7 @@
 
 /**
  * Additional options that can be given when creating an Error class to throw
+ *
  * @property cause - An {@link Error} that is the cause of an Error
  */
 type ErrorOptions = {

@@ -1,13 +1,7 @@
-<!-- 👋 Hi, thanks for sending a PR to activitypub-ts-kit! 💖
-Please fill out all fields below and make sure each item is true and [x] checked.
-Otherwise we may not be able to review your PR. -->
+<!-- 👋 Hi, thanks for wanting to contribute to to activitypub-ts-kit! 💖
+Please fill out all fields below and make sure each item is true and [x] checked. -->
 
 ## PR Checklist
 
-- [ ] Addresses an existing open issue: fixes #000
-- [ ] That issue was marked as [`status: accepting prs`](https://github.com/csjewell/activitypub-ts-kit/issues?q=is%3Aopen+is%3Aissue+label%3A%22status%3A+accepting+prs%22)
-- [ ] Steps in [CONTRIBUTING.md](https://github.com/csjewell/activitypub-ts-kit/blob/main/.github/CONTRIBUTING.md) were taken
-
-## Overview
-
-<!-- Description of what is changed and how the code change does that. -->
+- [ ] Acknowledge that I have read the [documentation](https://fedi-any-page.curtisjewell.dev/docs/contributing/)
+- [ ] Acknowledge that this PR will be closed and an issue on the Fedi Any Page mailing list should be created, instead.

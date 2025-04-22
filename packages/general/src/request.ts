@@ -3,21 +3,37 @@
  */
 import type * as AP from '@csjewell-activitypub/types'
 
+/**
+ * The inputs from the session cookie.
+ */
 export type SessionInputs = {
+  /** The "actor URL" of the current user. */
   actor         : string;
+  /** TODOCUMENT */
   sessionCookie : unknown;
 }
 
+/**
+ * The inputs from authorization forms.
+ *
+ * @expand
+ */
 export type AuthInputs = {
+  /** The username provided by the user */
   username : string;
+  /** The password provided by the user */
   password : string;
 }
 
 /**
  * The methods used to help handle requests that come in from federated sites.
+ *
+ * The constructor for a particular framework will take what THEY consider a
+ * "request object" and store it so that these methods can be answered.
  */
 export type Helper = {
-  url             : URL;
+  url : URL;
+
   canAcceptHTML   : () => boolean;
   getFormInputs   : () => AuthInputs;
   getCookieInputs : () => SessionInputs;
@@ -26,24 +42,6 @@ export type Helper = {
 /**
  * The method used to send an activity to a federated site.
  */
-/**
- * Shorthand for a value of a given type or array of values that all conform
- * to that type.
- *
- * This is useful internally to represent many ActivityPub properties.
- *
- * @param T The type of the value to be mapped.
- *
- * @example
- * ```ts
- * // A string or array of strings.
- * type StringOrArrayOfStrings = OrArray<string>;
- *
- * const a: StringOrArrayOfStrings = 'foo';
- * const b: StringOrArrayOfStrings = ['foo', 'bar'];
- * ```
- */
-
 export type Sender<T> = {
   sendSignedRequest : (endpoint: URL, message: AP.Activity) => T;
 }

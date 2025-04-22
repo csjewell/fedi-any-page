@@ -30,18 +30,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Publish all packages to npm
-        run: bin/build-pnpm.sh
+        run: pnpm publish --tag `bin/npmtag.js`
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish all packages to jsr
         run: pnpx jsr publish
 
-#      - name: Publish database-cloudflare-d1 package to jsr
-#        run: cd proposed/database-cloudflare-d1 && pnpm dlx jsr publish
-
-#      - name: Publish workers-cloudflare package to jsr
-#        run: cd proposed/workers-cloudflare && pnpm dlx jsr publish
-
-#      - name: Publish handlers-response package to jsr
-#        run: cd proposed/handlers-response && pnpm dlx jsr publish

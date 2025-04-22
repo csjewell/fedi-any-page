@@ -1,4 +1,9 @@
 {
+  // Generative AI is NOT a friend of developers.
+  "chat.agent.maxRequests": 0,
+  "chat.commandCenter.enabled": false,
+  "chat.extensionTools.enabled": false,
+  "chat.mcp.enabled": false,
   "typescript.tsdk": "node_modules/typescript/lib",
   "deno.lint": false,
   "editor.tabSize": 2,

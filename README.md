@@ -1,4 +1,4 @@
-# Fedi Any (static) Page (Otherwise known as activitypage-ts-kit)
+# Fedi Any (static) Page
 
 [![libera manifesto](https://img.shields.io/badge/libera-manifesto-lightgrey.svg)](https://liberamanifesto.com)
 [![🤝 Code of Conduct: Kept](https://img.shields.io/badge/%F0%9F%A4%9D_code_of_conduct-kept-21bb42.svg)](https://git.sr.ht/~csjewell/fedi-any-page/tree/dev/item/docs/CODE_OF_CONDUCT.md)
