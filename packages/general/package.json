@@ -14,7 +14,7 @@
     "name": "Curtis Jewell",
     "email": "swordsman+aptypescript@curtisjewell.name"
   },
-  "packageManager": "pnpm@10.8.0",
+  "packageManager": "pnpm@10.9.0",
   "engines": {
     "node": ">=22.6.0"
   },
@@ -52,9 +52,9 @@
   "dependencies": {
     "@csjewell-activitypub/types": "workspace:^",
     "@hyperjump/json": "^0.2.1",
-    "@std/uuid": "npm:@jsr/std__uuid@^1.0.6",
+    "@std/uuid": "jsr:^1.0.6",
     "@types/sanitize-html": "^2.15.0",
-    "sanitize-html": "npm:sanitize-html@^2.14.0"
+    "sanitize-html": "^2.16.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

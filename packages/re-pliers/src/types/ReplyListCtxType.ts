@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import * as v from 'valibot'
+import * as v from '@valibot/valibot'
 /* eslint "import-x/no-duplicates": "off" -- needed the type and a named import. */
 import { IndexEntrySchema } from './IndexEntry.ts'
 import { ReplyInfoSchema } from './ReplyInfo.ts'

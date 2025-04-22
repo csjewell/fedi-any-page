@@ -14,7 +14,7 @@
     "name": "Curtis Jewell",
     "email": "swordsman+aptypescript@curtisjewell.name"
   },
-  "packageManager": "pnpm@10.8.0",
+  "packageManager": "pnpm@10.9.0",
   "engines": {
     "node": ">=22.6.0"
   },
@@ -60,18 +60,18 @@
   },
   "dependencies": {
     "@ant-design/icons-svg": "^4.4.2",
-    "@nihility-io/cookies": "npm:@jsr/nihility-io__cookies@^1.0.3",
+    "@nihility-io/cookies": "jsr:^1.0.3",
+    "@valibot/valibot": "jsr:^1.0.0",
     "htm": "^3.1.1",
     "preact": "^10.25.3",
-    "preact-markup": "^2.1.1",
-    "valibot": "^1.0.0"
+    "preact-markup": "^2.1.1"
   },
   "devDependencies": {
     "@fetch-mock/vitest": "^0.2.13",
     "@preact/preset-vite": "^2.9.3",
     "@testing-library/preact": "^3.2.4",
     "@types/node": "^22.14.0",
-    "@vitest/coverage-v8": "^3.1.1",
+    "@vitest/coverage-v8": "^3.1.2",
     "eslint": "^9.22.0",
     "fetch-mock": "^12.5.2",
     "jsdom": "^26.1.0",
@@ -85,7 +85,7 @@
     "vite": "^6.0.4",
     "vite-plugin-static-copy": "^2.3.0",
     "vite-plugin-version-mark": "^0.1.4",
-    "vitest": "^3.0.8"
+    "vitest": "^3.1.2"
   },
   "browserslist": [
     "fully supports es6-module and fully supports css-nesting"

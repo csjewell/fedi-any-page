@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import * as v from 'valibot'
+import * as v from '@valibot/valibot'
 import { ErrorRespSchema } from './ErrorResp.ts'
 import { ReplyListRespSchema } from './ReplyListResp.ts'
 

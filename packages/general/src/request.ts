@@ -32,8 +32,7 @@ export type AuthInputs = {
  * "request object" and store it so that these methods can be answered.
  */
 export type Helper = {
-  url : URL;
-
+  url             : URL;
   canAcceptHTML   : () => boolean;
   getFormInputs   : () => AuthInputs;
   getCookieInputs : () => SessionInputs;
