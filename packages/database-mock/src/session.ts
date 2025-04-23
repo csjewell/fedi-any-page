@@ -202,18 +202,18 @@ export class MockSession implements SessionDB<AuthCookies> {
   }
 
   /* eslint-disable-next-line @typescript-eslint/require-await -- we are mocking routines that will! */
-  async valid(...arguments_: Array<unknown>): Promise<boolean> {
+  async valid(...arghs: Array<unknown>): Promise<boolean> {
     if (this.session === undefined) {
       return false
     }
 
-    if (arguments_.length !== 1) {
+    if (arghs.length !== 1) {
       throw new TypeError(
         'Checking validity requires passing an actor identifier',
       )
     }
 
-    const actor = arguments_[0] as string
+    const actor = arghs[0] as string
 
     return this.session.actor === actor
   }

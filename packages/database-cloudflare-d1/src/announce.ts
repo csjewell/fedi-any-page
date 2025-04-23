@@ -65,7 +65,7 @@ export class AnnounceCFStorage extends CloudflareD1Database implements Database.
     }
 
     this.message.object = object
-    return { isValid: true, actorId, announceId: announceId.toString(), }
+    return { isValid: true, announceId: announceId.toString(), actorId, }
   }
 
   remove = async (): Promise<boolean> => {

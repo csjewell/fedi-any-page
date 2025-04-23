@@ -74,6 +74,7 @@ const confusingBrowserGlobals = [
  */
 const BaseConfig = (gitignorePath: string): ConfigArray => [
   includeIgnoreFile(gitignorePath),
+
   {
     extends : [eslintJs.configs.recommended],
     files   : ['**/*{js}'],
@@ -81,6 +82,13 @@ const BaseConfig = (gitignorePath: string): ConfigArray => [
   {
     linterOptions : {
       reportUnusedDisableDirectives : 'error',
+    },
+    languageOptions : {
+      parserOptions : {
+        projectService : {
+          allowDefaultProject : [ '.config/helpers/*.js', 'bin/*.js' ],
+        },
+      },
     },
   },
   {

@@ -133,8 +133,8 @@ class StandardResponses implements Responses<AuthCookies, Response> {
     return Response.json({
       message : info,
     }, {
-      status  : 202,
       statusText,
+      status  : 202,
       headers : this._headers({ addHeaders, }),
     })
   }
@@ -215,8 +215,8 @@ class StandardResponses implements Responses<AuthCookies, Response> {
       success : false,
       error   : statusText,
     }, {
-      status  : 403,
       statusText,
+      status  : 403,
       headers : this._headers({ addHeaders, }),
     })
   }
@@ -289,8 +289,8 @@ class StandardResponses implements Responses<AuthCookies, Response> {
       success : false,
       error   : statusText,
     }, {
-      status  : 422,
       statusText,
+      status  : 422,
       headers : this._headers({ addHeaders, }),
     })
   }
@@ -307,8 +307,8 @@ class StandardResponses implements Responses<AuthCookies, Response> {
       success : false,
       error   : statusText,
     }, {
-      status  : 500,
       statusText,
+      status  : 500,
       headers : this._headers({ addHeaders, }),
     })
   }
@@ -324,8 +324,8 @@ class StandardResponses implements Responses<AuthCookies, Response> {
       success : false,
       error   : statusText,
     }, {
-      status  : 503,
       statusText,
+      status  : 503,
       headers : this._headers({ addHeaders, }),
     })
   }
@@ -386,8 +386,8 @@ class WebFingerStandardResponses extends StandardResponses implements Responses<
     }
 
     return new Response(null, {
-      status  : 204,
       statusText,
+      status  : 204,
       headers : this._headers({ addHeaders, }),
     })
   }

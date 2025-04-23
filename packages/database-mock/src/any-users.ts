@@ -22,10 +22,6 @@ export class AnyUsers extends BaseMockUsers implements Database.UsersStorage {
 
     // Not worrying about emoji usernames, etc,
     /* eslint-disable-next-line @typescript-eslint/no-misused-spread */
-    if (pw === [...this.username].reverse().join('')) {
-      return true
-    }
-
-    return false
+    return pw === [...this.username].reverse().join('')
   }
 }

@@ -50,6 +50,8 @@ const VitestConfig: ConfigArray = [
       'vitest/require-top-level-describe'    : 'error',
       'vitest/valid-describe-callback'       : 'error',
       'vitest/valid-expect'                  : 'error',
+      // Tests are allowed to ignore exceptions
+      'sonarjs/no-ignored-exceptions'        : 'off',
     },
   },
 ]

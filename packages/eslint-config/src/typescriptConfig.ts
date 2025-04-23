@@ -11,7 +11,9 @@ const TypescriptConfig: Array<ConfigWithExtends> = [
     languageOptions : {
       parser        : tseslint.parser,
       parserOptions : {
-        projectService : true,
+        projectService : {
+          allowDefaultProject : [ '.config/helpers/*.js', 'bin/*.js' ],
+        },
       },
     },
     rules : {
@@ -36,7 +38,7 @@ const TypescriptConfig: Array<ConfigWithExtends> = [
       ],
       '@typescript-eslint/default-param-last'             : 'error',
       '@typescript-eslint/dot-notation'                   : 'error',
-      '@typescript-eslint/explicit-module-boundary-types' : 'error',
+      '@typescript-eslint/explicit-module-boundary-types' : 'off',
       '@typescript-eslint/method-signature-style'         : 'error',
       '@typescript-eslint/no-array-constructor'           : 'off',
       '@typescript-eslint/no-empty-function'              : 'error',
@@ -162,6 +164,12 @@ const TypescriptConfig: Array<ConfigWithExtends> = [
           format   : null,
         },
       ],
+    },
+  },
+  {
+    files : ['**/*{ts}'],
+    rules : {
+      '@typescript-eslint/explicit-module-boundary-types' : 'error',
     },
   },
 ]

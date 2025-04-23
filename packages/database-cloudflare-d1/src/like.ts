@@ -63,7 +63,7 @@ export class LikeCFStorage extends CloudflareD1Database implements Database.Stor
       return { isValid: false, }
     }
 
-    return { isValid: true, actorId, likedId: likedId.toString(), }
+    return { isValid: true, likedId: likedId.toString(), actorId, }
   }
 
   async count(er: AP.EntityReference): Promise<number> {

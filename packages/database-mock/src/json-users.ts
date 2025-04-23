@@ -115,8 +115,8 @@ export class JsonUsers extends BaseMockUsers implements Database.UsersStorage {
   }
 
   /* eslint-disable-next-line @typescript-eslint/require-await -- We are mocking a routine that COULD await. */
-  retrieve = async (...arguments_: Array<unknown>): Promise<User> => {
-    const username = (arguments_[0] as string).toLowerCase()
+  retrieve = async (...arghs: Array<unknown>): Promise<User> => {
+    const username = (arghs[0] as string).toLowerCase()
 
     if (!this.usersObj.has(username)) {
       throw new TypeError(`Could not get the user ${ username }`)

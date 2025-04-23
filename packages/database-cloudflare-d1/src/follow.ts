@@ -64,7 +64,7 @@ export class FollowCFStorage extends CloudflareD1Database implements Database.St
     }
 
     // TODO: [2025-04-19] Resolve the followedId to a username, and then to a usernameId
-    return { isValid: true, actorId, followedId: followedId.toString(), username: '', usernameId: -1, }
+    return { isValid: true, followedId: followedId.toString(), username: '', usernameId: -1, actorId, }
   }
 
 
