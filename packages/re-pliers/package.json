@@ -2,7 +2,11 @@
   "name": "@csjewell-activitypub/re-pliers",
   "version": "0.2.0-alpha.1",
   "description": "Widget to make ActivityPub replies show up.",
-  "type": "module",
+  "keywords": [
+    "ActivityPub",
+    "federation",
+    "fediverse"
+  ],
   "homepage": "https://fedi-any-page.curtisjewell.dev",
   "repository": {
     "type": "git",
@@ -14,9 +18,24 @@
     "name": "Curtis Jewell",
     "email": "swordsman+aptypescript@curtisjewell.name"
   },
-  "packageManager": "pnpm@10.9.0",
-  "engines": {
-    "node": ">=22.6.0"
+  "type": "module",
+  "main": "src/index.ts",
+  "files": [
+    "README.md",
+    "dist/",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "build:preview": "vite preview",
+    "dev:watch": "vite",
+    "lint": "eslint",
+    "lint:git": "lint-staged",
+    "prepublishOnly": "pnpm build",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest",
+    "tsc": "tsc"
   },
   "lint-staged": {
     "**/*.{js,ts}": [
@@ -28,36 +47,9 @@
       "path": "cz-conventional-changelog"
     }
   },
-  "main": "src/index.ts",
-  "publishConfig": {
-    "module": "dist/re-pliers.mjs",
-    "exports": {
-      ".": "dist/re-pliers.mjs"
-    },
-    "typings": "dist/re-pliers.d.ts"
-  },
-  "files": [
-    "README.md",
-    "dist/",
-    "package.json"
+  "browserslist": [
+    "fully supports es6-module and fully supports css-nesting"
   ],
-  "keywords": [
-    "ActivityPub",
-    "federation",
-    "fediverse"
-  ],
-  "scripts": {
-    "build": "vite build",
-    "prepublishOnly": "pnpm build",
-    "build:preview": "vite preview",
-    "dev:watch": "vite",
-    "lint": "eslint",
-    "lint:git": "lint-staged",
-    "tsc": "tsc",
-    "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "test:watch": "vitest"
-  },
   "dependencies": {
     "@ant-design/icons-svg": "^4.4.2",
     "@nihility-io/cookies": "jsr:^1.0.3",
@@ -87,7 +79,15 @@
     "vite-plugin-version-mark": "^0.1.4",
     "vitest": "^3.1.2"
   },
-  "browserslist": [
-    "fully supports es6-module and fully supports css-nesting"
-  ]
+  "packageManager": "pnpm@10.9.0",
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "publishConfig": {
+    "module": "dist/re-pliers.mjs",
+    "exports": {
+      ".": "dist/re-pliers.mjs"
+    },
+    "typings": "dist/re-pliers.d.ts"
+  }
 }

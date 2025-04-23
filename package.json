@@ -2,7 +2,6 @@
   "name": "@csjewell-activitypub/monorepo",
   "version": "0.2.0-alpha.1",
   "description": "ActivityPub Typescript Kit monorepo",
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/csjewell/activitypub-ts-kit.git"
@@ -12,22 +11,8 @@
     "name": "Curtis Jewell",
     "email": "swordsman+aptypescript@curtisjewell.name"
   },
-  "packageManager": "pnpm@10.9.0",
-  "engines": {
-    "node": ">=22.6.0"
-  },
-  "lint-staged": {
-    "**/*.{js,ts}": [
-      "eslint --config .config/eslint.config.js --fix"
-    ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog",
-      "maxHeaderWidth": 55,
-      "maxLineWidth": 80
-    }
-  },
+  "type": "module",
+  "main": "",
   "workspaces": [
     "packages/eslint-config",
     "packages/types",
@@ -38,66 +23,16 @@
     "packages/database-mock",
     "packages/localserver-hapi"
   ],
-  "main": "",
-  "files": [],
-  "keywords": [],
   "scripts": {
     "bumpp": "cd `git rev-parse --show-toplevel`; bumpp --no-verify",
     "commitlint": "commitlint",
     "eslint": "eslint --config `git rev-parse --show-toplevel`/.config/eslint.config.js",
     "knip": "knip",
     "lint": "pnpm eslint",
-    "typedoc:md": "cd `git rev-parse --show-toplevel`; typedoc --options .config/typedoc.toplevel.jsonc",
-    "typedoc:html": "cd `git rev-parse --show-toplevel`; typedoc --options .config/typedoc.html.jsonc",
     "postinstall": "husky",
-    "publish": "true"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^19.8.0",
-    "@csjewell-activitypub/eslint-config": "workspace:^",
-    "@types/node": "^22.14.1",
-    "bumpp": "^10.1.0",
-    "commitizen": "^4.3.1",
-    "conventional-changelog-conventionalcommits": "^8.0.0",
-    "cz-conventional-changelog": "^3.3.0",
-    "escalade": "^3.2.0",
-    "eslint": "^9.24.0",
-    "husky": "^9.1.7",
-    "knip": "^5.50.5",
-    "lint-staged": "^15.5.1",
-    "remark-link-rewrite": "^1.0.7",
-    "tsup": "^8.4.0",
-    "typedoc": "^0.28.2",
-    "typedoc-plugin-frontmatter": "^1.3.0",
-    "typedoc-plugin-markdown": "^4.6.2",
-    "typedoc-plugin-mdn-links": "^5.0.1",
-    "typedoc-plugin-missing-exports": "^4.0.0",
-    "typedoc-plugin-remark": "^1.3.0",
-    "typescript-eslint": "^8.30.1",
-    "vitest": "^3.1.2"
-  },
-  "knip": {
-    "entry": [
-      "index.ts!",
-      "bin/get_current_version.js",
-      ".config/helpers/*.js"
-    ],
-    "project": [
-      "eslint.config.js",
-      ".config/eslint.config.js",
-      "src/**/*.ts!"
-    ],
-    "eslint": {
-      "entry": [
-        ".config/eslint.config.js",
-        "eslint.config.js"
-      ]
-    },
-    "typedoc": {
-      "config": [
-        ".config/typedoc.*.jsonc"
-      ]
-    }
+    "publish": "true",
+    "typedoc:html": "cd `git rev-parse --show-toplevel`; typedoc --options .config/typedoc.html.jsonc",
+    "typedoc:md": "cd `git rev-parse --show-toplevel`; typedoc --options .config/typedoc.toplevel.jsonc"
   },
   "commitlint": {
     "parserPreset": "conventional-changelog-conventionalcommits",
@@ -266,11 +201,74 @@
       }
     }
   },
+  "lint-staged": {
+    "**/*.{js,ts}": [
+      "eslint --config .config/eslint.config.js --fix"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog",
+      "maxHeaderWidth": 55,
+      "maxLineWidth": 80
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@csjewell-activitypub/eslint-config": "workspace:^",
+    "@types/node": "^22.14.1",
+    "bumpp": "^10.1.0",
+    "commitizen": "^4.3.1",
+    "conventional-changelog-conventionalcommits": "^8.0.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "escalade": "^3.2.0",
+    "eslint": "^9.24.0",
+    "husky": "^9.1.7",
+    "knip": "^5.50.5",
+    "lint-staged": "^15.5.1",
+    "remark-link-rewrite": "^1.0.7",
+    "tsup": "^8.4.0",
+    "typedoc": "^0.28.2",
+    "typedoc-plugin-frontmatter": "^1.3.0",
+    "typedoc-plugin-markdown": "^4.6.2",
+    "typedoc-plugin-mdn-links": "^5.0.1",
+    "typedoc-plugin-missing-exports": "^4.0.0",
+    "typedoc-plugin-remark": "^1.3.0",
+    "typescript-eslint": "^8.30.1",
+    "vitest": "^3.1.2"
+  },
+  "packageManager": "pnpm@10.9.0",
+  "engines": {
+    "node": ">=22.6.0"
+  },
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild",
       "sqlite3"
+    ]
+  },
+  "knip": {
+    "entry": [
+      "index.ts!",
+      "bin/get_current_version.js",
+      "bin/npmtag.js",
+      ".config/helpers/*.js"
     ],
-    "overrides": {}
+    "project": [
+      "eslint.config.js",
+      ".config/eslint.config.js",
+      "src/**/*.ts!"
+    ],
+    "eslint": {
+      "entry": [
+        ".config/eslint.config.js",
+        "eslint.config.js"
+      ]
+    },
+    "typedoc": {
+      "config": [
+        ".config/typedoc.*.jsonc"
+      ]
+    }
   }
 }

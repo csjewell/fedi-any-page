@@ -2,7 +2,6 @@
   "name": "@csjewell-activitypub/localserver-hapi",
   "version": "0.2.0-alpha.1",
   "description": "hapi-based server to do local testing with.",
-  "type": "module",
   "homepage": "https://fedi-any-page.curtisjewell.dev",
   "repository": {
     "type": "git",
@@ -14,9 +13,18 @@
     "name": "Curtis Jewell",
     "email": "swordsman+aptypescript@curtisjewell.name"
   },
-  "packageManager": "pnpm@10.9.0",
-  "engines": {
-    "node": ">=22.6.0"
+  "type": "module",
+  "main": "index.ts",
+  "files": [
+    "README.md",
+    "dist/",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "pnpm tsup",
+    "prepublishOnly": "pnpm tsup",
+    "tsc": "tsc",
+    "tsup": "tsup --config `git rev-parse --show-toplevel`/.config/tsup.config.ts"
   },
   "lint-staged": {
     "**/*.{js,ts}": [
@@ -27,19 +35,6 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
-  },
-  "main": "index.ts",
-  "files": [
-    "README.md",
-    "dist/",
-    "package.json"
-  ],
-  "keywords": [],
-  "scripts": {
-    "tsup": "tsup --config `git rev-parse --show-toplevel`/.config/tsup.config.ts",
-    "build": "pnpm tsup",
-    "prepublishOnly": "pnpm tsup",
-    "tsc": "tsc"
   },
   "dependencies": {
     "@csjewell-activitypub/general": "workspace:^",
@@ -53,5 +48,9 @@
     "@types/node": "^22.14.0",
     "eslint": "^9.24.0",
     "typescript": "^5.8.3"
+  },
+  "packageManager": "pnpm@10.9.0",
+  "engines": {
+    "node": ">=22.6.0"
   }
 }

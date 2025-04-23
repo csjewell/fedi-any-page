@@ -2,7 +2,9 @@
   "name": "@csjewell-activitypub/general",
   "version": "0.2.0-alpha.1",
   "description": "Library to provide base classes and types for the ActivityPub toolkit.",
-  "type": "module",
+  "keywords": [
+    "activitypub"
+  ],
   "homepage": "https://fedi-any-page.curtisjewell.dev",
   "repository": {
     "type": "git",
@@ -14,9 +16,20 @@
     "name": "Curtis Jewell",
     "email": "swordsman+aptypescript@curtisjewell.name"
   },
-  "packageManager": "pnpm@10.9.0",
-  "engines": {
-    "node": ">=22.6.0"
+  "type": "module",
+  "main": "index.ts",
+  "files": [
+    "README.md",
+    "dist/",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "pnpm tsup",
+    "prepublishOnly": "pnpm tsup",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "tsc": "tsc",
+    "tsup": "tsup --config `git rev-parse --show-toplevel`/.config/tsup.config.ts"
   },
   "lint-staged": {
     "**/*.{js,ts}": [
@@ -27,27 +40,6 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
-  },
-  "main": "index.ts",
-  "publishConfig": {
-    "main": "dist/index.js",
-    "typings": "dist/index.d.ts"
-  },
-  "files": [
-    "README.md",
-    "dist/",
-    "package.json"
-  ],
-  "keywords": [
-    "activitypub"
-  ],
-  "scripts": {
-    "tsup": "tsup --config `git rev-parse --show-toplevel`/.config/tsup.config.ts",
-    "build": "pnpm tsup",
-    "prepublishOnly": "pnpm tsup",
-    "tsc": "tsc",
-    "test": "vitest run",
-    "test:watch": "vitest watch"
   },
   "dependencies": {
     "@csjewell-activitypub/types": "workspace:^",
@@ -60,5 +52,13 @@
     "@types/node": "^22.14.0",
     "typescript": "^5.8.3",
     "vitest": "^3.1.1"
+  },
+  "packageManager": "pnpm@10.9.0",
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "publishConfig": {
+    "main": "dist/index.js",
+    "typings": "dist/index.d.ts"
   }
 }

@@ -2,9 +2,11 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import erasableSyntaxOnly from 'eslint-plugin-erasable-syntax-only'
+import packageJson from 'eslint-plugin-package-json'
 import * as regexp from 'eslint-plugin-regexp'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import tsdoc from 'eslint-plugin-tsdoc'
+import yml from 'eslint-plugin-yml'
 import type { InfiniteDepthConfigWithExtends } from 'typescript-eslint'
 
 /**
@@ -13,6 +15,14 @@ import type { InfiniteDepthConfigWithExtends } from 'typescript-eslint'
  */
 const ShortConfig: Array<InfiniteDepthConfigWithExtends> = [
   erasableSyntaxOnly.configs.recommended as InfiniteDepthConfigWithExtends,
+  yml.configs['flat/recommended'],
+  packageJson.configs.recommended,
+  {
+    rules : {
+      // See https://github.com/JoshuaKGoldberg/eslint-plugin-package-json/issues/1019
+      'package-json/valid-package-definition' : 'off',
+    },
+  },
   {
     files   : ['**/*.{ts}'],
     plugins : { tsdoc, },

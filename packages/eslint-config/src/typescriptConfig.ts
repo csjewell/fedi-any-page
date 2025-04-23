@@ -6,16 +6,6 @@ import tseslint, { type ConfigWithExtends } from 'typescript-eslint'
 /** Define the rules from typescript-eslint we want to follow. */
 const TypescriptConfig: Array<ConfigWithExtends> = [
   {
-    languageOptions : {
-      parser        : tseslint.parser,
-      parserOptions : {
-        projectService : {
-          allowDefaultProject : [ '.config/helpers/*.js', 'bin/*.js' ],
-        },
-      },
-    },
-  },
-  {
     extends : tseslint.configs.strictTypeChecked,
     files   : ['**/*{js,ts}'],
     rules   : {
