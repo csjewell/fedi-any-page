@@ -6,8 +6,6 @@ import tseslint, { type ConfigWithExtends } from 'typescript-eslint'
 /** Define the rules from typescript-eslint we want to follow. */
 const TypescriptConfig: Array<ConfigWithExtends> = [
   {
-    extends         : tseslint.configs.strictTypeChecked,
-    files           : ['**/*{js,ts}'],
     languageOptions : {
       parser        : tseslint.parser,
       parserOptions : {
@@ -16,7 +14,11 @@ const TypescriptConfig: Array<ConfigWithExtends> = [
         },
       },
     },
-    rules : {
+  },
+  {
+    extends : tseslint.configs.strictTypeChecked,
+    files   : ['**/*{js,ts}'],
+    rules   : {
       '@typescript-eslint/array-type'     : [ 'warn', { default: 'generic', }],
       '@typescript-eslint/ban-ts-comment' : [
         'error',
