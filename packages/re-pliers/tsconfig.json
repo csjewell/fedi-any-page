@@ -1,27 +1,13 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../../.config/tsconfig.base.json",
   "compilerOptions": {
-    "declaration": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "noEmit": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": true,
     "target": "ES2023",
-    "lib": ["DOM","ES2023"],
-    "allowImportingTsExtensions": true,
-    "rewriteRelativeImportExtensions": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noImplicitOverride": true,
-    "noImplicitThis": true,
-    "forceConsistentCasingInFileNames": true,
+    "lib": ["DOM", "ES2023"],
     "jsx": "react-jsx",
-    "jsxImportSource": "preact",
-    "erasableSyntaxOnly": true,
-    "sourceMap": true
+    "jsxImportSource": "preact"
   },
   "include": ["node_modules/vite/client.d.ts", "index.ts", "src"]
 }
