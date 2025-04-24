@@ -2,16 +2,12 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import unicorn from 'eslint-plugin-unicorn'
-import globals from 'globals'
 import type { ConfigArray } from 'typescript-eslint'
 
 /** Define the rules from eslint-plugin-unicorn we want to follow. */
 const UnicornConfig: ConfigArray = [
   {
-    files           : ['**/*{js,ts}'],
-    languageOptions : {
-      globals : globals.builtin,
-    },
+    files   : ['**/*.{js,ts}'],
     plugins : { unicorn, },
     rules   : {
       'unicorn/catch-error-name'                     : 'error',

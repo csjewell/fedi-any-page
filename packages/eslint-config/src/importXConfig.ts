@@ -8,7 +8,7 @@ import type { ConfigArray } from 'typescript-eslint'
 /* Define which rules we use out of eslint-plugin-import-x, and how. */
 const ImportXConfig: ConfigArray = [
   {
-    files   : ['**/*{js,ts}'],
+    files   : ['**/*.{js,ts}'],
     plugins : { 'import-x': pluginImportX, },
     rules   : {
       'import-x/export'           : 'error',
@@ -52,7 +52,7 @@ const ImportXConfig: ConfigArray = [
     },
   },
   {
-    files : ['**/*.config.js'],
+    files : [ '**/*.config.js', '.config/helpers/*.js' ],
     rules : {
       'import-x/no-default-export'           : 'off',
       'import-x/no-anonymous-default-export' : 'off',

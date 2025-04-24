@@ -96,11 +96,11 @@ const noRestrictedProperties = createNoRestrictedProperties(
 const NoRestrictedConfig: Array<ConfigWithExtends> = [
   {
     extends : [noRestrictedSyntax.configs.recommended],
-    files   : ['**/*{js,ts}'],
+    files   : ['**/*.{js,ts}'],
   },
   {
     extends : [noRestrictedProperties.configs.recommended],
-    files   : ['**/*{js,ts}'],
+    files   : ['**/*.{js,ts}'],
   },
 ]
 

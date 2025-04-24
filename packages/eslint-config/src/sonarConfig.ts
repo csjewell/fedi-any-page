@@ -9,7 +9,7 @@ import type { ConfigArray } from 'typescript-eslint'
  */
 const SonarConfig: ConfigArray = [
   {
-    files   : ['**/*{js,ts}'],
+    files   : ['**/*.{js,ts}'],
     plugins : { sonarjs, },
     rules   : {
       // ...sonarjs.configs.recommended.rules,

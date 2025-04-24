@@ -6,7 +6,6 @@ import { config, type ConfigArray } from 'typescript-eslint'
 import BaseConfig from './src/baseConfig.ts'
 import ImportXConfig from './src/importXConfig.ts'
 import NoRestrictedConfig from './src/noRestrictedConfig.ts'
-import ParserConfig from './src/parserConfig.ts'
 import ShortConfig from './src/shortConfig.ts'
 import SonarConfig from './src/sonarConfig.ts'
 import StylisticConfig from './src/stylisticConfig.ts'
@@ -25,7 +24,6 @@ import VitestConfig from './src/vitestConfig.ts'
  */
 export const Config = (gitignorePath: string): ConfigArray => config([
   ...BaseConfig(gitignorePath),
-  ...ParserConfig,
   ...TypescriptConfig,
   ...ShortConfig,
   ...SonarConfig,

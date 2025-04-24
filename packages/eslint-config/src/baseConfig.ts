@@ -1,9 +1,11 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
+import globals from 'globals'
+import tseslint, { type ConfigArray } from 'typescript-eslint'
+import yml from 'yaml-eslint-parser'
 import { includeIgnoreFile } from '@eslint/compat'
 import eslintJs from '@eslint/js'
-import type { ConfigArray } from 'typescript-eslint'
 
 const confusingBrowserGlobals = [
   'addEventListener',
@@ -74,16 +76,17 @@ const confusingBrowserGlobals = [
  */
 const BaseConfig = (gitignorePath: string): ConfigArray => [
   includeIgnoreFile(gitignorePath),
-
   {
     extends : [eslintJs.configs.recommended],
-    files   : ['**/*{js}'],
+    files   : ['**/*.js'],
   },
   {
     linterOptions : {
       reportUnusedDisableDirectives : 'error',
     },
     languageOptions : {
+      globals       : globals.nodeBuiltin,
+      parser        : tseslint.parser,
       parserOptions : {
         projectService : {
           allowDefaultProject : [ '.config/helpers/*.js', 'bin/*.js' ],
@@ -92,7 +95,24 @@ const BaseConfig = (gitignorePath: string): ConfigArray => [
     },
   },
   {
-    files : ['**/*{js,ts}'],
+    files           : ['**/*.{js,ts}'],
+    languageOptions : {
+      sourceType : 'module',
+    },
+  },
+  {
+    files           : ['*.yaml, *.yml'],
+    languageOptions : {
+      parser        : yml,
+      parserOptions : {
+        defaultYAMLVersion : '1.2',
+      },
+    },
+  },
+
+
+  {
+    files : ['**/*.{js,ts}'],
     rules : {
       'array-callback-return'        : [ 'error', { allowImplicit: true, checkForEach: true, }],
       'curly'                        : [ 'error', 'all' ],

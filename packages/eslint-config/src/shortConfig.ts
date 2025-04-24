@@ -31,7 +31,7 @@ const ShortConfig: Array<InfiniteDepthConfigWithExtends> = [
     },
   },
   {
-    files   : ['**/*{js,ts}'],
+    files   : ['**/*.{js,ts}'],
     plugins : { regexp, },
     rules   : {
 
@@ -125,7 +125,7 @@ const ShortConfig: Array<InfiniteDepthConfigWithExtends> = [
     },
   },
   {
-    files   : ['**/*{js,ts}'],
+    files   : ['**/*.{js,ts}'],
     plugins : { 'simple-import-sort': simpleImportSort, },
     rules   : {
       'simple-import-sort/imports' : [

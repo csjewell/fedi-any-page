@@ -7,7 +7,7 @@ import type { ConfigArray } from 'typescript-eslint'
 /** Define the style rules we want to follow. */
 const StylisticConfig: ConfigArray = [
   {
-    files   : ['**/*{js,ts}'],
+    files   : ['**/*.{js,ts}'],
     plugins : { '@stylistic': stylistic, },
     rules   : {
       '@stylistic/array-bracket-newline' : [ 'warn', { multiline: true, }],
