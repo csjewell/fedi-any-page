@@ -2,7 +2,9 @@
   "name": "@csjewell-activitypub/handlers-response",
   "version": "0.2.0-alpha.1",
   "description": "Generic Response handler for ActivityPub servers.",
-  "keywords": ["ActivityPub"],
+  "keywords": [
+    "ActivityPub"
+  ],
   "homepage": "https://fedi-any-page.curtisjewell.dev",
   "repository": {
     "type": "git",
@@ -44,8 +46,8 @@
     "activitypub-http-signatures": "^2.5.0"
   },
   "devDependencies": {
-    "@types/node": "^22.14.0",
-    "eslint": "^9.24.0",
+    "@types/node": "^22.15.1",
+    "eslint": "^9.25.1",
     "typescript": "^5.8.3"
   },
   "packageManager": "pnpm@10.9.0",
