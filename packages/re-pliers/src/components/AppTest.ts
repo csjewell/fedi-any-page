@@ -10,8 +10,8 @@ import ErrorBanner from './ErrorBanner.ts'
 import Header from './Header.ts'
 import TopLevelReplies from './TopLevelReplies.ts'
 import type { FunctionComponent } from 'preact'
-import type ReplyActions from '../types/ReplyActions.ts'
-import type ReplyListCtxType from '../types/ReplyListCtxType.ts'
+import type { ReplyActions } from '../types/ReplyActions.ts'
+import type { ReplyListCtxType } from '../types/ReplyListCtxType.ts'
 
 
 /**

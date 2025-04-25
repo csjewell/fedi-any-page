@@ -7,7 +7,4 @@ import { ErrorRespSchema } from './ErrorResp.ts'
 
 export const MaybeAuthRespSchema = v.variant('success', [ AuthRespSchema, ErrorRespSchema ])
 
-type MaybeAuthResp = v.InferOutput<typeof MaybeAuthRespSchema>
-
-/* eslint-disable-next-line import-x/no-default-export */
-export default MaybeAuthResp
+export type MaybeAuthResp = v.InferOutput<typeof MaybeAuthRespSchema>

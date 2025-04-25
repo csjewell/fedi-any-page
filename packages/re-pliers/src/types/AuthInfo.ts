@@ -8,9 +8,6 @@ export const AuthInfoSchema = v.strictObject({
   isVerified : v.boolean(),
 })
 
-type AuthInfo = v.InferOutput<typeof AuthInfoSchema>
+export type AuthInfo = v.InferOutput<typeof AuthInfoSchema>
 
 // export const isLoggedOut: AuthInfo = { actor: '', isVerified: false }
-
-/* eslint-disable-next-line import-x/no-default-export */
-export default AuthInfo

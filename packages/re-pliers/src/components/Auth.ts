@@ -9,7 +9,7 @@ import AuthCtx from '../context/AuthCtx.ts'
 import LoginButton from './LoginButton.ts'
 import LogoutButton from './LogoutButton.ts'
 import type { FunctionComponent } from 'preact'
-import type AuthInfo from '../types/AuthInfo.ts'
+import type { AuthInfo } from '../types/AuthInfo.ts'
 
 const isLoggedOut: AuthInfo = { actor: '', isVerified: false, }
 

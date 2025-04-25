@@ -8,7 +8,4 @@ export const IndexEntrySchema = v.strictObject({
   identifier : v.pipe(v.string(), v.url()),
 })
 
-type IndexEntry = v.InferOutput<typeof IndexEntrySchema>
-
-/* eslint-disable-next-line import-x/no-default-export */
-export default IndexEntry
+export type IndexEntry = v.InferOutput<typeof IndexEntrySchema>

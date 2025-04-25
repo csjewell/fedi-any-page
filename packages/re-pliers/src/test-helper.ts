@@ -6,8 +6,8 @@ import AuthCtx from './context/AuthCtx.ts'
 import ReplyActionsCtx from './context/ReplyActionsCtx.ts'
 import ReplyListCtx from './context/ReplyListCtx.ts'
 import type { VNode } from 'preact'
-import type ReplyActions from './types/ReplyActions.ts'
-import type ReplyList from './types/ReplyList.ts'
+import type { ReplyActions } from './types/ReplyActions.ts'
+import type { ReplyList } from './types/ReplyList.ts'
 
 const complicatedRepliesObj: ReplyList = {
   replies : [

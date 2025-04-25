@@ -6,8 +6,8 @@ import { useContext } from 'preact/hooks'
 import ReplyListCtx from '../context/ReplyListCtx.ts'
 import Reply from './Reply.ts'
 import type { FunctionComponent } from 'preact'
-import type IndexEntry from '../types/IndexEntry.ts'
-import type ReplyList from '../types/ReplyList.ts'
+import type { IndexEntry } from '../types/IndexEntry.ts'
+import type { ReplyList } from '../types/ReplyList.ts'
 
 /**
  * Displays the top level of replies.

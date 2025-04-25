@@ -14,7 +14,7 @@ export const ReplyListRespSchema = v.strictObject({
   nextPage     : v.optional(v.pipe(v.number(), v.integer(), v.gtValue(-1))),
 })
 
-type ReplyListResp = v.InferOutput<typeof ReplyListRespSchema>
+export type ReplyListResp = v.InferOutput<typeof ReplyListRespSchema>
 
 export const verifyReplyListResp = (value: unknown): value is ReplyListResp => {
   return v.is<typeof ReplyListRespSchema>(ReplyListRespSchema, value)
@@ -24,6 +24,3 @@ type AssertIsReplyListResp = (value: unknown) => asserts value is ReplyListResp
 export const assertReplyListResp: AssertIsReplyListResp = (value: unknown) => {
   v.assert<typeof ReplyListRespSchema>(ReplyListRespSchema, value)
 }
-
-/* eslint-disable-next-line import-x/no-default-export */
-export default ReplyListResp

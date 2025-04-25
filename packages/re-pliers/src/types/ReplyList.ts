@@ -4,8 +4,8 @@
 import * as v from '@valibot/valibot'
 import { IndexEntrySchema } from './IndexEntry.ts'
 import { ReplyInfoSchema } from './ReplyInfo.ts'
-import type ReplyListCtxType from './ReplyListCtxType.ts'
-import type ReplyListResp from './ReplyListResp.ts'
+import type { ReplyListCtxType } from './ReplyListCtxType.ts'
+import type { ReplyListResp } from './ReplyListResp.ts'
 
 /**
  * A list of replies, retrieved from an external source.
@@ -17,7 +17,7 @@ export const ReplyListSchema = v.strictObject({
   replyIndex : v.array(IndexEntrySchema),
 })
 
-type ReplyList = v.InferOutput<typeof ReplyListSchema>
+export type ReplyList = v.InferOutput<typeof ReplyListSchema>
 
 /**
  * Converts a {@link ReplyListResp} or a {@link ReplyListCtxType} to a {@link ReplyList}.
@@ -40,6 +40,3 @@ export const toReplyList = (value: ReplyListResp | ReplyListCtxType): ReplyList 
     replyIndex : value.replyIndex,
   }
 }
-
-/* eslint-disable-next-line import-x/no-default-export */
-export default ReplyList

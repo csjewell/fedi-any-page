@@ -95,6 +95,12 @@ const BaseConfig = (gitignorePath: string): ConfigArray => [
     },
   },
   {
+    files           : ['packages/re-pliers/**/*.{js,ts}'],
+    languageOptions : {
+      globals : globals.browser,
+    },
+  },
+  {
     files           : ['**/*.{js,ts}'],
     languageOptions : {
       sourceType : 'module',
@@ -109,8 +115,6 @@ const BaseConfig = (gitignorePath: string): ConfigArray => [
       },
     },
   },
-
-
   {
     files : ['**/*.{js,ts}'],
     rules : {

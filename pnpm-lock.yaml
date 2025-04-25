@@ -289,6 +289,9 @@ importers:
       '@ant-design/icons-svg':
         specifier: ^4.4.2
         version: 4.4.2
+      '@nesterow/grip':
+        specifier: jsr:^0.0.3
+        version: '@jsr/nesterow__grip@0.0.3'
       '@nihility-io/cookies':
         specifier: jsr:^1.0.3
         version: '@jsr/nihility-io__cookies@1.0.3'
@@ -304,6 +307,9 @@ importers:
       preact-markup:
         specifier: ^2.1.1
         version: 2.1.1(preact@10.26.5)
+      tailored:
+        specifier: github:nesterow/tailored
+        version: https://codeload.github.com/nesterow/tailored/tar.gz/aa11d96406af720614ce8649494cde29fd0ea1a5
     devDependencies:
       '@fetch-mock/vitest':
         specifier: ^0.2.13
@@ -1438,6 +1444,9 @@ packages:
 
   '@jsr/dewars__cuid2@0.1.0':
     resolution: {integrity: sha512-G+XxPmGHyD4qrFiqDcduTO2JCaRZLfujj4l4WXS1umPHxEXVEEgzTHrhUH56i9lv602xkM5pF2KPFtzW/7H/7A==, tarball: https://npm.jsr.io/~/11/@jsr/dewars__cuid2/0.1.0.tgz}
+
+  '@jsr/nesterow__grip@0.0.3':
+    resolution: {integrity: sha512-Zj5Z3yYdcuDvZ4rB+uV07F0PSrGQRvXrde+dAsiH05GO67WO0wSumhBtlSjDqrPXS7QOPM0TMEstoACnDfQrRg==, tarball: https://npm.jsr.io/~/11/@jsr/nesterow__grip/0.0.3.tgz}
 
   '@jsr/nihility-io__cookies@1.0.3':
     resolution: {integrity: sha512-KFW/XZOB1F3yM1gNwD1aG1wUr2bQpzQSTlAC1B3QBg171J4JuXnP42w32ZvGUzFKfueou2gobkykomEmEJAMjA==, tarball: https://npm.jsr.io/~/11/@jsr/nihility-io__cookies/1.0.3.tgz}
@@ -5703,6 +5712,10 @@ packages:
     resolution: {integrity: sha512-vrozgXDQwYO72vHjUb/HnFbQx1exDjoKzqx23aXEg2a9VIg2TSFZ8FmeZpTjUCFMYw7mpX4BE2SFu8wI7asYsw==}
     engines: {node: ^14.18.0 || >=16.0.0}
 
+  tailored@https://codeload.github.com/nesterow/tailored/tar.gz/aa11d96406af720614ce8649494cde29fd0ea1a5:
+    resolution: {tarball: https://codeload.github.com/nesterow/tailored/tar.gz/aa11d96406af720614ce8649494cde29fd0ea1a5}
+    version: 0.0.0
+
   tapable@2.2.1:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
     engines: {node: '>=6'}
@@ -7346,6 +7359,8 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.5.0
 
   '@jsr/dewars__cuid2@0.1.0': {}
+
+  '@jsr/nesterow__grip@0.0.3': {}
 
   '@jsr/nihility-io__cookies@1.0.3':
     dependencies:
@@ -12441,6 +12456,8 @@ snapshots:
     dependencies:
       '@pkgr/core': 0.1.2
       tslib: 2.8.1
+
+  tailored@https://codeload.github.com/nesterow/tailored/tar.gz/aa11d96406af720614ce8649494cde29fd0ea1a5: {}
 
   tapable@2.2.1: {}
 

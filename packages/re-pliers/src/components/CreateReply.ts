@@ -10,7 +10,7 @@ import ReplyActionsCtx from '../context/ReplyActionsCtx.ts'
 import Icon from './Icon.ts'
 import MarkdownIcon from './MarkdownIcon.ts'
 import type { FunctionComponent } from 'preact'
-import type ReplyActions from '../types/ReplyActions.ts'
+import type { ReplyActions } from '../types/ReplyActions.ts'
 
 /**
  * The form to send a reply out.

@@ -1,9 +1,10 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
+import { grip } from '@nesterow/grip'
 import { assertAuthResp } from '../types/AuthResp.ts'
 import { assertErrorResp } from '../types/ErrorResp.ts'
-import type AuthInfo from '../types/AuthInfo.ts'
+import type { AuthInfo } from '../types/AuthInfo.ts'
 
 /**
  * A library for simple authentication.
@@ -16,15 +17,16 @@ import type AuthInfo from '../types/AuthInfo.ts'
  *
  * @param page - The canonical URL of the current page.
  * @param data - The data from the login form.
- * @param data.username -
- * @param data.password -
+ * @param data.username - The username being used to log in.
+ * @param data.password - The password being used to log in.
  * @returns A Promise containing an AuthInfo instance with authentication information.
  * @throws Error (for now) if not successful.
+ * @throws ValiError if the correct type of JSON data is not received.
  */
 const doLogin = async (page: string, data: FormData): Promise<AuthInfo> => {
   const api = `${ new URL(page).origin }/re-pliers-api/login`
 
-  const resp = await fetch(api, {
+  const resp = await grip(fetch(api, {
     method      : 'POST',
     body        : JSON.stringify(data),
     cache       : 'no-store',
@@ -33,10 +35,14 @@ const doLogin = async (page: string, data: FormData): Promise<AuthInfo> => {
     headers     : { 'Content-Type': 'application/json', },
     redirect    : 'error',
     referrer    : '',
-  })
+  }))
 
-  if (resp.status < 300) {
-    const obj = await resp.json()
+  if (resp.fail()) {
+    throw new Error('Error logging in', { cause: resp.status, })
+  }
+
+  if (resp.value.status < 300) {
+    const obj = await resp.value.json()
 
     assertAuthResp(obj)
     return {
@@ -45,7 +51,7 @@ const doLogin = async (page: string, data: FormData): Promise<AuthInfo> => {
     }
   }
 
-  const errObj = await resp.json()
+  const errObj = await resp.value.json()
 
   assertErrorResp(errObj)
   throw new Error(errObj.error)
@@ -61,24 +67,24 @@ const doLogin = async (page: string, data: FormData): Promise<AuthInfo> => {
 const doLogout = async (page: string): Promise<void> => {
   const api = `${ new URL(page).origin }/re-pliers-api/logout`
 
-  try {
-    const resp = await fetch(api, {
-      method      : 'POST',
-      body        : JSON.stringify({ logout: true, }),
-      cache       : 'no-store',
-      credentials : 'include',
-      mode        : 'cors',
-      headers     : { 'Content-Type': 'application/json', },
-      redirect    : 'error',
-      referrer    : '',
-    })
+  const resp = await grip(() => fetch(api, {
+    method      : 'POST',
+    body        : JSON.stringify({ logout: true, }),
+    cache       : 'no-store',
+    credentials : 'include',
+    mode        : 'cors',
+    headers     : { 'Content-Type': 'application/json', },
+    redirect    : 'error',
+    referrer    : '',
+  }))
 
-    if (resp.status >= 300) {
-      // We throw a better error later.
-      throw new Error(`Logging out returned ${ resp.status.toFixed(0) }`)
-    }
-  } catch (error) {
-    throw new Error('Error attempting to logout', { cause: error, })
+  if (resp.fail()) {
+    throw new Error('Error attempting to logout', { cause: resp.status, })
+  }
+
+  if (resp.value.status >= 300) {
+    // We throw a better error later.
+    throw new Error(`Logging out returned ${ resp.value.status.toFixed(0) }`)
   }
 }
 
@@ -88,10 +94,11 @@ const doLogout = async (page: string): Promise<void> => {
  * @param page - The canonical URL of the current page.
  * @returns A Promise containing an AuthInfo instance with authentication information.
  * @throws Error (for now) if not successful.
+ * @throws ValiError if the correct type of JSON data is not received.
  */
 const doVerify = async (page: string): Promise<AuthInfo> => {
   const api = `${ new URL(page).origin }/re-pliers-api/verify`
-  const resp = await fetch(api, {
+  const resp = await grip(fetch(api, {
     method      : 'POST',
     body        : JSON.stringify({}),
     cache       : 'no-store',
@@ -100,19 +107,22 @@ const doVerify = async (page: string): Promise<AuthInfo> => {
     headers     : { 'Content-Type': 'application/json', },
     redirect    : 'error',
     referrer    : '',
-  })
+  }))
 
-  if (resp.status < 300) {
-    const obj = await resp.json()
+  if (resp.fail()) {
+    throw new Error('Error attempting to logout', { cause: resp.status, })
+  }
+
+  if (resp.value.status < 300) {
+    const obj = await resp.value.json()
 
     assertAuthResp(obj)
     return { actor: obj.actor, isVerified: true, }
   }
 
-  const errObj = await resp.json()
+  const errObj = await resp.value.json()
 
   assertErrorResp(errObj)
-
   throw new Error(errObj.error)
 }
 

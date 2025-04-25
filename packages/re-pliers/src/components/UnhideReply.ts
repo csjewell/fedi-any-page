@@ -9,8 +9,8 @@ import ReplyActionsCtx from '../context/ReplyActionsCtx.ts'
 import ReplyListCtx from '../context/ReplyListCtx.ts'
 import Icon from './Icon.ts'
 import type { FunctionComponent } from 'preact'
-import type ReplyActions from '../types/ReplyActions.ts'
-import type ReplyList from '../types/ReplyList.ts'
+import type { ReplyActions } from '../types/ReplyActions.ts'
+import type { ReplyList } from '../types/ReplyList.ts'
 
 /**
  * Displays the button to unhide a reply.

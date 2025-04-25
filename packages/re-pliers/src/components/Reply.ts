@@ -16,13 +16,14 @@ import LikeButton from './LikeButton.ts'
 import ReplyExpander from './ReplyExpander.ts'
 import UnhideReply from './UnhideReply.ts'
 import type { FunctionComponent } from 'preact'
-import type AuthInfo from '../types/AuthInfo.ts'
-import type ReplyList from '../types/ReplyList.ts'
+import type { AuthInfo } from '../types/AuthInfo.ts'
+import type { ReplyList } from '../types/ReplyList.ts'
 
 /**
  * Displays a reply and its descendants.
  *
  * @param isOpen - Is the modal open?
+ * @defaultValue true
  * @param index - The index of the reply to submit.
  * @param indentLevel - How far should the reply be indented.
  * @param needsBottom - Should I display the bottom <hr> or not?

@@ -8,8 +8,8 @@ import ReplyActionsCtx from '../context/ReplyActionsCtx.ts'
 import ReplyListCtx from '../context/ReplyListCtx.ts'
 import { toReplyList } from '../types/ReplyList.ts'
 import type { FunctionComponent } from 'preact'
-import type ReplyActions from '../types/ReplyActions.ts'
-import type ReplyListCtxType from '../types/ReplyListCtxType.ts'
+import type { ReplyActions } from '../types/ReplyActions.ts'
+import type { ReplyListCtxType } from '../types/ReplyListCtxType.ts'
 
 /**
  * Provides the list of replies to descendants

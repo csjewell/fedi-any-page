@@ -7,8 +7,10 @@ import type { FunctionComponent } from 'preact'
 /**
  * The Markdown icon.
  *
- * @param size - The size of the icon. Defaults to 1em.
- * @param className - The name of the `class` the icon has. Defaults to `icon`.
+ * @param size - The size of the icon.
+ * @defaultValue 1em.
+ * @param className - The name of the `class` the icon has.
+ * @defaultValue `icon`.
  * @returns A FunctionComponent, to be consumed by JSX or HTM.
  */
 const MarkdownIcon: FunctionComponent<{

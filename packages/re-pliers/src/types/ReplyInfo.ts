@@ -52,7 +52,7 @@ export const ReplyInfoSchema = v.strictObject({
   replyIndex : v.optional(v.array(IndexEntrySchema)),
 })
 
-type ReplyInfo = v.InferOutput<typeof ReplyInfoSchema>
+export type ReplyInfo = v.InferOutput<typeof ReplyInfoSchema>
 
 export const validateReplyInfo = (value: unknown): value is ReplyInfo => {
   return v.is<typeof ReplyInfoSchema>(ReplyInfoSchema, value)
@@ -62,6 +62,3 @@ type AssertIsReplyInfo = (value: unknown) => asserts value is ReplyInfo
 export const assertReplyInfo: AssertIsReplyInfo = (value) => {
   v.assert<typeof ReplyInfoSchema>(ReplyInfoSchema, value)
 }
-
-/* eslint-disable-next-line import-x/no-default-export */
-export default ReplyInfo

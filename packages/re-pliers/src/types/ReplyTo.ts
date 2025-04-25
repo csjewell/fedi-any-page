@@ -8,7 +8,4 @@ export const ReplyToSchema = v.strictObject({
   actorLink : v.string(),
 })
 
-type ReplyTo = v.InferOutput<typeof ReplyToSchema>
-
-/* eslint-disable-next-line import-x/no-default-export */
-export default ReplyTo
+export type ReplyTo = v.InferOutput<typeof ReplyToSchema>

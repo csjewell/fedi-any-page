@@ -7,7 +7,7 @@ import { ReplyListRespSchema } from './ReplyListResp.ts'
 
 export const MaybeReplyListRespSchema = v.variant('success', [ ReplyListRespSchema, ErrorRespSchema ])
 
-type MaybeReplyListResp = v.InferOutput<typeof MaybeReplyListRespSchema>
+export type MaybeReplyListResp = v.InferOutput<typeof MaybeReplyListRespSchema>
 
 export const validateMaybeReplyListResp = (value: unknown): value is MaybeReplyListResp => {
   return v.is<typeof MaybeReplyListRespSchema>(MaybeReplyListRespSchema, value)
@@ -17,6 +17,3 @@ type AssertIsMaybeReplyListResp = (value: unknown) => asserts value is MaybeRepl
 export const assertMaybeReplyListResp: AssertIsMaybeReplyListResp = (value: unknown) => {
   v.assert<typeof MaybeReplyListRespSchema>(MaybeReplyListRespSchema, value)
 }
-
-/* eslint-disable-next-line import-x/no-default-export */
-export default MaybeReplyListResp
