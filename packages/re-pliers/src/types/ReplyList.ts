@@ -3,7 +3,7 @@
  */
 import * as v from '@valibot/valibot'
 import { IndexEntrySchema } from './IndexEntry.ts'
-import { ReplyInfoSchema } from './ReplyInfo.ts'
+import { type ReplyInfo, ReplyInfoSchema } from './ReplyInfo.ts'
 import type { ReplyListCtxType } from './ReplyListCtxType.ts'
 import type { ReplyListResp } from './ReplyListResp.ts'
 
@@ -29,14 +29,7 @@ export type ReplyList = v.InferOutput<typeof ReplyListSchema>
  */
 export const toReplyList = (value: ReplyListResp | ReplyListCtxType): ReplyList => {
   return {
-    //    replies: value.replies.map((r): ReplyInfo => {
-    //      const ri: ReplyInfo = { ...r }
-
-    //      ri.date = new Date(r.date)
-
-    //      return ri
-    //    }),
-    replies    : value.replies,
+    replies    : value.replies.map((r): ReplyInfo => v.parse(ReplyInfoSchema, r)),
     replyIndex : value.replyIndex,
   }
 }

@@ -5,7 +5,7 @@ import * as v from '@valibot/valibot'
 /* eslint "import-x/no-duplicates": "off" -- needed the type and a named import. */
 import { IndexEntrySchema } from './IndexEntry.ts'
 import { ReplyInfoSchema } from './ReplyInfo.ts'
-import type { ReplyListResp } from './ReplyListResp.ts'
+import { type ReplyListResp, ReplyListRespSchema } from './ReplyListResp.ts'
 
 export const ReplyListCtxTypeSchema = v.strictObject({
   replies      : v.array(ReplyInfoSchema),
@@ -16,16 +16,23 @@ export const ReplyListCtxTypeSchema = v.strictObject({
 
 export type ReplyListCtxType = v.InferOutput<typeof ReplyListCtxTypeSchema>
 
+export const emptyCache = {
+  replies      : [],
+  replyIndex   : [],
+  totalReplies : 0,
+  start        : 0,
+} as ReplyListCtxType
+
+export const unfilledCache = {
+  replies      : [],
+  replyIndex   : [],
+  totalReplies : -1,
+  start        : 0,
+} as ReplyListCtxType
+
 export const toReplyListCtxType = (value: ReplyListResp): ReplyListCtxType => {
+  v.parse(ReplyListRespSchema, value)
   return {
-    //      replies: value.replies.map((r): ReplyInfo => {
-    //        const ri: ReplyInfo = { ...r }
-
-    //        ri.date = new Date(r.date)
-
-    //        return ri
-    //      }),
-
     replies      : value.replies,
     replyIndex   : value.replyIndex,
     start        : value.start,

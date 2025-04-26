@@ -5,7 +5,7 @@ import { html } from 'htm/preact'
 import { useContext } from 'preact/hooks'
 import MoonOutlined from '@ant-design/icons-svg/es/asn/MoonOutlined'
 import SunOutlined from '@ant-design/icons-svg/es/asn/SunOutlined'
-import LightDarkCtx from '../context/LightDarkCtx.ts'
+import { LightDarkCtx } from '../context/LightDarkCtx.ts'
 import Icon from './Icon.ts'
 import type { FunctionComponent } from 'preact'
 

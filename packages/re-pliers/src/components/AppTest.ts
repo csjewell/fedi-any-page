@@ -1,18 +1,22 @@
 /*! SPDX-License-Identifier: MIT
  *  SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
+/* eslint 'import-x/max-dependencies' : ['warn', { max: 15, ignoreTypeImports : true, }], */
 import { html } from 'htm/preact'
 import { useState } from 'preact/hooks'
-import AuthCtx from '../context/AuthCtx.ts'
-import ReplyActionsCtx from '../context/ReplyActionsCtx.ts'
-import ReplyListCtx from '../context/ReplyListCtx.ts'
+import * as v from '@valibot/valibot'
+import { ReplyActionsCtx } from '../context/ReplyActionsCtx.ts'
+import { ReplyListCtx } from '../context/ReplyListCtx.ts'
+import { toReplyList } from '../types/ReplyList.ts'
+import {
+  type ReplyListCtxType,
+  ReplyListCtxTypeSchema} from '../types/ReplyListCtxType.ts'
+import Auth from './Auth.ts'
 import ErrorBanner from './ErrorBanner.ts'
 import Header from './Header.ts'
 import TopLevelReplies from './TopLevelReplies.ts'
 import type { FunctionComponent } from 'preact'
 import type { ReplyActions } from '../types/ReplyActions.ts'
-import type { ReplyListCtxType } from '../types/ReplyListCtxType.ts'
-
 
 /**
  * Current "top-level" component being used for development.
@@ -27,7 +31,8 @@ const AppTest: FunctionComponent<{
   domain   : string,
   testData : ReplyListCtxType
 }> = ({ user, domain, testData, }) => {
-  const [ replyListCtx, setReplyListCtx ] = useState<ReplyListCtxType>(testData)
+  const [ replyListCtx, setReplyListCtx ]
+    = useState<ReplyListCtxType>(v.parse(ReplyListCtxTypeSchema, testData))
 
   /* eslint-disable @typescript-eslint/require-await -- These are the end of the line. */
   const replyActions: ReplyActions = {
@@ -54,15 +59,15 @@ const AppTest: FunctionComponent<{
   /* eslint-enable @typescript-eslint/require-await */
 
   const auth = {
-    actor      : 'https://mock.response.example.com/actor/mockery',
+    actor      : 'https://localhost/actor/mockery',
     isVerified : true,
   }
 
   return html`
     <${ Header } user=${ user } domain=${ domain }>
         <${ ErrorBanner }>
-          <${ AuthCtx.Provider } value=${ auth }>
-            <${ ReplyListCtx.Provider } value=${ replyListCtx }>
+          <${ Auth } page='http://localhost/blog' isTest=${ auth }>
+            <${ ReplyListCtx.Provider } value=${ toReplyList(replyListCtx) }>
               <${ ReplyActionsCtx.Provider } value=${ replyActions }>
                 <${ TopLevelReplies } />
               <//>

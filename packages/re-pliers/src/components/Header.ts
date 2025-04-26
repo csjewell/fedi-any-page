@@ -4,7 +4,7 @@
 import { html } from 'htm/preact'
 import { useState } from 'preact/hooks'
 import InfoCircleOutlined from '@ant-design/icons-svg/es/asn/InfoCircleOutlined'
-import LightDarkCtx from '../context/LightDarkCtx.ts'
+import { LightDarkCtx } from '../context/LightDarkCtx.ts'
 import Icon from './Icon.ts'
 import Info from './Info.ts'
 import LightDarkButton from './LightDarkButton.ts'
@@ -42,7 +42,6 @@ const Header: FunctionComponent<{
         </span>
         <${ LightDarkButton } setIsDark=${ setIsDark } />
         <${ Info } isOpen=${ isInfoBlockOpen } user=${ user } domain=${ domain } />
-        <hr />
         ${ children }
       </details>
     <//>

@@ -7,13 +7,14 @@ import { useContext, useReducer, useState } from 'preact/hooks'
 import Markup from 'preact-markup'
 import EnterOutlined from '@ant-design/icons-svg/es/asn/EnterOutlined'
 import LikeTwoTone from '@ant-design/icons-svg/es/asn/LikeTwoTone'
-import AuthCtx from '../context/AuthCtx.ts'
-import ReplyListCtx from '../context/ReplyListCtx.ts'
+import { AuthCtx } from '../context/AuthCtx.ts'
+import { ReplyListCtx } from '../context/ReplyListCtx.ts'
 import CreateReply from './CreateReply.ts'
 import HideReply from './HideReply.ts'
 import Icon from './Icon.ts'
 import LikeButton from './LikeButton.ts'
 import ReplyExpander from './ReplyExpander.ts'
+import ShowDate from './ShowDate.ts'
 import UnhideReply from './UnhideReply.ts'
 import type { FunctionComponent } from 'preact'
 import type { AuthInfo } from '../types/AuthInfo.ts'
@@ -63,21 +64,6 @@ const Reply: FunctionComponent<{
   const [ isNotHidden, setIsNotHidden ] = useState<boolean>(!reply.isHidden)
   const [ isReplyOpen, setIsReplyOpen ] = useState<boolean>(false)
 
-  const dateTrue = (): string => {
-    const fmt = new Intl.DateTimeFormat('en-GB', {
-      weekday      : 'short',
-      month        : 'short',
-      day          : '2-digit',
-      year         : 'numeric',
-      hour         : '2-digit',
-      minute       : '2-digit',
-      second       : '2-digit',
-      timeZoneName : 'short',
-    })
-
-    return fmt.format(reply.date)
-  }
-
   if (!isOpen) {
     return html``
   }
@@ -99,9 +85,12 @@ const Reply: FunctionComponent<{
 
     return html`
       <p>
-        <a href=${ reply.replyTo.actorLink }>${ reply.replyTo.username }</a> on ${ dateTrue } said:
+        <a href=${ reply.replyTo.actorLink }>${ reply.replyTo.username }</a>
+        <${ ShowDate } date=${ reply.date } /><br />
+        <span class="reply-box">
+          <${ Markup } markup=${ reply.content } type="html" />
+        </span>
       </p>
-      <div class="reply-box">${ reply.content }</div>
       <${ ReplyExpander } replyIndex=${ reply.replyIndex ?? [] } indentLevel=${ indentLevel + 1 } />
       ${ reply.numLikes }<${ Icon } icon=${ LikeTwoTone } />
       ${ needsBottom && html`<hr />` }
@@ -123,13 +112,18 @@ const Reply: FunctionComponent<{
 
   return html`
     <p>
-      <a href=${ reply.replyTo.actorLink }>
-        ${ reply.replyTo.username }
-      </a> on ${ dateTrue } said:<br />
+      <a href=${ reply.replyTo.actorLink }>${ reply.replyTo.username }</a>
+      <${ ShowDate } date=${ reply.date } /><br />
       <span class="reply-box">
         <${ Markup } markup=${ reply.content } type="html" />
       </span>
     </p>
+    <${ CreateReply }
+      isHidden=${ !isReplyOpen }
+      identifier=${ reply.identifier }
+      isPrivateOnly=${ reply.isPrivate ?? false }
+      closeReply=${ () => { setIsReplyOpen(false) } }
+    />
     <span class="reply-buttons">
       <${ LikeButton } index=${ index } />
       <${ HideReply }
@@ -150,12 +144,6 @@ const Reply: FunctionComponent<{
         indentLevel=${ indentLevel + 1 }
       />
     </span>
-    <${ CreateReply }
-      hidden=${ !isReplyOpen }
-      identifier=${ reply.identifier }
-      isPrivateOnly=${ reply.isPrivate ?? false }
-      closeReply=${ () => { setIsReplyOpen(false) } }
-    />
     ${ needsBottom && html`<hr />` }
   `
 }

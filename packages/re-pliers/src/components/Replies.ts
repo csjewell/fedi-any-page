@@ -2,29 +2,32 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { html } from 'htm/preact'
-import { useEffect, useState } from 'preact/hooks'
-import RepliesAPI from '../api/replies.ts'
-import ReplyActionsCtx from '../context/ReplyActionsCtx.ts'
-import ReplyListCtx from '../context/ReplyListCtx.ts'
+import { useContext, useEffect, useState } from 'preact/hooks'
+import * as RepliesAPI from '../api/replies.ts'
+import { AuthCtx } from '../context/AuthCtx.ts'
+import { ReplyActionsCtx } from '../context/ReplyActionsCtx.ts'
+import { ReplyListCtx } from '../context/ReplyListCtx.ts'
 import { toReplyList } from '../types/ReplyList.ts'
+import { type ReplyListCtxType, unfilledCache } from '../types/ReplyListCtxType.ts'
 import type { FunctionComponent } from 'preact'
+import type { AuthInfo } from '../types/AuthInfo.ts'
 import type { ReplyActions } from '../types/ReplyActions.ts'
-import type { ReplyListCtxType } from '../types/ReplyListCtxType.ts'
 
 /**
  * Provides the list of replies to descendants
  *
  * @param page - The canonical URL of the current page. This URL is used as the
  * ActivityPub identifier of the page.
+ * @param cache - Initial not-logged-in cache of the page values.
  * @returns A FunctionComponent, to be consumed by JSX or HTM.
  */
-const Replies: FunctionComponent<{ page: string }> = ({ page, children, }) => {
-  const [ replyListCtx, setReplyListCtx ] = useState<ReplyListCtxType>({
-    replies      : [],
-    replyIndex   : [],
-    totalReplies : -1,
-    start        : 0,
-  })
+const Replies: FunctionComponent<{
+  page  : string,
+  cache : ReplyListCtxType
+}> = ({ page, cache, children, }) => {
+  const auth = useContext<AuthInfo>(AuthCtx)
+
+  const [ replyListCtx, setReplyListCtx ] = useState<ReplyListCtxType>(unfilledCache)
 
   const replyActions: ReplyActions = {
     like : async (i: number): Promise<void> => {
@@ -102,6 +105,10 @@ const Replies: FunctionComponent<{ page: string }> = ({ page, children, }) => {
   }
 
   useEffect(() => {
+    if (auth.isVerified && auth.actor === '') {
+      setReplyListCtx(cache)
+    }
+
     if (replyListCtx.replies.length === replyListCtx.totalReplies) {
       return
     }
@@ -109,7 +116,7 @@ const Replies: FunctionComponent<{ page: string }> = ({ page, children, }) => {
     void getAllPages()
   }, [replyListCtx])
   return html`
-    <${ ReplyListCtx.Provider } value=${ () => toReplyList(replyListCtx) }>
+    <${ ReplyListCtx.Provider } value=${ toReplyList(replyListCtx) }>
       <${ ReplyActionsCtx.Provider } value=${ replyActions }>
         ${ children }
       <//>

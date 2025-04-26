@@ -2,13 +2,14 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { html } from 'htm/preact'
-import { useContext, useRef } from 'preact/hooks'
+import { useContext, useRef, useState } from 'preact/hooks'
 import CloseCircleOutlined from '@ant-design/icons-svg/es/asn/CloseCircleOutlined'
 import InfoCircleOutlined from '@ant-design/icons-svg/es/asn/InfoCircleOutlined'
 import SendOutlined from '@ant-design/icons-svg/es/asn/SendOutlined'
-import ReplyActionsCtx from '../context/ReplyActionsCtx.ts'
+import { ReplyActionsCtx } from '../context/ReplyActionsCtx.ts'
 import Icon from './Icon.ts'
 import MarkdownIcon from './MarkdownIcon.ts'
+import MarkdownInfo from './MarkdownInfo.ts'
 import type { FunctionComponent } from 'preact'
 import type { ReplyActions } from '../types/ReplyActions.ts'
 
@@ -28,6 +29,7 @@ const CreateReply: FunctionComponent<{
   closeReply    : () => void
 }> = ({ isHidden, identifier, isPrivateOnly, closeReply, }) => {
   const formRef = useRef<HTMLFormElement>(null)
+  const [ isInfoOpen, setInfoOpen ] = useState<boolean>(false)
   const replyActions = useContext<ReplyActions>(ReplyActionsCtx)
 
   const sendReply = async () => {
@@ -41,7 +43,7 @@ const CreateReply: FunctionComponent<{
 
   return html`
     <form class="create-reply" ref=${ formRef }>
-      <span class="clickable" id="mdinfo">
+      <span class="clickable" id="mdinfo" onClick=${ () => { setInfoOpen(!isInfoOpen) } }>
         <${ MarkdownIcon } />
         <${ Icon } icon=${ InfoCircleOutlined } />
       </span>
@@ -84,6 +86,7 @@ const CreateReply: FunctionComponent<{
       >
         <${ Icon } icon=${ CloseCircleOutlined } />
       </span>
+      <${ MarkdownInfo } isOpen=${ isInfoOpen } />
     </form>
   `
 }

@@ -23,7 +23,7 @@ import type { ReplyListCtxType } from '../types/ReplyListCtxType.ts'
  * @throws Error (for now) if not successful.
  * @throws ValiError if the correct type of JSON data is not received.
  */
-const doGetRepliesPage = async (page: string, replyList: ReplyListCtxType): Promise<ReplyListCtxType> => {
+export const doGetRepliesPage = async (page: string, replyList: ReplyListCtxType): Promise<ReplyListCtxType> => {
   const repliesURL = `${ new URL(page).origin }/re-pliers-api/replies`
   let ret: ReplyListCtxType
 
@@ -83,7 +83,7 @@ const doGetRepliesPage = async (page: string, replyList: ReplyListCtxType): Prom
  * @returns A void Promise.
  * @throws Error (for now) if not successful.
  */
-const doSubmitReply = async (page: string, fd: FormData): Promise<void> => {
+export const doSubmitReply = async (page: string, fd: FormData): Promise<void> => {
   const replyURL = `${ new URL(page).origin }/re-pliers-api/reply`
 
   const resp = await grip(fetch(replyURL, {
@@ -118,7 +118,7 @@ const doSubmitReply = async (page: string, fd: FormData): Promise<void> => {
  * @returns A void Promise.
  * @throws Error (for now) if not successful.
  */
-const doReplyAction = async (
+export const doReplyAction = async (
   page       : string,
   identifier : string,
   action     : string,
@@ -146,8 +146,3 @@ const doReplyAction = async (
     throw new Error(`Error federating ${ action }`)
   }
 }
-
-const Replies = { doGetRepliesPage, doReplyAction, doSubmitReply, }
-
-/* eslint-disable-next-line import-x/no-default-export */
-export default Replies

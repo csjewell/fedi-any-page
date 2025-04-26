@@ -23,7 +23,7 @@ import type { AuthInfo } from '../types/AuthInfo.ts'
  * @throws Error (for now) if not successful.
  * @throws ValiError if the correct type of JSON data is not received.
  */
-const doLogin = async (page: string, data: FormData): Promise<AuthInfo> => {
+export const doLogin = async (page: string, data: FormData): Promise<AuthInfo> => {
   const api = `${ new URL(page).origin }/re-pliers-api/login`
 
   const resp = await grip(fetch(api, {
@@ -64,7 +64,7 @@ const doLogin = async (page: string, data: FormData): Promise<AuthInfo> => {
  * @returns A void Promise if successful.
  * @throws Error (for now) if not successful.
  */
-const doLogout = async (page: string): Promise<void> => {
+export const doLogout = async (page: string): Promise<void> => {
   const api = `${ new URL(page).origin }/re-pliers-api/logout`
 
   const resp = await grip(() => fetch(api, {
@@ -96,7 +96,7 @@ const doLogout = async (page: string): Promise<void> => {
  * @throws Error (for now) if not successful.
  * @throws ValiError if the correct type of JSON data is not received.
  */
-const doVerify = async (page: string): Promise<AuthInfo> => {
+export const doVerify = async (page: string): Promise<AuthInfo> => {
   const api = `${ new URL(page).origin }/re-pliers-api/verify`
   const resp = await grip(fetch(api, {
     method      : 'POST',
@@ -125,8 +125,3 @@ const doVerify = async (page: string): Promise<AuthInfo> => {
   assertErrorResp(errObj)
   throw new Error(errObj.error)
 }
-
-const Auth = { doLogin, doLogout, doVerify, }
-
-/* eslint-disable-next-line import-x/no-default-export */
-export default Auth
