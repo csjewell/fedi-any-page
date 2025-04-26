@@ -10,7 +10,7 @@ Note that each release is tagged, and those tags are pushed up.
 These commands should be performed before pushing up the last commit before
 the release.
 
-```
+```bash
 ... (dev +=)$ pnpm lint
 ... (dev +=)$ pnpm -r build
 ... (dev +=)$ pnpm test
@@ -24,7 +24,7 @@ the release.
 
 To actually DO the release, follow these directions.
 
-```
+```bash
 ... (dev $=)$ git checkout release
 ... (release $%=)$ git merge --ff origin/dev
 ... (release $%=)$ git push origin; git push github

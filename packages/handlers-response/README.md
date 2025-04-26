@@ -22,4 +22,3 @@ pnpm install @csjewell-activitypub/handlers-response
 
 See the documentation on [how to contribute](https://fedi-any-page.curtisjewell.dev/docs/contributing/).
 Thanks! 💖
-

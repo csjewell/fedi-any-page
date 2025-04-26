@@ -12,8 +12,8 @@
 - [FEP-f1d5: NodeInfo in Fediverse Software](https://codeberg.org/fediverse/fep/src/branch/main/fep/f1d5/fep-f1d5.md)
 
 - [FEP-b2b8: Long-form Text](https://codeberg.org/fediverse/fep/src/branch/main/fep/b2b8/fep-b2b8.md)
-  - The `source` property will have a mediaType that specifies Github-Flavored-Markdown, since that's the canonical
-    content.
+  - The `source` property will have a mediaType that specifies
+    Github-Flavored-Markdown, since that's the canonical content.
 
 - [FEP-d556: Server-Level Actor Discovery Using WebFinger](https://codeberg.org/fediverse/fep/src/branch/main/fep/d556/fep-d556.md)
 
@@ -24,23 +24,29 @@
 - [FEP-8fcf: Followers collection synchronization across servers](https://codeberg.org/fediverse/fep/src/branch/main/fep/8fcf/fep-8fcf.md)
 
 - [FEP-eb48: Hashtags](https://codeberg.org/fediverse/fep/src/branch/main/fep/eb48/fep-eb48.md)
-  - The tags entry in the front-matter will define what hash-tags are used in an article.
+  - The tags entry in the front-matter will define what hash-tags are used in
+    an article.
   - When replying happens, that will have to be worked out.
 
 - [FEP-e965: Move Activity for Migrations and Announce Activity for Tombstone Events](https://codeberg.org/fediverse/fep/src/branch/main/fep/e965/fep-e965.md)
-  - We add the https://w3id.org/fep/7628 URI in @context for actors to show that they are active.
+  <!-- markdownlint-disable-next-line no-bare-urls -->
+  - We add the https://w3id.org/fep/7628 URI in @context for actors to show
+    that they are active.
   - Deactivated actors also have the Tombstone type.
 
 - [FEP-5624: Per-object reply control policies](https://codeberg.org/fediverse/fep/src/branch/main/fep/5624/fep-5624.md)
-  - Articles going out are always set at as:Public for 0.2.0, and ApproveReply objects will be sent accordingly.
+  - Articles going out are always set at as:Public for 0.2.0, and ApproveReply
+    objects will be sent accordingly.
   - Choice will be given closer to 1.0.0
-  - Notes/Articles coming in that are replies will have THEIR canReply keys obeyed once replying is possible.
+  - Notes/Articles coming in that are replies will have THEIR canReply keys
+    obeyed once replying is possible.
 
 - [FEP-c893: DOAP](https://codeberg.org/fediverse/fep/src/branch/main/fep/c893/fep-c893.md)
 
 - [FEP-9091: Export Actor Service Endpoint](https://codeberg.org/fediverse/fep/src/branch/main/fep/9091/fep-9091.md)
   - This would be retrievable via a script.
-  - This would support the FEP-6fcd tar file format, gzipped if it can be handled.
+  - This would support the FEP-6fcd tar file format, gzipped if it can be
+    handled.
 
 - [FEP-2c59: Discovery of a Webfinger address from an ActivityPub actor](https://codeberg.org/fediverse/fep/src/branch/main/fep/2c59/fep-2c59.md)
 
@@ -68,15 +74,15 @@
 - [FEP-7628: Move actor](https://codeberg.org/fediverse/fep/src/branch/main/fep/7628/fep-7628.md)
   - For moving out: Support sending out (push-mode) Move objects
   - For moving out: Support setting movedTo/copiedTo
-  - For other people moving: Support sending out Undo(Follow) and Follow when Move is received.
+  - For other people moving: Support sending out Undo(Follow) and Follow when
+    Move is received.
   - Per FEP-e965, we Announce tombstoning.
 
 ## Intended support post-1.0.0
 
 - [FEP-c0e0: Emoji reactions](https://codeberg.org/fediverse/fep/src/branch/main/fep/c0e0/fep-c0e0.md)
   - Unicode emojis are supported, but not custom ones, at least at first.
-  - Akkoma-style is allowed to be input:
-    https://akkoma.dev/AkkomaGang/akkoma/src/branch/develop/docs/docs/development/ap_extensions.md#emoji-reactions
+  - [Akkoma-style is allowed to be input:](https://akkoma.dev/AkkomaGang/akkoma/src/branch/develop/docs/docs/development/ap_extensions.md#emoji-reactions)
 
 - [FEP-0499: Delivering to multiple inboxes with a multibox endpoint](https://codeberg.org/fediverse/fep/src/branch/main/fep/0499/fep-0499.md)
 
@@ -106,8 +112,10 @@
 
 ## ActivityPub
 
-Since this integrates with static-page sites, those static pages generate Article objects as opposed to the Note objects
-that microblogging services like Mastodon create. However, we DO accept Note objects as replies to our pages.
+Since this integrates with static-page sites, those static pages generate
+Article objects as opposed to the Note objects that microblogging services
+like Mastodon create. However, we DO accept Note objects as replies to
+our pages.
 
 <!-- Describe activities and extensions. -->
 

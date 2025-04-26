@@ -10,13 +10,13 @@ This module is used to provide a front end that blogs can use.
 
 This is a widget that can be put on blog pages to show ActivityPub replies.
 
-It is currently being worked on heavily, but can be reviewed, especially for appearance. That
-can be done because we are currently displaying a precomposed JSON file, instead of API calls,
-right now.
+It is currently being worked on heavily, but can be reviewed, especially for
+appearance. That can be done because we are currently displaying a
+precomposed JSON file, instead of API calls, right now.
 
 ## How it is looking
 
-This is with some mock data as of 2 or so weeks ago (early April):
+This is with some mock data as of early April 2025:
 
 ![Screenshot](assets/Re-pliers.webp "Screenshot")
 
@@ -51,8 +51,8 @@ It'll coordinate with the web worker that'll be set up for your blog.
   -->
   <div id="pliers"></div>
   <script type="module">
-    import { showRepliers } from "https://esm.sh/jsr/@csjewell-activitypub/re-pliers@1.0.0?standalone";
-    let cache = {}; // Have the static-page generator get what the contents of this are.
+    import { showRepliers, emptyCache } from "https://esm.sh/jsr/@csjewell-activitypub/re-pliers@1.0.0?standalone";
+    let cache = emptyCache; // Have the static-page generator get what the contents of this are.
     showRepliers({
       page   : 'https://activitypub.example.com/blog/entry/', // The canonical URL of the current page.
       user   : 'username', // The local username of the person creating the blog entry.
@@ -67,4 +67,3 @@ It'll coordinate with the web worker that'll be set up for your blog.
 
 See the documentation on [how to contribute](https://fedi-any-page.curtisjewell.dev/docs/contributing/).
 Thanks! 💖
-

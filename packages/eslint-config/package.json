@@ -51,7 +51,6 @@
     "eslint-no-restricted": "^0.0.8",
     "eslint-plugin-erasable-syntax-only": "^0.3.1",
     "eslint-plugin-import-x": "^4.10.6",
-    "eslint-plugin-markdown": "^5.1.0",
     "eslint-plugin-package-json": "^0.30.0",
     "eslint-plugin-regexp": "^2.7.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",

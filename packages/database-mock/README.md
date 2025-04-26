@@ -1,4 +1,5 @@
-This is a concrete implementation of the database interfaces within acttivitypub-ts-kit for a mock database.
+This is a concrete implementation of the database interfaces within
+Fedi Any Page for a mock database.
 
 [![libera manifesto](https://img.shields.io/badge/libera-manifesto-lightgrey.svg)](https://liberamanifesto.com)
 [![🤝 Code of Conduct: Kept](https://img.shields.io/badge/%F0%9F%A4%9D_code_of_conduct-kept-21bb42.svg)](https://git.sr.ht/~csjewell/fedi-any-page/tree/dev/item/docs/CODE_OF_CONDUCT.md)
@@ -22,4 +23,3 @@ pnpm install @csjewell-activitypub/database-mock
 
 See the documentation on [how to contribute](https://fedi-any-page.curtisjewell.dev/docs/contributing/).
 Thanks! 💖
-
