@@ -3,15 +3,15 @@
  */
 import type { Configuration } from '../configuration.ts'
 import type * as Request from '../request.ts'
-import type { Responses } from '../responses.ts'
-import type { APIHandlerSync } from './types.ts'
+import type { Type as Responses } from '../responses.ts'
+import type { APIHandler } from './types.ts'
 
-export const NodeInfo: APIHandlerSync = <DatabaseT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, SessionT>,
+export const NodeInfo: APIHandler = <DatabaseT, ResponseT>(
+  config: Configuration<DatabaseT>,
   _req: Request.Helper,
-  resp: Responses<SessionT, ResponseT>,
-): ResponseT => {
-  return resp.success200Obj({
+  resp: Responses<ResponseT>,
+): Promise<ResponseT> => {
+  return Promise.resolve(resp.success200Obj({
     body : {
       links : [
         {
@@ -21,5 +21,5 @@ export const NodeInfo: APIHandlerSync = <DatabaseT, SessionT, ResponseT>(
         },
       ],
     },
-  })
+  }))
 }

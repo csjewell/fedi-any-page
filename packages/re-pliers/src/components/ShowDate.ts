@@ -1,9 +1,8 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-/* eslint 'import-x/max-dependencies' : ['warn', { max: 15, ignoreTypeImports : true, }], */
-import { html, useContext } from 'htm/preact'
-import { HumanDateCtx, type HumanDateCtxType } from '../context/HumanDateCtx.ts'
+import { html } from 'htm/preact'
+import { humanizer } from '../HumanDate.ts'
 import type { FunctionComponent } from 'preact'
 
 /**
@@ -27,10 +26,12 @@ const dateTrue = (d: Date): string => {
   return fmt.format(d)
 }
 
-const ShowDate: FunctionComponent<{ date: Date, }> = ({ date, }) => {
-  const humanDate = useContext<HumanDateCtxType>(HumanDateCtx)
+const humanDate = (d: Date): string => {
+  return humanizer.humanize(Date.now().valueOf() - d.valueOf())
+}
 
-  return html`said <span title="${ dateTrue(date) }">${ humanDate(date) } ago:</span>`
+const ShowDate: FunctionComponent<{ date: Date, }> = ({ date, }) => {
+  return html` said <span title="${ dateTrue(date) }">${ humanDate(date) } ago:</span>`
 }
 
 /* eslint-disable-next-line import-x/no-default-export */

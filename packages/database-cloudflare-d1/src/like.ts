@@ -4,6 +4,7 @@
 import { type Database, Json, NotImplementedError, Utils } from '@csjewell-activitypub/general'
 import * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
+import type { Keyv } from 'keyv'
 import type { CloudflareConfig } from './config.ts'
 import type { DBCount, DBDocumentInfo, DBId } from './types.ts'
 
@@ -22,8 +23,8 @@ export class LikeCFStorage extends CloudflareD1Database implements Database.Stor
   private readonly message : AP.Like
   private dbLikeId         : number | undefined = undefined
 
-  constructor(env: CloudflareConfig, message: AP.Like) {
-    super(env)
+  constructor(cache: Keyv, env: CloudflareConfig, message: AP.Like) {
+    super(cache, env)
     this.message = message
   }
 

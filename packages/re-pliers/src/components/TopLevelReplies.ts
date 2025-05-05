@@ -3,7 +3,6 @@
  */
 import { html } from 'htm/preact'
 import { useContext } from 'preact/hooks'
-import { HumanDateCtx } from '../context/HumanDateCtx.ts'
 import { ReplyListCtx } from '../context/ReplyListCtx.ts'
 import Reply from './Reply.ts'
 import type { FunctionComponent } from 'preact'
@@ -35,11 +34,7 @@ const TopLevelReplies: FunctionComponent = () => {
     },
   )
 
-  return html`
-    <${ HumanDateCtx.Provider }>
-      ${ list }
-    <//>
-  `
+  return html`${ list }`
 }
 
 /* eslint-disable-next-line import-x/no-default-export */

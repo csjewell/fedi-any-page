@@ -43,9 +43,12 @@
   },
   "dependencies": {
     "@csjewell-activitypub/types": "workspace:^",
+    "@dewars/cuid2": "jsr:^0.1.0",
     "@hyperjump/json": "^0.2.1",
     "@std/uuid": "jsr:^1.0.7",
     "@types/sanitize-html": "^2.15.0",
+    "@valibot/valibot": "jsr:^1.0.0",
+    "keyv": "^5.3.3",
     "sanitize-html": "^2.16.0"
   },
   "devDependencies": {

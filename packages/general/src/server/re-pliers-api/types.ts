@@ -4,11 +4,11 @@
 
 import type { Configuration } from '../../configuration.ts'
 import type * as Request from '../../request.ts'
-import type { Responses } from '../../responses.ts'
+import type { Type as Responses } from '../../responses.ts'
 
-export type APIHandler = <DatabaseT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, SessionT>,
+export type APIHandler = <DatabaseT, ResponseT>(
+  config: Configuration<DatabaseT>,
   req: Request.Helper,
-  resp: Responses<SessionT, ResponseT>,
+  resp: Responses<ResponseT>,
 ) => Promise<ResponseT>
 

@@ -11,13 +11,13 @@ import type * as Database from './database/mod.ts'
  * @typeParam DatabaseT - The type of the database's low-level handle
  * @typeParam SessionReturnT - TODOCUMENT
  */
-export type Configuration<DatabaseT, SessionReturnT> = {
+export type Configuration<DatabaseT> = {
   /** The main URL of the site */
   url      : URL
   /** The name of the site */
   siteName : string
   /** An instance of the database's Router class. */
-  database : Database.Router<DatabaseT, SessionReturnT>
+  database : Database.Router<DatabaseT>
   /** Whether to show debugging information about the database */
   debugDB? : boolean
 

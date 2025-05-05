@@ -69,7 +69,7 @@ const AppTest: FunctionComponent<{
           <${ Auth } page='http://localhost/blog' isTest=${ auth }>
             <${ ReplyListCtx.Provider } value=${ toReplyList(replyListCtx) }>
               <${ ReplyActionsCtx.Provider } value=${ replyActions }>
-                <${ TopLevelReplies } />
+                <${ TopLevelReplies }/>
               <//>
             <//>
           <//>

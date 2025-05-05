@@ -6,6 +6,7 @@
     "./packages/eslint-config",
     "./packages/general",
     "./packages/handlers-response",
+    "./packages/localserver-h3",
     "./packages/localserver-hapi",
     "./packages/types",
     "./packages/re-pliers"

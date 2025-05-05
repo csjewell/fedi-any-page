@@ -1,29 +1,27 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
+import * as v from '@valibot/valibot'
 import type * as AP from '@csjewell-activitypub/types'
+import type { Cookies } from './cookies.ts'
 
 /**
- * The inputs from the session cookie.
+ * The schema for what inputs from authorization forms.
+ *
+ * @property username - The username provided by the user
+ * @property password - The password provided by the user
  */
-export type SessionInputs = {
-  /** The "actor URL" of the current user. */
-  actor         : string;
-  /** TODOCUMENT */
-  sessionCookie : unknown;
-}
-
+export const AuthInputsSchema = v.object({
+  username : v.string(),
+  password : v.string(),
+})
 /**
  * The inputs from authorization forms.
  *
- * @expand
+ * @property username - The username provided by the user
+ * @property password - The password provided by the user
  */
-export type AuthInputs = {
-  /** The username provided by the user */
-  username : string;
-  /** The password provided by the user */
-  password : string;
-}
+export type AuthInputs = v.InferOutput<typeof AuthInputsSchema>
 
 /**
  * The methods used to help handle requests that come in from federated sites.
@@ -34,8 +32,8 @@ export type AuthInputs = {
 export type Helper = {
   url             : URL;
   canAcceptHTML   : () => boolean;
-  getFormInputs   : () => AuthInputs;
-  getCookieInputs : () => SessionInputs;
+  getFormInputs   : () => AP.OrPromise<AuthInputs>;
+  getCookieInputs : () => AP.OrPromise<Cookies>;
 }
 
 /**

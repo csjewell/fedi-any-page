@@ -3,16 +3,16 @@
  */
 import type { Configuration } from '../configuration.ts'
 import type * as Request from '../request.ts'
-import type { Responses } from '../responses.ts'
-import type { APIHandlerSync } from './types.ts'
+import type { Type as Responses } from '../responses.ts'
+import type { APIHandler } from './types.ts'
 
 // TODO: [2025-04-10] This should read the usage data from the database
-export const NodeInfo21: APIHandlerSync = <DatabaseT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, SessionT>,
+export const NodeInfo21: APIHandler = <DatabaseT, ResponseT>(
+  config: Configuration<DatabaseT>,
   _req: Request.Helper,
-  resp: Responses<SessionT, ResponseT>,
-): ResponseT => {
-  return resp.success200Obj({
+  resp: Responses<ResponseT>,
+): Promise<ResponseT> => {
+  return Promise.resolve(resp.success200Obj({
     body : {
       version  : '2.1',
       software : {
@@ -38,5 +38,5 @@ export const NodeInfo21: APIHandlerSync = <DatabaseT, SessionT, ResponseT>(
         nodeName : config.siteName,
       },
     },
-  })
+  }))
 }

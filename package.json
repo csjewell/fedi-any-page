@@ -21,6 +21,7 @@
     "packages/handlers-response",
     "packages/database-cloudflare-d1",
     "packages/database-mock",
+    "packages/localserver-h3",
     "packages/localserver-hapi"
   ],
   "scripts": {
@@ -242,7 +243,7 @@
     "typescript-eslint": "^8.31.0",
     "vitest": "^3.1.2"
   },
-  "packageManager": "pnpm@10.9.0",
+  "packageManager": "pnpm@10.10.0",
   "engines": {
     "node": ">=22.6.0"
   },

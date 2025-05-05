@@ -26,7 +26,7 @@ export class StandardRequest implements Request.Helper {
     throw new NotImplementedError()
   }
 
-  getCookieInputs = (): { actor: string; sessionCookie: unknown } => {
+  getCookieInputs = (): { actor: string; isVerified: boolean, expires: number } => {
     throw new NotImplementedError()
   }
 }

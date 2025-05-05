@@ -1,0 +1,19 @@
+{
+  "name": "@csjewell-activitypub/server-h3",
+  "version": "0.2.0-alpha.1",
+  "description": "Provide a server for re-pliers to use.",
+  "exports": {
+    ".": "./index.ts",
+    "./server": "./src/server.ts"
+  },
+  "publish": {
+    "include": [
+      "LICENSE",
+      "README.md",
+      "jsr.jsonc",
+      "index.ts",
+      "src/**/*.ts"
+    ]
+  }
+}
+

@@ -4,6 +4,7 @@
 import crypto from 'node:crypto'
 import { type Database, DataError, Utils } from '@csjewell-activitypub/general'
 import { CloudflareD1Database } from './router.ts'
+import type { Keyv } from 'keyv'
 import type * as AP from '@csjewell-activitypub/types'
 import type { CloudflareConfig } from './config.ts'
 
@@ -20,8 +21,8 @@ export class KeysCFStorage extends CloudflareD1Database implements Database.Data
   private dbKeyId       : number | undefined = undefined
   private dbDatabaseKey : DBDatabaseKey | undefined = undefined
 
-  constructor(env: CloudflareConfig, message: AP.ActorReference | string) {
-    super(env)
+  constructor(cache: Keyv, env: CloudflareConfig, message: AP.ActorReference | string) {
+    super(cache, env)
     const actorId = Utils.entityRefToString(message as URL)
 
     if (actorId === undefined) {

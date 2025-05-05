@@ -3,7 +3,7 @@
  */
 import { Cuid } from '@dewars/cuid2'
 import type { default as Keyv } from 'keyv'
-import type { Database, Server } from '@csjewell-activitypub/general'
+import type { Cookies, Database } from '@csjewell-activitypub/general'
 
 type SessionType = {
   username : string;
@@ -11,10 +11,9 @@ type SessionType = {
   expires  : number;
 }
 
-type AuthCookies = Server.RePliers.AuthInfo
-type SessionDB<SessionT> = Database.StorageHandler<SessionT> & Database.SessionStorage<SessionT>
+type SessionDB<SessionT> = Database.StorageHandler<SessionT> & Database.SessionStorage
 
-export class MockSession implements SessionDB<AuthCookies> {
+export class MockSession implements SessionDB<Cookies> {
   private c        : Keyv
   private username : string
   private session  : SessionType | undefined = undefined
@@ -32,7 +31,7 @@ export class MockSession implements SessionDB<AuthCookies> {
     return undefined
   }
 
-  document = (): AuthCookies | undefined => {
+  document = (): Cookies | undefined => {
     if (this.session === undefined) {
       return undefined
     }
@@ -76,7 +75,7 @@ export class MockSession implements SessionDB<AuthCookies> {
     return true
   }
 
-  async retrieve(...args: Array<unknown>): Promise<AuthCookies> {
+  async retrieve(...args: Array<unknown>): Promise<Cookies> {
     const actorFunc = args[0] as Database.ActorFunc
     let cookieId: string | undefined
     let isSessionSet: boolean
@@ -177,14 +176,11 @@ export class MockSession implements SessionDB<AuthCookies> {
  *
  * @private
  */
-  private _toCookies(): AuthCookies {
+  private _toCookies(): Cookies {
     this._assertSession(this.session)
     return {
       actinfo : this.sessionKey,
-      actinf  : {
-        actor   : this.session.actor,
-        expires : this.session.expires,
-      },
+      actinf  : this.username,
     }
   }
 
@@ -193,9 +189,9 @@ export class MockSession implements SessionDB<AuthCookies> {
     return this.remove()
   }
 
-  async getCookies(actorFunc: Database.ActorFunc): Promise<AuthCookies> {
+  async getCookies(): Promise<Cookies> {
     if (this.session === undefined) {
-      await this.retrieve(actorFunc)
+      await this.retrieve()
     }
 
     return this._toCookies()
@@ -218,20 +214,20 @@ export class MockSession implements SessionDB<AuthCookies> {
     return this.session.actor === actor
   }
 
-  /** Returns a refreshed AuthCookies object. */
-  async refreshCookies(actorFunc: Database.ActorFunc): Promise<AuthCookies> {
+  /** Returns a refreshed Cookies object. */
+  async refreshCookies(): Promise<Cookies> {
     await this._retrieveFromCache()
 
     if (this.session === undefined) {
-      return this.getCookies(actorFunc)
+      return this.getCookies()
     }
 
     await this._setToCache()
     return this._toCookies()
   }
 
-  /** Returns an AuthCookies object that refers to nothing. */
-  clearingCookies(): AuthCookies {
+  /** Returns an Cookies object that refers to nothing. */
+  clearingCookies(): Cookies {
     return {
       actinf  : undefined,
       actinfo : undefined,

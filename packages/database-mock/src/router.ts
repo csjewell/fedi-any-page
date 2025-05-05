@@ -1,20 +1,17 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import { type Database, NotImplementedError, type Server } from '@csjewell-activitypub/general'
+import { Database, NotImplementedError } from '@csjewell-activitypub/general'
 import { AnyUsers } from './any-users.ts'
 import { JsonUsers } from './json-users.ts'
-import { MockSession } from './session.ts'
 import type { default as Keyv } from 'keyv'
 import type * as AP from '@csjewell-activitypub/types'
 
-type AuthCookies = Server.RePliers.AuthInfo
-export class DatabaseMock implements Database.Router<Keyv, AuthCookies> {
-  private cache    : Keyv
+export class DatabaseMock extends Database.SessionRouter implements Database.Router<Keyv> {
   private usersObj : AnyUsers | JsonUsers
 
   constructor(c: Keyv, users?: string) {
-    this.cache = c
+    super(c)
     this.usersObj = users === undefined ? new AnyUsers() : new JsonUsers(users)
   }
 
@@ -32,19 +29,5 @@ export class DatabaseMock implements Database.Router<Keyv, AuthCookies> {
 
   users = (): AnyUsers | JsonUsers => {
     return this.usersObj
-  }
-
-  newSession = async (username: string, actorFunc: (u: string) => string): Promise<MockSession> => {
-    const sess = new MockSession(username, this.cache)
-
-    await sess.retrieve(actorFunc)
-    return sess
-  }
-
-  session = async (username: string, sessionKey: string): Promise<MockSession> => {
-    const sess = new MockSession(username, this.cache, sessionKey)
-
-    await sess._retrieveFromCache()
-    return sess
   }
 }

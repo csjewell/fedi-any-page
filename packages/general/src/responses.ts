@@ -2,23 +2,23 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 
-type ResolvedHeader = [string, string,]
-type ResolvedHeadersType = Array<ResolvedHeader>
-type HeadersType = ResolvedHeadersType | Record<string, string>
+import type { OrPromise } from '@csjewell-activitypub/types'
+import type { Cookies } from './cookies.ts'
 
-type HeadersParam = { cors?: boolean; addHeaders?: ResolvedHeadersType }
+export type ResolvedHeader = [string, string,]
+export type ResolvedHeaders = Array<ResolvedHeader>
+export type HeadersType = ResolvedHeaders | Record<string, string>
+
+type HeadersParam = { cors?: boolean; addHeaders?: ResolvedHeaders }
 
 /**
  * The group of responses that are sent as replies to web requests.
  *
- * @typeParam SessionT - The variables stored within the local session storage for the user.
  * @typeParam ResponseT - The type of the response object to be sent back to the web server
- *
- * @expandType ResponseParam204
- * @expandType ResponseParam204Options
  */
-export type Responses<SessionT, ResponseT> = {
-  getHeaders : (argHash?: HeadersParam) => ResolvedHeadersType
+export type Type<ResponseT> = {
+  getHeaders    : (argHash?: HeadersParam) => ResolvedHeaders
+  handleCookies : (cookies: Cookies) => ResolvedHeaders
 
   /**
    * Respond with a (200) success message based on a JSON-stringifiable object
@@ -29,8 +29,8 @@ export type Responses<SessionT, ResponseT> = {
   success200Obj: (argHash: {
     body        : Record<string, unknown>
     addHeaders? : HeadersType
-    cookies?    : SessionT,
-  }) => ResponseT
+    cookies?    : Cookies,
+  }) => OrPromise<ResponseT>
 
   /**
    * Respond with a (200) success message based on a (text) message
@@ -41,8 +41,8 @@ export type Responses<SessionT, ResponseT> = {
   success200Str: (argHash: {
     body        : string;
     addHeaders? : HeadersType
-    cookies?    : SessionT
-  }) => ResponseT
+    cookies?    : Cookies
+  }) => OrPromise<ResponseT>
 
   /**
    * TODOCUMENT

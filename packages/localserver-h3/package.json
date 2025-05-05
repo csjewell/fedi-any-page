@@ -1,12 +1,12 @@
 {
-  "name": "@csjewell-activitypub/localserver-hapi",
+  "name": "@csjewell-activitypub/localserver-h3",
   "version": "0.2.0-alpha.1",
-  "description": "hapi-based server to do local testing with.",
+  "description": "h3-based server to do local testing with.",
   "homepage": "https://fedi-any-page.curtisjewell.dev",
   "repository": {
     "type": "git",
     "url": "git+https://git.sr.ht/~csjewell/fedi-any-page",
-    "directory": "packages/localserver-hapi"
+    "directory": "packages/localserver-h3"
   },
   "license": "MIT",
   "author": {
@@ -37,12 +37,13 @@
     }
   },
   "dependencies": {
-    "@brc-dd/iron": "jsr:^1.2.1",
     "@csjewell-activitypub/general": "workspace:^",
+    "@csjewell-activitypub/handlers-response": "workspace:^",
     "@csjewell-activitypub/types": "workspace:^",
-    "@hapi/hapi": "^21.4.0",
     "@keyv/sqlite": "^4.0.3",
-    "brok": "^6.0.0",
+    "h3": "^1.15.2",
+    "h3-compression": "^0.3.2",
+    "h3-valibot": "^0.0.9",
     "keyv": "^5.3.3"
   },
   "devDependencies": {

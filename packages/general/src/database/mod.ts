@@ -4,5 +4,5 @@
 
 export type * from './misc.ts'
 export type * from './router.ts'
-export type * from './session.ts'
+export * from './session.ts'
 export * from './users.ts'

@@ -1,9 +1,9 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import type { Responses } from '../../responses.ts'
+import type { Type as Responses } from '../../responses.ts'
 
-export const setupOptions = <SessionT, ResponseT>(resp: Responses<SessionT, ResponseT>): ResponseT => {
+export const setupOptions = <ResponseT>(resp: Responses<ResponseT>): ResponseT => {
   const addHeaders = {
     Allow : 'OPTIONS, GET, HEAD, POST',
   }

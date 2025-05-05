@@ -1,9 +1,9 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import type { Responses } from '../../responses.ts'
+import type { Type as Responses } from '../../responses.ts'
 
-export const setupGet = <SessionT, ResponseT>(resp: Responses<SessionT, ResponseT>): ResponseT => {
+export const setupGet = <ResponseT>(resp: Responses<ResponseT>): ResponseT => {
   // I wish we could just uncomment the line above, but it only works in Bun as of yet.
   const body = `<!DOCTYPE html>
 <html><head>

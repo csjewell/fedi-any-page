@@ -3,20 +3,20 @@
  */
 import type { Configuration } from '../configuration.ts'
 import type * as Request from '../request.ts'
-import type { Responses } from '../responses.ts'
+import type { Type as Responses } from '../responses.ts'
 import type { User } from '../users.ts'
 import type { APIHandler } from './types.ts'
 
 type FingerHandlerServer = (account: string) => Record<string, unknown>
 
-type FingerHandlerMastodon = <DatabaseT, SessionT>(
+type FingerHandlerMastodon = <DatabaseT>(
   account: string,
-  config: Configuration<DatabaseT, SessionT>,
+  config: Configuration<DatabaseT>,
 ) => Record<string, unknown>
 
-type FingerHandlerUser = <DatabaseT, SessionT>(
+type FingerHandlerUser = <DatabaseT>(
   account: string,
-  config: Configuration<DatabaseT, SessionT>,
+  config: Configuration<DatabaseT>,
   user: User,
 ) => Record<string, unknown>
 
@@ -33,9 +33,9 @@ const fingerServer: FingerHandlerServer = (account: string): Record<string, unkn
   } as Record<string, unknown>
 }
 
-const fingerServerMastodon: FingerHandlerMastodon = <DatabaseT, SessionT>(
+const fingerServerMastodon: FingerHandlerMastodon = <DatabaseT>(
   account : string,
-  config  : Configuration<DatabaseT, SessionT>,
+  config  : Configuration<DatabaseT>,
 ): Record<string, unknown> => {
   return {
     subject : account,
@@ -49,9 +49,9 @@ const fingerServerMastodon: FingerHandlerMastodon = <DatabaseT, SessionT>(
   } as Record<string, unknown>
 }
 
-const fingerUser: FingerHandlerUser = <DatabaseT, SessionT>(
+const fingerUser: FingerHandlerUser = <DatabaseT>(
   account: string,
-  config: Configuration<DatabaseT, SessionT>,
+  config: Configuration<DatabaseT>,
   user: User,
 ): Record<string, unknown> => {
   const returnValue = {
@@ -100,10 +100,10 @@ const fingerUser: FingerHandlerUser = <DatabaseT, SessionT>(
  * @param resp An object implementing Responses
  * @returns ResponseT An appropriate response to the request
  */
-export const WebFinger: APIHandler = async <DatabaseT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, SessionT>,
+export const WebFinger: APIHandler = async <DatabaseT, ResponseT>(
+  config: Configuration<DatabaseT>,
   req: Request.Helper,
-  resp: Responses<SessionT, ResponseT>,
+  resp: Responses<ResponseT>,
 ): Promise<ResponseT> => {
   const { url, } = req
   const { users, } = config.database

@@ -3,7 +3,7 @@
  */
 import type * as AP from '@csjewell-activitypub/types'
 import type { User } from '../users.ts'
-import type { SessionStorage } from './session.ts'
+import type { SessionDB } from './session.ts'
 import type { UsersStorage } from './users.ts'
 
 /**
@@ -33,10 +33,13 @@ export type ActorFunc = (username: string) => string
 /**
  * The methods that act on a database as a whole.
  *
+ * It is mandatory that implementations of this type extend @link{SessionRouter}
+ * to implement newSession and session
+ *
  * @typeParam DatabaseT The type of the database handle itself.
- * @typeParam SessionT The type of the session information
+ *
  */
-export type Router<DatabaseT, SessionReturnT> = {
+export type Router<DatabaseT> = {
   /** Returns the handle to the database itself */
   dbHandle      : () => DatabaseT
   /** Returns the handler for the database table that srores references to Announce objects */
@@ -56,9 +59,9 @@ export type Router<DatabaseT, SessionReturnT> = {
   /** Returns the handler for the database table that stores user information. */
   users         : () => StorageHandler<User> & UsersStorage
   /** Returns a handler for the "session" table when we have no session established */
-  newSession    : (username: string, actorFunc: ActorFunc) => AP.OrPromise<SessionStorage<SessionReturnT>>
+  newSession    : (username: string, actorFunc: ActorFunc) => Promise<SessionDB>
   /** Returns a handler for the "session" table when we have a session established already */
-  session       : (username: string, sessionKey: string) => AP.OrPromise<SessionStorage<SessionReturnT>>
+  session       : (username: string, sessionKey: string) => Promise<SessionDB>
   /** Store a generated CoreObject to be sent out later. */
   sendToOutbox  : (usernameId: number, actor: string, message: AP.CoreObject) => AP.OrPromise<boolean>
 }

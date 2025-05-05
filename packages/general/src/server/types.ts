@@ -3,7 +3,7 @@
  */
 import type { Configuration } from '../configuration.ts'
 import type { Helper } from '../request.ts'
-import type { Responses } from '../responses.ts'
+import type { Type as Responses } from '../responses.ts'
 
 export type APIHandlerSync = <DatabaseT, SessionT, ResponseT>(
   config: Configuration<DatabaseT, SessionT>,

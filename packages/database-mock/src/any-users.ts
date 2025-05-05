@@ -6,12 +6,12 @@ import type { Database, User } from '@csjewell-activitypub/general'
 
 export class AnyUsers extends BaseMockUsers implements Database.UsersStorage {
   /* eslint-disable-next-line @typescript-eslint/require-await -- we are mocking routines that will! */
-  exists = async (): Promise<boolean> => {
+  override exists = async (): Promise<boolean> => {
     return this.username.length >= 6
   }
 
   /* eslint-disable-next-line @typescript-eslint/require-await -- we are mocking routines that will! */
-  retrieve = async (): Promise<User> => {
+  override retrieve = async (): Promise<User> => {
     return { fullname: this.username, username: this.username, }
   }
 

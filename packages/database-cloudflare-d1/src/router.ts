@@ -1,24 +1,26 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import { type Database, NotImplementedError, Utils } from '@csjewell-activitypub/general'
+import { Database, NotImplementedError, Utils } from '@csjewell-activitypub/general'
 import { ActorCFStorage } from './actor.ts'
 import { AnnounceCFStorage } from './announce.ts'
 import { FollowCFStorage } from './follow.ts'
 import { LikeCFStorage } from './like.ts'
 import { NoteCFStorage } from './note.ts'
+import type { Keyv } from 'keyv'
 import type { D1Database } from '@cloudflare/workers-types'
 import type * as AP from '@csjewell-activitypub/types'
 import type { CloudflareConfig } from './config.ts'
 import type { DBDocumentInfo } from './types.ts'
 
-export class CloudflareD1Database implements Database.Router<D1Database, unknown> {
+export class CloudflareD1Database extends Database.SessionRouter implements Database.Router<D1Database> {
   protected handle   : D1Database
   protected hostName : string
   protected env      : CloudflareConfig
   protected debugDB  : boolean
 
-  constructor(env: CloudflareConfig, handle?: D1Database) {
+  constructor(cache: Keyv, env: CloudflareConfig, handle?: D1Database) {
+    super(cache)
     this.hostName = env.url.hostname
     this.handle = handle ?? env.database.dbHandle()
     this.debugDB = false
@@ -32,27 +34,27 @@ export class CloudflareD1Database implements Database.Router<D1Database, unknown
 
   /** */
   announce(message: AP.Announce): AnnounceCFStorage {
-    return new AnnounceCFStorage(this.env, message)
+    return new AnnounceCFStorage(this.cache, this.env, message)
   }
 
   /** */
   follow(message: AP.Follow): FollowCFStorage {
-    return new FollowCFStorage(this.env, message)
+    return new FollowCFStorage(this.cache, this.env, message)
   }
 
   /** */
   like(message: AP.Like): LikeCFStorage {
-    return new LikeCFStorage(this.env, message)
+    return new LikeCFStorage(this.cache, this.env, message)
   }
 
   /** */
   note(message: AP.Note): NoteCFStorage {
-    return new NoteCFStorage(this.env, message)
+    return new NoteCFStorage(this.cache, this.env, message)
   }
 
   /** */
   actor(message: AP.ActorReference): ActorCFStorage {
-    return new ActorCFStorage(this.env, message)
+    return new ActorCFStorage(this.cache, this.env, message)
   }
 
   /** */
@@ -126,14 +128,6 @@ export class CloudflareD1Database implements Database.Router<D1Database, unknown
   }
 
   users = (): Database.UsersStorage => {
-    throw new NotImplementedError()
-  }
-
-  newSession =  (_username: string, _actorFunc: Database.ActorFunc): AP.OrPromise<Database.SessionStorage<unknown>> => {
-    throw new NotImplementedError()
-  }
-
-  session = (_username: string, _sessionKey: string): AP.OrPromise<Database.SessionStorage<unknown>> => {
     throw new NotImplementedError()
   }
 

@@ -3,13 +3,13 @@
  */
 import type { Configuration } from '../../configuration.ts'
 import type * as Request from '../../request.ts'
-import type { Responses } from '../../responses.ts'
+import type { Type as Responses } from '../../responses.ts'
 import type { APIHandler } from './types.ts'
 
-export const Login: APIHandler = async <DatabaseT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, SessionT>,
+export const Login: APIHandler = async <DatabaseT, ResponseT>(
+  config: Configuration<DatabaseT>,
   req: Request.Helper,
-  resp: Responses<SessionT, ResponseT>,
+  resp: Responses<ResponseT>,
 ): Promise<ResponseT> => {
   const url = config.url.toString()
 
@@ -17,7 +17,7 @@ export const Login: APIHandler = async <DatabaseT, SessionT, ResponseT>(
     return resp.redirect30x({ url, statusCode: 301, })
   }
 
-  const { username, password, } = req.getFormInputs()
+  const { username, password, } = await req.getFormInputs()
 
   const userinfo = config.database.users()
 
@@ -33,23 +33,19 @@ export const Login: APIHandler = async <DatabaseT, SessionT, ResponseT>(
   const actorFunc = (arg0: string): string => config.getActorURL(arg0)
   const session = await config.database.newSession(username, actorFunc)
 
-  if (!await session.exists()) {
-    return resp.error503({ info: 'Could not create session', })
-  }
-
   const body = {
     success : true,
     actor   : config.getActorURL(username),
   }
-  const cookies = await session.getCookies(actorFunc)
+  const cookies = await session.getCookies()
 
   return resp.success200Obj({ body, cookies, })
 }
 
-export const Verify: APIHandler = async <DatabaseT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, SessionT>,
+export const Verify: APIHandler = async <DatabaseT, ResponseT>(
+  config: Configuration<DatabaseT>,
   req: Request.Helper,
-  resp: Responses<SessionT, ResponseT>,
+  resp: Responses<ResponseT>,
 ): Promise<ResponseT> => {
   const url = config.url.toString()
 
@@ -57,34 +53,28 @@ export const Verify: APIHandler = async <DatabaseT, SessionT, ResponseT>(
     return resp.redirect30x({ url, statusCode: 301, })
   }
 
-  const { actor, sessionCookie, } = req.getCookieInputs()
+  const { actinf, actinfo, } = await req.getCookieInputs()
 
-  // TODO: [2025-04-07] Get the correct username parameter.
-  const session = await config.database.session('', sessionCookie as string)
+  // actinf = username, actinfo = session information.
+  const session = await config.database.session(actinf ?? '', actinfo ?? '')
 
-  if (!await session.exists()) {
+  if (!await session.valid()) {
     return resp.error403()
   }
 
-  // TODO: [2025-04-07] Get the type right and uncomment.
-  // if (!await session.valid(actor)) {
-  //   return resp.error403()
-  // }
-
-  const actorFunc = (username: string): string => config.getActorURL(username)
   const body = {
     success : true,
-    actor,
+    actor   : session.document()!.actor,
   }
-  const cookies = await session.refreshCookies(actorFunc)
+  const cookies = await session.refreshCookies()
 
   return resp.success200Obj({ body, cookies, })
 }
 
-export const Logout: APIHandler = async <DatabaseT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, SessionT>,
+export const Logout: APIHandler = async <DatabaseT, ResponseT>(
+  config: Configuration<DatabaseT>,
   req: Request.Helper,
-  resp: Responses<SessionT, ResponseT>,
+  resp: Responses<ResponseT>,
 ): Promise<ResponseT> => {
   const url = config.url.toString()
 

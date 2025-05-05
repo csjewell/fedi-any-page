@@ -7,7 +7,7 @@ import type * as AP from '@csjewell-activitypub/types'
 import type { Configuration } from './configuration.ts'
 import type { Router } from './database/router.ts'
 import type * as Request from './request.ts'
-import type { Responses } from './responses.ts'
+import type { Type as Responses } from './responses.ts'
 
 /**
  * Implements the "business logic" of a server-to-server ActivityPub connection
@@ -21,19 +21,19 @@ import type { Responses } from './responses.ts'
 export class RouterClass<SessionT, ResponseT>
 implements Request.Router<SessionT, ResponseT> {
   /** ... */
-  protected kdb               : Router<unknown, unknown>
+  protected kdb               : Router<unknown>
   /** ... */
-  protected resp              : Responses<SessionT, ResponseT>
+  protected resp              : Responses<ResponseT>
   /** ... */
-  protected readonly env      : Configuration<unknown, unknown>
+  protected readonly env      : Configuration<unknown>
   /** The username ... */
   protected readonly username : string
 
   /** ... */
   constructor(
-    kdb: Router<unknown, unknown>,
-    resp: Responses<SessionT, ResponseT>,
-    env: Configuration<unknown, unknown>,
+    kdb: Router<unknown>,
+    resp: Responses<ResponseT>,
+    env: Configuration<unknown>,
     username: string,
   ) {
     this.kdb = kdb

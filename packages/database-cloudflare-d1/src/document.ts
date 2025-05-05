@@ -4,6 +4,7 @@
 import { type Database, DataError, Json, Utils } from '@csjewell-activitypub/general'
 import * as AP from '@csjewell-activitypub/types'
 import { CloudflareD1Database } from './router.ts'
+import type { Keyv } from 'keyv'
 import type { CloudflareConfig } from './config.ts'
 import type { DBId } from './types.ts'
 
@@ -12,8 +13,8 @@ export class DocumentCFStorage extends CloudflareD1Database implements Database.
   private resolvedMessage : AP.CoreObject | undefined = undefined
   private dbDocumentId    : number | undefined = undefined
 
-  constructor(env: CloudflareConfig, message: AP.CoreObjectReference) {
-    super(env)
+  constructor(cache: Keyv, env: CloudflareConfig, message: AP.CoreObjectReference) {
+    super(cache, env)
     this.message = message
     if (AP.guard.isApCoreObject(this.message)) {
       this.resolvedMessage = this.message

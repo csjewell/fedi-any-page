@@ -4,13 +4,13 @@
 import type * as AP from '@csjewell-activitypub/types'
 import type { Configuration } from '../../configuration.ts'
 import type * as Request from '../../request.ts'
-import type { Responses } from '../../responses.ts'
+import type { Type as Responses } from '../../responses.ts'
 
-export const appIndex = <DatabaseT, SessionReturnT, SessionT, ResponseT>(
-  config: Configuration<DatabaseT, SessionReturnT>,
+export const appIndex = async <DatabaseT, ResponseT>(
+  config: Configuration<DatabaseT>,
   req: Request.Helper,
-  resp: Responses<SessionT, ResponseT>,
-): ResponseT => {
+  resp: Responses<ResponseT>,
+): Promise<ResponseT> => {
   const url = config.url.toString()
 
   if (req.canAcceptHTML()) {
@@ -39,5 +39,5 @@ export const appIndex = <DatabaseT, SessionReturnT, SessionT, ResponseT>(
     },
   } as AP.Application
 
-  return resp.success200Obj({ body, })
+  return Promise.resolve(resp.success200Obj({ body, }))
 }

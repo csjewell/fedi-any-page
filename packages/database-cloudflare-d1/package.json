@@ -47,6 +47,7 @@
   "devDependencies": {
     "@types/node": "^22.15.1",
     "eslint": "^9.25.1",
+    "keyv": "^5.3.3",
     "typescript": "^5.8.3"
   },
   "packageManager": "pnpm@10.9.0",

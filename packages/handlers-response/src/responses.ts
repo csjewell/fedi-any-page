@@ -2,10 +2,10 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { encodeUrl as toBase64 } from 'ab64'
-import { Json, NotImplementedError, type Responses, type Server } from '@csjewell-activitypub/general'
+import {
+  type Cookies, Json, type Responses,
+} from '@csjewell-activitypub/general'
 import type * as AP from '@csjewell-activitypub/types'
-
-type AuthCookies = Server.RePliers.AuthInfo
 
 type RedirectCode = 301 | 302 | 303 | 307 | 308
 
@@ -28,7 +28,7 @@ import type { AuthCookies from '@csjewell-activitypub/general/database-mock/sess
  * return Helpers.Responses.error404NotImplemented()
  * ```
  */
-class StandardResponses implements Responses<AuthCookies, Response> {
+class StandardResponses implements Responses.Type<Response> {
   /*
    * Provides the default Headers for most routines in KitResponses
    *
@@ -54,7 +54,7 @@ class StandardResponses implements Responses<AuthCookies, Response> {
 
   _resolve(
     headers = {} as HeadersType,
-    cookies = undefined as AuthCookies | undefined,
+    cookies = undefined as Cookies | undefined,
   ): ResolvedHeadersType {
     const addH: ResolvedHeadersType = []
 
@@ -67,28 +67,38 @@ class StandardResponses implements Responses<AuthCookies, Response> {
     }
 
     if (cookies !== undefined) {
-      if (cookies.actinfo === undefined) {
-        addH.push([ 'Set-Cookie', 'actinfo=; Max-Age=-1; SameSite=Strict; Secure; HttpOnly;' ])
-      } else {
-        addH.push([ 'Set-Cookie', `actinfo=${ cookies.actinfo }; Max-Age=28800; SameSite=Strict; Secure; HttpOnly;` ])
-      }
+      const cookieHeaders = this.handleCookies(cookies)
 
-      if (cookies.actinf === undefined) {
-        addH.push([ 'Set-Cookie', 'actinf=; Max-Age=-1; SameSite=Strict; Secure;' ])
-      } else {
-        const info = toBase64(JSON.stringify(cookies.actinf))
-
-        addH.push([ 'Set-Cookie', `actinfo=${ info }; Max-Age=28800; SameSite=Strict; Secure; HttpOnly;` ])
-      }
+      addH.push(...cookieHeaders)
     }
 
     return addH
   }
 
+  handleCookies(cookies: Cookies): ResolvedHeadersType {
+    const hdrs: ResolvedHeadersType = []
+
+    if (cookies.actinfo === undefined) {
+      hdrs.push([ 'Set-Cookie', 'actinfo=; Max-Age=-1; SameSite=Strict; Secure; HttpOnly;' ])
+    } else {
+      hdrs.push([ 'Set-Cookie', `actinfo=${ cookies.actinfo }; Max-Age=28800; SameSite=Strict; Secure; HttpOnly;` ])
+    }
+
+    if (cookies.actinf === undefined) {
+      hdrs.push([ 'Set-Cookie', 'actinf=; Max-Age=-1; SameSite=Strict; Secure;' ])
+    } else {
+      const info = toBase64(JSON.stringify(cookies.actinf))
+
+      hdrs.push([ 'Set-Cookie', `actinfo=${ info }; Max-Age=28800; SameSite=Strict; Secure; HttpOnly;` ])
+    }
+
+    return hdrs
+  }
+
   _headers({
     hasCors = true,
     addHeaders = {} as HeadersType,
-    cookies = undefined as AuthCookies | undefined,
+    cookies = undefined as Cookies | undefined,
   } = {}): Headers {
     return new Headers(this.getHeaders({ hasCors, addHeaders: this._resolve(addHeaders, cookies), }))
   }
@@ -96,23 +106,28 @@ class StandardResponses implements Responses<AuthCookies, Response> {
   success200Obj({
     body = {} as Record<string, unknown>,
     addHeaders = {} as HeadersType,
-    cookies = undefined as AuthCookies | undefined,
-  } = {}): Response {
+    cookies = undefined as Cookies | undefined,
+  } = {}): Promise<Response> {
     // TODO: Add an assertion here.
     const json = Json.stringify(body as AP.CoreObject)
 
-    return new Response(json, {
+    return Promise.resolve(new Response(json, {
       status     : 200,
       statusText : 'OK',
       headers    : this._headers({ addHeaders, cookies, }),
-    })
+    }))
   }
 
   success200Str({
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars -- not implemented yet */
-    body = '', addHeaders = {} as HeadersType, cookies = undefined as AuthCookies | undefined,
-  } = {}): Response {
-    throw new NotImplementedError()
+    body = '',
+    addHeaders = {} as HeadersType,
+    cookies = undefined as Cookies | undefined,
+  } = {}): Promise<Response> {
+    return Promise.resolve(new Response(body, {
+      status     : 200,
+      statusText : 'OK',
+      headers    : this._headers({ addHeaders, cookies, }),
+    }))
   }
 
   /*
@@ -347,7 +362,9 @@ import toBase64 from 'core-js-pure/modules/esnext.uint8-array.to-base64';
  * return Helpers.Responses.error404NotImplemented()
  * ```
  */
-class WebFingerStandardResponses extends StandardResponses implements Responses<AuthCookies, Response> {
+class WebFingerStandardResponses
+  extends StandardResponses
+  implements Responses.Type<Response> {
   /*
    * Provides the default Headers for most routines in KitResponses
    *
@@ -370,12 +387,12 @@ class WebFingerStandardResponses extends StandardResponses implements Responses<
 
   override success200Obj(
     { body = {} as Record<string, unknown>, addHeaders = {} as HeadersType, } = {},
-  ): Response {
-    return Response.json(body, {
+  ): Promise<Response> {
+    return Promise.resolve(Response.json(body, {
       status     : 200,
       statusText : 'OK',
       headers    : this._headers({ addHeaders, }),
-    })
+    }))
   }
 
   override success204({ info = '', addHeaders = {} as HeadersType, } = {}): Response {
@@ -395,7 +412,9 @@ class WebFingerStandardResponses extends StandardResponses implements Responses<
 
 export const WebFinger: WebFingerStandardResponses = new WebFingerStandardResponses()
 
-class NodeInfoStandardResponses extends WebFingerStandardResponses implements Responses<AuthCookies, Response> {
+class NodeInfoStandardResponses
+  extends WebFingerStandardResponses
+  implements Responses.Type<Response> {
   override getHeaders({ addHeaders = {} as ResolvedHeadersType, } = {}): ResolvedHeadersType {
     return [
       [ 'Content-Type', 'application/json; profile="http://nodeinfo.diaspora.software/ns/schema/2.1#' ],
@@ -408,7 +427,9 @@ class NodeInfoStandardResponses extends WebFingerStandardResponses implements Re
 
 export const NodeInfo: NodeInfoStandardResponses = new NodeInfoStandardResponses()
 
-class HTMLStandardResponses extends StandardResponses implements Responses<AuthCookies, Response> {
+export class HTMLStandardResponses
+  extends StandardResponses
+  implements Responses.Type<Response> {
   override getHeaders({ addHeaders = {} as ResolvedHeadersType, } = {}): ResolvedHeadersType {
     return [
       [ 'Content-Type', 'text/html' ],
@@ -420,14 +441,14 @@ class HTMLStandardResponses extends StandardResponses implements Responses<AuthC
   override success200Str({
     body = '',
     addHeaders = {} as HeadersType,
-  } = {}): Response {
+  } = {}): Promise<Response> {
     const headers = this._headers({ addHeaders, })
 
-    return new Response(body, {
+    return Promise.resolve(new Response(body, {
       status     : 200,
       statusText : 'OK',
       headers,
-    })
+    }))
   }
 
   override options204({ methods = [] as Array<string>, } = {}): Response {

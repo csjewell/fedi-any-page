@@ -6,10 +6,10 @@ import { type Configuration, Json, type Request } from '@csjewell-activitypub/ge
 import type * as AP from '@csjewell-activitypub/types'
 
 export class StandardSender implements Request.Sender<Response> {
-  private config   : Configuration<unknown, unknown>
+  private config   : Configuration<unknown>
   private username : string
 
-  constructor(config: Configuration<unknown, unknown>, username: string) {
+  constructor(config: Configuration<unknown>, username: string) {
     this.config = config
     this.username = username
   }
