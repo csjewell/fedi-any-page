@@ -110,6 +110,9 @@ importers:
 
   packages/database-mock:
     dependencies:
+      '@csjewell-activitypub/database-node-sqlite':
+        specifier: workspace:^
+        version: link:../database-node-sqlite
       '@csjewell-activitypub/general':
         specifier: workspace:^
         version: link:../general

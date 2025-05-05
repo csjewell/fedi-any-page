@@ -40,6 +40,7 @@
     }
   },
   "dependencies": {
+    "@csjewell-activitypub/database-node-sqlite": "workspace:^",
     "@csjewell-activitypub/general": "workspace:^",
     "@csjewell-activitypub/types": "workspace:^",
     "@dewars/cuid2": "jsr:^0.1.0",
