@@ -14,11 +14,11 @@ import type { UsersStorage } from './users.ts'
 export type StorageHandler<T> = {
   databaseId : () => number | undefined
   document   : () => T | undefined
-  remove     : () => Promise<boolean>
-  save       : (...arguments_: Array<unknown>) => Promise<boolean>
-  exists     : () => Promise<boolean>
-  retrieve   : (...arguments_: Array<unknown>) => Promise<T | undefined>
-  shorten    : () => Promise<{ url: URL | undefined; id: number | undefined }>
+  remove     : () => AP.OrPromise<boolean>
+  save       : (...arguments_: Array<unknown>) => AP.OrPromise<boolean>
+  exists     : () => AP.OrPromise<boolean>
+  retrieve   : (...arguments_: Array<unknown>) => AP.OrPromise<T | undefined>
+  shorten    : () => AP.OrPromise<{ url: URL | undefined; id: number | undefined }>
 }
 
 /** TODO: Document [2025-04-12] */

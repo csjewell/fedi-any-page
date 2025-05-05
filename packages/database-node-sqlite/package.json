@@ -1,0 +1,54 @@
+{
+  "name": "@csjewell-activitypub/database-node-sqlite",
+  "version": "0.2.0-alpha.1",
+  "description": "sqlite database to do local testing with.",
+  "homepage": "https://fedi-any-page.curtisjewell.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://git.sr.ht/~csjewell/fedi-any-page",
+    "directory": "packages/database-node-sqlite"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Curtis Jewell",
+    "email": "swordsman+aptypescript@curtisjewell.name"
+  },
+  "type": "module",
+  "main": "index.ts",
+  "files": [
+    "README.md",
+    "dist/",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "pnpm tsup",
+    "prepublishOnly": "pnpm tsup",
+    "tsc": "tsc",
+    "tsup": "tsup --config `git rev-parse --show-toplevel`/.config/tsup.config.ts"
+  },
+  "lint-staged": {
+    "**/*.{js,ts}": [
+      "eslint --fix"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "@csjewell-activitypub/general": "workspace:^",
+    "@csjewell-activitypub/types": "workspace:^",
+    "@keyv/sqlite": "^4.0.3",
+    "keyv": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.1",
+    "eslint": "^9.25.1",
+    "typescript": "^5.8.3"
+  },
+  "packageManager": "pnpm@10.9.0",
+  "engines": {
+    "node": ">=22.6.0"
+  }
+}

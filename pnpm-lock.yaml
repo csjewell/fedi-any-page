@@ -133,6 +133,31 @@ importers:
         specifier: ^5.8.3
         version: 5.8.3
 
+  packages/database-node-sqlite:
+    dependencies:
+      '@csjewell-activitypub/general':
+        specifier: workspace:^
+        version: link:../general
+      '@csjewell-activitypub/types':
+        specifier: workspace:^
+        version: link:../types
+      '@keyv/sqlite':
+        specifier: ^4.0.3
+        version: 4.0.3(keyv@5.3.3)
+      keyv:
+        specifier: ^5.3.3
+        version: 5.3.3
+    devDependencies:
+      '@types/node':
+        specifier: ^22.15.1
+        version: 22.15.1
+      eslint:
+        specifier: ^9.25.1
+        version: 9.25.1(jiti@2.4.2)
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+
   packages/eslint-config:
     dependencies:
       '@eslint/compat':

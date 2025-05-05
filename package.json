@@ -21,6 +21,7 @@
     "packages/handlers-response",
     "packages/database-cloudflare-d1",
     "packages/database-mock",
+    "packages/database-node-sqlite",
     "packages/localserver-h3",
     "packages/localserver-hapi"
   ],
