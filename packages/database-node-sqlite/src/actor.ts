@@ -7,10 +7,6 @@ import { SQLiteDatabase } from './database.ts'
 import type { Keyv } from 'keyv'
 import type { DatabaseSync } from 'node:sqlite'
 
-type DBId = {
-  id : number
-}
-
 export class ActorSQLiteStorage
   extends SQLiteDatabase
   implements Database.StorageHandler<AP.Actor> {
@@ -108,7 +104,7 @@ export class ActorSQLiteStorage
       const resp = stmtActor.all(checkId)
 
       if (resp.length === 1) {
-        this.dbActorId = (resp[0] as DBId).id
+        this.dbActorId = (resp[0] as { id: number }).id
       }
     }
 
@@ -117,7 +113,7 @@ export class ActorSQLiteStorage
       const resp = stmtActor.all(checkId)
 
       if (resp.length === 1) {
-        this.dbDocumentId = (resp[0] as DBId).id
+        this.dbDocumentId = (resp[0] as { id: number }).id
       }
     }
 

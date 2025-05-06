@@ -8,7 +8,7 @@ import type { DatabaseSync } from 'node:sqlite'
 import type * as AP from '@csjewell-activitypub/types'
 
 /**
- * Implements the configuration required in order to connect a Cloudflare D1 database
+ * Implements the configuration required in order to connect a SQLite database
  * to the ActivityPub toolkit.
  *
  * @example

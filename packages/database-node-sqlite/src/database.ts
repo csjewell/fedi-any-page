@@ -5,6 +5,10 @@ import { DatabaseSync } from 'node:sqlite'
 import { Database, NotImplementedError } from '@csjewell-activitypub/general'
 import { ActorSQLiteStorage } from './actor.ts'
 import { AnnounceSQLiteStorage } from './announce.ts'
+import { DocumentSQLiteStorage } from './document.ts'
+import { FollowSQLiteStorage } from './follow.ts'
+import { LikeSQLiteStorage } from './like.ts'
+import { NoteSQLiteStorage } from './note.ts'
 import type Keyv from 'keyv'
 import type * as AP from '@csjewell-activitypub/types'
 
@@ -181,24 +185,24 @@ export class SQLiteDatabase
     return new AnnounceSQLiteStorage(this.cache, this.handle, message)
   }
 
-  follow = (_message: AP.Follow): Database.StorageHandler<AP.Follow> => {
-    throw new NotImplementedError()
+  follow = (message: AP.Follow): Database.StorageHandler<AP.Follow> => {
+    return new FollowSQLiteStorage(this.cache, this.handle, message)
   }
 
-  like = (_message: AP.Like): Database.StorageHandler<AP.Like> => {
-    throw new NotImplementedError()
+  like = (message: AP.Like): Database.StorageHandler<AP.Like> => {
+    return new LikeSQLiteStorage(this.cache, this.handle, message)
   }
 
-  note = (_message: AP.Note): Database.StorageHandler<AP.Note> => {
-    throw new NotImplementedError()
+  note = (message: AP.Note): Database.StorageHandler<AP.Note> => {
+    return new NoteSQLiteStorage(this.cache, this.handle, message)
   }
 
   actor = (message: AP.ActorReference): Database.StorageHandler<AP.Actor> => {
     return new ActorSQLiteStorage(this.cache, this.handle, message)
   }
 
-  documentEntry = (_message: AP.CoreObjectReference | AP.LinkReference): Database.StorageHandler<AP.CoreObject> => {
-    throw new NotImplementedError()
+  documentEntry = (message: AP.CoreObjectReference | AP.LinkReference): Database.StorageHandler<AP.CoreObject> => {
+    return new DocumentSQLiteStorage(this.cache, this.handle, message)
   }
 
   getDocument = (_dr: string | AP.OrArray<AP.EntityReference> | undefined): Database.DBDocument => {

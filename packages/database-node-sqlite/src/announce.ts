@@ -13,7 +13,9 @@ type ValidAnnounce = { isValid: false } | {
   announceId : string,
 }
 
-export class AnnounceSQLiteStorage extends SQLiteDatabase implements Database.StorageHandler<AP.Announce> {
+export class AnnounceSQLiteStorage
+  extends SQLiteDatabase
+  implements Database.StorageHandler<AP.Announce> {
   private message      : AP.Announce
   private dbAnnounceId : number | undefined = undefined
 
