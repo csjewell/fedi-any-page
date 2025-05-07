@@ -24,7 +24,7 @@ export const NodeInfo21: APIHandler = <DatabaseT, ResponseT>(
         name       : 'Fedi Any Page kit',
         repository : 'https://git.sr.ht/~csjewell/fedi-any-page',
         homepage   : 'https://fedi-any-page.curtisjewell.dev/',
-        version    : 'v0.1.0',
+        version    : 'v0.2.0-alpha.1',
       },
       protocols : ['activitypub'],
       services  : {
