@@ -1,11 +1,10 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import { type Database, Json, NotImplementedError, Utils } from '@csjewell-activitypub/general'
+import { type Database as APDatabase, Json, NotImplementedError, Utils } from '@csjewell-activitypub/general'
 import * as AP from '@csjewell-activitypub/types'
-import { SQLiteDatabase } from './database.ts'
-import type { Keyv } from 'keyv'
-import type { DatabaseSync } from 'node:sqlite'
+import type { Database } from 'better-sqlite3'
+import type { SQLiteDatabase } from './database.ts'
 
 type LikeInfo = {
   actorId : string
@@ -24,14 +23,16 @@ type DBDocumentInfo = {
 }
 
 export class LikeSQLiteStorage
-  extends SQLiteDatabase
-  implements Database.StorageHandler<AP.Like> {
+implements APDatabase.StorageHandler<AP.Like> {
+  private readonly router  : SQLiteDatabase
+  private readonly handle  : Database
   private readonly message : AP.Like
   private dbLikeId         : number | undefined = undefined
   private url = new URL('https://test-sqlite.localhost')
 
-  constructor(cache: Keyv, handle: DatabaseSync, message: AP.Like) {
-    super(cache, handle)
+  constructor(router: SQLiteDatabase, message: AP.Like) {
+    this.router = router
+    this.handle = this.router.handle
     this.message = message
   }
 
@@ -54,7 +55,7 @@ export class LikeSQLiteStorage
     // Resolve the thing being liked.
     // (We need the object, where we could get a ref)
     // TODO: [2025-04-19] We could optimize this, since we know this is OUR object being liked.
-    const { object, } = this.getDocument(this.message.object)
+    const { object, } = this.router.getDocument(this.message.object)
 
     if (object === undefined) {
       return { isValid: false, }
@@ -164,7 +165,7 @@ export class LikeSQLiteStorage
     this.message.object = new URL(likedId)
     this.message.actor = new URL(actorId)
 
-    const documentObj = this.documentEntry(this.message).shorten() as {
+    const documentObj = this.router.documentEntry(this.message).shorten() as {
       url : URL | undefined,
       id  : number | undefined,
     }

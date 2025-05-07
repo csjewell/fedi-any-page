@@ -1,12 +1,12 @@
 {
-  "name": "@csjewell-activitypub/localserver-h3",
+  "name": "@csjewell-activitypub/database-better-sqlite",
   "version": "0.2.0-alpha.1",
-  "description": "h3-based server to do local testing with.",
+  "description": "sqlite database to do local testing with.",
   "homepage": "https://fedi-any-page.curtisjewell.dev",
   "repository": {
     "type": "git",
     "url": "git+https://git.sr.ht/~csjewell/fedi-any-page",
-    "directory": "packages/localserver-h3"
+    "directory": "packages/database-better-sqlite"
   },
   "license": "MIT",
   "author": {
@@ -23,8 +23,6 @@
   "scripts": {
     "build": "pnpm tsup",
     "prepublishOnly": "pnpm tsup",
-    "serve": "listhen --open ./index.ts",
-    "serve:watch": "listhen --watch ../ --open ./index.ts",
     "tsc": "tsc",
     "tsup": "tsup --config `git rev-parse --show-toplevel`/.config/tsup.config.ts"
   },
@@ -39,20 +37,16 @@
     }
   },
   "dependencies": {
-    "@csjewell-activitypub/database-better-sqlite": "workspace:^",
     "@csjewell-activitypub/general": "workspace:^",
-    "@csjewell-activitypub/handlers-response": "workspace:^",
     "@csjewell-activitypub/types": "workspace:^",
     "@keyv/sqlite": "^4.0.3",
-    "h3": "^1.15.2",
-    "h3-compression": "^0.3.2",
-    "h3-valibot": "^0.0.9",
+    "better-sqlite3": "^11.9.1",
     "keyv": "^5.3.3"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^22.15.1",
     "eslint": "^9.25.1",
-    "listhen": "^1.9.0",
     "typescript": "^5.8.3"
   },
   "packageManager": "pnpm@10.9.0",

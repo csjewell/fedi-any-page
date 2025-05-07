@@ -4,4 +4,4 @@
  */
 import { H3Server } from './src/server.ts'
 
-export const app = new H3Server('./ap.server.db', true).getApp()
+export const app = new H3Server('./h3.server.db', true).getApp()

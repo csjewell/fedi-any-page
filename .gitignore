@@ -1,6 +1,7 @@
 test-docs
 packages/*/dist
 proposed/localserver-deno/ap.sqlite.db
+packages/localserver-h3/h3.server.db
 proposed/*/dist
 
 *.sw?

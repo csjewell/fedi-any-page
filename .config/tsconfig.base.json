@@ -17,6 +17,6 @@
     "verbatimModuleSyntax": true,
     "sourceMap": true,
     "composite": true,
-    "incremental": true,
-  },
+    "incremental": true
+  }
 }

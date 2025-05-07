@@ -2,15 +2,15 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import {
-  type App, createApp, createRouter, defineEventHandler, type H3Event,
+  type App, createApp, createRouter, eventHandler, type H3Event,
   useBase,
 } from 'h3'
 import { useCompressionStream } from 'h3-compression'
 import { Keyv } from 'keyv'
+import { SQLiteConfig } from '@csjewell-activitypub/database-better-sqlite'
 import { Server } from '@csjewell-activitypub/general'
-import { HTML } from '@csjewell-activitypub/handlers-response'
+import { HTML, NodeInfo, WebFinger } from '@csjewell-activitypub/handlers-response'
 import KeyvSqlite from '@keyv/sqlite'
-import { TestConfig } from './configuration.ts'
 import { H3Request } from './request.ts'
 import { H3RespHelper } from './response.ts'
 import { sessionOptions } from './sessionOptions.ts'
@@ -20,7 +20,7 @@ import { sessionOptions } from './sessionOptions.ts'
  * @class
  */
 export class H3Server {
-  private config : TestConfig
+  private config : SQLiteConfig
   private app    : App
 
   constructor(dbLocation: string, isTest: boolean) {
@@ -29,7 +29,7 @@ export class H3Server {
     const kvStore = new KeyvSqlite(`sqlite:/${ dbLocation }`)
     const kvCache = new Keyv<string>({ store: kvStore, ttl: 28800, })
 
-    this.config = new TestConfig(kvCache)
+    this.config = new SQLiteConfig(kvCache, './h3.server.db')
 
     const sessionOpts = sessionOptions(isTest)
     const req = async (e: H3Event): Promise<H3Request> => {
@@ -38,7 +38,8 @@ export class H3Server {
       await r.init()
       return r
     }
-    const resp = async (e: H3Event): Promise<H3RespHelper> => {
+
+    const htmlResp = async (e: H3Event): Promise<H3RespHelper> => {
       const p = new H3RespHelper(isTest, e, sessionOpts)
 
       await p.init()
@@ -49,27 +50,27 @@ export class H3Server {
 
     apiRouter.post(
       '/login',
-      defineEventHandler(async (event: H3Event): Promise<Response> => {
+      eventHandler(async (event: H3Event): Promise<Response> => {
         return await Server.RePliers.Auth.Login(
-          this.config, await req(event), await resp(event),
+          this.config, await req(event), await htmlResp(event),
         )
       }),
     )
 
     apiRouter.post(
       '/verify',
-      defineEventHandler(async (event: H3Event): Promise<Response> => {
+      eventHandler(async (event: H3Event): Promise<Response> => {
         return await Server.RePliers.Auth.Verify(
-          this.config, await req(event), await resp(event),
+          this.config, await req(event), await htmlResp(event),
         )
       }),
     )
 
     apiRouter.post(
       '/logout',
-      defineEventHandler(async (event: H3Event): Promise<Response> => {
+      eventHandler(async (event: H3Event): Promise<Response> => {
         return await Server.RePliers.Auth.Logout(
-          this.config, await req(event), await resp(event),
+          this.config, await req(event), await htmlResp(event),
         )
       }),
     )
@@ -80,40 +81,91 @@ export class H3Server {
 
     baseRouter.get(
       '/favicon.ico',
-      defineEventHandler((_event: H3Event): Response => {
+      eventHandler((_event: H3Event): Response => {
         return HTML.success204()
       }),
     )
+
+    baseRouter.get(
+      '/setup',
+      eventHandler(async (event: H3Event): Promise<Response> => {
+        return Server.Setup.Get(await htmlResp(event))
+      }),
+    )
+
+    baseRouter.post(
+      '/setup',
+      eventHandler(async (event: H3Event): Promise<Response> => {
+        return Server.Setup.Post(await htmlResp(event))
+      }),
+    )
+
+    baseRouter.options(
+      '/setup',
+      eventHandler(async (event: H3Event): Promise<Response> => {
+        return Server.Setup.Options(await htmlResp(event))
+      }),
+    )
+
+    const wkRouter = createRouter()
+
+    wkRouter.get(
+      '/webfinger',
+      eventHandler(async (event: H3Event): Promise<Response> => {
+        return await Server.WebFinger(
+          this.config, await req(event), WebFinger,
+        )
+      }),
+    )
+
+    wkRouter.options(
+      '/webfinger',
+      eventHandler((_event: H3Event): Response => {
+        return WebFinger.options204()
+      }),
+    )
+
+    wkRouter.get(
+      '/nodeinfo',
+      eventHandler(async (event: H3Event): Promise<Response> => {
+        return await Server.NodeInfo(
+          this.config, await req(event), NodeInfo,
+        )
+      }),
+    )
+
+    wkRouter.options(
+      '/nodeinfo',
+      eventHandler((_event: H3Event): Response => {
+        return NodeInfo.options204()
+      }),
+    )
+
+    wkRouter.get(
+      '/nodeinfo/2.1',
+      eventHandler(async (event: H3Event): Promise<Response> => {
+        return await Server.NodeInfo21(
+          this.config, await req(event), NodeInfo,
+        )
+      }),
+    )
+
+    wkRouter.options(
+      '/nodeinfo/2.1',
+      eventHandler((_event: H3Event): Response => {
+        return HTML.options204()
+      }),
+    )
+
+
+    baseRouter.use('/.well-known/**', useBase('/.well-known', wkRouter.handler))
 
     this.app.use(baseRouter)
 
 
     /*
-    this.server.route({
-      method  : 'GET',
-      path    : '/setup',
-      options : this.opts,
-      // (ctx) => ctx.response.with(Server.Setup.Get(Resp.HTML) as Response))
-      handler : (_req: Hapi.Request, h: Hapi.ResponseToolkit): Hapi.ResponseObject => {
-        return Server.WebFinger(new URL('https://exanple.com/'), undefined, resp(h), this.config)
-      },
-    })
-    */
-
-    /*
-    router.post('/setup', (ctx) => ctx.response.with(Server.Setup.Post(Resp.HTML) as Response))
-    router.options('/setup', (ctx) => ctx.response.with(Server.Setup.Options(Resp.HTML) as Response))
-    router.get(
-      '/.well-known/webfinger',
-      (ctx) => ctx.response.with(Server.WebFinger(ctx.request.url, testUsers, Resp.WebFinger, config) as Response),
-    )
     router.options('/.well-known/webfinger', (ctx) => ctx.response.with(Resp.WebFinger.options204() as Response))
-    router.get(
-      '/.well-known/nodeinfo',
-      (ctx) => ctx.response.with(Server.NodeInfo(Resp.NodeInfo, config) as Response),
-    )
     router.options('/.well-known/nodeinfo', (ctx) => ctx.response.with(Resp.NodeInfo.options204() as Response))
-    router.get('/nodeinfo/2.1', (ctx) => ctx.response.with(Server.NodeInfo21(Resp.NodeInfo, config) as Response))
     router.options('/nodeinfo/2.1', (ctx) => ctx.response.with(Resp.NodeInfo.options204() as Response))
     //router.get('/activitypub/server', (ctx) => ctx.response.with(Server.App.Index(config, null, Resp.ActivityPub) as Response))
     router.options('/activitypub/server', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))

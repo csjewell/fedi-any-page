@@ -7,7 +7,6 @@ import {
 } from 'h3'
 import { useValidatedBody } from 'h3-valibot'
 import { type Cookies, Request, type SessionData } from '@csjewell-activitypub/general'
-// import LocalDB from './database.ts'
 
 type SessionType = Awaited<ReturnType<typeof useSession<SessionData>>>
 

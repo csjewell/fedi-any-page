@@ -11,8 +11,8 @@ export const NodeInfo: APIHandler = <DatabaseT, ResponseT>(
   _req: Request.Helper,
   resp: Responses<ResponseT>,
 ): Promise<ResponseT> => {
-  return Promise.resolve(resp.success200Obj({
-    body : {
+  return Promise.resolve(resp.success200Str({
+    body : JSON.stringify({
       links : [
         {
           /* eslint-disable-next-line sonarjs/no-clear-text-protocols -- this is an identifier, not a real URL. */
@@ -20,6 +20,6 @@ export const NodeInfo: APIHandler = <DatabaseT, ResponseT>(
           href : `${ config.url.toString() }nodeinfo/2.1`,
         },
       ],
-    },
+    }),
   }))
 }

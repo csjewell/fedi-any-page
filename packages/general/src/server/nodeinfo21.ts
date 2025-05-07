@@ -6,14 +6,19 @@ import type * as Request from '../request.ts'
 import type { Type as Responses } from '../responses.ts'
 import type { APIHandler } from './types.ts'
 
-// TODO: [2025-04-10] This should read the usage data from the database
+/**
+ * Handles web queries to the /.well-known/nodeinfo/2.1 URL
+ *
+ * Implements https://codeberg.org/fediverse/fep/src/branch/main/fep/f1d5/fep-f1d5.md
+ */
+// TODO: [2025-05-19] This should read the usage data from the database
 export const NodeInfo21: APIHandler = <DatabaseT, ResponseT>(
   config: Configuration<DatabaseT>,
   _req: Request.Helper,
   resp: Responses<ResponseT>,
 ): Promise<ResponseT> => {
-  return Promise.resolve(resp.success200Obj({
-    body : {
+  return Promise.resolve(resp.success200Str({
+    body : JSON.stringify({
       version  : '2.1',
       software : {
         name       : 'Fedi Any Page kit',
@@ -23,8 +28,10 @@ export const NodeInfo21: APIHandler = <DatabaseT, ResponseT>(
       },
       protocols : ['activitypub'],
       services  : {
-        inbound  : ['rss2.0'],
-        outbound : ['rss2.0'],
+        inbound  : [],
+        outbound : [],
+        //        inbound  : ['rss2.0'],
+        //        outbound : ['rss2.0'],
       },
       openRegistrations : false,
       usage             : {
@@ -37,6 +44,6 @@ export const NodeInfo21: APIHandler = <DatabaseT, ResponseT>(
       metadata : {
         nodeName : config.siteName,
       },
-    },
+    }),
   }))
 }
