@@ -2,17 +2,19 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { DatabaseSync } from 'node:sqlite'
-import { type Database, NotImplementedError, type Server } from '@csjewell-activitypub/general'
+import { Database, NotImplementedError } from '@csjewell-activitypub/general'
+import type Keyv from 'keyv'
 import type * as AP from '@csjewell-activitypub/types'
-
-type AuthCookies = Server.RePliers.AuthInfo
 
 // https://docs.deno.com/examples/sqlite/
 
-class LocalDB implements Database.Router<DatabaseSync, AuthCookies> {
+export class LocalDB
+  extends Database.SessionRouter
+  implements Database.Router<DatabaseSync> {
   public handle : DatabaseSync
 
-  constructor() {
+  constructor(keyv: Keyv) {
+    super(keyv)
     this.handle = new DatabaseSync('ap.sqlite.db')
     this.init()
   }
@@ -195,23 +197,7 @@ class LocalDB implements Database.Router<DatabaseSync, AuthCookies> {
     throw new NotImplementedError()
   }
 
-  session = (
-    _username: string,
-    _sessionKey: string,
-  ): AP.OrPromise<Database.SessionStorage<AuthCookies>> => {
-    throw new NotImplementedError()
-  }
-
-  newSession = (
-    _username: string,
-    _actorFunc: (username: string) => string,
-  ): AP.OrPromise<Database.SessionStorage<AuthCookies>> => {
-    throw new NotImplementedError()
-  }
-
   sendToOutbox = (_usernameId: number, _actor: string, _message: AP.CoreObject): AP.OrPromise<boolean> => {
     throw new NotImplementedError()
   }
 }
-
-export const LocalDatabase = new LocalDB()

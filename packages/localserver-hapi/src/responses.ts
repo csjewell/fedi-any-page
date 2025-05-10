@@ -1,10 +1,8 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import type { Responses, Server } from '@csjewell-activitypub/general'
+import type { Cookies, Responses } from '@csjewell-activitypub/general'
 import type Hapi from '@hapi/hapi'
-
-type AuthCookies = Server.RePliers.AuthInfo
 
 /* eslint-disable-next-line @stylistic/comma-dangle -- false alarm */
 type ResolvedHeadersType = Array<[string, string]>
@@ -17,7 +15,7 @@ type HeadersType = Record<string, string> | ResolvedHeadersType
  * @class
  */
 /* eslint "sonarjs/no-identical-functions": "off" -- The overrides just work that way */
-export class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject> {
+export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
   private h    : Hapi.ResponseToolkit
   private resp : Hapi.ResponseObject | undefined = undefined
 
@@ -44,6 +42,11 @@ export class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject
 
     return [ ...hdr, ...addHeaders ]
   }
+
+  handleCookies(_cookies: Cookies): Responses.ResolvedHeaders {
+    return []
+  }
+
 
   _resolve(headers = {} as HeadersType): ResolvedHeadersType {
     if (Array.isArray(headers) && Array.isArray(headers[0])) {
@@ -74,19 +77,23 @@ export class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject
     return resp
   }
 
-  _cookies(cookies: AuthCookies): Hapi.ResponseObject {
+  _cookies(cookies: Cookies): Hapi.ResponseObject {
     let { resp, } = this
 
     if (resp === undefined) {
       throw new TypeError('Needed to call _body first')
     }
 
-    for (const [ key, value ] of Object.entries(cookies)) {
-      if (value === undefined) {
-        resp = resp.unstate(key)
-      } else {
-        resp = resp.state(key, value)
-      }
+    if (cookies.actinf === undefined) {
+      resp = resp.unstate('actinf')
+    } else {
+      resp = resp.state('actinf', cookies.actinf)
+    }
+
+    if (cookies.actinfo === undefined) {
+      resp = resp.unstate('actinfo')
+    } else {
+      resp = resp.state('actinfo', cookies.actinfo)
     }
 
     this.resp = resp
@@ -115,7 +122,7 @@ export class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject
   success200Obj({
     body = {} as Record<string, unknown>,
     addHeaders = {} as HeadersType,
-    cookies = undefined as AuthCookies | undefined,
+    cookies = undefined as Cookies | undefined,
   } = {}): Hapi.ResponseObject {
     this._body(body)
 
@@ -138,7 +145,7 @@ export class HAPIResponses implements Responses<AuthCookies, Hapi.ResponseObject
   success200Str({
     body = '',
     addHeaders = {} as HeadersType,
-    cookies = undefined as AuthCookies | undefined,
+    cookies = undefined as Cookies | undefined,
   } = {}): Hapi.ResponseObject {
     this._body(body)
 

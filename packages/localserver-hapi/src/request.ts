@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import type { Request } from '@csjewell-activitypub/general'
+import type { Cookies, Request } from '@csjewell-activitypub/general'
 import type Hapi from '@hapi/hapi'
 
 export class HAPIRequest implements Request.Helper {
@@ -17,13 +17,13 @@ export class HAPIRequest implements Request.Helper {
     return (this.req.headers.accept as string).includes('text/html')
   }
 
-  getCookieInputs(): Request.SessionInputs {
+  getCookieInputs(): Cookies {
     const inp = this.req.state.actinf as object
 
-    if (Object.hasOwn(inp, 'sessionCookie')) {
-      const { actor, sessionCookie, } = inp as Request.SessionInputs
+    if (Object.hasOwn(inp, 'actinfo')) {
+      const { actinf, actinfo, } = inp as Cookies
 
-      return { actor, sessionCookie, } as Request.SessionInputs
+      return { actinf, actinfo, } as Cookies
     }
 
     throw new TypeError('Sent the wrong stuff')

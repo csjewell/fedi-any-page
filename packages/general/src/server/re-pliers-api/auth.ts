@@ -82,10 +82,9 @@ export const Logout: APIHandler = async <DatabaseT, ResponseT>(
     return resp.redirect30x({ url, statusCode: 301, })
   }
 
-  const { sessionCookie, } = req.getCookieInputs()
+  const { actinf, } = await req.getCookieInputs()
 
-  // TODO: [2025-04-07] Get the correct username parameter.
-  const session = await config.database.session('', sessionCookie as string)
+  const session = await config.database.session('', actinf as string)
 
   if (await session.exists()) {
     await session.invalidate()

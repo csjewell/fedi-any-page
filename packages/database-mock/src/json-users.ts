@@ -115,7 +115,7 @@ export class JsonUsers extends BaseMockUsers implements Database.UsersStorage {
   }
 
   /* eslint-disable-next-line @typescript-eslint/require-await -- We are mocking a routine that COULD await. */
-  retrieve = async (...arghs: Array<unknown>): Promise<User> => {
+  override retrieve = async (...arghs: Array<unknown>): Promise<User> => {
     const username = (arghs[0] as string).toLowerCase()
 
     if (!this.usersObj.has(username)) {
@@ -130,7 +130,7 @@ export class JsonUsers extends BaseMockUsers implements Database.UsersStorage {
   }
 
   /* eslint-disable-next-line @typescript-eslint/require-await -- We are mocking a routine that COULD await. */
-  exists = async (): Promise<boolean> => {
+  override exists = async (): Promise<boolean> => {
     return this.usersObj.has(this.username)
   }
 

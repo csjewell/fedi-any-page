@@ -1,19 +1,22 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import { type Configuration, NotImplementedError, type Server } from '@csjewell-activitypub/general'
-import { LocalDatabase } from './database.ts'
+import { type Configuration, NotImplementedError } from '@csjewell-activitypub/general'
+import { LocalDB } from './database.ts'
+import type Keyv from 'keyv'
 import type { DatabaseSync } from 'node:sqlite'
 import type * as AP from '@csjewell-activitypub/types'
 
-type AuthCookies = Server.RePliers.AuthInfo
-
-export class TestConfig implements Configuration<DatabaseSync, AuthCookies> {
+export class TestConfig implements Configuration<DatabaseSync> {
   public readonly url        : URL = new URL('http://test-hapi.localhost/')
   public readonly privateKey : string = 'locked'
-  public readonly database = LocalDatabase
+  public readonly database   : LocalDB
   public readonly debugDB    : boolean = false
   public readonly siteName   : string = 'Test Site'
+
+  constructor(keyv: Keyv) {
+    this.database = new LocalDB(keyv)
+  }
 
   localGet(_url: string | URL): AP.CoreObject | undefined {
     throw new NotImplementedError()

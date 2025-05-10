@@ -85,9 +85,12 @@ export const load = (app) => {
       // The navigation JSON structure is available on the navigation object.
       const {navigation,} = renderer
       const slugs = {
+        'localserver-h3'         : 'latest/localserver-h3',
         'localserver-hapi'       : 'latest/localserver-hapi',
         'eslint-config'          : 'latest/eslint-config',
         're-pliers'              : 'latest/re-pliers',
+        'database-node-sqlite'   : 'latest/database-node-sqlite',
+        'database-better-sqlite' : 'latest/database-better-sqlite/start',
         'database-cloudflare-d1' : 'latest/database-cloudflare-d1/start',
         'database-mock'          : 'latest/database-mock/start',
         'general'                : 'latest/general/start',

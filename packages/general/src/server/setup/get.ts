@@ -3,7 +3,7 @@
  */
 import type { Type as Responses } from '../../responses.ts'
 
-export const setupGet = <ResponseT>(resp: Responses<ResponseT>): ResponseT => {
+export const setupGet = async <ResponseT>(resp: Responses<ResponseT>): Promise<ResponseT> => {
   const body = `<!DOCTYPE html>
 <html><head>
   <title>Setup for the "Fedi Any Page" toolkit v0.2.0-alpha-2</title>
@@ -63,6 +63,6 @@ export const setupGet = <ResponseT>(resp: Responses<ResponseT>): ResponseT => {
     'Content-Type' : 'text/html',
   }
 
-  return resp.success200Str({ body, addHeaders, })
+  return await resp.success200Str({ body, addHeaders, })
 }
 

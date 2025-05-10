@@ -37,10 +37,9 @@ export class HAPIServer {
 
   constructor(dbLocation: string, isTest: boolean) {
     const kvStore = new KeyvSqlite(`sqlite:/${ dbLocation }`)
-    const _kvCache = new Keyv<string>({ store: kvStore, ttl: 28800, })
+    const kvCache = new Keyv<string>({ store: kvStore, ttl: 28800, })
 
-    // ...(new LocalDB(kvCache))
-    this.config = new TestConfig()
+    this.config = new TestConfig(kvCache)
 
     this.server = Hapi.server({
       host        : 'localhost',

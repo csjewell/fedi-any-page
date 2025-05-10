@@ -22,11 +22,11 @@ export class StandardRequest implements Request.Helper {
     return accept.split(',').includes('text/html')
   }
 
-  getFormInputs = (): { username: string; password: string } => {
+  getFormInputs = (): { username: string, password: string } => {
     throw new NotImplementedError()
   }
 
-  getCookieInputs = (): { actor: string; isVerified: boolean, expires: number } => {
+  getCookieInputs = (): { actinf?: string, actinfo?: string, } => {
     throw new NotImplementedError()
   }
 }
