@@ -8,7 +8,7 @@ import { AuthCtx } from '../context/AuthCtx.ts'
 import { ReplyActionsCtx } from '../context/ReplyActionsCtx.ts'
 import { ReplyListCtx } from '../context/ReplyListCtx.ts'
 import { toReplyList } from '../types/ReplyList.ts'
-import { type ReplyListCtxType, unfilledCache } from '../types/ReplyListCtxType.ts'
+import { type ReplyListCtxType, UnfilledCache } from '../types/ReplyListCtxType.ts'
 import type { FunctionComponent } from 'preact'
 import type { AuthInfo } from '../types/AuthInfo.ts'
 import type { ReplyActions } from '../types/ReplyActions.ts'
@@ -27,7 +27,7 @@ const Replies: FunctionComponent<{
 }> = ({ page, cache, children, }) => {
   const auth = useContext<AuthInfo>(AuthCtx)
 
-  const [ replyListCtx, setReplyListCtx ] = useState<ReplyListCtxType>(unfilledCache)
+  const [ replyListCtx, setReplyListCtx ] = useState<ReplyListCtxType>(UnfilledCache)
 
   const replyActions: ReplyActions = {
     like : async (i: number): Promise<void> => {

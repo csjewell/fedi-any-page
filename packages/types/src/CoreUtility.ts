@@ -3,7 +3,7 @@
  */
 import type { Activity } from './Activity.ts'
 import type { Actor } from './Actor.ts'
-import type { AnyCollectionOrCollectionPage, Collection } from './Collection.ts'
+import type { AnyCollectionOrCollectionPage } from './Collection.ts'
 import type { ExtendedObject } from './ExtendedObject.ts'
 import type { Link, Mention } from './Link.ts'
 

@@ -1,6 +1,6 @@
 {
   "name": "@csjewell-activitypub/server-h3",
-  "version": "0.2.0-alpha.1",
+  "version": "0.2.0-alpha.2",
   "description": "Provide a server for re-pliers to use.",
   "exports": {
     ".": "./index.ts",

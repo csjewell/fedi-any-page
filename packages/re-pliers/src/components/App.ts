@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { html } from 'htm/preact'
-import { type ReplyListCtxType, unfilledCache } from '../types/ReplyListCtxType.ts'
+import { type ReplyListCtxType, UnfilledCache } from '../types/ReplyListCtxType.ts'
 import Auth from './Auth.ts'
 import ErrorBanner from './ErrorBanner.ts'
 import Header from './Header.ts'
@@ -29,7 +29,7 @@ const App: FunctionComponent<{
     <${ Header } user=${ user } domain=${ domain }>
       <${ ErrorBanner }>
         <${ Auth } page=${ page }>
-          <${ Replies } page=${ page } cache=${ cache ?? unfilledCache }>
+          <${ Replies } page=${ page } cache=${ cache ?? UnfilledCache }>
             <${ TopLevelReplies } />
           <//>
         <//>

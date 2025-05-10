@@ -6,6 +6,12 @@ import type * as Request from '../request.ts'
 import type { Type as Responses } from '../responses.ts'
 import type { APIHandler } from './types.ts'
 
+/**
+ * Handles web queries to the /.well-known/nodeinfo URL
+ *
+ * Implements the discovery part of
+ * https://codeberg.org/fediverse/fep/src/branch/main/fep/f1d5/fep-f1d5.md
+ */
 export const NodeInfo: APIHandler = <DatabaseT, ResponseT>(
   config: Configuration<DatabaseT>,
   _req: Request.Helper,

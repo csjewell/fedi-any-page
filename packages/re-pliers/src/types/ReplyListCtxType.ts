@@ -16,14 +16,14 @@ export const ReplyListCtxTypeSchema = v.strictObject({
 
 export type ReplyListCtxType = v.InferOutput<typeof ReplyListCtxTypeSchema>
 
-export const emptyCache = {
+export const EmptyCache = {
   replies      : [],
   replyIndex   : [],
   totalReplies : 0,
   start        : 0,
 } as ReplyListCtxType
 
-export const unfilledCache = {
+export const UnfilledCache = {
   replies      : [],
   replyIndex   : [],
   totalReplies : -1,

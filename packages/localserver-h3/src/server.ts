@@ -9,7 +9,7 @@ import { useCompressionStream } from 'h3-compression'
 import { Keyv } from 'keyv'
 import { SQLiteConfig } from '@csjewell-activitypub/database-better-sqlite'
 import { Server } from '@csjewell-activitypub/general'
-import { HTML, NodeInfo, WebFinger } from '@csjewell-activitypub/handlers-response'
+import { ActivityPub, HTML, NodeInfo, WebFinger } from '@csjewell-activitypub/handlers-response'
 import KeyvSqlite from '@keyv/sqlite'
 import { H3Request } from './request.ts'
 import { H3RespHelper } from './response.ts'
@@ -48,8 +48,7 @@ export class H3Server {
 
     const apiRouter = createRouter()
 
-    apiRouter.post(
-      '/login',
+    apiRouter.post('/login',
       eventHandler(async (event: H3Event): Promise<Response> => {
         return await Server.RePliers.Auth.Login(
           this.config, await req(event), await htmlResp(event),
@@ -57,8 +56,7 @@ export class H3Server {
       }),
     )
 
-    apiRouter.post(
-      '/verify',
+    apiRouter.post('/verify',
       eventHandler(async (event: H3Event): Promise<Response> => {
         return await Server.RePliers.Auth.Verify(
           this.config, await req(event), await htmlResp(event),
@@ -66,8 +64,7 @@ export class H3Server {
       }),
     )
 
-    apiRouter.post(
-      '/logout',
+    apiRouter.post('/logout',
       eventHandler(async (event: H3Event): Promise<Response> => {
         return await Server.RePliers.Auth.Logout(
           this.config, await req(event), await htmlResp(event),
@@ -75,9 +72,125 @@ export class H3Server {
       }),
     )
 
-    const baseRouter = createRouter()
+    /*
+    apiRouter.post('/re-pliers-api/replies',
+      eventHandler(async (event: H3Event): Promise<Response> => {
+        return await Server.RePliers.Replies()
+      })
+    )
+    */
 
-    baseRouter.use('/re-pliers-api/**', useBase('/re-pliers-api', apiRouter.handler))
+    apiRouter.options('/re-pliers-api/replies',
+      eventHandler((_e: H3Event): Response => HTML.options204()),
+    )
+
+    /*
+    apiRouter.post('/re-pliers-api/reply',
+      eventHandler(async (event: H3Event): Promise<Response> => {
+        return await Server.RePliers.Reply()
+      })
+    )
+    */
+
+    apiRouter.options('/re-pliers-api/reply',
+      eventHandler((_e: H3Event): Response => HTML.options204()),
+    )
+
+    /*
+    apiRouter.post('/re-pliers-api/reply/like',
+      eventHandler(async (event: H3Event): Promise<Response> => {
+        return await Server.RePliers.Like()
+      })
+    )
+    */
+
+    apiRouter.options('/re-pliers-api/reply/like',
+      eventHandler((_e: H3Event): Response => HTML.options204()),
+    )
+
+    /*
+    apiRouter.post('/re-pliers-api/reply/unlike',
+      eventHandler(async (event: H3Event): Promise<Response> => {
+        return await Server.RePliers.Like(false)
+      })
+    )
+    */
+
+    apiRouter.options('/re-pliers-api/reply/unlike',
+      eventHandler((_e: H3Event): Response => HTML.options204()),
+    )
+
+    /*
+    apiRouter.post('/re-pliers-api/reply/hide',
+      eventHandler(async (event: H3Event): Promise<Response> => {
+        return await Server.RePliers.Hide(true)
+      })
+    )
+    */
+
+    apiRouter.options('/re-pliers-api/reply/hide',
+      eventHandler((_e: H3Event): Response => HTML.options204()),
+    )
+
+    /*
+    apiRouter.post('/re-pliers-api/reply/unhide',
+      eventHandler(async (_event: H3Event): Promise<Response> => {
+        return await Server.RePliers.Hide(false)
+      })
+    )
+    */
+
+    apiRouter.options('/reply/unhide',
+      eventHandler((_e: H3Event): Response => HTML.options204()),
+    )
+
+
+    const apRouter = createRouter()
+    const apServerRouter = createRouter()
+
+    apServerRouter.get('/',
+      eventHandler(async (event: H3Event): Promise<Response> => {
+        return await Server.App.Index(this.config, await req(event), ActivityPub)
+      }),
+    )
+
+    apServerRouter.options('/',
+      eventHandler((_event: H3Event): Response => {
+        return ActivityPub.options204()
+      }),
+    )
+
+    /*
+    apServerRouter.get('/inbox',
+      eventHandler(async (event: H3Event): Promise<Response> => {
+        return await Server.App.Inbox(this.config, await req(event), ActivityPub)
+      })
+    )
+    */
+
+    apServerRouter.options('/inbox',
+      eventHandler((_event: H3Event): Response => {
+        return ActivityPub.options204()
+      }),
+    )
+
+    /*
+    apServerRouter.get('/outbox',
+      eventHandler(async (event: H3Event): Promise<Response> => {
+        return await Server.App.Outbox(this.config, await req(event), ActivityPub)
+      })
+    )
+    */
+
+    apServerRouter.options('/outbox',
+      eventHandler((_event: H3Event): Response => {
+        return ActivityPub.options204()
+      }),
+    )
+
+    apRouter.use('/server/**', useBase('/server', apServerRouter.handler))
+
+    const baseRouter = createRouter()
 
     baseRouter.get(
       '/favicon.ico',
@@ -157,42 +270,10 @@ export class H3Server {
       }),
     )
 
-
+    baseRouter.use('/re-pliers-api/**', useBase('/re-pliers-api', apiRouter.handler))
+    baseRouter.use('/activitypub/**', useBase('/activitypub', apRouter.handler))
     baseRouter.use('/.well-known/**', useBase('/.well-known', wkRouter.handler))
-
     this.app.use(baseRouter)
-
-
-    /*
-    router.options('/.well-known/webfinger', (ctx) => ctx.response.with(Resp.WebFinger.options204() as Response))
-    router.options('/.well-known/nodeinfo', (ctx) => ctx.response.with(Resp.NodeInfo.options204() as Response))
-    router.options('/nodeinfo/2.1', (ctx) => ctx.response.with(Resp.NodeInfo.options204() as Response))
-    //router.get('/activitypub/server', (ctx) => ctx.response.with(Server.App.Index(config, null, Resp.ActivityPub) as Response))
-    router.options('/activitypub/server', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
-    // router.get('/activitypub/server/inbox', (ctx) => ctx.response.with(Server.App.Inbox(Resp.ActivityPub) as Response))
-    router.options('/activitypub/server/inbox', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
-    // router.get('/activitypub/server/outbox', (ctx) => ctx.response.with(Server.App.Outbox(Resp.ActivityPub) as Response))
-    router.options('/activitypub/server/outbox', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
-    // router.post('/re-pliers-api/login', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.ActivityPub) as Response))
-    router.options('/re-pliers-api/login', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
-    // router.get('/re-pliers-api/verify', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
-    router.options('/re-pliers-api/verify', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
-    // router.post('/re-pliers-api/logout', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
-    router.options('/re-pliers-api/logout', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
-    // router.post('/re-pliers-api/replies', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
-    router.options('/re-pliers-api/replies', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
-    // router.post('/re-pliers-api/reply', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
-    router.options('/re-pliers-api/reply', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
-    // router.post('/re-pliers-api/reply/like', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
-    router.options('/re-pliers-api/reply/like', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
-    // router.post('/re-pliers-api/reply/unlike', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
-    router.options('/re-pliers-api/reply/unlike', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
-    // router.post('/re-pliers-api/reply/hide', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
-    router.options('/re-pliers-api/reply/hide', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
-    // router.post('/re-pliers-api/reply/unhide', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
-    router.options('/re-pliers-api/reply/unhide', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
-
-    */
   }
 
   getApp = (): App => this.app

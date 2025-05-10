@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { html } from 'htm/preact'
-import { humanizer } from '../HumanDate.ts'
+import { HumanDate } from '../HumanDate.ts'
 import type { FunctionComponent } from 'preact'
 
 /**
@@ -27,7 +27,7 @@ const dateTrue = (d: Date): string => {
 }
 
 const humanDate = (d: Date): string => {
-  return humanizer.humanize(Date.now().valueOf() - d.valueOf())
+  return HumanDate.humanize(Date.now().valueOf() - d.valueOf())
 }
 
 const ShowDate: FunctionComponent<{ date: Date, }> = ({ date, }) => {

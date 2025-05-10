@@ -1,6 +1,6 @@
 {
   "name": "@csjewell-activitypub/localserver-hapi",
-  "version": "0.2.0-alpha.1",
+  "version": "0.2.0-alpha.2",
   "description": "hapi-based server to do local testing with.",
   "homepage": "https://fedi-any-page.curtisjewell.dev",
   "repository": {

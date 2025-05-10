@@ -4,10 +4,9 @@
 import type { Type as Responses } from '../../responses.ts'
 
 export const setupGet = <ResponseT>(resp: Responses<ResponseT>): ResponseT => {
-  // I wish we could just uncomment the line above, but it only works in Bun as of yet.
   const body = `<!DOCTYPE html>
 <html><head>
-  <title>Setup for the "Fedi Any Page" toolkit</title>
+  <title>Setup for the "Fedi Any Page" toolkit v0.2.0-alpha-2</title>
   <style>
     form {
       width: 60%;
@@ -47,7 +46,7 @@ export const setupGet = <ResponseT>(resp: Responses<ResponseT>): ResponseT => {
     }
   </style>
 </head><body>
-  <h1 style="font-size: 110%">Setup for the "Fedi Any Page" toolkit</h1>
+  <h1 style="font-size: 110%">Setup for the "Fedi Any Page" toolkit v0.2.0-alpha.2</h1>
   <p>This page will generate the <code>users.json</code> file to put on your website as a site asset.</p>
   <form action="POST">
     <label for="jsonfile">Previous <code>users.json</code>: </label><input type="file" id="jsonfile"><span class="column">(only required if you want to append to it.)</span>
