@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { html } from 'htm/preact'
-import { Types } from '@csjewell-activitypub/general'
+import { Server } from '@csjewell-activitypub/general'
 import Auth from './Auth.ts'
 import ErrorBanner from './ErrorBanner.ts'
 import Header from './Header.ts'
@@ -23,13 +23,13 @@ const App: FunctionComponent<{
   page   : string,
   user   : string,
   domain : string,
-  cache? : Types.ReplyListCtxType,
+  cache? : Server.RePliers.ReplyListCtxType,
 }> = ({ page, user, domain, cache, }) => {
   return html`
     <${ Header } user=${ user } domain=${ domain }>
       <${ ErrorBanner }>
         <${ Auth } page=${ page }>
-          <${ Replies } page=${ page } cache=${ cache ?? Types.UnfilledCache }>
+          <${ Replies } page=${ page } cache=${ cache ?? Server.RePliers.UnfilledCache }>
             <${ TopLevelReplies } />
           <//>
         <//>

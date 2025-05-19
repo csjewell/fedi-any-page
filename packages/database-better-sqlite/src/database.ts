@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { type Database, default as newDatabase } from 'better-sqlite3'
-import { Database as APDatabase, NotImplementedError, type Types } from '@csjewell-activitypub/general'
+import { Database as APDatabase, NotImplementedError, type Server } from '@csjewell-activitypub/general'
 import { ActorSQLiteStorage } from './actor.ts'
 import { AnnounceSQLiteStorage } from './announce.ts'
 import { DocumentSQLiteStorage } from './document.ts'
@@ -14,7 +14,8 @@ import { RepliesSQLiteStorage } from './replies.ts'
 import type { Keyv } from 'keyv'
 import type * as AP from '@csjewell-activitypub/types'
 
-type RepliesStorage = APDatabase.StorageHandler<Types.ReplyList> & APDatabase.RepliesHandler
+type RepliesStorage = APDatabase.StorageHandler<Server.RePliers.ReplyList> &
+  APDatabase.RepliesHandler
 
 export class SQLiteDatabase
   extends APDatabase.SessionRouter

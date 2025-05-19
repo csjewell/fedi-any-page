@@ -6,10 +6,10 @@ import { AuthCtx } from './context/AuthCtx.ts'
 import { ReplyActionsCtx } from './context/ReplyActionsCtx.ts'
 import { ReplyListCtx } from './context/ReplyListCtx.ts'
 import type { VNode } from 'preact'
-import type { Types } from '@csjewell-activitypub/general'
+import type { Server } from '@csjewell-activitypub/general'
 import type { ReplyActions } from './types/ReplyActions.ts'
 
-const complicatedRepliesObj: Types.ReplyList = {
+const complicatedRepliesObj: Server.RePliers.ReplyList = {
   replies : [
     {
       identifier : 'https://mock.response.example.org/12345',
@@ -83,7 +83,7 @@ const complicatedRepliesObj: Types.ReplyList = {
   ],
 }
 
-const complicatedReplies = (): Types.ReplyList => {
+const complicatedReplies = (): Server.RePliers.ReplyList => {
   return complicatedRepliesObj
 }
 
@@ -107,14 +107,14 @@ const replyActions: ReplyActions = {
 }
 /* eslint-enable @typescript-eslint/require-await */
 
-const noReplies = (): Types.ReplyList => {
+const noReplies = (): Server.RePliers.ReplyList => {
   return {
     replies    : [],
     replyIndex : [],
   }
 }
 
-const simpleReply = (): Types.ReplyList => {
+const simpleReply = (): Server.RePliers.ReplyList => {
   return {
     replies : [
       {
@@ -137,7 +137,11 @@ const simpleReply = (): Types.ReplyList => {
   }
 }
 
-const wrapper = (vnode: VNode, isAuthed: boolean, replies: Types.ReplyList): VNode => {
+const wrapper = (
+  vnode: VNode,
+  isAuthed: boolean,
+  replies: Server.RePliers.ReplyList,
+): VNode => {
   const auth = {
     actor      : isAuthed ? 'https://mock.response.example.com/actor/mockery' : '',
     isVerified : isAuthed,

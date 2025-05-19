@@ -17,7 +17,7 @@ import ReplyExpander from './ReplyExpander.ts'
 import ShowDate from './ShowDate.ts'
 import UnhideReply from './UnhideReply.ts'
 import type { FunctionComponent } from 'preact'
-import type { Types } from '@csjewell-activitypub/general'
+import type { Server } from '@csjewell-activitypub/general'
 import type { AuthInfo } from '../types/AuthInfo.ts'
 
 /**
@@ -41,7 +41,7 @@ const Reply: FunctionComponent<{
   indentLevel,
   needsBottom,
 }) => {
-  const replyList = useContext<Types.ReplyList>(ReplyListCtx)
+  const replyList = useContext<Server.RePliers.ReplyList>(ReplyListCtx)
   const auth = useContext<AuthInfo>(AuthCtx)
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   const [ , forceUpdate ] = useReducer<number, void>(x => x + 1, 0)

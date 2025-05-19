@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import { Types } from '@csjewell-activitypub/general'
+import { Server } from '@csjewell-activitypub/general'
 import { grip } from '@nesterow/grip'
 import { assertErrorResp } from '../types/ErrorResp.ts'
 
@@ -22,9 +22,12 @@ import { assertErrorResp } from '../types/ErrorResp.ts'
  * @throws Error (for now) if not successful.
  * @throws ValiError if the correct type of JSON data is not received.
  */
-export const doGetRepliesPage = async (page: string, replyList: Types.ReplyListCtxType): Promise<Types.ReplyListCtxType> => {
+export const doGetRepliesPage = async (
+  page: string,
+  replyList: Server.RePliers.ReplyListCtxType,
+): Promise<Server.RePliers.ReplyListCtxType> => {
   const repliesURL = `${ new URL(page).origin }/re-pliers-api/replies`
-  let ret: Types.ReplyListCtxType
+  let ret: Server.RePliers.ReplyListCtxType
 
   const resp = await grip(fetch(repliesURL, {
     method : 'POST',
@@ -52,7 +55,7 @@ export const doGetRepliesPage = async (page: string, replyList: Types.ReplyListC
 
   const obj: unknown = await resp.value.json()
 
-  Types.assertReplyListResp(obj)
+  Server.RePliers.assertReplyListResp(obj)
 
   if (replyList.start === 0) {
     ret = {

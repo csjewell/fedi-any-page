@@ -3,7 +3,7 @@
  */
 import { html } from 'htm/preact'
 import { useContext, useEffect, useState } from 'preact/hooks'
-import { Types } from '@csjewell-activitypub/general'
+import { Server } from '@csjewell-activitypub/general'
 import * as RepliesAPI from '../api/replies.ts'
 import { AuthCtx } from '../context/AuthCtx.ts'
 import { ReplyActionsCtx } from '../context/ReplyActionsCtx.ts'
@@ -22,11 +22,13 @@ import type { ReplyActions } from '../types/ReplyActions.ts'
  */
 const Replies: FunctionComponent<{
   page  : string,
-  cache : Types.ReplyListCtxType
+  cache : Server.RePliers.ReplyListCtxType
 }> = ({ page, cache, children, }) => {
   const auth = useContext<AuthInfo>(AuthCtx)
 
-  const [ replyListCtx, setReplyListCtx ] = useState<Types.ReplyListCtxType>(Types.UnfilledCache)
+  const [ replyListCtx, setReplyListCtx ] = useState<
+    Server.RePliers.ReplyListCtxType
+  >(Server.RePliers.UnfilledCache)
 
   const replyActions: ReplyActions = {
     like : async (i: number): Promise<void> => {
@@ -115,7 +117,7 @@ const Replies: FunctionComponent<{
     void getAllPages()
   }, [replyListCtx])
   return html`
-    <${ ReplyListCtx.Provider } value=${ Types.toReplyList(replyListCtx) }>
+    <${ ReplyListCtx.Provider } value=${ Server.RePliers.toReplyList(replyListCtx) }>
       <${ ReplyActionsCtx.Provider } value=${ replyActions }>
         ${ children }
       <//>

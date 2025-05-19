@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import { Database, NotImplementedError, type Types, Utils } from '@csjewell-activitypub/general'
+import { Database, NotImplementedError, type Server, Utils } from '@csjewell-activitypub/general'
 import { ActorCFStorage } from './actor.ts'
 import { AnnounceCFStorage } from './announce.ts'
 import { FollowCFStorage } from './follow.ts'
@@ -135,8 +135,8 @@ export class CloudflareD1Database extends Database.SessionRouter implements Data
     throw new NotImplementedError()
   }
 
-  replies = (_message: AP.ExtendedObjectReference): Database.StorageHandler<Types.ReplyList>
-    & Database.RepliesHandler => {
+  replies = (_message: AP.ExtendedObjectReference): Database.StorageHandler<
+    Server.RePliers.ReplyList> & Database.RepliesHandler => {
     throw new NotImplementedError()
   }
 

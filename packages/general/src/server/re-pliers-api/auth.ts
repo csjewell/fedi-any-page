@@ -4,7 +4,7 @@
 import type { Configuration } from '../../configuration.ts'
 import type * as Request from '../../request.ts'
 import type { Type as Responses } from '../../responses.ts'
-import type { APIHandler } from './types.ts'
+import type { APIHandler } from './APIHandler.ts'
 
 export const Login: APIHandler = async <DatabaseT, ResponseT>(
   config: Configuration<DatabaseT>,

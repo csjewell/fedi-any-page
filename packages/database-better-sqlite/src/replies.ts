@@ -2,13 +2,15 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import {
-  type Database as APDatabase, NotImplementedError, type Types, Utils,
+  type Database as APDatabase, NotImplementedError, type Server, Utils,
 } from '@csjewell-activitypub/general'
 import * as AP from '@csjewell-activitypub/types'
 import type { Database, Statement } from 'better-sqlite3'
 import type { SQLiteDatabase } from './database.ts'
 
-type RepliesStorage = APDatabase.StorageHandler<Types.ReplyList> & APDatabase.RepliesHandler
+type RepliesStorage = APDatabase.StorageHandler<Server.RePliers.ReplyList>
+  & APDatabase.RepliesHandler
+
 type InfoRet = {
   id              : number,
   replyId         : number,
@@ -42,7 +44,7 @@ implements RepliesStorage {
   }
   private dbId         : number | undefined = undefined
   private dbDocumentId : number | undefined = undefined
-  private listCache    : Types.ReplyList | undefined = undefined
+  private listCache    : Server.RePliers.ReplyList | undefined = undefined
 
   constructor(
     router: SQLiteDatabase,
@@ -98,7 +100,7 @@ implements RepliesStorage {
     return this.dbId
   }
 
-  document = (): Types.ReplyList | undefined => {
+  document = (): Server.RePliers.ReplyList | undefined => {
     return this.listCache
   }
 
@@ -281,8 +283,9 @@ implements RepliesStorage {
     return numLikes.count
   }
 
-  private readonly retrieveReplyIndex = (docId: number): Array<Types.IndexEntry> => {
-    return this.statements.replyIndex.all(docId) as Array<Types.IndexEntry>
+  private readonly retrieveReplyIndex = (docId: number):
+  Array<Server.RePliers.IndexEntry> => {
+    return this.statements.replyIndex.all(docId) as Array<Server.RePliers.IndexEntry>
   }
 
   private readonly retrieveIsLiked = (docId: number, actorId: number): boolean => {
@@ -310,7 +313,7 @@ implements RepliesStorage {
     return false
   }
 
-  private readonly retrieveOnceById = (docId: number): Types.ReplyInfo | undefined => {
+  private readonly retrieveOnceById = (docId: number): Server.RePliers.ReplyInfo | undefined => {
     const dbResponse = this.statements.infoById.get(docId) as undefined | InfoRet
 
     if (dbResponse === undefined) {
@@ -332,8 +335,8 @@ implements RepliesStorage {
     return infoByIdentifier.get(ident) as undefined | IdRet
   }
 
-  private readonly toReplyInfo = (dbResponse: InfoRet): Types.ReplyInfo => {
-    const info: Types.ReplyInfo = {
+  private readonly toReplyInfo = (dbResponse: InfoRet): Server.RePliers.ReplyInfo => {
+    const info: Server.RePliers.ReplyInfo = {
       identifier : dbResponse.identifier,
       date       : new Date(dbResponse.dateUnparsed),
       content    : '',
@@ -364,7 +367,7 @@ implements RepliesStorage {
     return info
   }
 
-  retrieve = (): Types.ReplyList | undefined => {
+  retrieve = (): Server.RePliers.ReplyList | undefined => {
     if (this.listCache !== undefined) {
       return this.listCache
     }
@@ -379,11 +382,11 @@ implements RepliesStorage {
         return undefined
       }
 
-      const draftReplyIndex: Array<Types.IndexEntry>
+      const draftReplyIndex: Array<Server.RePliers.IndexEntry>
         = this.retrieveReplyIndex(initial.documentId)
 
-      const replyIndex: Array<Types.IndexEntry> = []
-      const replies: Array<Types.ReplyInfo> = []
+      const replyIndex: Array<Server.RePliers.IndexEntry> = []
+      const replies: Array<Server.RePliers.ReplyInfo> = []
 
       for (const draftIndexEntry of draftReplyIndex) {
         const next = this.retrieveRecursive(draftIndexEntry)
@@ -409,8 +412,8 @@ implements RepliesStorage {
   }
 
   private readonly retrieveRecursive = (
-    entry: Types.IndexEntry,
-  ): Types.ReplyList | undefined => {
+    entry: Server.RePliers.IndexEntry,
+  ): Server.RePliers.ReplyList | undefined => {
     const reply = this.retrieveOnceById(entry.index)
 
     if (reply === undefined) {
@@ -422,7 +425,7 @@ implements RepliesStorage {
     // Clone it, because we are overwriting it later.
     const draftReplyIndex = reply.replyIndex.map(indexEntry => ({ ...indexEntry,}))
 
-    const baseIndexEntry: Types.IndexEntry = {
+    const baseIndexEntry: Server.RePliers.IndexEntry = {
       index      : 0,
       identifier : reply.identifier,
     }
@@ -434,8 +437,8 @@ implements RepliesStorage {
       }
     }
 
-    const replyIndex: Array<Types.IndexEntry> = []
-    const replies: Array<Types.ReplyInfo> = []
+    const replyIndex: Array<Server.RePliers.IndexEntry> = []
+    const replies: Array<Server.RePliers.ReplyInfo> = []
 
     for (const draftIndexEntry of draftReplyIndex) {
       const next = this.retrieveRecursive(draftIndexEntry)
@@ -462,9 +465,9 @@ implements RepliesStorage {
   }
 
   private readonly addToIndexEntries = (
-    reply: Types.ReplyInfo,
+    reply: Server.RePliers.ReplyInfo,
     i: number,
-  ): Types.ReplyInfo => {
+  ): Server.RePliers.ReplyInfo => {
     /* eslint-disable-next-line logical-assignment-operators */
     reply.replyIndex ??= []
 

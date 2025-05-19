@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { DatabaseSync } from 'node:sqlite'
-import { Database, NotImplementedError, type Types } from '@csjewell-activitypub/general'
+import { Database, NotImplementedError, type Server } from '@csjewell-activitypub/general'
 import { ActorSQLiteStorage } from './actor.ts'
 import { AnnounceSQLiteStorage } from './announce.ts'
 import { DocumentSQLiteStorage } from './document.ts'
@@ -217,7 +217,7 @@ export class SQLiteDatabase
     throw new NotImplementedError()
   }
 
-  replies = (_message: AP.ExtendedObjectReference): Database.StorageHandler<Types.ReplyList>
+  replies = (_message: AP.ExtendedObjectReference): Database.StorageHandler<Server.RePliers.ReplyList>
     & Database.RepliesHandler => {
     throw new NotImplementedError()
   }

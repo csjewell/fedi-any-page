@@ -3,7 +3,7 @@
  */
 import type * as AP from '@csjewell-activitypub/types'
 import type { Cookies } from '../cookies.ts'
-import type { ReplyList } from '../types/ReplyList.ts'
+import type { ReplyList } from '../server/re-pliers-api/ReplyList.ts'
 import type { User } from '../users.ts'
 import type { DatabaseKey } from './misc.ts'
 import type { SessionDB } from './session.ts'

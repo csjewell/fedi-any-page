@@ -9,7 +9,7 @@ import { ReplyActionsCtx } from '../context/ReplyActionsCtx.ts'
 import { ReplyListCtx } from '../context/ReplyListCtx.ts'
 import Icon from './Icon.ts'
 import type { FunctionComponent } from 'preact'
-import type { Types } from '@csjewell-activitypub/general'
+import type { Server } from '@csjewell-activitypub/general'
 import type { ReplyActions } from '../types/ReplyActions.ts'
 
 /**
@@ -24,7 +24,7 @@ const UnhideReply: FunctionComponent<{
   unhide : () => void
 }> = ({ index, unhide, }) => {
   const replyActions = useContext<ReplyActions>(ReplyActionsCtx)
-  const replyList = useContext<Types.ReplyList>(ReplyListCtx)
+  const replyList = useContext<Server.RePliers.ReplyList>(ReplyListCtx)
   const reply = replyList.replies.at(index)
 
   const unhideReply = async () => {

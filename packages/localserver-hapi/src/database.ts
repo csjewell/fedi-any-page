@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { DatabaseSync } from 'node:sqlite'
-import { Database, NotImplementedError, type Types } from '@csjewell-activitypub/general'
+import { Database, NotImplementedError, type Server } from '@csjewell-activitypub/general'
 import type Keyv from 'keyv'
 import type * as AP from '@csjewell-activitypub/types'
 
@@ -197,8 +197,8 @@ export class LocalDB
     throw new NotImplementedError()
   }
 
-  replies = (_message: AP.ExtendedObjectReference): Database.StorageHandler<Types.ReplyList>
-    & Database.RepliesHandler => {
+  replies = (_message: AP.ExtendedObjectReference): Database.StorageHandler<
+    Server.RePliers.ReplyList> & Database.RepliesHandler => {
     throw new NotImplementedError()
   }
 
