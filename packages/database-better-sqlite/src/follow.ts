@@ -157,7 +157,7 @@ implements APDatabase.StorageHandler<AP.Follow> {
       'object'   : documentId,
     }
 
-    isOK = isOK && await this.router.sendToOutbox(usernameId, actorId, acceptRequest)
+    isOK = isOK && await this.router.sendToOutbox(username, false, acceptRequest)
     return isOK
   }
 

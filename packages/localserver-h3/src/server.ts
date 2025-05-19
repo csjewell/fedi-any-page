@@ -84,39 +84,27 @@ export class H3Server {
       eventHandler((_e: H3Event): Response => HTML.options204()),
     )
 
-    /*
-    apiRouter.post('/re-pliers-api/reply',
+    apiRouter.post('/re-pliers-api/reply/',
       eventHandler(async (event: H3Event): Promise<Response> => {
-        return await Server.RePliers.Reply()
-      })
+        return await Server.RePliers.Replies.Reply(
+          this.config, await req(event), await htmlResp(event),
+        )
+      }),
     )
-    */
 
     apiRouter.options('/re-pliers-api/reply',
       eventHandler((_e: H3Event): Response => HTML.options204()),
     )
 
-    /*
-    apiRouter.post('/re-pliers-api/reply/like',
+    apiRouter.post('/re-pliers-api/reply/:action',
       eventHandler(async (event: H3Event): Promise<Response> => {
-        return await Server.RePliers.Like()
-      })
-    )
-    */
-
-    apiRouter.options('/re-pliers-api/reply/like',
-      eventHandler((_e: H3Event): Response => HTML.options204()),
+        return await Server.RePliers.Replies.Action(
+          this.config, await req(event), await htmlResp(event),
+        )
+      }),
     )
 
-    /*
-    apiRouter.post('/re-pliers-api/reply/unlike',
-      eventHandler(async (event: H3Event): Promise<Response> => {
-        return await Server.RePliers.Like(false)
-      })
-    )
-    */
-
-    apiRouter.options('/re-pliers-api/reply/unlike',
+    apiRouter.options('/re-pliers-api/reply/:action',
       eventHandler((_e: H3Event): Response => HTML.options204()),
     )
 

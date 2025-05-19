@@ -4,13 +4,10 @@
 /* eslint 'import-x/max-dependencies' : ['warn', { max: 15, ignoreTypeImports : true, }], */
 import { html } from 'htm/preact'
 import { useState } from 'preact/hooks'
+import { Types } from '@csjewell-activitypub/general'
 import * as v from '@valibot/valibot'
 import { ReplyActionsCtx } from '../context/ReplyActionsCtx.ts'
 import { ReplyListCtx } from '../context/ReplyListCtx.ts'
-import { toReplyList } from '../types/ReplyList.ts'
-import {
-  type ReplyListCtxType, ReplyListCtxTypeSchema,
-} from '../types/ReplyListCtxType.ts'
 import Auth from './Auth.ts'
 import ErrorBanner from './ErrorBanner.ts'
 import Header from './Header.ts'
@@ -29,10 +26,10 @@ import type { ReplyActions } from '../types/ReplyActions.ts'
 const AppTest: FunctionComponent<{
   user     : string,
   domain   : string,
-  testData : ReplyListCtxType
+  testData : Types.ReplyListCtxType
 }> = ({ user, domain, testData, }) => {
   const [ replyListCtx, setReplyListCtx ]
-    = useState<ReplyListCtxType>(v.parse(ReplyListCtxTypeSchema, testData))
+    = useState<Types.ReplyListCtxType>(v.parse(Types.ReplyListCtxTypeSchema, testData))
 
   /* eslint-disable @typescript-eslint/require-await -- These are the end of the line. */
   const replyActions: ReplyActions = {
@@ -67,7 +64,7 @@ const AppTest: FunctionComponent<{
     <${ Header } user=${ user } domain=${ domain }>
         <${ ErrorBanner }>
           <${ Auth } page='http://localhost/blog' isTest=${ auth }>
-            <${ ReplyListCtx.Provider } value=${ toReplyList(replyListCtx) }>
+            <${ ReplyListCtx.Provider } value=${ Types.toReplyList(replyListCtx) }>
               <${ ReplyActionsCtx.Provider } value=${ replyActions }>
                 <${ TopLevelReplies }/>
               <//>

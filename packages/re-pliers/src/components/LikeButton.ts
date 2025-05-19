@@ -9,8 +9,8 @@ import { ReplyActionsCtx } from '../context/ReplyActionsCtx.ts'
 import { ReplyListCtx } from '../context/ReplyListCtx.ts'
 import Icon from './Icon.ts'
 import type { FunctionComponent } from 'preact'
+import type { Types } from '@csjewell-activitypub/general'
 import type { ReplyActions } from '../types/ReplyActions.ts'
-import type { ReplyList } from '../types/ReplyList.ts'
 
 /**
  * The button that likes (or undoes a like) for a reply.
@@ -21,7 +21,7 @@ import type { ReplyList } from '../types/ReplyList.ts'
 const LikeButton: FunctionComponent<{ index: number }> = ({ index, }) => {
   const [ shouldRender, setShouldRender ] = useState<boolean>(false)
   const replyActions = useContext<ReplyActions>(ReplyActionsCtx)
-  const replyList = useContext<ReplyList>(ReplyListCtx)
+  const replyList = useContext<Types.ReplyList>(ReplyListCtx)
   const reply = replyList.replies[index]
 
   const forceRendering = () => {

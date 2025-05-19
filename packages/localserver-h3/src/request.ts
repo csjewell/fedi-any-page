@@ -48,4 +48,22 @@ export class H3Request implements Request.Helper {
       actinfo : this.session!.data.key,
     }
   }
+
+  getReplyActionInputs = async (): Promise<Request.ReplyActionInputs> => {
+    const inputs = await useValidatedBody(
+      this.event, Request.ReplyActionBodySchema,
+    ) as Request.ReplyActionBody
+
+    const { unconvertedAction, } = ( this.event.context.params! )
+
+    const action = unconvertedAction as 'like' | 'hide'
+
+    return { ...inputs, action, } as Request.ReplyActionInputs
+  }
+
+  getAnnounceInputs = async (): Promise<Request.AnnounceInputs> => {
+    const inputs = await useValidatedBody(this.event, Request.AnnounceInputsSchema)
+
+    return inputs as Request.AnnounceInputs
+  }
 }

@@ -53,10 +53,10 @@ export const Verify: APIHandler = async <DatabaseT, ResponseT>(
     return resp.redirect30x({ url, statusCode: 301, })
   }
 
-  const { actinf, actinfo, } = await req.getCookieInputs()
+  const cookiesIn = await req.getCookieInputs()
 
   // actinf = username, actinfo = session information.
-  const session = await config.database.session(actinf ?? '', actinfo ?? '')
+  const session = await config.database.session(cookiesIn)
 
   if (!await session.valid()) {
     return resp.error403()
@@ -82,9 +82,9 @@ export const Logout: APIHandler = async <DatabaseT, ResponseT>(
     return resp.redirect30x({ url, statusCode: 301, })
   }
 
-  const { actinf, } = await req.getCookieInputs()
+  const cookiesIn = await req.getCookieInputs()
 
-  const session = await config.database.session('', actinf as string)
+  const session = await config.database.session(cookiesIn)
 
   if (await session.exists()) {
     await session.invalidate()

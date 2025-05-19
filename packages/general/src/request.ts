@@ -15,6 +15,7 @@ export const AuthInputsSchema = v.object({
   username : v.string(),
   password : v.string(),
 })
+
 /**
  * The inputs from authorization forms.
  *
@@ -23,6 +24,31 @@ export const AuthInputsSchema = v.object({
  */
 export type AuthInputs = v.InferOutput<typeof AuthInputsSchema>
 
+export const ReplyActionBodySchema = v.object({
+  identifier : v.string(),
+  isUndo     : v.boolean(),
+})
+
+export type ReplyActionBody = v.InferOutput<typeof ReplyActionBodySchema>
+
+export const ReplyActionInputsSchema = v.object({
+  action     : v.picklist([ 'like', 'hide' ]),
+  identifier : v.pipe(v.string(), v.url()),
+  isUndo     : v.boolean(),
+  // TODO: We need the actor's inbox here, if we can get it.
+})
+
+export type ReplyActionInputs = v.InferOutput<typeof ReplyActionInputsSchema>
+
+export const AnnounceInputsSchema = v.object({
+  identifier : v.pipe(v.string(), v.url()),
+  privacy    : v.picklist([ 'public', 'followers' ]),
+  // TODO: We need the actor's inbox here, if we can get it.
+})
+
+export type AnnounceInputs = v.InferOutput<typeof AnnounceInputsSchema>
+
+
 /**
  * The methods used to help handle requests that come in from federated sites.
  *
@@ -30,17 +56,12 @@ export type AuthInputs = v.InferOutput<typeof AuthInputsSchema>
  * "request object" and store it so that these methods can be answered.
  */
 export type Helper = {
-  url             : URL;
-  canAcceptHTML   : () => boolean;
-  getFormInputs   : () => AP.OrPromise<AuthInputs>;
-  getCookieInputs : () => AP.OrPromise<Cookies>;
-}
-
-/**
- * The method used to send an activity to a federated site.
- */
-export type Sender<T> = {
-  sendSignedRequest : (endpoint: URL, message: AP.Activity) => T;
+  url                  : URL
+  canAcceptHTML        : () => boolean
+  getFormInputs        : () => AP.OrPromise<AuthInputs>
+  getCookieInputs      : () => AP.OrPromise<Cookies>
+  getReplyActionInputs : () => AP.OrPromise<ReplyActionInputs>
+  getAnnounceInputs    : () => AP.OrPromise<AnnounceInputs>
 }
 
 /**

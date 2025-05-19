@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { DatabaseSync } from 'node:sqlite'
-import { Database, NotImplementedError } from '@csjewell-activitypub/general'
+import { Database, NotImplementedError, type Types } from '@csjewell-activitypub/general'
 import { ActorSQLiteStorage } from './actor.ts'
 import { AnnounceSQLiteStorage } from './announce.ts'
 import { DocumentSQLiteStorage } from './document.ts'
@@ -209,11 +209,20 @@ export class SQLiteDatabase
     throw new NotImplementedError()
   }
 
+  keys = (_dr: string | AP.ActorReference): Database.DatabaseKey => {
+    throw new NotImplementedError()
+  }
+
   users = (): Database.UsersStorage => {
     throw new NotImplementedError()
   }
 
-  sendToOutbox = (_usernameId: number, _actor: string, _message: AP.CoreObject): AP.OrPromise<boolean> => {
+  replies = (_message: AP.ExtendedObjectReference): Database.StorageHandler<Types.ReplyList>
+    & Database.RepliesHandler => {
+    throw new NotImplementedError()
+  }
+
+  sendToOutbox = (_username: string, _publicEntry: boolean, _message: AP.CoreObject): AP.OrPromise<boolean> => {
     throw new NotImplementedError()
   }
 }

@@ -26,3 +26,11 @@ export class NotImplementedError extends Error {
     this.name = 'NotImplementedError'
   }
 }
+
+/** The error that is to be thrown if a method or function has not been implemented. */
+export class SessionError extends Error {
+  constructor(message = 'Not logged in', options: ErrorOptions = {}) {
+    super(message, options)
+    this.name = 'SessionError'
+  }
+}

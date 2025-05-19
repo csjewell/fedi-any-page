@@ -6,8 +6,7 @@ import { useContext } from 'preact/hooks'
 import { ReplyListCtx } from '../context/ReplyListCtx.ts'
 import Reply from './Reply.ts'
 import type { FunctionComponent } from 'preact'
-import type { IndexEntry } from '../types/IndexEntry.ts'
-import type { ReplyList } from '../types/ReplyList.ts'
+import type { Types } from '@csjewell-activitypub/general'
 
 /**
  * Displays the top level of replies.
@@ -15,14 +14,14 @@ import type { ReplyList } from '../types/ReplyList.ts'
  * @returns A FunctionComponent, to be consumed by JSX or HTM.
  */
 const TopLevelReplies: FunctionComponent = () => {
-  const replyList = useContext<ReplyList>(ReplyListCtx)
+  const replyList = useContext<Types.ReplyList>(ReplyListCtx)
 
   const lastIndex = replyList.replyIndex.length > 0
     ? replyList.replyIndex[replyList.replyIndex.length - 1].index
     : -1
 
   const list = replyList.replyIndex.map(
-    (i: IndexEntry) => {
+    (i: Types.IndexEntry) => {
       return html`
         <${ Reply }
           key=${ i.identifier }

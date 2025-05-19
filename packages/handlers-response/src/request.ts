@@ -1,7 +1,9 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import { NotImplementedError, type Request } from '@csjewell-activitypub/general'
+import {
+  type Cookies, NotImplementedError, type Request,
+} from '@csjewell-activitypub/general'
 
 /*
  * This class contains helpers to process Request objects within the ActivityPub toolkit.
@@ -22,11 +24,19 @@ export class StandardRequest implements Request.Helper {
     return accept.split(',').includes('text/html')
   }
 
-  getFormInputs = (): { username: string, password: string } => {
+  getFormInputs = (): Request.AuthInputs => {
     throw new NotImplementedError()
   }
 
-  getCookieInputs = (): { actinf?: string, actinfo?: string, } => {
+  getReplyActionInputs = (): Request.ReplyActionInputs => {
+    throw new NotImplementedError()
+  }
+
+  getCookieInputs = (): Cookies => {
+    throw new NotImplementedError()
+  }
+
+  getAnnounceInputs = (): Request.AnnounceInputs => {
     throw new NotImplementedError()
   }
 }

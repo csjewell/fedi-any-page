@@ -1,9 +1,10 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
+import { type Cookies, type Database, NotImplementedError } from '@csjewell-activitypub/general'
 import { Cuid } from '@dewars/cuid2'
 import type { default as Keyv } from 'keyv'
-import type { Cookies, Database } from '@csjewell-activitypub/general'
+import type * as AP from '@csjewell-activitypub/types'
 
 type SessionType = {
   username : string;
@@ -232,5 +233,9 @@ export class MockSession implements SessionDB<Cookies> {
       actinf  : undefined,
       actinfo : undefined,
     }
+  }
+
+  getActor(): Promise<AP.ActorReference> {
+    throw new NotImplementedError()
   }
 }

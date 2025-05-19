@@ -52,6 +52,7 @@
   ],
   "dependencies": {
     "@ant-design/icons-svg": "^4.4.2",
+    "@csjewell-activitypub/general": "workspace:^",
     "@nesterow/grip": "jsr:^0.0.3",
     "@nihility-io/cookies": "jsr:^1.0.3",
     "@valibot/valibot": "jsr:^1.0.0",

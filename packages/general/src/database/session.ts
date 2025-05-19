@@ -4,7 +4,9 @@
 
 import { Cuid } from '@dewars/cuid2'
 import * as v from '@valibot/valibot'
+import { SessionError } from '../errors.ts'
 import type { Keyv } from 'keyv'
+import type * as AP from '@csjewell-activitypub/types'
 import type { Cookies } from '../cookies.ts'
 import type { ActorFunc, StorageHandler } from './router.ts'
 
@@ -22,6 +24,9 @@ export type SessionStorage = {
   refreshCookies  : () => Promise<Cookies>
   /** Return a representation of what the cookies should be that should clear them. */
   clearingCookies : () => Cookies
+  /** Returns the current user as an AP.ActorReference to use in AP documents */
+  getActor        : () => Promise<AP.ActorReference>
+
 }
 
 /**
@@ -30,10 +35,11 @@ export type SessionStorage = {
  * @property actor - The "actor URL" of the current user.
  */
 export const SessionInfoSchema = v.strictObject({
-  username   : v.optional(v.string()),
-  actor      : v.optional(v.pipe(v.string(), v.url())),
-  isVerified : v.boolean(),
-  expires    : v.optional(v.number()),
+  username      : v.optional(v.string()),
+  actor         : v.optional(v.pipe(v.string(), v.url())),
+  followersLink : v.optional(v.pipe(v.string(), v.url())),
+  isVerified    : v.boolean(),
+  expires       : v.optional(v.number()),
 })
 export type SessionInfo = v.InferOutput<typeof SessionInfoSchema>
 
@@ -63,10 +69,13 @@ export class SessionCache implements SessionDB {
   save = async (...arghs: Array<unknown>): Promise<boolean> => {
     const actorFunc = arghs[0] as ActorFunc
 
+    const actor = actorFunc(this.username)
+
     this.session = {
-      username   : this.username,
-      actor      : actorFunc(this.username),
-      isVerified : true,
+      username      : this.username,
+      isVerified    : true,
+      followersLink : `${ actor }/followers`,
+      actor,
     }
 
     this.sessionKey = await Cuid.create()
@@ -250,6 +259,18 @@ export class SessionCache implements SessionDB {
       actinfo : '',
     }
   }
+
+  getActor = async (): Promise<AP.ActorReference> => {
+    if (this.session === undefined) {
+      await this.retrieve()
+    }
+
+    if (this.session?.actor === undefined) {
+      throw new Error('Session error')
+    }
+
+    return new URL(this.session.actor)
+  }
 }
 
 /**
@@ -267,7 +288,7 @@ export class SessionRouter {
       const sessionKey = await this.cache.get<string>(`username:${ username }`)
 
       if (sessionKey !== undefined) {
-        return this.session(username, sessionKey)
+        return this.session({ actinf: username, actinfo: sessionKey, })
       }
     }
 
@@ -277,8 +298,12 @@ export class SessionRouter {
     return sess
   }
 
-  session = async (username: string, sessionKey: string): Promise<SessionCache> => {
-    const sess = new SessionCache(this.cache, username, sessionKey)
+  session = async (cookies: Cookies): Promise<SessionCache> => {
+    if (cookies.actinf === undefined || cookies.actinfo === undefined) {
+      throw new SessionError()
+    }
+
+    const sess = new SessionCache(this.cache, cookies.actinf, cookies.actinfo)
 
     await sess.retrieve()
     return sess

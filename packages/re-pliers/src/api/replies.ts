@@ -1,10 +1,9 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
+import { Types } from '@csjewell-activitypub/general'
 import { grip } from '@nesterow/grip'
 import { assertErrorResp } from '../types/ErrorResp.ts'
-import { assertReplyListResp } from '../types/ReplyListResp.ts'
-import type { ReplyListCtxType } from '../types/ReplyListCtxType.ts'
 
 /**
  * A library for sending replies and information about them to a remote server
@@ -23,9 +22,9 @@ import type { ReplyListCtxType } from '../types/ReplyListCtxType.ts'
  * @throws Error (for now) if not successful.
  * @throws ValiError if the correct type of JSON data is not received.
  */
-export const doGetRepliesPage = async (page: string, replyList: ReplyListCtxType): Promise<ReplyListCtxType> => {
+export const doGetRepliesPage = async (page: string, replyList: Types.ReplyListCtxType): Promise<Types.ReplyListCtxType> => {
   const repliesURL = `${ new URL(page).origin }/re-pliers-api/replies`
-  let ret: ReplyListCtxType
+  let ret: Types.ReplyListCtxType
 
   const resp = await grip(fetch(repliesURL, {
     method : 'POST',
@@ -53,7 +52,7 @@ export const doGetRepliesPage = async (page: string, replyList: ReplyListCtxType
 
   const obj: unknown = await resp.value.json()
 
-  assertReplyListResp(obj)
+  Types.assertReplyListResp(obj)
 
   if (replyList.start === 0) {
     ret = {
@@ -122,13 +121,13 @@ export const doReplyAction = async (
   page       : string,
   identifier : string,
   action     : string,
-  undo       : boolean,
+  isUndo     : boolean,
 ): Promise<void> => {
   const replyURL = `${ new URL(page).origin }/re-pliers-api/reply/${ action }`
 
   const resp = await grip(fetch(replyURL, {
     method      : 'POST',
-    body        : JSON.stringify({ identifier, undo, }),
+    body        : JSON.stringify({ identifier, isUndo, }),
     cache       : 'no-store',
     credentials : 'include',
     mode        : 'cors',

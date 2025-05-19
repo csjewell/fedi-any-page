@@ -3,8 +3,9 @@
  */
 import { encodeUrl as toBase64 } from 'ab64'
 import {
-  type Cookies, Json, type Responses,
+  type Configuration, type Cookies, Json, type Responses,
 } from '@csjewell-activitypub/general'
+import { StandardSender } from './sender.ts'
 import type * as AP from '@csjewell-activitypub/types'
 
 type RedirectCode = 301 | 302 | 303 | 307 | 308
@@ -29,6 +30,10 @@ import type { AuthCookies from '@csjewell-activitypub/general/database-mock/sess
  * ```
  */
 class StandardResponses implements Responses.Type<Response> {
+  sender(args: Responses.SenderParams<unknown>): Responses.Sender<Response> {
+    return new StandardSender(args.config, args.username)
+  }
+
   /*
    * Provides the default Headers for most routines in KitResponses
    *
@@ -103,11 +108,11 @@ class StandardResponses implements Responses.Type<Response> {
     return new Headers(this.getHeaders({ hasCors, addHeaders: this._resolve(addHeaders, cookies), }))
   }
 
-  success200Obj({
-    body = {} as Record<string, unknown>,
-    addHeaders = {} as HeadersType,
-    cookies = undefined as Cookies | undefined,
-  } = {}): Promise<Response> {
+  success200Obj({ body, addHeaders = {}, cookies = undefined, }: {
+    body        : Record<string, unknown>,
+    addHeaders? : HeadersType,
+    cookies?    : Cookies,
+  }): Promise<Response> {
     // TODO: Add an assertion here.
     const json = Json.stringify(body as AP.CoreObject)
 
@@ -118,17 +123,36 @@ class StandardResponses implements Responses.Type<Response> {
     }))
   }
 
-  success200Str({
-    body = '',
-    addHeaders = {} as HeadersType,
-    cookies = undefined as Cookies | undefined,
-  } = {}): Promise<Response> {
+  success200Str({ body, addHeaders = {}, cookies = undefined, }: {
+    body        : string,
+    addHeaders? : HeadersType,
+    cookies?    : Cookies,
+  }): Promise<Response> {
     return Promise.resolve(new Response(body, {
       status     : 200,
       statusText : 'OK',
       headers    : this._headers({ addHeaders, cookies, }),
     }))
   }
+
+  success201({ identifiers, cookies = undefined, }: {
+    identifiers : Array<string>,
+    cookies?    : Cookies,
+  }): Promise<Response> {
+    const json = JSON.stringify({ success: true, })
+
+    const addHeaders = this._resolve(
+      identifiers.map((s) => { return [ 'Location', s ] }) as ResolvedHeadersType,
+      cookies,
+    )
+
+    return Promise.resolve(new Response(json, {
+      status     : 201,
+      statusText : 'Created',
+      headers    : this.getHeaders({ addHeaders, }),
+    }))
+  }
+
 
   /*
    * Returns a 202 response
@@ -358,6 +382,7 @@ export const ActivityPub: StandardResponses = new StandardResponses()
  * @example ```ts
  * import * as Helpers from 'jsr:@csjewell-activitypub/general'
 import toBase64 from 'core-js-pure/modules/esnext.uint8-array.to-base64';
+import { Configuration } from '../../general/src/configuration';
  *
  * return Helpers.Responses.error404NotImplemented()
  * ```

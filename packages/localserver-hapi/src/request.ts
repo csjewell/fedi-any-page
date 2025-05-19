@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import type { Cookies, Request } from '@csjewell-activitypub/general'
+import { type Cookies, NotImplementedError, type Request } from '@csjewell-activitypub/general'
 import type Hapi from '@hapi/hapi'
 
 export class HAPIRequest implements Request.Helper {
@@ -27,6 +27,23 @@ export class HAPIRequest implements Request.Helper {
     }
 
     throw new TypeError('Sent the wrong stuff')
+  }
+
+  getReplyActionInputs(): Request.ReplyActionInputs {
+    const inp = this.req.payload as object
+
+    if (Object.hasOwn(inp, 'action')) {
+      const { action, identifier, isUndo, }
+        = inp as { action: string, identifier: string, isUndo: boolean }
+
+      return { action, identifier, isUndo, } as Request.ReplyActionInputs
+    }
+
+    throw new TypeError('Sent the wrong stuff')
+  }
+
+  getAnnounceInputs(): Request.AnnounceInputs {
+    throw new NotImplementedError()
   }
 
   getFormInputs(): Request.AuthInputs {

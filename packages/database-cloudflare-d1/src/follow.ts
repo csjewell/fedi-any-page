@@ -147,7 +147,7 @@ export class FollowCFStorage
       'object'   : documentId,
     }
 
-    isOK = isOK && await this.env.database.sendToOutbox(usernameId, actorId, acceptRequest)
+    isOK = isOK && await this.env.database.sendToOutbox(username, false, acceptRequest)
     return isOK
   }
 

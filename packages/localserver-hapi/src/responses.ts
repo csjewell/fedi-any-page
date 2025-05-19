@@ -1,7 +1,9 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import type { Cookies, Responses } from '@csjewell-activitypub/general'
+import {
+  type Cookies,   NotImplementedError, type Responses,
+} from '@csjewell-activitypub/general'
 import type Hapi from '@hapi/hapi'
 
 /* eslint-disable-next-line @stylistic/comma-dangle -- false alarm */
@@ -21,6 +23,10 @@ export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
 
   constructor(h: Hapi.ResponseToolkit) {
     this.h = h
+  }
+
+  sender(_args: Responses.SenderParams<unknown>): Responses.Sender<Hapi.ResponseObject> {
+    throw new NotImplementedError()
   }
 
   /**
@@ -152,6 +158,23 @@ export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
     if (cookies !== undefined) {
       this._cookies(cookies)
     }
+
+    return this._headers({ addHeaders, }).code(200)
+  }
+
+  success201({
+    identifiers = [] as Array<string>,
+    cookies = undefined as Cookies | undefined,
+  } = {}): Hapi.ResponseObject {
+    this._body(JSON.stringify({ success: 1, }))
+
+    if (cookies !== undefined) {
+      this._cookies(cookies)
+    }
+
+    const addHeaders = this._resolve(
+      identifiers.map((s) => { return [ 'Location', s ] }) as ResolvedHeadersType,
+    )
 
     return this._headers({ addHeaders, }).code(200)
   }

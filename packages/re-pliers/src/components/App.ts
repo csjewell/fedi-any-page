@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { html } from 'htm/preact'
-import { type ReplyListCtxType, UnfilledCache } from '../types/ReplyListCtxType.ts'
+import { Types } from '@csjewell-activitypub/general'
 import Auth from './Auth.ts'
 import ErrorBanner from './ErrorBanner.ts'
 import Header from './Header.ts'
@@ -23,13 +23,13 @@ const App: FunctionComponent<{
   page   : string,
   user   : string,
   domain : string,
-  cache? : ReplyListCtxType,
+  cache? : Types.ReplyListCtxType,
 }> = ({ page, user, domain, cache, }) => {
   return html`
     <${ Header } user=${ user } domain=${ domain }>
       <${ ErrorBanner }>
         <${ Auth } page=${ page }>
-          <${ Replies } page=${ page } cache=${ cache ?? UnfilledCache }>
+          <${ Replies } page=${ page } cache=${ cache ?? Types.UnfilledCache }>
             <${ TopLevelReplies } />
           <//>
         <//>

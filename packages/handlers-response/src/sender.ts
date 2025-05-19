@@ -2,39 +2,36 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { SignedFetch } from 'activitypub-http-signatures'
-import { type Configuration, Json, type Request } from '@csjewell-activitypub/general'
+import { type Configuration, Json, type Responses } from '@csjewell-activitypub/general'
 import type * as AP from '@csjewell-activitypub/types'
 
-export class StandardSender implements Request.Sender<Response> {
+export class StandardSender implements Responses.Sender<Response> {
   private config   : Configuration<unknown>
   private username : string
 
-  constructor(config: Configuration<unknown>, username: string) {
+  constructor(config: Configuration<unknown>, username: string | undefined) {
     this.config = config
-    this.username = username
+    this.username = username ?? 'server'
   }
 
-  sendSignedRequest(endpoint: URL, object: AP.Activity): Response {
-    const publicKeyId = `${ this.config.url.toString() }activitypub/${ this.username }#main-key`
+  async sendSignedRequest(endpoint: URL, object: AP.Activity): Promise<Response> {
+    const url = this.config.url.toString()
+    const keyInfo = this.config.database.keys(`${ url }activitypub/${ this.username }`)
 
-    // TODO: [2025-04-19] Get this right.
-    const privateKey = ''
+    const publicKeyId = `${ this.config.url.toString() }activitypub/${ this.username }/#main-key`
 
-    console.info('object:', object)
+    const privateKey = await keyInfo.getPrivateKey()
 
     const signedFetch = SignedFetch.sha256(fetch, { publicKeyId, privateKey, })
-    let response = new Response()
 
-    void signedFetch(endpoint.toString(), {
+    return await signedFetch(endpoint.toString(), {
       method  : 'POST',
       headers : {
         'content-type' : 'application/activity+json',
         'accept'       : 'application/activity+json, application/ld+json',
+        'user-agent'   : 'Fedi-Any-Page/' + 'v0.2.0-alpha.2',
       },
       body : Json.stringify(object),
-    }).then((resp) => {
-      response = resp
     })
-    return response
   }
 }

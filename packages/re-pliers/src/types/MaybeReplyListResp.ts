@@ -1,11 +1,11 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
+import { Types } from '@csjewell-activitypub/general'
 import * as v from '@valibot/valibot'
 import { ErrorRespSchema } from './ErrorResp.ts'
-import { ReplyListRespSchema } from './ReplyListResp.ts'
 
-export const MaybeReplyListRespSchema = v.variant('success', [ ReplyListRespSchema, ErrorRespSchema ])
+export const MaybeReplyListRespSchema = v.variant('success', [ Types.ReplyListRespSchema, ErrorRespSchema ])
 
 export type MaybeReplyListResp = v.InferOutput<typeof MaybeReplyListRespSchema>
 

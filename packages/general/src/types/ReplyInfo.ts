@@ -49,6 +49,7 @@ export const ReplyInfoSchema = v.strictObject({
   liked      : v.optional(v.boolean()),
   isPrivate  : v.optional(v.boolean()),
   isHidden   : v.optional(v.boolean()),
+  databaseId : v.optional(v.number()),
   replyIndex : v.optional(v.array(IndexEntrySchema)),
 })
 

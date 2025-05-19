@@ -156,7 +156,7 @@ export class FollowSQLiteStorage
       'object'   : documentId,
     }
 
-    isOK = isOK && await this.sendToOutbox(usernameId, actorId, acceptRequest)
+    isOK = isOK && await this.sendToOutbox(username, false, acceptRequest)
     return isOK
   }
 

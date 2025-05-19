@@ -2,7 +2,10 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import type * as AP from '@csjewell-activitypub/types'
+import type { Cookies } from '../cookies.ts'
+import type { ReplyList } from '../types/ReplyList.ts'
 import type { User } from '../users.ts'
+import type { DatabaseKey } from './misc.ts'
 import type { SessionDB } from './session.ts'
 import type { UsersStorage } from './users.ts'
 
@@ -19,6 +22,11 @@ export type StorageHandler<T> = {
   exists     : () => AP.OrPromise<boolean>
   retrieve   : (...arguments_: Array<unknown>) => AP.OrPromise<T | undefined>
   shorten    : () => AP.OrPromise<{ url: URL | undefined; id: number | undefined }>
+}
+
+export type RepliesHandler = {
+  hideCurrentReply : (isHidden: boolean) => Promise<boolean>
+  getNextPage      : (page: number) => Promise<unknown>
 }
 
 /** TODO: Document [2025-04-12] */
@@ -52,16 +60,20 @@ export type Router<DatabaseT> = {
   note          : (message: AP.Note) => StorageHandler<AP.Note>
   /** Returns the handler for the database table that stores references to Actor objects */
   actor         : (message: AP.ActorReference) => StorageHandler<AP.Actor>
+  /** Returns the handler for the database table that stores replies (by our Article references) */
+  replies       : (message: AP.ExtendedObjectReference) => StorageHandler<ReplyList> & RepliesHandler
   /** Returns the handler for the database table that stores ActivityPub objects */
   documentEntry : (message: AP.CoreObjectReference | AP.LinkReference) => StorageHandler<AP.CoreObject | AP.Link>
   /** Returns an ActivityPub document and its numeric id */
   getDocument   : (dr: string | AP.OrArray<AP.EntityReference> | undefined) => DBDocument
+  /** Returns... */
+  keys          : (keyRef: string | AP.ActorReference) => DatabaseKey
   /** Returns the handler for the database table that stores user information. */
   users         : () => StorageHandler<User> & UsersStorage
   /** Returns a handler for the "session" table when we have no session established */
   newSession    : (username: string, actorFunc: ActorFunc) => Promise<SessionDB>
   /** Returns a handler for the "session" table when we have a session established already */
-  session       : (username: string, sessionKey: string) => Promise<SessionDB>
+  session       : (cookies: Cookies) => Promise<SessionDB>
   /** Store a generated CoreObject to be sent out later. */
-  sendToOutbox  : (usernameId: number, actor: string, message: AP.CoreObject) => AP.OrPromise<boolean>
+  sendToOutbox  : (username: string, publicMsg: boolean, message: AP.CoreObject) => AP.OrPromise<boolean>
 }

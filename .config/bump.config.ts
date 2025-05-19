@@ -18,6 +18,7 @@ export default defineConfig({
     'packages/*/jsr.jsonc',
     'packages/*/package.json',
     'packages/general/src/server/nodeinfo21.ts',
-    'packages/general/src/server/setup/get.ts'
+    'packages/general/src/server/setup/get.ts',
+    'packages/handlers-response/src/sender.ts'
   ],
 })

@@ -9,8 +9,8 @@ import { ReplyActionsCtx } from '../context/ReplyActionsCtx.ts'
 import { ReplyListCtx } from '../context/ReplyListCtx.ts'
 import Icon from './Icon.ts'
 import type { FunctionComponent } from 'preact'
+import type { Types } from '@csjewell-activitypub/general'
 import type { ReplyActions } from '../types/ReplyActions.ts'
-import type { ReplyList } from '../types/ReplyList.ts'
 
 /**
  * Displays the button to unhide a reply.
@@ -24,7 +24,7 @@ const UnhideReply: FunctionComponent<{
   unhide : () => void
 }> = ({ index, unhide, }) => {
   const replyActions = useContext<ReplyActions>(ReplyActionsCtx)
-  const replyList = useContext<ReplyList>(ReplyListCtx)
+  const replyList = useContext<Types.ReplyList>(ReplyListCtx)
   const reply = replyList.replies.at(index)
 
   const unhideReply = async () => {

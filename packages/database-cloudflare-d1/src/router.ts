@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import { Database, NotImplementedError, Utils } from '@csjewell-activitypub/general'
+import { Database, NotImplementedError, type Types, Utils } from '@csjewell-activitypub/general'
 import { ActorCFStorage } from './actor.ts'
 import { AnnounceCFStorage } from './announce.ts'
 import { FollowCFStorage } from './follow.ts'
@@ -59,6 +59,10 @@ export class CloudflareD1Database extends Database.SessionRouter implements Data
 
   /** */
   documentEntry = (_message: AP.CoreObjectReference | AP.LinkReference): Database.StorageHandler<AP.CoreObject> => {
+    throw new NotImplementedError()
+  }
+
+  keys = (_dr: string | AP.ActorReference): Database.DatabaseKey => {
     throw new NotImplementedError()
   }
 
@@ -131,7 +135,12 @@ export class CloudflareD1Database extends Database.SessionRouter implements Data
     throw new NotImplementedError()
   }
 
-  sendToOutbox = (_usernameId: number, _actor: string, _message: AP.CoreObject): AP.OrPromise<boolean> => {
+  replies = (_message: AP.ExtendedObjectReference): Database.StorageHandler<Types.ReplyList>
+    & Database.RepliesHandler => {
+    throw new NotImplementedError()
+  }
+
+  sendToOutbox = (_username: string, _publicEntry: boolean, _message: AP.CoreObject): AP.OrPromise<boolean> => {
     throw new NotImplementedError()
   }
 }

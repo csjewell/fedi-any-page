@@ -8,7 +8,7 @@ import ExpandOutlined from '@ant-design/icons-svg/es/asn/ExpandOutlined'
 import Icon from './Icon.ts'
 import Reply from './Reply.ts'
 import type { FunctionComponent } from 'preact'
-import type { IndexEntry } from '../types/IndexEntry.ts'
+import type { Types } from '@csjewell-activitypub/general'
 
 /**
  * Displays the descendants of a reply.
@@ -17,7 +17,7 @@ import type { IndexEntry } from '../types/IndexEntry.ts'
  * @param indentLevel - How far should the replies be indented.
  * @returns A FunctionComponent, to be consumed by JSX or HTM.
  */
-const ReplyExpander: FunctionComponent<{ replyIndex: Array<IndexEntry>, indentLevel: number }> = ({
+const ReplyExpander: FunctionComponent<{ replyIndex: Array<Types.IndexEntry>, indentLevel: number }> = ({
   replyIndex,
   indentLevel,
 }) => {

@@ -5,7 +5,7 @@ import { html } from 'htm/preact'
 // eslint-disable-next-line import-x/no-deprecated -- Not using the deprecated functionality
 import { render } from 'preact'
 import App from './src/components/App.ts'
-import type { ReplyListCtxType } from './src/types/ReplyListCtxType.ts'
+import type { Types } from '@csjewell-activitypub/general'
 
 /**
  * @experimental
@@ -25,7 +25,7 @@ export const showRepliers = (
     domain : string,
   },
   element: HTMLElement,
-  cache: ReplyListCtxType,
+  cache: Types.ReplyListCtxType,
 ): void => {
   // eslint-disable-next-line import-x/no-deprecated -- Not using the deprecated functionality
   render(
