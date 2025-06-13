@@ -42,6 +42,10 @@ export class HAPIRequest implements Request.Helper {
     throw new TypeError('Sent the wrong stuff')
   }
 
+  getReplyInputs(): Request.ReplyInputs {
+    throw new NotImplementedError()
+  }
+
   getAnnounceInputs(): Request.AnnounceInputs {
     throw new NotImplementedError()
   }

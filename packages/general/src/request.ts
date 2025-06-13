@@ -40,6 +40,14 @@ export const ReplyActionInputsSchema = v.object({
 
 export type ReplyActionInputs = v.InferOutput<typeof ReplyActionInputsSchema>
 
+export const ReplyInputsSchema = v.object({
+  replyMarkDown : v.string(),
+  replyTo       : v.string(),
+  replyType     : v.pipe(v.number(), v.integer()),
+})
+
+export type ReplyInputs = v.InferOutput<typeof ReplyInputsSchema>
+
 export const AnnounceInputsSchema = v.object({
   identifier : v.pipe(v.string(), v.url()),
   privacy    : v.picklist([ 'public', 'followers' ]),
@@ -61,6 +69,7 @@ export type Helper = {
   getFormInputs        : () => AP.OrPromise<AuthInputs>
   getCookieInputs      : () => AP.OrPromise<Cookies>
   getReplyActionInputs : () => AP.OrPromise<ReplyActionInputs>
+  getReplyInputs       : () => AP.OrPromise<ReplyInputs>
   getAnnounceInputs    : () => AP.OrPromise<AnnounceInputs>
 }
 

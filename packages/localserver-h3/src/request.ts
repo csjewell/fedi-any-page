@@ -61,6 +61,12 @@ export class H3Request implements Request.Helper {
     return { ...inputs, action, } as Request.ReplyActionInputs
   }
 
+  getReplyInputs = async (): Promise<Request.ReplyInputs> => {
+    const inputs = await useValidatedBody(this.event, Request.ReplyInputsSchema)
+
+    return inputs as Request.ReplyInputs
+  }
+
   getAnnounceInputs = async (): Promise<Request.AnnounceInputs> => {
     const inputs = await useValidatedBody(this.event, Request.AnnounceInputsSchema)
 

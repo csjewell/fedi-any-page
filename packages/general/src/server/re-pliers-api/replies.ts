@@ -116,6 +116,25 @@ export const Action: APIHandler = async <DatabaseT, ResponseT>(
   return resp.error422({ info: 'No valid actors', })
 }
 
+const findTags = (_mdText: string): Array<AP.Hashtag> => {
+  // throw new NotImplementedError()
+  return []
+}
+
+const findMentions = (_mdText: string): Array<AP.Mention> => {
+  // throw new NotImplementedError()
+  return []
+}
+
+const convertToHtml = (
+  _mdText: string,
+  _tags: Array<AP.Hashtag>,
+  _mentions: Array<AP.Mention>,
+): string => {
+  // throw new NotImplementedError()
+  return ''
+}
+
 export const Reply: APIHandler = async <DatabaseT, ResponseT>(
   config: Configuration<DatabaseT>,
   req: Request.Helper,
@@ -127,7 +146,38 @@ export const Reply: APIHandler = async <DatabaseT, ResponseT>(
     return resp.redirect30x({ url, statusCode: 301, })
   }
 
-  const body = {}
+  const cookiesIn = await req.getCookieInputs()
+  const username = cookiesIn.actinf
+
+  if (username === undefined || cookiesIn.actinfo === undefined) {
+    return resp.error403()
+  }
+
+  const session = await config.database.session(cookiesIn)
+  const attributedTo = await session.getActor()
+
+  const reqReply = await req.getReplyInputs()
+
+  const inReplyTo = new URL(reqReply.replyTo)
+  const idString = config.getActorBasedId(username, '')
+  const id = new URL(idString) as AP.EntityReference
+
+  const tags = findTags(reqReply.replyMarkDown)
+  const mentions = findMentions(reqReply.replyMarkDown)
+  const content = convertToHtml(reqReply.replyMarkDown, tags, mentions)
+
+  const body = {
+    '@context'  : new URL('https://www.w3.org/ns/activitystreams'),
+    'id'        : new URL(`${ idString }/like`),
+    'type'      : 'Create',
+    'generator' : new URL('https://fedi-any-page.curtisjewell.dev/fedi-any-page.json'),
+    'object'    : {
+      type      : 'Note',
+      // TODO: Fix up to be a date that means that.
+      published : 'now',
+      attributedTo, inReplyTo, id, tags, mentions, content,
+    },
+  }
 
   return resp.success200Obj({ body, })
 }

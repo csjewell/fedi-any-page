@@ -32,6 +32,10 @@ export class StandardRequest implements Request.Helper {
     throw new NotImplementedError()
   }
 
+  getReplyInputs = (): Request.ReplyInputs => {
+    throw new NotImplementedError()
+  }
+
   getCookieInputs = (): Cookies => {
     throw new NotImplementedError()
   }
