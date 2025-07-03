@@ -11,8 +11,11 @@ export type User = {
   fullname  : string
   /** If the user has a homepage, what is it? */
   homepage? : string
+  /** A user summary to go on the profile page */
   summary?  : string
+  /** What is the user's username? */
   username? : string
+  /** Any aliases the user may have */
   aliases?  : Array<string>
   // At Protocol.
   dId?      : string

@@ -65,7 +65,10 @@ export type Type<ResponseT> = {
   }) => AP.OrPromise<ResponseT>
 
   /**
-   * TODOCUMENT
+   * Respond with a 202 success message because something has been
+   * accepted for processing.
+   *
+   * @param argHash.info - Information about what we have accepted.
    * @param argHash.addHeaders - Additional headers to be sent with the response.
    */
   success202: (argHash?: {
@@ -74,6 +77,7 @@ export type Type<ResponseT> = {
   }) => ResponseT
 
   /**
+   * Respond with a 204 success message because nothing else needs to be output.
    * @param argHash.info - Information about why there is no body to the response.
    */
   success204: (argHash?: {
@@ -100,7 +104,11 @@ export type Type<ResponseT> = {
     statusCode? : 301 | 302 | 303 | 307 | 308
   }) => ResponseT
 
-  /** */
+  /**
+   * Response used when the request attempted was forbidden
+   * @param argHash.info - What was forbidden or why it was forbidden
+   * @param argHash.addHeaders - Additional headers to add to the response.
+   */
   error403: (argHash?: {
     info?       : string;
     addHeaders? : HeadersType
@@ -129,18 +137,31 @@ export type Type<ResponseT> = {
     addHeaders? : HeadersType
   }) => ResponseT
 
+  /**
+   * Response used when the content was unprocessable.
+   * @param argHash.info - TODOCUMENT
+   * @param argHash.addHeaders - Additional headers to be sent with the response.
+   */
   error422: (argHash?: {
     info?       : string;
     addHeaders? : HeadersType
   }) => ResponseT
 
-  /** Response returned when the server encountered an internal error */
+  /**
+   * Response returned when the server encountered an internal error
+   * @param argHash.info - TODOCUMENT
+   * @param argHash.addHeaders - Additional headers to be sent with the response.
+   */
   error500: (argHash?: {
     info?       : string;
     addHeaders? : HeadersType
   }) => ResponseT
 
-  /** Response returned when the service is not available */
+  /**
+   * Response returned when the service is not available
+   * @param argHash.info - TODOCUMENT
+   * @param argHash.addHeaders - Additional headers to be sent with the response.
+   */
   error503: (argHash?: {
     info?       : string;
     addHeaders? : HeadersType

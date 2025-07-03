@@ -6,6 +6,15 @@ import type * as Request from '../../request.ts'
 import type { Type as Responses } from '../../responses.ts'
 import type { APIHandler } from './APIHandler.ts'
 
+/**
+ * Handles logging in to the server.
+ *
+ * @param config - TODOCUMENT
+ * @param req - TODOCUMENT
+ * @param resp - TODOCUMENT
+ * @returns A promise that resolves to a response object.
+ */
+
 export const Login: APIHandler = async <DatabaseT, ResponseT>(
   config: Configuration<DatabaseT>,
   req: Request.Helper,

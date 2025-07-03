@@ -30,18 +30,29 @@ export class H3Request implements Request.Helper {
     this.session = await useSession<SessionData>(this.event, this.sessionCfg)
   }
 
+  /**
+   * @returns boolean
+   */
   canAcceptHTML = (): boolean => {
-    const contentType = getRequestHeader(this.event, 'Content-Type')
+    const contentType = getRequestHeader(this.event, 'Accept')
 
     return contentType === undefined ? false : contentType.includes('text/html')
   }
 
+  /**
+   * @returns A Promise that resolves to an AuthInputs object
+   * from the body of a JSON request.
+   */
   getFormInputs = async (): Promise<Request.AuthInputs> => {
     const inputs = await useValidatedBody(this.event, Request.AuthInputsSchema)
 
     return inputs as Request.AuthInputs
   }
 
+  /**
+   * @returns A Promise that resolves to an AuthInputs object
+   * from the body of a JSON request.
+   */
   getCookieInputs = (): Cookies => {
     return {
       actinf  : getCookie(this.event, 'actinf'),

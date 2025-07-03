@@ -14,6 +14,9 @@ export class StandardSender implements Responses.Sender<Response> {
     this.username = username ?? 'server'
   }
 
+  /**
+   * @returns A Promise that resolves to a Response
+   */
   async sendSignedRequest(endpoint: URL, object: AP.Activity): Promise<Response> {
     const url = this.config.url.toString()
     const keyInfo = this.config.database.keys(`${ url }activitypub/${ this.username }`)

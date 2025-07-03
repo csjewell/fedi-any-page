@@ -1,8 +1,6 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-/* SPDX */
-
 
 export * as App from './application/mod.ts'
 export { NodeInfo } from './nodeinfo.ts'

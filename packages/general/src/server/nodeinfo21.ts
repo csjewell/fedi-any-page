@@ -11,7 +11,7 @@ import type { APIHandler } from './types.ts'
  *
  * Implements https://codeberg.org/fediverse/fep/src/branch/main/fep/f1d5/fep-f1d5.md
  */
-// TODO: [2025-05-19] This should read the usage data from the database
+// TODO: [2025-07-19] This should read the usage data from the database
 export const NodeInfo21: APIHandler = <DatabaseT, ResponseT>(
   config: Configuration<DatabaseT>,
   _req: Request.Helper,
