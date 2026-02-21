@@ -17,6 +17,10 @@ export class StandardRequest implements Request.Helper {
     this.url = new URL('')
   }
 
+  /**
+   * Can the current request accept HTML?
+   * @returns boolean
+   */
   canAcceptHTML(): boolean {
     const { headers, } = this.req
     const accept = headers.get('Accept') ?? ''
@@ -24,22 +28,37 @@ export class StandardRequest implements Request.Helper {
     return accept.split(',').includes('text/html')
   }
 
+  /**
+   * @returns AuthInputs object
+   */
   getFormInputs = (): Request.AuthInputs => {
     throw new NotImplementedError()
   }
 
+  /**
+   * @returns ReplyActionInputs object
+   */
   getReplyActionInputs = (): Request.ReplyActionInputs => {
     throw new NotImplementedError()
   }
 
+  /**
+   * @returns ReplyInputs object
+   */
   getReplyInputs = (): Request.ReplyInputs => {
     throw new NotImplementedError()
   }
 
+  /**
+   * @returns CookieInputs object
+   */
   getCookieInputs = (): Cookies => {
     throw new NotImplementedError()
   }
 
+  /**
+   * @returns AnnounceInputs object
+   */
   getAnnounceInputs = (): Request.AnnounceInputs => {
     throw new NotImplementedError()
   }

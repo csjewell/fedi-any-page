@@ -223,27 +223,29 @@
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@csjewell-activitypub/eslint-config": "workspace:^",
-    "@types/node": "^22.18.11",
-    "bumpp": "^10.3.1",
+    "@types/node": "^22.19.11",
+    "@typescript/native-preview": "7.0.0-dev.20260221.1",
+    "bumpp": "^10.4.1",
     "commitizen": "^4.3.1",
     "conventional-changelog-conventionalcommits": "^8.0.0",
     "cz-conventional-changelog": "^3.3.0",
     "escalade": "^3.2.0",
-    "eslint": "^9.38.0",
+    "eslint": "^9.39.3",
     "husky": "^9.1.7",
-    "knip": "^5.66.0",
+    "knip": "^5.85.0",
     "lint-staged": "^15.5.2",
     "markdownlint-cli2": "^0.17.2",
     "remark-link-rewrite": "^1.0.7",
     "tsdown": "^0.11.13",
-    "tsup": "^8.5.0",
-    "typedoc": "^0.28.14",
-    "typedoc-plugin-frontmatter": "^1.3.0",
-    "typedoc-plugin-markdown": "^4.9.0",
-    "typedoc-plugin-mdn-links": "^5.0.10",
+    "tsup": "^8.5.1",
+    "typedoc": "^0.28.17",
+    "typedoc-plugin-frontmatter": "^1.3.1",
+    "typedoc-plugin-markdown": "^4.10.0",
+    "typedoc-plugin-mdn-links": "^5.1.1",
     "typedoc-plugin-missing-exports": "^4.1.2",
     "typedoc-plugin-remark": "^1.3.0",
-    "typescript-eslint": "^8.46.1",
+    "typescript": "6.0.0-beta",
+    "typescript-eslint": "^8.56.0",
     "vitest": "^3.2.4"
   },
   "packageManager": "pnpm@10.12.4",
@@ -252,10 +254,9 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
+      "@parcel/watcher",
       "esbuild",
-      "sqlite3",
-      "better-sqlite3",
-      "unrs-resolver"
+      "sqlite3"
     ]
   },
   "knip": {

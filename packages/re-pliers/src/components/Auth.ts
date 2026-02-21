@@ -3,8 +3,8 @@
  */
 import { html } from 'htm/preact'
 import { useEffect, useState } from 'preact/hooks'
-import { Cookies } from '@nihility-io/cookies'
 import * as AuthAPI from '../api/auth.ts'
+import { Cookies } from './Cookies.ts'
 import { AuthCtx } from '../context/AuthCtx.ts'
 import LoginButton from './LoginButton.ts'
 import LogoutButton from './LogoutButton.ts'
