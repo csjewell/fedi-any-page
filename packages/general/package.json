@@ -55,6 +55,8 @@
   "devDependencies": {
     "@types/node": "^22.19.11",
     "@typescript/native-preview": "7.0.0-dev.20260221.1",
+    "eslint": "^10.0.1",
+    "tsup": "^8.5.1",
     "typescript": "6.0.0-beta",
     "vitest": "^4.0.18"
   },

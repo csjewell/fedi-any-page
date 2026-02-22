@@ -27,7 +27,7 @@
     "serve:watch": "listhen --watch ../ --open ./index.ts",
     "tsc": "tsc",
     "tsgo": "tsgo",
-    "tsup": "tsup --config `git rev-parse --show-toplevel`/.config/tsup.config.ts"
+    "tsup": "tsup --config ../../.config/tsup.config.ts"
   },
   "lint-staged": {
     "**/*.{js,ts}": [
@@ -55,6 +55,7 @@
     "@typescript/native-preview": "7.0.0-dev.20260221.1",
     "eslint": "^9.39.3",
     "listhen": "^1.9.0",
+    "tsup": "^8.5.1",
     "typescript": "6.0.0-beta"
   },
   "packageManager": "pnpm@10.9.0",

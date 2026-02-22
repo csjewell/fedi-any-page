@@ -50,6 +50,7 @@
     "@typescript/native-preview": "7.0.0-dev.20260221.1",
     "eslint": "^9.39.3",
     "keyv": "^5.6.0",
+    "tsup": "^8.5.1",
     "typescript": "6.0.0-beta"
   },
   "packageManager": "pnpm@10.9.0",

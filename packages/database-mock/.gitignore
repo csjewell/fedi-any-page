@@ -1,0 +1,12 @@
+dist
+tsconfig.tsbuildinfo
+*.sw?
+node_modules
+
+# This allows me to take notes that I'll need later.
+**/NOTES.md
+**/NOTES.*.md
+**/NOTES.txt
+**/NOTES.*.txt
+**/NOTES.*.ts.txt
+

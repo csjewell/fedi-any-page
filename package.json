@@ -29,7 +29,7 @@
   "scripts": {
     "bumpp": "cd `git rev-parse --show-toplevel`; bumpp --no-verify",
     "commitlint": "commitlint",
-    "eslint": "eslint --config `git rev-parse --show-toplevel`/.config/eslint.config.js",
+    "eslint": "cd `git rev-parse --show-toplevel`; eslint --config /.config/eslint.config.js",
     "knip": "knip",
     "lint": "pnpm eslint",
     "markdownlint": "markdownlint-cli2 \"**/*.md\" !node_modules !**/node_modules !proposed",
@@ -256,7 +256,7 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "@parcel/watcher",
+      "better-sqlite3",
       "esbuild",
       "sqlite3"
     ]
