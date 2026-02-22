@@ -49,12 +49,7 @@
     "excludeReferences": true
   },
   "categorizeByGroup": false,
-  "defaultRemarkPlugins": {
-    "gfm": false,
-    "frontmatter": true,
-    "mdx": false
-  },
-  "remarkPlugins": ["./.config/helpers/remark.js"],
+  "remarkPlugins": ["frontmatter", "./.config/helpers/remark.js"],
   "publicPath": "https://fedi-any-page.curtisjewell.dev/docs/latest",
 }
 
