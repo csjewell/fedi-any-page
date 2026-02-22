@@ -4,7 +4,7 @@
   "description": "ActivityPub Typescript Kit monorepo",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/csjewell/activitypub-ts-kit.git"
+    "url": "git+https://git.sr.ht/~csjewell/fedi-any-page"
   },
   "license": "MIT",
   "author": {
