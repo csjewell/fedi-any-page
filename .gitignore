@@ -2,13 +2,14 @@ test-docs
 packages/*/dist
 proposed/localserver-deno/ap.sqlite.db
 packages/localserver-h3/h3.server.db
+packages/*/tsconfig.tsbuildinfo
 proposed/*/dist
+tsconfig.tsbuildinfo
 
 *.sw?
 node_modules
 
 # Temporary directories and files I'm still working in before I commit them.
-bin/pre-push
 bundling
 proposed/create
 proposed/create-proposed

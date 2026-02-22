@@ -27,6 +27,7 @@
     "build": "pnpm tsup",
     "prepublishOnly": "pnpm tsup",
     "tsc": "tsc",
+    "tsgo": "tsgo",
     "tsup": "tsup --config `git rev-parse --show-toplevel`/.config/tsup.config.ts"
   },
   "lint-staged": {
@@ -42,13 +43,14 @@
   "dependencies": {
     "@csjewell-activitypub/general": "workspace:^",
     "@csjewell-activitypub/types": "workspace:^",
-    "ab64": "^0.1.5",
+    "ab64": "^0.1.6",
     "activitypub-http-signatures": "^2.5.0"
   },
   "devDependencies": {
-    "@types/node": "^22.15.1",
-    "eslint": "^9.25.1",
-    "typescript": "^5.8.3"
+    "@types/node": "^22.19.11",
+    "@typescript/native-preview": "7.0.0-dev.20260221.1",
+    "eslint": "^9.39.3",
+    "typescript": "6.0.0-beta"
   },
   "packageManager": "pnpm@10.9.0",
   "engines": {
