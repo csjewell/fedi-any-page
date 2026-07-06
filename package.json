@@ -273,7 +273,8 @@
         }
       },
       "packages/*": {
-        "eslint": false
+        "eslint": false,
+        "ignore": "eslint.config.js"
       },
       "packages/null": {
         "eslint": {

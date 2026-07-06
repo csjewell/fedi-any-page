@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT
 # SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
-if test "x$2" = "xmessage"; then exit 0; fi
-if test "x$2" = "xcommit"; then exit 0; fi
+if [[ "$2" = "message" ]]; then exit 0; fi
+if [[ "$2" = "commit" ]]; then exit 0; fi
 exec < /dev/tty && npx cz --hook || true
