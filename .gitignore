@@ -24,3 +24,9 @@ proposed/create-proposed
 # These are temporary until I pull all private data out so they can be used for test data.
 packages/general/test_data/outbox-page.json
 packages/general/test_data/outbox.json
+
+# These are also temporary until I make them work
+Dockerfile
+.dockerignore
+.vscode/launch.json
+.vscode/tasks.json
