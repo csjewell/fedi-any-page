@@ -18,11 +18,12 @@
     "email": "swordsman+aptypescript@curtisjewell.name"
   },
   "type": "module",
-  "main": "index.ts",
+  "main": "./index.ts",
+  "exports": {
+    "./index.ts": "./index.ts"
+  },
   "files": [
-    "README.md",
-    "dist/",
-    "package.json"
+    "dist/"
   ],
   "scripts": {
     "build": "pnpm tsup",
@@ -76,5 +77,6 @@
   "publishConfig": {
     "main": "dist/index.js",
     "typings": "dist/index.d.ts"
-  }
+  },
+  "sideEffects": false
 }

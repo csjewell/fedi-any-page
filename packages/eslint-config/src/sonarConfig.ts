@@ -74,7 +74,8 @@ const SonarConfig: ConfigArray = [
       'sonarjs/cyclomatic-complexity'                : 'off',
       // Double-check this one.
       'sonarjs/declarations-in-global-scope'         : 'off',
-      'sonarjs/deprecation'                          : 'warn',
+      // import-x/no-deprecated duplicates this.
+      'sonarjs/deprecation'                          : 'off',
       'sonarjs/destructuring-assignment-syntax'      : 'warn',
       'sonarjs/different-types-comparison'           : 'warn',
       'sonarjs/disabled-auto-escaping'               : 'off',
@@ -179,7 +180,8 @@ const SonarConfig: ConfigArray = [
       'sonarjs/no-incorrect-string-concat'           : 'off',
       'sonarjs/no-internal-api-use'                  : 'warn',
       'sonarjs/no-intrusive-permissions'             : 'off',
-      'sonarjs/no-invalid-await'                     : 'error',
+      // Where did this rule come from? It is erroring out because it doesn't exist.
+      // 'sonarjs/no-invalid-await'                     : 'error',
       'sonarjs/no-invalid-regexp'                    : 'error',
       'sonarjs/no-invariant-returns'                 : 'off',
       'sonarjs/no-inverted-boolean-check'            : 'warn',
@@ -199,7 +201,8 @@ const SonarConfig: ConfigArray = [
       'sonarjs/no-nested-incdec'                     : 'off',
       'sonarjs/no-nested-switch'                     : 'off',
       'sonarjs/no-nested-template-literals'          : 'off',
-      'sonarjs/no-one-iteration-loop'                : 'error',
+      // Where did this rule come from? It is erroring out because it doesn't exist.
+      // 'sonarjs/no-one-iteration-loop'                : 'error',
       'sonarjs/no-os-command-from-path'              : 'warn',
       'sonarjs/no-parameter-reassignment'            : 'warn',
       'sonarjs/no-primitive-wrappers'                : 'warn',

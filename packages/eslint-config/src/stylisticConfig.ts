@@ -114,6 +114,16 @@ const StylisticConfig: ConfigArray = [
       ],
       '@stylistic/semi-style'                  : [ 'error', 'last' ],
       '@stylistic/space-before-blocks'         : 'error',
+      '@stylistic/space-infix-ops'             : [ 'error', { int32Hint: true, ignoreTypes: false, }],
+      '@stylistic/space-unary-ops'             : 'error',
+      '@stylistic/switch-colon-spacing'        : 'error',
+      '@stylistic/template-curly-spacing'      : [ 'error', 'always' ],
+      '@stylistic/template-tag-spacing'        : 'error',
+      // '@stylistic/type-annotation-spacing'  : 'error', // This causes a fix loop with key-spacing...
+      '@stylistic/type-generic-spacing'        : 'error',
+      // TODO: Error with eslint?
+      // '@stylistic/type-named-tuple-spacing' : 'error',
+      '@stylistic/wrap-regex'                  : 'error',
       '@stylistic/space-before-function-paren' : [
         'error',
         {
@@ -122,15 +132,6 @@ const StylisticConfig: ConfigArray = [
           asyncArrow : 'always',
         },
       ],
-      '@stylistic/space-infix-ops'          : [ 'error', { int32Hint: true, ignoreTypes: false, }],
-      '@stylistic/space-unary-ops'          : 'error',
-      '@stylistic/switch-colon-spacing'     : 'error',
-      '@stylistic/template-curly-spacing'   : [ 'error', 'always' ],
-      '@stylistic/template-tag-spacing'     : 'error',
-      // '@stylistic/type-annotation-spacing'  : 'error', // This causes a fix loop with key-spacing...
-      '@stylistic/type-generic-spacing'     : 'error',
-      '@stylistic/type-named-tuple-spacing' : 'error',
-      '@stylistic/wrap-regex'               : 'error',
     },
   },
 ]

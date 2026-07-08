@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 /* eslint 'import-x/max-dependencies' : ['warn', { max: 15, ignoreTypeImports : true, }], */
-import { config, type ConfigArray } from 'typescript-eslint'
+import { defineConfig } from 'eslint/config'
 import BaseConfig from './src/baseConfig.ts'
 import ImportXConfig from './src/importXConfig.ts'
 import NoRestrictedConfig from './src/noRestrictedConfig.ts'
@@ -12,6 +12,7 @@ import StylisticConfig from './src/stylisticConfig.ts'
 import TypescriptConfig from './src/typescriptConfig.ts'
 import UnicornConfig from './src/unicornConfig.ts'
 import VitestConfig from './src/vitestConfig.ts'
+import type ConfigArray from 'typescript-eslint'
 
 /**
  * Set up the rules that we wish to use to lint our code.
@@ -22,7 +23,7 @@ import VitestConfig from './src/vitestConfig.ts'
  * @remarks All files within the .gitignore file passed in are ignored and
  * not linted.
  */
-export const Config = (gitignorePath: string): ConfigArray => config([
+export const Config = (gitignorePath: string): ConfigArray => defineConfig(
   ...BaseConfig(gitignorePath),
   ...TypescriptConfig,
   ...ShortConfig,
@@ -32,5 +33,5 @@ export const Config = (gitignorePath: string): ConfigArray => config([
   ...StylisticConfig,
   ...ImportXConfig,
   ...VitestConfig,
-])
+)
 
