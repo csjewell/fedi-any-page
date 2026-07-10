@@ -20,7 +20,8 @@ import type { OrArray, StringReferenceMap } from './Utility.ts'
  *
  * @see https://www.w3.org/TR/activitystreams-core/#object
  */
-export const CoreObjectTypes = {
+/* eslint "@typescript-eslint/no-explicit-any" : "warn" */
+export const CoreObjectTypes : Record<any, string> = {
   ...ExtendedObjectTypes,
   ...ActorTypes,
   ...ActivityTypes,

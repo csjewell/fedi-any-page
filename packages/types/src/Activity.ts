@@ -61,7 +61,8 @@ export const IntransitiveActivityTypes = {
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#activity-types
  */
-export const ActivityTypes = {
+/* eslint "@typescript-eslint/no-explicit-any" : "warn" */
+export const ActivityTypes : Record<any, string> = {
   ...TransitiveActivityTypes,
   ...IntransitiveActivityTypes,
 } as const
@@ -98,10 +99,10 @@ export type ActivityProperties = {
  *
  * @extends CoreObject
  */
-export type BaseActivity<T extends AnyActivityType> =
-  & BaseEntity<T>
-  & CoreObjectProperties
-  & ActivityProperties
+export type BaseActivity<T extends AnyActivityType>
+  = & BaseEntity<T>
+    & CoreObjectProperties
+    & ActivityProperties
 
 /**
  * Properties common to all TransitiveActivity types.
@@ -553,35 +554,35 @@ export type Question = IntransitiveActivity<typeof ActivityTypes.QUESTION> & {
  * @see {@link Dislike}
  * @see {@link Question}
  */
-export type Activity =
-  | Accept
-  | Follow
-  | Delete
-  | Create
-  | Arrive
-  | Add
-  | Offer
-  | Like
-  | Leave
-  | Ignore
-  | Join
-  | Reject
-  | Invite
-  | TentativeReject
-  | TentativeAccept
-  | View
-  | Update
-  | Undo
-  | Remove
-  | Read
-  | Listen
-  | Move
-  | Travel
-  | Announce
-  | Block
-  | Flag
-  | Dislike
-  | Question
+export type Activity
+  = | Accept
+    | Follow
+    | Delete
+    | Create
+    | Arrive
+    | Add
+    | Offer
+    | Like
+    | Leave
+    | Ignore
+    | Join
+    | Reject
+    | Invite
+    | TentativeReject
+    | TentativeAccept
+    | View
+    | Update
+    | Undo
+    | Remove
+    | Read
+    | Listen
+    | Move
+    | Travel
+    | Announce
+    | Block
+    | Flag
+    | Dislike
+    | Question
 
 /**
  * Either an Activity or a URL reference to an Activity.

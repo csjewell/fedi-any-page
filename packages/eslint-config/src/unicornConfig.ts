@@ -36,7 +36,7 @@ const UnicornConfig: ConfigArray = [
       'unicorn/prefer-date-now'                      : 'error',
       'unicorn/prefer-default-parameters'            : 'error',
       'unicorn/prefer-event-target'                  : 'error',
-      'unicorn/prefer-export-from'                   : [ 'error', { ignoreUsedVariables: true, }],
+      'unicorn/prefer-export-from'                   : 'error',
       'unicorn/prefer-includes'                      : 'error',
       'unicorn/prefer-logical-operator-over-ternary' : 'error',
       'unicorn/prefer-native-coercion-functions'     : 'error',

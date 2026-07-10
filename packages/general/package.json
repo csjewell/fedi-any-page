@@ -19,18 +19,15 @@
   "type": "module",
   "main": "index.ts",
   "files": [
-    "README.md",
-    "dist/",
-    "package.json"
+    "dist/"
   ],
   "scripts": {
-    "build": "pnpm tsup",
-    "prepublishOnly": "pnpm tsup",
+    "build": "nub run rolldown",
+    "prepublishOnly": "nub run rolldown",
+    "rolldown": "rolldown --config",
     "test": "vitest run",
     "test:watch": "vitest watch",
-    "tsc": "tsc",
-    "tsgo": "tsgo",
-    "tsup": "tsup --config `git rev-parse --show-toplevel`/.config/tsup.config.ts"
+    "tsc": "tsc"
   },
   "lint-staged": {
     "**/*.{js,ts}": [
@@ -54,10 +51,9 @@
   },
   "devDependencies": {
     "@types/node": "^22.19.11",
-    "@typescript/native-preview": "7.0.0-dev.20260705.1",
-    "eslint": "^10.0.1",
-    "tsup": "^8.5.1",
-    "typescript": "6.0.3",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "eslint": "^10.6.0",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vitest": "^4.0.18"
   },
   "packageManager": "pnpm@11.10.0",

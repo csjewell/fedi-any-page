@@ -1,10 +1,10 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
+import { includeIgnoreFile } from 'eslint/config'
 import globals from 'globals'
 import tseslint, { type ConfigArray } from 'typescript-eslint'
-import yml from 'yaml-eslint-parser'
-import { includeIgnoreFile } from '@eslint/compat'
+import * as yamlParser from 'yaml-eslint-parser'
 import eslintJs from '@eslint/js'
 
 const confusingBrowserGlobals = [
@@ -109,7 +109,7 @@ const BaseConfig = (gitignorePath: string): ConfigArray => [
   {
     files           : ['*.yaml, *.yml'],
     languageOptions : {
-      parser        : yml,
+      parser        : yamlParser,
       parserOptions : {
         defaultYAMLVersion : '1.2',
       },

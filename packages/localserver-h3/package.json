@@ -16,18 +16,15 @@
   "type": "module",
   "main": "index.ts",
   "files": [
-    "README.md",
-    "dist/",
-    "package.json"
+    "dist/"
   ],
   "scripts": {
-    "build": "pnpm tsup",
-    "prepublishOnly": "pnpm tsup",
+    "build": "nub run rolldown",
+    "prepublishOnly": "nub run rolldown",
+    "rolldown": "rolldown --config",
     "serve": "listhen --open ./index.ts",
     "serve:watch": "listhen --watch ../ --open ./index.ts",
-    "tsc": "tsc",
-    "tsgo": "tsgo",
-    "tsup": "tsup --config ../../.config/tsup.config.ts"
+    "tsc": "tsc"
   },
   "lint-staged": {
     "**/*.{js,ts}": [
@@ -45,18 +42,19 @@
     "@csjewell-activitypub/handlers-response": "workspace:^",
     "@csjewell-activitypub/types": "workspace:^",
     "@keyv/sqlite": "^4.0.8",
-    "h3": "^1.15.5",
+    "h3": "^1.15.11",
     "h3-compression": "^0.3.2",
-    "h3-valibot": "^0.0.9",
+    "h3-valibot": "^0.1.0",
     "keyv": "^5.6.0"
   },
   "devDependencies": {
     "@types/node": "^22.19.11",
-    "@typescript/native-preview": "7.0.0-dev.20260705.1",
-    "eslint": "^9.39.3",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "eslint": "^10.6.0",
     "listhen": "^1.9.0",
-    "tsup": "^8.5.1",
-    "typescript": "6.0.3"
+    "rolldown": "^1.1.4",
+    "rolldown-plugin-dts": "^0.27.1",
+    "typescript": "npm:@typescript/typescript6@^6.0.2"
   },
   "packageManager": "pnpm@11.10.0",
   "engines": {

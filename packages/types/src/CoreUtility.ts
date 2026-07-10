@@ -24,11 +24,11 @@ import type { Link, Mention } from './Link.ts'
  * @see {@link Activity}
  * @see {@link Collection}
  */
-export type CoreObject =
-  | ExtendedObject
-  | Actor
-  | Activity
-  | AnyCollectionOrCollectionPage
+export type CoreObject
+  = | ExtendedObject
+    | Actor
+    | Activity
+    | AnyCollectionOrCollectionPage
 
 /**
  * Either a CoreObject or a URL reference to a CoreObject.

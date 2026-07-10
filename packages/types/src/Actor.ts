@@ -67,10 +67,10 @@ export type ActorProperties = {
  * @extends BaseEntity
  *
  */
-export type BaseActor<T extends AnyActorType> =
-  & BaseEntity<T>
-  & CoreObjectProperties
-  & ActorProperties
+export type BaseActor<T extends AnyActorType>
+  = & BaseEntity<T>
+    & CoreObjectProperties
+    & ActorProperties
 
 /**
  * Per the ActivitySteams spec:

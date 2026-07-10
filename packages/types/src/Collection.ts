@@ -40,9 +40,9 @@ export type AnyCollectionPageType = (typeof CollectionPageTypes)[keyof typeof Co
 /**
  * A union of all Collection and CollectionPage types.
  */
-export type AnyCollectionOrCollectionPageType =
-  | AnyCollectionType
-  | AnyCollectionPageType
+export type AnyCollectionOrCollectionPageType
+  = | AnyCollectionType
+    | AnyCollectionPageType
 
 /**
  * Properties common to all Collection types.
@@ -81,10 +81,10 @@ export type CollectionProperties = {
  *
  * @see https://www.w3.org/TR/activitypub/#collection
  */
-export type BaseCollection<T extends AnyCollectionOrCollectionPageType> =
-  & BaseEntity<T>
-  & CoreObjectProperties
-  & CollectionProperties
+export type BaseCollection<T extends AnyCollectionOrCollectionPageType>
+  = & BaseEntity<T>
+    & CoreObjectProperties
+    & CollectionProperties
 
 /**
  * This type indicates a Collection object with a type of `Collection`.
@@ -129,9 +129,9 @@ type CollectionPageProperties = {
  * @see {@link CollectionPage}
  * @see {@link OrderedCollectionPage}
  */
-type BaseCollectionPage<T extends AnyCollectionPageType> =
-  & BaseCollection<T>
-  & CollectionPageProperties
+type BaseCollectionPage<T extends AnyCollectionPageType>
+  = & BaseCollection<T>
+    & CollectionPageProperties
 
 /**
  * This type indicates a CollectionPage object with a type of `CollectionPage`.
@@ -236,15 +236,15 @@ export type EitherCollectionPageReference = URL | EitherCollectionPage
  * @remarks This is useful for functions that accept any type that descends
  * from BaseCollection.
  */
-export type AnyCollectionOrCollectionPage =
-  | EitherCollection
-  | EitherCollectionPage
+export type AnyCollectionOrCollectionPage
+  = | EitherCollection
+    | EitherCollectionPage
 
 /**
  * Any among a Collection, OrderedCollection, CollectionPage, or
  * OrderedCollectionPage object or a URL reference to a Collection,
  * OrderedCollection, CollectionPage, or OrderedCollectionPage object.
  */
-export type AnyCollectionOrCollectionPageReference =
-  | URL
-  | AnyCollectionOrCollectionPage
+export type AnyCollectionOrCollectionPageReference
+  = | URL
+    | AnyCollectionOrCollectionPage

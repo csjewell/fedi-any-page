@@ -63,8 +63,8 @@ export type BaseExtendedObject<T extends AnyExtendedObjectType> = BaseEntity<T> 
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-tombstone
  */
-export type Tombstone =
-  & BaseExtendedObject<
+export type Tombstone
+  = & BaseExtendedObject<
     typeof ExtendedObjectTypes.TOMBSTONE
   >
   & {
@@ -83,8 +83,8 @@ export type Tombstone =
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-relationship
  */
-export type Relationship =
-  & BaseExtendedObject<
+export type Relationship
+  = & BaseExtendedObject<
     typeof ExtendedObjectTypes.RELATIONSHIP
   >
   & {
@@ -265,20 +265,20 @@ export type Hashtag = BaseExtendedObject<typeof ExtendedObjectTypes.HASHTAG>
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#extendedtypes
  */
-export type ExtendedObject =
-  | Article
-  | Event
-  | Note
-  | Page
-  | Place
-  | Relationship
-  | Tombstone
-  | Profile
-  | Video
-  | Document
-  | Audio
-  | Image
-  | Hashtag
+export type ExtendedObject
+  = | Article
+    | Event
+    | Note
+    | Page
+    | Place
+    | Relationship
+    | Tombstone
+    | Profile
+    | Video
+    | Document
+    | Audio
+    | Image
+    | Hashtag
 
 /**
  * An Extended Object or a URL reference to an Extended Object.
