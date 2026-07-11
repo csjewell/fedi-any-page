@@ -4,6 +4,5 @@
   "$schema": "https://unpkg.com/knip@5/schema-jsonc.json",
   "eslint": false,
   "ignore": ["eslint.config.js"],
-  "ignoreDependencies": ["eslint"]
 }
 
