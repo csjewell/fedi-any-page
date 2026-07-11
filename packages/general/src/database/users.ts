@@ -35,7 +35,7 @@ export class BaseUsersStorage {
    * if there is a user by that username, or undefined otherwise.
    */
   retrieveUser = async (username: string): Promise<User | undefined> => {
-    if (this.user !== undefined && this.user.username === username) {
+    if (this.user?.username === username) {
       return this.user
     }
 

@@ -70,7 +70,7 @@ const reviver = (key: string, value: unknown, pointer: string): unknown => {
     case 'to': {
       return Array.isArray(value)
         ? value.map(x => new URL(x as string) as AP.EntityReference)
-        : new URL(value as string) as AP.EntityReference
+        : new URL(value as string)
     }
 
     /*

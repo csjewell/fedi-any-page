@@ -30,7 +30,7 @@ const fingerServer: FingerHandlerServer = (account: string): Record<string, unkn
         href : `"${ account }activitypub/server`,
       },
     ],
-  } as Record<string, unknown>
+  }
 }
 
 const fingerServerMastodon: FingerHandlerMastodon = <DatabaseT>(
@@ -46,7 +46,7 @@ const fingerServerMastodon: FingerHandlerMastodon = <DatabaseT>(
         href : `"${ config.url.toString() }activitypub/server`,
       },
     ],
-  } as Record<string, unknown>
+  }
 }
 
 const fingerUser: FingerHandlerUser = <DatabaseT>(

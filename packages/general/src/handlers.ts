@@ -136,7 +136,7 @@ implements Request.Router<SessionT, ResponseT> {
         'type'     : 'Accept',
         'actor'    : new URL(
           `${ this.env.url.toString() }${ this.username }`,
-        ) as AP.EntityReference,
+        ),
         'object' : message.id as AP.EntityReference,
       }
     }

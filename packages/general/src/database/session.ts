@@ -204,7 +204,7 @@ export class SessionCache implements SessionDB {
       return value !== undefined
         && value !== null
         && v.is<typeof SessionInfoSchema>(SessionInfoSchema, value)
-        && (value as SessionInfo).username === this.username
+        && value.username === this.username
     }
 
   /**
