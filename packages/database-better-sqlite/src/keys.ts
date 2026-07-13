@@ -26,7 +26,7 @@ implements APDatabase.DatabaseKey {
   constructor(router: SQLiteDatabase, message: AP.ActorReference | string) {
     this.router = router
     this.handle = this.router.handle
-    const actorId = Utils.entityRefToString(message as URL)
+    const actorId = Utils.entityRefToString(message)
 
     if (actorId === undefined) {
       throw new DataError('Was not sent correct actor information')

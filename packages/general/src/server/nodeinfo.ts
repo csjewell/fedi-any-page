@@ -21,7 +21,6 @@ export const NodeInfo: APIHandler = <DatabaseT, ResponseT>(
     body : JSON.stringify({
       links : [
         {
-          /* eslint-disable-next-line sonarjs/no-clear-text-protocols -- this is an identifier, not a real URL. */
           rel  : 'http://nodeinfo.diaspora.software/ns/schema/2.1',
           href : `${ config.url.toString() }nodeinfo/2.1`,
         },

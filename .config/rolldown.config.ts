@@ -3,25 +3,32 @@ import { bundleAnalyzerPlugin } from 'rolldown/experimental';
 import { dts } from 'rolldown-plugin-dts';
 
 export default defineConfig({
-  input: 'index.js',
+  input: 'index.ts',
   output: {
     cleanDir: true,
-    dir: 'dist',
+    codeSplitting: false,
+    file: './dist/index.js',
     externalLiveBindings: false,
     format: 'esm',
     sourcemap: true,
     sourcemapDebugIds: true,
-
   },
+  platform: 'neutral',
   tsconfig: './tsconfig.json',
   external: /^[^./](?!:[/\\])/,
   experimental: {
-    chunkImportMap: true,
-    chunkModulesOrder: 'module-id',
     lazyBarrel: true,
     nativeMagicString: true,
   },
-  plugins: [bundleAnalyzerPlugin(), dts({ sourcemap: true, generator: 'tsgo', })],
+//  plugins: [dts({
+//    entry: 'index.ts',
+//    sourcemap: true,
+//    emitDtsOnly: false,
+//    resolver: 'tsc',
+//    parallel: true,
+//    eager: true,
+//    newContext: true,
+//  })],
   preserveEntrySignatures: 'strict',
   attachDebugInfo: 'full',
   logLevel: 'debug',

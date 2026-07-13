@@ -14,8 +14,8 @@ import { RepliesSQLiteStorage } from './replies.ts'
 import type { Keyv } from 'keyv'
 import type * as AP from '@csjewell-activitypub/types'
 
-type RepliesStorage = APDatabase.StorageHandler<Server.RePliers.ReplyList> &
-  APDatabase.RepliesHandler
+type RepliesStorage = APDatabase.StorageHandler<Server.RePliers.ReplyList>
+  & APDatabase.RepliesHandler
 
 export class SQLiteDatabase
   extends APDatabase.SessionRouter

@@ -14,7 +14,10 @@
     "email": "swordsman+aptypescript@curtisjewell.name"
   },
   "type": "module",
-  "main": "index.ts",
+  "main": "./index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
   "files": [
     "dist/"
   ],
@@ -54,5 +57,12 @@
   "packageManager": "pnpm@11.10.0",
   "engines": {
     "node": ">=22.6.0"
-  }
+  },
+  "publishConfig": {
+    "main": "dist/index.js",
+    "exports": {
+      ".": "dist/index.js"
+    }
+  },
+  "sideEffects": false
 }

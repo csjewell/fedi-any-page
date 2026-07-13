@@ -65,11 +65,11 @@ export class H3Request implements Request.Helper {
       this.event, Request.ReplyActionBodySchema,
     ) as Request.ReplyActionBody
 
-    const { unconvertedAction, } = ( this.event.context.params! )
+    const { unconvertedAction, } = this.event.context.params!
 
     const action = unconvertedAction as 'like' | 'hide'
 
-    return { ...inputs, action, } as Request.ReplyActionInputs
+    return { ...inputs, action, }
   }
 
   getReplyInputs = async (): Promise<Request.ReplyInputs> => {

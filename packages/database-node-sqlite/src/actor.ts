@@ -178,7 +178,7 @@ export class ActorSQLiteStorage
       'INSERT INTO actors SET actor_id = ?, document_id = ?, inbox = ?, outbox = ?, preferred_username = ?',
     )
 
-    /* eslint-disable unicorn/consistent-destructuring */
+
     const respActor = stmtActor.run(
       actorInfo.id.toString(),
       this.dbDocumentId,

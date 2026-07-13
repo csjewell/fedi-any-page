@@ -16,7 +16,6 @@ type HeadersType = Record<string, string> | ResolvedHeadersType
  *
  * @class
  */
-/* eslint "sonarjs/no-identical-functions": "off" -- The overrides just work that way */
 export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
   private h    : Hapi.ResponseToolkit
   private resp : Hapi.ResponseObject | undefined = undefined
@@ -68,7 +67,7 @@ export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
     return addH
   }
 
-  _headers({ hasCors = true, addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
+  _headers({ hasCors = true, addHeaders = {}, } = {}): Hapi.ResponseObject {
     const { resp, } = this
 
     if (resp === undefined) {
@@ -126,8 +125,8 @@ export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
    * @returns Response to return to browser.
    */
   success200Obj({
-    body = {} as Record<string, unknown>,
-    addHeaders = {} as HeadersType,
+    body = {},
+    addHeaders = {},
     cookies = undefined as Cookies | undefined,
   } = {}): Hapi.ResponseObject {
     this._body(body)
@@ -150,7 +149,7 @@ export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
    */
   success200Str({
     body = '',
-    addHeaders = {} as HeadersType,
+    addHeaders = {},
     cookies = undefined as Cookies | undefined,
   } = {}): Hapi.ResponseObject {
     this._body(body)
@@ -173,7 +172,7 @@ export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
     }
 
     const addHeaders = this._resolve(
-      identifiers.map((s) => { return [ 'Location', s ] }) as ResolvedHeadersType,
+      identifiers.map((s) => { return [ 'Location', s ] }),
     )
 
     return this._headers({ addHeaders, }).code(200)
@@ -189,7 +188,7 @@ export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
    *
    * @returns Response to return to browser.
    */
-  success202({ info = 'Created Reply', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
+  success202({ info = 'Created Reply', addHeaders = {}, } = {}): Hapi.ResponseObject {
     const statusText = info === '' ? 'Accepted' : info
 
     this._body({ message: info, })
@@ -203,7 +202,7 @@ export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
    *
    * @returns Response to return to browser.
    */
-  success204({ info = '', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
+  success204({ info = '', addHeaders = {}, } = {}): Hapi.ResponseObject {
     let statusText = 'No Content'
 
     if (info !== '') {
@@ -226,7 +225,7 @@ export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
    * @returns A redirection response to be sent to the browser.
    * @throws {TypeError} - URL was empty.
    */
-  redirect30x({ url = '', statusCode = 301 as 301 | 302 | 303 | 307 | 308, } = {}): Hapi.ResponseObject {
+  redirect30x({ url = '', statusCode = 301, } = {}): Hapi.ResponseObject {
     if (url === '') {
       throw new TypeError('URL was empty')
     }
@@ -242,7 +241,7 @@ export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
    * @default ''
    * @param addHeaders {Record<string, string> | Array<[string, string]>} - Additional headers to add to the response
    */
-  error403({ info = '', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
+  error403({ info = '', addHeaders = {}, } = {}): Hapi.ResponseObject {
     let statusText = 'Forbidden'
 
     if (info !== '') {
@@ -263,7 +262,7 @@ export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
    * @default 'User'
    * @param addHeaders {Record<string, string> | Array<[string, string]>} - Additional headers to add to the response
    */
-  error404({ info = 'User', additional = '', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
+  error404({ info = 'User', additional = '', addHeaders = {}, } = {}): Hapi.ResponseObject {
     let statusText = `${ info } Not Found`
 
     if (additional !== '') {
@@ -302,7 +301,7 @@ export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
   error405({
     info = 'POST',
     addMethods = [] as Array<string>,
-    addHeaders = {} as HeadersType,
+    addHeaders = {},
   } = {}): Hapi.ResponseObject {
     addMethods.unshift('OPTIONS', 'GET', 'HEAD')
     const hdrs = this._resolve(addHeaders)
@@ -321,7 +320,7 @@ export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
    * @param info {string} - Information about why the request was unprocessable, if any.
    * @param addHeaders {Record<string, string> | Array<[string, string]>} - Additional headers to add to the response
    */
-  error422({ info = '', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
+  error422({ info = '', addHeaders = {}, } = {}): Hapi.ResponseObject {
     let statusText = 'Unprocessable Request'
 
     if (info !== '') {
@@ -341,7 +340,7 @@ export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
    * @param info {string} - Information about what error the server had, if any
    * @param addHeaders {Record<string, string> | Array<[string, string]>} - Additional headers to add to the response
    */
-  error500({ info = '', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
+  error500({ info = '', addHeaders = {}, } = {}): Hapi.ResponseObject {
     let statusText = 'Server Error'
 
     if (info !== '') {
@@ -361,7 +360,7 @@ export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
    * @param info {string} - Information about why the service was unavailable, if any
    * @param addHeaders {Record<string, string> | Array<[string, string]>} - Additional headers to add to the response
    */
-  error503({ info = '', addHeaders = {} as HeadersType, } = {}): Hapi.ResponseObject {
+  error503({ info = '', addHeaders = {}, } = {}): Hapi.ResponseObject {
     let statusText = 'Service Unavailable'
 
     if (info !== '') {

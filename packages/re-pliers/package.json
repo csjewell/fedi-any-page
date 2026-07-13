@@ -20,6 +20,9 @@
   },
   "type": "module",
   "main": "src/index.ts",
+  "exports": {
+    "./index.ts": "./src/index.ts"
+  },
   "files": [
     "dist/"
   ],
@@ -27,7 +30,8 @@
     "build": "vite build",
     "build:preview": "vite preview",
     "dev:watch": "vite",
-    "lint": "eslint",
+    "eslint": "eslint --config eslint.config.js",
+    "lint": "nub run eslint",
     "lint:git": "lint-staged",
     "prepublishOnly": "nub run build",
     "rolldown": "rolldown --config",
@@ -38,7 +42,7 @@
   },
   "lint-staged": {
     "**/*.{js,ts}": [
-      "eslint --fix"
+      "eslint --config eslint.config.js --fix"
     ],
     "**/*.md": [
       "markdownlint-cli2 --fix"
@@ -97,5 +101,6 @@
       ".": "dist/re-pliers.mjs"
     },
     "typings": "dist/re-pliers.d.ts"
-  }
+  },
+  "sideEffects": false
 }

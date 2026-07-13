@@ -8,4 +8,4 @@ import type { AuthInfo } from '../types/AuthInfo.ts'
 export const AuthCtx: Context<AuthInfo> = createContext<AuthInfo>({
   actor      : '',
   isVerified : false,
-} as AuthInfo)
+})

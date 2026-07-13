@@ -122,7 +122,7 @@ export class LikeSQLiteStorage
 
     if (resp.length > 0) {
       (resp as Array<LikeInfo>).forEach((info) => {
-        likes.push(({ ...info, } as LikeInfo))
+        likes.push({ ...info, })
       })
     }
 

@@ -123,7 +123,7 @@ implements APDatabase.StorageHandler<AP.Like> {
 
     if (resp.length > 0) {
       (resp as Array<LikeInfo>).forEach((info) => {
-        likes.push(({ ...info, } as LikeInfo))
+        likes.push({ ...info, })
       })
     }
 
@@ -178,7 +178,7 @@ implements APDatabase.StorageHandler<AP.Like> {
       INSERT INTO likes (liked_id, actor_id, document_id)
            VALUES       (       ?,        ?,           ?)
     `)
-    const resp = stmtInsert.run(likedId, actorId, documentObj.id as number)
+    const resp = stmtInsert.run(likedId, actorId, documentObj.id)
 
     this.dbLikeId = resp.lastInsertRowid as number
     return true
@@ -223,7 +223,7 @@ implements APDatabase.StorageHandler<AP.Like> {
         JOIN likes l ON d.id = l.document_id
        WHERE l.liked_id = ?
     `)
-    const resp = stmtExists.all(this.dbLikeId as number)
+    const resp = stmtExists.all(this.dbLikeId)
 
     if (resp.length === 1) {
       dbResp = (resp as Array<DBDocumentInfo>)[0]

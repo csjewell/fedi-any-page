@@ -25,7 +25,7 @@ export class KeysSQLiteStorage
 
   constructor(cache: Keyv, handle: DatabaseSync, message: AP.ActorReference | string) {
     super(cache, handle)
-    const actorId = Utils.entityRefToString(message as URL)
+    const actorId = Utils.entityRefToString(message)
 
     if (actorId === undefined) {
       throw new DataError('Was not sent correct actor information')

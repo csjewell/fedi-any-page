@@ -59,22 +59,22 @@ export class H3RespHelper
     addHeaders? : Responses.HeadersType
     cookies?    : Cookies,
   }) => Promise<Response> = async ({ body, addHeaders, cookies, }): Promise<Response> => {
-      if (cookies !== undefined) {
-        this.handleCookies(cookies)
-      }
-
-      return super.success200Obj({ body, addHeaders, })
+    if (cookies !== undefined) {
+      this.handleCookies(cookies)
     }
+
+    return super.success200Obj({ body, addHeaders, })
+  }
 
   override success200Str: (argHash: {
     body        : string
     addHeaders? : Responses.HeadersType
     cookies?    : Cookies
   }) => Promise<Response> = async ({ body, addHeaders, cookies, }): Promise<Response> => {
-      if (cookies !== undefined) {
-        this.handleCookies(cookies)
-      }
-
-      return super.success200Str({ body, addHeaders, })
+    if (cookies !== undefined) {
+      this.handleCookies(cookies)
     }
+
+    return super.success200Str({ body, addHeaders, })
+  }
 }

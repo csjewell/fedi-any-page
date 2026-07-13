@@ -139,13 +139,13 @@ implements RepliesStorage {
       return false
     }
 
-    const objectIdent = Utils.idToString((message.object as AP.ExtendedObject).id)
+    const objectIdent = Utils.idToString(message.object.id)
 
     if (objectIdent === undefined) {
       throw new Error('Our reply cannot be replied to, as it cannot be identified')
     }
 
-    const replyTo = (message.object as AP.ExtendedObject).inReplyTo
+    const replyTo = message.object.inReplyTo
 
     if (replyTo === undefined) {
       throw new Error('Our reply is not replying to anything')

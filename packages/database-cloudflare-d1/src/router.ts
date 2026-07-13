@@ -68,13 +68,13 @@ export class CloudflareD1Database extends Database.SessionRouter implements Data
 
   getUsername = (dr: string | AP.EntityReference | Array<AP.EntityReference> | null | undefined): Database.DBUsername => {
     if (Array.isArray(dr) || dr === undefined || dr === null) {
-      return { username: undefined, usernameId: undefined, } as Database.DBUsername
+      return { username: undefined, usernameId: undefined, }
     }
 
     const er = Utils.entityRefToURL(dr)
 
     if (er === undefined) {
-      return { username: undefined, usernameId: undefined, } as Database.DBUsername
+      return { username: undefined, usernameId: undefined, }
     }
 
     // TODO: Finish implementing.
@@ -84,13 +84,13 @@ export class CloudflareD1Database extends Database.SessionRouter implements Data
   /** */
   getDocument = (dr: string | AP.EntityReference | Array<AP.EntityReference> | null | undefined): Database.DBDocument => {
     if (Array.isArray(dr) || dr === undefined || dr === null) {
-      return { object: undefined, objectId: undefined, } as Database.DBDocument
+      return { object: undefined, objectId: undefined, }
     }
 
     const er = Utils.entityRefToURL(dr)
 
     if (er === undefined) {
-      return { object: undefined, objectId: undefined, } as Database.DBDocument
+      return { object: undefined, objectId: undefined, }
     }
 
     // TODO: Finish implementing.

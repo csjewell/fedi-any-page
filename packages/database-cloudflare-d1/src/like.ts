@@ -109,7 +109,7 @@ export class LikeCFStorage extends CloudflareD1Database implements Database.Stor
 
     if (resp.results.length > 0) {
       (resp.results as Array<LikeInfo>).forEach((info) => {
-        likes.push(({ ...info, } as LikeInfo))
+        likes.push({ ...info, })
       })
     }
 

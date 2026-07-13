@@ -3,12 +3,10 @@
  */
 import { encodeUrl as toBase64 } from 'ab64'
 import {
-  type Configuration, type Cookies, Json, type Responses,
+  type Cookies, Json, type Responses,
 } from '@csjewell-activitypub/general'
 import { StandardSender } from './sender.ts'
 import type * as AP from '@csjewell-activitypub/types'
-
-type RedirectCode = 301 | 302 | 303 | 307 | 308
 
 /* eslint-disable-next-line @stylistic/comma-dangle -- false alarm */
 type ResolvedHeadersType = Array<[string, string]>
@@ -102,7 +100,7 @@ class StandardResponses implements Responses.Type<Response> {
 
   _headers({
     hasCors = true,
-    addHeaders = {} as HeadersType,
+    addHeaders = {},
     cookies = undefined as Cookies | undefined,
   } = {}): Headers {
     return new Headers(this.getHeaders({ hasCors, addHeaders: this._resolve(addHeaders, cookies), }))
@@ -114,7 +112,7 @@ class StandardResponses implements Responses.Type<Response> {
     cookies?    : Cookies,
   }): Promise<Response> {
     // TODO: Add an assertion here.
-    const json = Json.stringify(body as AP.CoreObject)
+    const json = Json.stringify(body)
 
     return Promise.resolve(new Response(json, {
       status     : 200,
@@ -142,7 +140,7 @@ class StandardResponses implements Responses.Type<Response> {
     const json = JSON.stringify({ success: true, })
 
     const addHeaders = this._resolve(
-      identifiers.map((s) => { return [ 'Location', s ] }) as ResolvedHeadersType,
+      identifiers.map((s) => { return [ 'Location', s ] }),
       cookies,
     )
 
@@ -162,7 +160,7 @@ class StandardResponses implements Responses.Type<Response> {
    *
    * @returns Response to return to browser.
    */
-  success202({ info = 'Created Reply', addHeaders = {} as HeadersType, } = {}): Response {
+  success202({ info = 'Created Reply', addHeaders = {}, } = {}): Response {
     let statusText = 'Accepted'
 
     if (info !== '') {
@@ -186,7 +184,7 @@ class StandardResponses implements Responses.Type<Response> {
    *
    * @returns Response to return to browser.
    */
-  success204({ info = '', addHeaders = {} as HeadersType, } = {}): Response {
+  success204({ info = '', addHeaders = {}, } = {}): Response {
     let statusText = 'No Content'
 
     if (info !== '') {
@@ -235,7 +233,7 @@ class StandardResponses implements Responses.Type<Response> {
     })
   }
 
-  redirect30x({ url = '', statusCode = 301 as RedirectCode, } = {}): Response {
+  redirect30x({ url = '', statusCode = 301, } = {}): Response {
     if (url === '') {
       throw new TypeError('URL was empty')
     }
@@ -243,7 +241,7 @@ class StandardResponses implements Responses.Type<Response> {
     return Response.redirect(url, statusCode)
   }
 
-  error403({ info = '', addHeaders = {} as HeadersType, } = {}): Response {
+  error403({ info = '', addHeaders = {}, } = {}): Response {
     let statusText = 'Forbidden'
 
     if (info !== '') {
@@ -266,7 +264,7 @@ class StandardResponses implements Responses.Type<Response> {
    * @param info The type of thing that has not been found
    * @default 'User'
    */
-  error404({ info = 'User', additional = '', addHeaders = {} as HeadersType, } = {}): Response {
+  error404({ info = 'User', additional = '', addHeaders = {}, } = {}): Response {
     let statusText = `${ info } Not Found`
 
     if (additional !== '') {
@@ -300,7 +298,7 @@ class StandardResponses implements Responses.Type<Response> {
   error405({
     info = 'POST',
     addMethods = [] as Array<string>,
-    addHeaders = {} as HeadersType,
+    addHeaders = {},
   } = {}): Response {
     const headers: ResolvedHeadersType = this._resolve(addHeaders)
 
@@ -317,7 +315,7 @@ class StandardResponses implements Responses.Type<Response> {
   }
 
   /* */
-  error422({ info = '', addHeaders = {} as HeadersType, } = {}): Response {
+  error422({ info = '', addHeaders = {}, } = {}): Response {
     let statusText = 'Unprocessable Request'
 
     if (info !== '') {
@@ -335,7 +333,7 @@ class StandardResponses implements Responses.Type<Response> {
   }
 
   /* */
-  error500({ info = '', addHeaders = {} as HeadersType, } = {}): Response {
+  error500({ info = '', addHeaders = {}, } = {}): Response {
     let statusText = 'Server Error'
 
     if (info !== '') {
@@ -352,7 +350,7 @@ class StandardResponses implements Responses.Type<Response> {
     })
   }
 
-  error503({ info = '', addHeaders = {} as HeadersType, } = {}): Response {
+  error503({ info = '', addHeaders = {}, } = {}): Response {
     let statusText = 'Service Unavailable'
 
     if (info !== '') {
@@ -406,12 +404,12 @@ class WebFingerStandardResponses
     ]
   }
 
-  override _headers({ addHeaders = {} as HeadersType, } = {}): Headers {
+  override _headers({ addHeaders = {}, } = {}): Headers {
     return new Headers(this.getHeaders({ addHeaders: this._resolve(addHeaders), }))
   }
 
   override success200Obj(
-    { body = {} as Record<string, unknown>, addHeaders = {} as HeadersType, } = {},
+    { body = {}, addHeaders = {}, } = {},
   ): Promise<Response> {
     return Promise.resolve(Response.json(body, {
       status     : 200,
@@ -420,7 +418,7 @@ class WebFingerStandardResponses
     }))
   }
 
-  override success204({ info = '', addHeaders = {} as HeadersType, } = {}): Response {
+  override success204({ info = '', addHeaders = {}, } = {}): Response {
     let statusText = 'No Content'
 
     if (info !== '') {
@@ -465,7 +463,7 @@ export class HTMLStandardResponses
 
   override success200Str({
     body = '',
-    addHeaders = {} as HeadersType,
+    addHeaders = {},
   } = {}): Promise<Response> {
     const headers = this._headers({ addHeaders, })
 

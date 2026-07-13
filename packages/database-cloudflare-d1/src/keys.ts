@@ -23,7 +23,7 @@ export class KeysCFStorage extends CloudflareD1Database implements Database.Data
 
   constructor(cache: Keyv, env: CloudflareConfig, message: AP.ActorReference | string) {
     super(cache, env)
-    const actorId = Utils.entityRefToString(message as URL)
+    const actorId = Utils.entityRefToString(message)
 
     if (actorId === undefined) {
       throw new DataError('Was not sent correct actor information')

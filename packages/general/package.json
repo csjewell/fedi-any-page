@@ -19,7 +19,7 @@
   "type": "module",
   "main": "./index.ts",
   "exports": {
-    "./index.ts": "./index.ts"
+    ".": "./index.ts"
   },
   "files": [
     "dist/"
@@ -70,7 +70,9 @@
   },
   "publishConfig": {
     "main": "dist/index.js",
-    "typings": "dist/index.d.ts"
+    "exports": {
+      ".": "dist/index.js"
+    }
   },
   "sideEffects": false
 }

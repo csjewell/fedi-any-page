@@ -23,7 +23,7 @@ export class HAPIRequest implements Request.Helper {
     if (Object.hasOwn(inp, 'actinfo')) {
       const { actinf, actinfo, } = inp as Cookies
 
-      return { actinf, actinfo, } as Cookies
+      return { actinf, actinfo, }
     }
 
     throw new TypeError('Sent the wrong stuff')
@@ -56,7 +56,7 @@ export class HAPIRequest implements Request.Helper {
     if (Object.hasOwn(inp, 'password')) {
       const { username, password, } = inp as { username: string, password: string, }
 
-      return { username, password, } as Request.AuthInputs
+      return { username, password, }
     }
 
     throw new TypeError('Sent the wrong stuff')

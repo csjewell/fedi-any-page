@@ -169,7 +169,6 @@ export class ActorCFStorage extends CloudflareD1Database implements Database.Sto
     const stmtActor = this.handle.prepare(
       'INSERT INTO actors SET actor_id = ?, document_id = ?, inbox = ?, outbox = ?, preferred_username = ?',
     ).bind(
-      /* eslint-disable-next-line unicorn/consistent-destructuring */
       actorInfo.id, this.dbDocumentId, actorInfo.inbox, actorInfo.outbox, preferredUsername,
     )
     const respActor = await stmtActor.run()
