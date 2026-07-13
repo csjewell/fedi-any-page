@@ -266,7 +266,9 @@
         "entry": [
           "bin/get_current_version.js",
           "bin/npmtag.js",
-          ".config/helpers/*.js"
+          ".config/helpers/*.js",
+          ".config/bump.config.ts",
+          ".config/rolldown.config.ts"
         ],
         "typedoc": {
           "config": [
