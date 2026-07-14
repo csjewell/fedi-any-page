@@ -52,7 +52,7 @@
     "@types/node": "^22.19.11",
     "@typescript/native": "npm:typescript@^7.0.2",
     "eslint": "^10.6.0",
-    "knip": "^6.25.0",
+    "knip": "^6.26.0",
     "rolldown": "^1.1.4",
     "rolldown-plugin-dts": "^0.27.1",
     "typescript": "npm:@typescript/typescript6@^6.0.2"

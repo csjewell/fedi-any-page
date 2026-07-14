@@ -11,6 +11,9 @@ overrides:
   "typescript>typescript-eslint": "^8.62.1"
   "eslint-plugin-tsdoc>@typescript-eslint/utils": "^8.62.1"
   "parse-url": "^10.0.3"
+  "oxc-parser": "^0.139.0"
+  "yargs": "^18.0.0"
+  "unctx@2.5.0>unplugin": "^3.3.0"
   "@commitlint/read": "^21.2.1"
 # I tried overriding glob, instead, and it broke commitizen.
 allowedDeprecatedVersions:

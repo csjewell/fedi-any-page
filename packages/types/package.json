@@ -25,9 +25,11 @@
     "dist/"
   ],
   "scripts": {
+    "attw": "attw",
     "build": "nub run rolldown",
     "eslint": "eslint --config eslint.config.js",
     "prepublishOnly": "nub run rolldown",
+    "publint": "publint",
     "rolldown": "rolldown --config",
     "tsc": "tsc"
   },
@@ -42,7 +44,9 @@
     }
   },
   "devDependencies": {
-    "@arethetypeswrong/core": "^0.18.4",
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@arethetypeswrong/core": "^0.18.5",
+    "@e18e/cli": "^0.7.0",
     "@types/node": "^22.19.11",
     "@typescript/native": "npm:typescript@^7.0.2",
     "eslint": "^10.6.0",
