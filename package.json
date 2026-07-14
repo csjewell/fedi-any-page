@@ -25,10 +25,12 @@
     "packages/localserver-h3",
     "packages/localserver-hapi"
   ],
-  "exports" : {
+  "exports": {
     "./index.ts": "./index.ts"
   },
-  "files": [ "index.ts" ],
+  "files": [
+    "index.ts"
+  ],
   "scripts": {
     "bumpp": "cd `git rev-parse --show-toplevel`; bumpp --no-verify",
     "commitlint": "commitlint",
@@ -42,173 +44,6 @@
     "typedoc:html": "cd `git rev-parse --show-toplevel`; typedoc --options .config/typedoc.html.jsonc",
     "typedoc:md": "cd `git rev-parse --show-toplevel`; typedoc --options .config/typedoc.toplevel.jsonc"
   },
-  "commitlint": {
-    "parserPreset": "conventional-changelog-conventionalcommits",
-    "rules": {
-      "body-leading-blank": [
-        2,
-        "always"
-      ],
-      "body-case": [
-        2,
-        "always",
-        "sentence-case"
-      ],
-      "body-max-line-length": [
-        2,
-        "always",
-        80
-      ],
-      "footer-leading-blank": [
-        1,
-        "always"
-      ],
-      "footer-max-line-length": [
-        2,
-        "always",
-        80
-      ],
-      "header-max-length": [
-        2,
-        "always",
-        55
-      ],
-      "header-trim": [
-        2,
-        "always"
-      ],
-      "subject-case": [
-        2,
-        "never",
-        [
-          "sentence-case",
-          "start-case",
-          "pascal-case",
-          "upper-case"
-        ]
-      ],
-      "subject-empty": [
-        2,
-        "never"
-      ],
-      "subject-full-stop": [
-        2,
-        "never",
-        "."
-      ],
-      "type-case": [
-        2,
-        "always",
-        "lower-case"
-      ],
-      "type-empty": [
-        2,
-        "never"
-      ],
-      "type-enum": [
-        2,
-        "always",
-        [
-          "build",
-          "chore",
-          "ci",
-          "docs",
-          "feat",
-          "fix",
-          "perf",
-          "refactor",
-          "revert",
-          "test"
-        ]
-      ]
-    },
-    "prompt": {
-      "questions": {
-        "type": {
-          "description": "Select the type of change that you're committing",
-          "enum": {
-            "feat": {
-              "description": "A new feature",
-              "title": "Features",
-              "emoji": "✨"
-            },
-            "fix": {
-              "description": "A bug fix",
-              "title": "Bug Fixes",
-              "emoji": "🐛"
-            },
-            "docs": {
-              "description": "Documentation only changes",
-              "title": "Documentation",
-              "emoji": "📚"
-            },
-            "refactor": {
-              "description": "A code change that neither fixes a bug nor adds a feature",
-              "title": "Code Refactoring",
-              "emoji": "📦"
-            },
-            "perf": {
-              "description": "A code change that improves performance",
-              "title": "Performance Improvements",
-              "emoji": "🚀"
-            },
-            "test": {
-              "description": "Adding missing tests or correcting existing tests",
-              "title": "Tests",
-              "emoji": "🚨"
-            },
-            "build": {
-              "description": "Changes that affect the build system or external dependencies (example scopes: pnpm, deno, jsr)",
-              "title": "Builds",
-              "emoji": "🛠"
-            },
-            "ci": {
-              "description": "Changes to our CI configuration files and scripts (example scopes: github, srht)",
-              "title": "Continuous Integrations",
-              "emoji": "⚙️"
-            },
-            "chore": {
-              "description": "Other changes",
-              "title": "Chores",
-              "emoji": "♻️"
-            },
-            "revert": {
-              "description": "Reverts a previous commit",
-              "title": "Reverts",
-              "emoji": "🗑"
-            }
-          }
-        },
-        "scope": {
-          "description": "What is the scope of this change (e.g. component or file name)"
-        },
-        "subject": {
-          "description": "Write a short, imperative tense description of the change"
-        },
-        "body": {
-          "description": "Provide a longer description of the change"
-        },
-        "isBreaking": {
-          "description": "Are there any breaking changes?"
-        },
-        "breakingBody": {
-          "description": "A BREAKING CHANGE commit requires a body. Please enter a longer description of the commit itself"
-        },
-        "breaking": {
-          "description": "Describe the breaking changes"
-        },
-        "isIssueAffected": {
-          "description": "Does this change affect any open issues?"
-        },
-        "issuesBody": {
-          "description": "If issues are closed, the commit requires a body. Please enter a longer description of the commit itself"
-        },
-        "issues": {
-          "description": "Add issue references (e.g. \"Issue: gh#123\".)"
-        }
-      }
-    }
-  },
   "lint-staged": {
     "**/*.{js,ts}": [
       "eslint --config .config/eslint.config.js --fix"
@@ -219,20 +54,20 @@
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog",
-      "maxHeaderWidth": 55,
-      "maxLineWidth": 80
+      "path": "./node_modules/cz-git"
     }
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.0",
     "@csjewell-activitypub/eslint-config": "workspace:^",
+    "@e18e/cli": "^0.7.0",
     "@types/node": "^22.20.0",
     "@typescript/native": "npm:typescript@^7.0.2",
     "bumpp": "^11.1.0",
     "commitizen": "^4.3.2",
     "conventional-changelog-conventionalcommits": "^10.2.0",
     "cz-conventional-changelog": "^3.3.0",
+    "cz-git": "^1.13.1",
     "escalade": "^3.2.0",
     "eslint": "^10.6.0",
     "husky": "^9.1.7",

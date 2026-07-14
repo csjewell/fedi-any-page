@@ -51,6 +51,7 @@ trustPolicyExclude:
   - "@oxc-transform/binding-win32-arm64-msvc@0.68.1"
   - "@oxc-transform/binding-win32-x64-msvc@0.68.1"
   - "semver@6.3.1"
+  - "enginematch@0.2.0"
 minimumReleaseAgeExclude:
   - "@typescript/typescript-aix-ppc64@7.0.2"
   - "@typescript/typescript-darwin-arm64@7.0.2"
