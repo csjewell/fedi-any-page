@@ -17,7 +17,6 @@
     "email": "swordsman+aptypescript@curtisjewell.name"
   },
   "type": "module",
-  "main": "./index.ts",
   "exports": {
     ".": "./index.ts"
   },
@@ -30,7 +29,7 @@
     "eslint": "eslint --config eslint.config.js",
     "prepublishOnly": "nub run rolldown",
     "publint": "publint",
-    "rolldown": "rolldown --config",
+    "rolldown": "rolldown --config .config/rolldown.config.ts; rolldown --config .config/rolldown.dts.config.ts",
     "tsc": "tsc"
   },
   "lint-staged": {
@@ -60,7 +59,7 @@
     "node": ">=22.6.0"
   },
   "publishConfig": {
-    "main": "dist/index.js",
+    "types": "./dist/index.d.ts",
     "exports": {
       ".": "./dist/index.js"
     }

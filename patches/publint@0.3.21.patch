@@ -1,0 +1,13 @@
+diff --git a/src/shared/utils.js b/src/shared/utils.js
+index 3f2fa0c55eec9e10a29e83d4ab907953c549dd29..679e5bc32155b2634eb443539e9c434b6dfb72d4 100644
+--- a/src/shared/utils.js
++++ b/src/shared/utils.js
+@@ -74,7 +74,7 @@ export function stripComments(code) {
+ 
+ // Reference: https://git-scm.com/docs/git-clone#_git_urls and https://github.com/npm/hosted-git-info
+ const GIT_URL_RE =
+-  /^(?:(git\+https?|git\+ssh|https?|ssh|git):\/\/)?(?:[\w._-]+@)?([\w.-]+)(?::([\w\d-]+))?(\/[\w._/-]+)\/?$/
++  /^(?:(git\+https?|git\+ssh|https?|ssh|git):\/\/)?(?:[\w._-]+@)?([\w.-]+)(?::([\w\d-]+))?(\/[\w._/~-]+)\/?$/
+ /**
+  * @param {string} url
+  */

@@ -1,23 +1,33 @@
 import { defineConfig } from 'rolldown';
+import { dts } from 'rolldown-plugin-dts';
 
 export default defineConfig({
   input: 'index.ts',
   output: {
-    cleanDir: true,
+    cleanDir: false,
     codeSplitting: false,
-    file: './dist/index.js',
+    dir: './dist',
     externalLiveBindings: false,
     format: 'esm',
     sourcemap: true,
     sourcemapDebugIds: true,
   },
-  platform: 'neutral',
+  platform: 'node',
   tsconfig: './tsconfig.json',
   external: /^[^./](?!:[/\\])/,
   experimental: {
     lazyBarrel: true,
     nativeMagicString: true,
   },
+  plugins: [dts({
+    entry: 'index.ts',
+    sourcemap: true,
+    emitDtsOnly: true,
+    resolver: 'tsc',
+    parallel: true,
+    eager: true,
+    newContext: true,
+  })],
   preserveEntrySignatures: 'strict',
   attachDebugInfo: 'full',
 });

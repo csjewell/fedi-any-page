@@ -80,6 +80,7 @@
     "fetch-mock": "^12.6.0",
     "jsdom": "^29.1.1",
     "lint-staged": "^17.0.8",
+    "publint": "^0.3.21",
     "rolldown": "^1.1.4",
     "rollup-plugin-ts-treeshaking": "^1.0.2",
     "rollup-plugin-visualizer": "^7.0.1",
