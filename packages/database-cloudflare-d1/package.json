@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "@csjewell-activitypub/database-cloudflare-d1",
   "version": "0.2.0-alpha.2",
   "description": "Classes that connect the ActivityPub toolkit to a Cloudflare D1 Database.",
@@ -16,17 +17,19 @@
     "name": "Curtis Jewell",
     "email": "swordsman+aptypescript@curtisjewell.name"
   },
+  "sideEffects": false,
   "type": "module",
-  "main": "./index.ts",
   "exports": {
     ".": "./index.ts"
   },
+  "main": "./index.ts",
   "files": [
     "dist/"
   ],
   "scripts": {
     "build": "nub run rolldown",
     "prepublishOnly": "nub run rolldown",
+    "publint": "publint",
     "rolldown": "rolldown --config",
     "tsc": "tsc"
   },
@@ -60,10 +63,9 @@
     "node": ">=22.6.0"
   },
   "publishConfig": {
-    "main": "dist/index.js",
     "exports": {
       ".": "dist/index.js"
-    }
-  },
-  "sideEffects": false
+    },
+    "main": "dist/index.js"
+  }
 }

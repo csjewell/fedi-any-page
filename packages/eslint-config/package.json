@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "@csjewell-activitypub/eslint-config",
   "version": "0.2.0-alpha.2",
   "description": "ESLint options for @csjewell-activitypub",
@@ -17,25 +18,29 @@
     "name": "Curtis Jewell",
     "email": "swordsman+aptypescript@curtisjewell.name"
   },
+  "sideEffects": false,
   "type": "module",
-  "main": "./index.ts",
   "exports": {
-    "./index.ts": "./index.ts"
+    ".": "./index.ts"
   },
   "files": [
     "dist/"
   ],
   "scripts": {
+    "attw": "attw",
     "build": "nub run rolldown",
-    "eslint": "eslint --config eslint.config.js",
-    "knip": "knip",
+    "e18e": "e18e-cli",
+    "eslint": "eslint --config .config/eslint.config.js",
+    "knip": "knip --config .config/knip.packages.jsonc",
+    "lint:full": "nub run attw; nub run eslint; nub run knip; nub run publint",
     "prepublishOnly": "nub run rolldown",
-    "rolldown": "rolldown --config",
+    "publint": "publint",
+    "rolldown": "rolldown --config .config/rolldown.config.ts; rolldown --config .config/rolldown.dts.config.ts",
     "tsc": "tsc"
   },
   "lint-staged": {
     "**/*.{js,ts}": [
-      "eslint --fix"
+      "eslint --config .config/eslint.config.js --fix"
     ]
   },
   "config": {
@@ -46,30 +51,32 @@
   "dependencies": {
     "@eslint/js": "^10.0.1",
     "@stylistic/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^8.64.0",
     "@typescript-eslint/utils": "^8.62.1",
     "@vitest/eslint-plugin": "^1.6.9",
     "eslint": "^10.6.0",
-    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-no-restricted": "^0.1.1",
     "eslint-plugin-erasable-syntax-only": "^0.4.0",
-    "eslint-plugin-import-x": "^4.16.1",
+    "eslint-plugin-import-x": "^4.17.1",
     "eslint-plugin-package-json": "^1.5.0",
     "eslint-plugin-regexp": "^3.1.1",
     "eslint-plugin-simple-import-sort": "^13.0.0",
     "eslint-plugin-tsdoc": "^0.5.0",
-    "eslint-plugin-unicorn": "^71.1.0",
+    "eslint-plugin-unicorn": "^72.0.0",
     "eslint-plugin-yml": "^3.6.0",
     "globals": "^17.7.0",
     "typescript-eslint": "^8.62.1",
     "yaml-eslint-parser": "^2.0.0"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@e18e/cli": "^0.7.0",
     "@types/node": "^22.19.11",
     "@typescript/native": "npm:typescript@^7.0.2",
     "knip": "^6.26.0",
     "publint": "^0.3.21",
     "rolldown": "^1.1.4",
-    "rolldown-plugin-dts": "^0.27.1",
     "typescript": "npm:@typescript/typescript6@^6.0.2"
   },
   "packageManager": "pnpm@11.10.0",
@@ -77,8 +84,9 @@
     "node": ">=22.6.0"
   },
   "publishConfig": {
-    "main": "dist/index.js",
+    "exports": {
+      ".": "dist/index.js"
+    },
     "typings": "dist/index.d.ts"
-  },
-  "sideEffects": false
+  }
 }

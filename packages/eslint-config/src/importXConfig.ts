@@ -40,9 +40,7 @@ const ImportXConfig: ConfigArray = [
         '@typescript-eslint/parser' : ['.ts'],
         'espree'                    : ['.js'],
       },
-      'import-x/resolver' : {
-        typescript : createTypeScriptImportResolver({ alwaysTryTypes: true, }),
-      },
+      'import-x/resolver-next' : [createTypeScriptImportResolver({ alwaysTryTypes: true, })],
     },
   },
   {

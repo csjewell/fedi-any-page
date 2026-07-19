@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "@csjewell-activitypub/re-pliers",
   "version": "0.2.0-alpha.2",
   "description": "Widget to make ActivityPub replies show up.",
@@ -18,11 +19,12 @@
     "name": "Curtis Jewell",
     "email": "swordsman+aptypescript@curtisjewell.name"
   },
+  "sideEffects": false,
   "type": "module",
-  "main": "src/index.ts",
   "exports": {
     "./index.ts": "./src/index.ts"
   },
+  "main": "src/index.ts",
   "files": [
     "dist/"
   ],
@@ -30,10 +32,12 @@
     "build": "vite build",
     "build:preview": "vite preview",
     "dev:watch": "vite",
+    "e18e": "e18e-cli",
     "eslint": "eslint --config eslint.config.js",
     "lint": "nub run eslint",
     "lint:git": "lint-staged",
     "prepublishOnly": "nub run build",
+    "publint": "publint",
     "rolldown": "rolldown --config",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
@@ -97,11 +101,10 @@
     "node": ">=22.6.0"
   },
   "publishConfig": {
-    "module": "dist/re-pliers.mjs",
     "exports": {
       ".": "dist/re-pliers.mjs"
     },
+    "module": "dist/re-pliers.mjs",
     "typings": "dist/re-pliers.d.ts"
-  },
-  "sideEffects": false
+  }
 }

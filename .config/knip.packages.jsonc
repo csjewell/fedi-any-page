@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: CC0-1.0
 // SPDX-FileCopyrightText: NONE
 {
-  "$schema": "https://unpkg.com/knip@5/schema-jsonc.json",
+  "$schema": "https://unpkg.com/knip@6/schema-jsonc.json",
+  "ignoreFiles": [".config/**"],
+  "ignoreDependencies": [
+    "@typescript-eslint/parser" // eslint cannot run without this as a peerDependency.
+  ],
   "eslint": false,
-  "ignore": ["eslint.config.js"],
 }
 

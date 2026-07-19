@@ -6,7 +6,7 @@ import {
   type Cookies, Json, type Responses,
 } from '@csjewell-activitypub/general'
 import { StandardSender } from './sender.ts'
-import type * as AP from '@csjewell-activitypub/types'
+// import type * as AP from '@csjewell-activitypub/types'
 
 /* eslint-disable-next-line @stylistic/comma-dangle -- false alarm */
 type ResolvedHeadersType = Array<[string, string]>

@@ -1,5 +1,5 @@
 import { config } from 'typescript-eslint'
-import { Config } from '@csjewell-activitypub/eslint-config/index.ts'
+import { Config } from '@csjewell-activitypub/eslint-config'
 import { fileURLToPath } from 'node:url'
 
 const gitignorePath = fileURLToPath(new URL('../.gitignore', import.meta.url))
