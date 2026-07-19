@@ -1,22 +1,33 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "declaration": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "noEmit": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": true,
     "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
     "rewriteRelativeImportExtensions": true,
+
+    "erasableSyntaxOnly": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedDeclarations": false,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
-    "forceConsistentCasingInFileNames": true,
-    "erasableSyntaxOnly": true,
-    "verbatimModuleSyntax": true,
-    "sourceMap": true,
+    "stableTypeOrdering": true,
+    "strict": true,
+
     "composite": true,
-    "incremental": true
+    "incremental": true,
+
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "sourceMap": true,
+    "noEmit": true,
+    "outDir": "dist",
+
+    "pretty": true,
+    "skipLibCheck": true,
   }
 }

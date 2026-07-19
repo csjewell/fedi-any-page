@@ -112,9 +112,11 @@
         "ignore": [
           ".config/*.config.*",
           "packages/*/.config/*.config.*",
-          "packages/*/.config/helpers/*.js"
+          "packages/*/.config/helpers/*.js",
+          "proposed/**"
         ],
         "ignoreDependencies": [
+          "preact",
           "@typescript-eslint/parser",
           "rolldown-plugin-dts",
           "cz-conventional-changelog"
