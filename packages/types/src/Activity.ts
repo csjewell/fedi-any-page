@@ -61,8 +61,7 @@ export const IntransitiveActivityTypes = {
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#activity-types
  */
-/* eslint "@typescript-eslint/no-explicit-any" : "warn" */
-export const ActivityTypes : Record<any, string> = {
+export const ActivityTypes = {
   ...TransitiveActivityTypes,
   ...IntransitiveActivityTypes,
 } as const

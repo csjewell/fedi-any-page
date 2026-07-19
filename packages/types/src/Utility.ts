@@ -17,8 +17,7 @@ import { LinkTypes } from './Link.ts'
  * @see https://www.w3.org/TR/activitypub/#link
  * @see https://www.w3.org/TR/activitystreams-core/#link
  */
-/* eslint "@typescript-eslint/no-explicit-any" : "warn" */
-export const AllTypes : Record<any, string> = {
+export const AllTypes = {
   ...CoreObjectTypes,
   ...LinkTypes,
 } as const

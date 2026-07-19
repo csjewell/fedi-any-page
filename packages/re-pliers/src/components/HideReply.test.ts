@@ -22,11 +22,11 @@ describe('that HideReply component', () => {
 
     expect(queryByTitle('Hide reply')).toBeDefined()
     expect(queryByTitle('Cannot unhide this reply just yet...')).toBeNull()
-    expect(hide).not.toBeCalled()
+    expect(hide).not.toHaveBeenCalled()
     await act(() => {
       fireEvent.click(getByTitle('Hide reply'))
     })
-    expect(hide).toBeCalled()
+    expect(hide).toHaveBeenCalled()
     expect(rep.replies[1].isHidden).toBeTruthy()
   })
 

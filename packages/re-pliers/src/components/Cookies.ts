@@ -2,6 +2,8 @@
  * SPDX-FileCopyrightText: 2024 Nihility.io (Marvin Peter)
  */
 
+/* eslint-disable */ // Not my code.
+
 import JSCookies from 'js-cookie'
 
 // Usage: import { Cookies } from './Cookies.ts'

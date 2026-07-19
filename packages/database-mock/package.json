@@ -73,7 +73,6 @@
     "exports": {
       ".": "./dist/index.js"
     },
-    "main": "dist/index.js",
     "typings": "./dist/index.d.ts"
   }
 }

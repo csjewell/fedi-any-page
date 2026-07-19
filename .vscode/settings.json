@@ -1,14 +1,9 @@
 {
-  // Generative AI is NOT a friend of developers.
-  "chat.agent.maxRequests": 0,
-  "chat.commandCenter.enabled": false,
-  "chat.extensionTools.enabled": false,
-  "chat.mcp.access": "none",
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.experimental.useTsgo": true,
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.experimental.useTsgo": true,
   "deno.enable": false,
   "deno.lint": false,
   "editor.tabSize": 2,
   "editor.fontFamily": "'Monaspace Argon', 'Droid Sans Mono', 'monospace', monospace",
-  "editor.fontLigatures": "'calt', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss08', 'liga'"
-}
+  "editor.fontLigatures": "'calt', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss08', 'liga'",
+} 
