@@ -59,18 +59,21 @@
     "@types/node": "^22.19.11",
     "@typescript-eslint/parser": "^8.64.0",
     "@typescript/native": "npm:typescript@^7.0.2",
-    "eslint": "^10.6.0",
-    "knip": "^6.26.0",
+    "eslint": "^10.7.0",
+    "knip": "^6.27.0",
     "publint": "^0.3.21",
     "rolldown": "^1.1.4",
     "typescript": "npm:@typescript/typescript6@^6.0.2"
   },
-  "packageManager": "pnpm@11.10.0",
+  "packageManager": "pnpm@11.13.0",
   "engines": {
     "node": ">=22.6.0"
   },
   "publishConfig": {
+    "exports": {
+      ".": "./dist/index.js"
+    },
     "main": "dist/index.js",
-    "typings": "dist/index.d.ts"
+    "typings": "./dist/index.d.ts"
   }
 }

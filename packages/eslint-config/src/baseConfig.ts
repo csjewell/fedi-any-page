@@ -89,7 +89,7 @@ const BaseConfig = (gitignorePath: string): ConfigArray => [
       parser        : tseslint.parser,
       parserOptions : {
         projectService : {
-          allowDefaultProject : [ '.config/helpers/*.js', 'bin/*.js' ],
+          allowDefaultProject : [ '.config/helpers/*.js', 'bin/*.js', 'bin/*.ts' ],
         },
       },
     },

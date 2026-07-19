@@ -74,7 +74,7 @@
     "cz-conventional-changelog": "^3.3.0",
     "cz-git": "^1.13.1",
     "escalade": "^3.2.0",
-    "eslint": "^10.6.0",
+    "eslint": "^10.7.0",
     "husky": "^9.1.7",
     "knip": "^6.26.0",
     "lint-staged": "^17.0.8",
@@ -103,8 +103,8 @@
       ".": {
         "eslint": false,
         "entry": [
+          "bin/package-json-update.ts",
           "bin/get_current_version.js",
-          "bin/npmtag.js",
           ".config/helpers/*.js",
           ".config/bump.config.ts",
           ".config/rolldown.config.ts"
@@ -114,6 +114,11 @@
           "packages/*/.config/*.config.*",
           "packages/*/.config/helpers/*.js"
         ],
+        "ignoreDependencies": [
+          "@typescript-eslint/parser",
+          "rolldown-plugin-dts",
+          "cz-conventional-changelog"
+        ],
         "typedoc": {
           "config": [
             ".config/typedoc.*.jsonc"
@@ -121,8 +126,7 @@
         }
       },
       "packages/*": {
-        "eslint": false,
-        "ignore": "eslint.config.js"
+        "eslint": false
       }
     }
   },

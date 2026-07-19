@@ -29,16 +29,18 @@
     "dist/"
   ],
   "scripts": {
+    "attw": "attw",
     "build": "vite build",
     "build:preview": "vite preview",
     "dev:watch": "vite",
     "e18e": "e18e-cli",
-    "eslint": "eslint --config eslint.config.js",
+    "eslint": "eslint --config .config/eslint.config.js",
+    "knip": "knip --config .config/knip.packages.jsonc",
     "lint": "nub run eslint",
     "lint:git": "lint-staged",
-    "prepublishOnly": "nub run build",
+    "prepublishOnly": "nub run rolldown",
     "publint": "publint",
-    "rolldown": "rolldown --config",
+    "rolldown": "rolldown --config .config/rolldown.config.ts; rolldown --config .config/rolldown.dts.config.ts",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
@@ -46,16 +48,11 @@
   },
   "lint-staged": {
     "**/*.{js,ts}": [
-      "eslint --config eslint.config.js --fix"
+      "eslint --config .config/eslint.config.js --fix"
     ],
     "**/*.md": [
       "markdownlint-cli2 --fix"
     ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
   },
   "browserslist": [
     "fully supports es6-module and fully supports css-nesting"
@@ -73,16 +70,20 @@
     "tailored": "github:nesterow/tailored"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@e18e/cli": "^0.7.0",
     "@fetch-mock/vitest": "^0.2.18",
     "@preact/preset-vite": "^2.10.3",
     "@testing-library/preact": "^3.2.4",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^22.19.11",
+    "@typescript-eslint/parser": "^8.64.0",
     "@typescript/native": "npm:typescript@^7.0.2",
     "@vitest/coverage-v8": "^4.1.10",
-    "eslint": "^10.6.0",
+    "eslint": "^10.7.0",
     "fetch-mock": "^12.6.0",
     "jsdom": "^29.1.1",
+    "knip": "^6.27.0",
     "lint-staged": "^17.0.8",
     "publint": "^0.3.21",
     "rolldown": "^1.1.4",
@@ -96,15 +97,15 @@
     "vite-plugin-version-mark": "^0.2.2",
     "vitest": "^4.1.10"
   },
-  "packageManager": "pnpm@11.10.0",
+  "packageManager": "pnpm@11.13.0",
   "engines": {
     "node": ">=22.6.0"
   },
   "publishConfig": {
     "exports": {
-      ".": "dist/re-pliers.mjs"
+      ".": "./dist/re-pliers.js"
     },
-    "module": "dist/re-pliers.mjs",
-    "typings": "dist/re-pliers.d.ts"
+    "module": "./dist/re-pliers.mjs",
+    "typings": "./dist/re-pliers.d.ts"
   }
 }

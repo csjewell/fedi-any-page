@@ -1,9 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "*",
-  "version": "*",
-  "description": "*",
-  "keywords": "*",
   "homepage": "https://fedi-any-page.curtisjewell.dev",
   "repository": {
     "type": "git",
@@ -16,9 +12,6 @@
   },
   "sideEffects": false,
   "type": "module",
-  "exports": "*",
-  "workspaces": "*",
-  "files": "*",
   "scripts": {
     "attw": "attw",
     "build": "nub run rolldown",
@@ -30,15 +23,11 @@
     "rolldown": "rolldown --config .config/rolldown.config.ts; rolldown --config .config/rolldown.dts.config.ts",
     "tsc": "tsc"
   },
-  "publishConfig": "*?",
-  "browserslist": "*?",
-  "commitlint": "*?",
   "lint-staged": {
     "**/*.{js,ts}": [
       "eslint --config .config/eslint.config.js --fix"
     ],
   },
-  "dependencies": "*?",
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
     "@e18e/cli": "^0.7.0",
