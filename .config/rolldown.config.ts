@@ -1,4 +1,4 @@
-import { defineConfig } from 'rolldown';
+import { defineConfig } from 'rolldown'
 import Info from 'unplugin-info/rollup'
 
 export default defineConfig({
