@@ -21,6 +21,7 @@ allowedDeprecatedVersions:
   "glob": "*"
   "inflight": "1.0.6"
   "prebuild-install": "7.1.3"
+  "tar": "6.2.1"
 allowBuilds:
   esbuild: true
   sqlite3: true
@@ -74,6 +75,7 @@ updateConfig:
     # Until h3 2.0.1 is out of rc mode.
     - "h3"
     - "h3-compression"
+    # Need to find who is using this old of tar and fix them.
 patchedDependencies:
   publint@0.3.21: patches/publint@0.3.21.patch
 packageExtensions:

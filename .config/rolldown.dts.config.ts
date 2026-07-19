@@ -1,5 +1,7 @@
-import { defineConfig } from 'rolldown';
-import { dts } from 'rolldown-plugin-dts';
+import { defineConfig } from 'rolldown'
+import { dts } from 'rolldown-plugin-dts'
+import Info from 'unplugin-info/rollup'
+
 
 export default defineConfig({
   input: 'index.ts',
@@ -19,7 +21,7 @@ export default defineConfig({
     lazyBarrel: true,
     nativeMagicString: true,
   },
-  plugins: [dts({
+  plugins: [Info(),dts({
     entry: 'index.ts',
     sourcemap: true,
     emitDtsOnly: true,
@@ -29,6 +31,5 @@ export default defineConfig({
     newContext: true,
   })],
   preserveEntrySignatures: 'strict',
-  attachDebugInfo: 'full',
 });
 

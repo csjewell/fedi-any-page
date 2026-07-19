@@ -4,7 +4,7 @@
   "compilerOptions": {
     "module": "es2022",
     "moduleResolution": "bundler",
-    "types": ["node"],
+    "types": ["node", "unplugin-info/client"],
   
     "target": "es2023"
   },

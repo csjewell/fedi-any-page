@@ -1,4 +1,5 @@
 import { defineConfig } from 'rolldown';
+import Info from 'unplugin-info/rollup'
 
 export default defineConfig({
   input: 'index.ts',
@@ -18,7 +19,7 @@ export default defineConfig({
     lazyBarrel: true,
     nativeMagicString: true,
   },
+  plugins: [Info()],
   preserveEntrySignatures: 'strict',
-  attachDebugInfo: 'full',
 });
 
