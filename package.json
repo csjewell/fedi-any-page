@@ -65,6 +65,7 @@
     "@commitlint/cli": "^21.2.0",
     "@csjewell-activitypub/eslint-config": "workspace:^",
     "@e18e/cli": "^0.7.0",
+    "@nubjs/nub": "^0.4.13",
     "@types/node": "22.20.1",
     "@typescript/native": "npm:typescript@^7.0.2",
     "bumpp": "^11.1.0",
