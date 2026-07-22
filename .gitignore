@@ -21,6 +21,9 @@ proposed/create-proposed
 **/NOTES.*.txt
 **/NOTES.*.ts.txt
 
+# This allows me to work on an area.
+**/NOTES.*/**
+
 # These are temporary until I pull all private data out so they can be used for test data.
 packages/general/test_data/outbox-page.json
 packages/general/test_data/outbox.json

@@ -37,6 +37,7 @@ allowBuilds:
   'eslint-fix-utils': true
   'eslint-json-compat-utils': true
   'markdownlint-cli2-formatter-default': true
+  '@nubjs/nub': true
 pmOnFail: ignore
 minimumReleaseAge: 4320
 minimumReleaseAgeStrict: true

@@ -62,6 +62,8 @@
     }
   },
   "devDependencies": {
+    "@changesets/cli": "^2.31.1",
+    "@changesets/types": "^6.1.0",
     "@commitlint/cli": "^21.2.0",
     "@csjewell-activitypub/eslint-config": "workspace:^",
     "@e18e/cli": "^0.7.0",

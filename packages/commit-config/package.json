@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@csjewell-activitypub/commit-config",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Commitlint/Commitizen setup that uses scoped commits",
+  "keywords": [
+    "scopedcommits"
+  ],
+  "homepage": "https://fedi-any-page.curtisjewell.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://git.sr.ht/~csjewell/fedi-any-page",
+    "directory": "packages/commit-config"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Curtis Jewell",
+    "email": "swordsman+aptypescript@curtisjewell.name"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "attw": "attw",
+    "build": "nub run rolldown",
+    "e18e": "e18e-cli",
+    "eslint": "eslint --config .config/eslint.config.js",
+    "knip": "knip --config .config/knip.packages.jsonc",
+    "prepublishOnly": "nub run rolldown",
+    "publint": "publint",
+    "rolldown": "rolldown --config .config/rolldown.config.ts; rolldown --config .config/rolldown.dts.config.ts",
+    "tsc": "tsc"
+  },
+  "lint-staged": {
+    "**/*.{js,ts}": [
+      "eslint --config .config/eslint.config.js --fix"
+    ]
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@e18e/cli": "^0.7.0",
+    "@types/node": "22.20.1",
+    "@typescript-eslint/parser": "^8.64.0",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "eslint": "^10.6.0",
+    "knip": "^6.27.0",
+    "publint": "^0.3.21",
+    "rolldown": "^1.1.4",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "unplugin-info": "^1.3.2"
+  },
+  "packageManager": "pnpm@11.13.0",
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": "./dist/index.js"
+    },
+    "typings": "./dist/index.d.ts"
+  }
+}

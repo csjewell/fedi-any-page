@@ -1,0 +1,29 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.1.4/schema.json",
+  "changelog": "@changesets/cli/changelog",
+  "access": "public",
+  "baseBranch": "release",
+  "prereleaseTemplate": "{timestamp}.g{commit}",
+  "updateInternalDependencies": "minor",
+  "commit": false,
+  "prettier": false,
+  "bumpVersionsWithWorkspaceProtocolOnly": true,
+  "useCalculatedVersion": true,
+  "linked": [[
+    "database-*"
+  ], [
+    "general",
+    "types",
+    "re-pliers"
+  ], [
+    "handlers-response",
+    "localserver-*"
+  ]],
+  "fixed": [],
+  "ignore": [],
+  "privatePackages": {
+    "version": true,
+    "tag": false
+  },
+  "changedFilePatterns": ["src/**", "package.json"]
+}
