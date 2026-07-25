@@ -35,6 +35,9 @@ importers:
       '@commitlint/cli':
         specifier: ^21.2.0
         version: 21.2.1(@types/node@22.20.1)(@typescript/typescript6@6.0.2)(conventional-commits-parser@7.1.0)
+      '@csjewell-activitypub/commit-config':
+        specifier: workspace:^
+        version: link:packages/commit-config
       '@csjewell-activitypub/eslint-config':
         specifier: workspace:^
         version: link:packages/eslint-config

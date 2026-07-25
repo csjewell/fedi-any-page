@@ -5,7 +5,9 @@
   "version": "0.0.1",
   "description": "Commitlint/Commitizen setup that uses scoped commits",
   "keywords": [
-    "scopedcommits"
+    "scopedcommits",
+    "commitizen",
+    "configuration"
   ],
   "homepage": "https://fedi-any-page.curtisjewell.dev",
   "repository": {
@@ -21,20 +23,22 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./index.ts",
+    "./commitlint": "./src/commitlint.ts",
+    "./git": "./src/git.ts"
   },
   "files": [
     "src"
   ],
   "scripts": {
     "attw": "attw",
-    "build": "nub run rolldown",
+    "build": "true || nub run rolldown",
     "e18e": "e18e-cli",
     "eslint": "eslint --config .config/eslint.config.js",
     "knip": "knip --config .config/knip.packages.jsonc",
     "prepublishOnly": "nub run rolldown",
     "publint": "publint",
-    "rolldown": "rolldown --config .config/rolldown.config.ts; rolldown --config .config/rolldown.dts.config.ts",
+    "rolldown": "true || rolldown --config .config/rolldown.config.ts; rolldown --config .config/rolldown.dts.config.ts",
     "tsc": "tsc"
   },
   "lint-staged": {
@@ -48,6 +52,7 @@
     "@types/node": "22.20.1",
     "@typescript-eslint/parser": "^8.64.0",
     "@typescript/native": "npm:typescript@^7.0.2",
+    "cz-git": "^1.13.1",
     "eslint": "^10.6.0",
     "knip": "^6.27.0",
     "publint": "^0.3.21",
@@ -61,8 +66,10 @@
   },
   "publishConfig": {
     "exports": {
-      ".": "./dist/index.js"
+      ".": "./dist/index.js",
+      "./commitlint": "./dist/commitlint.js",
+      "./git": "./dist/git.js"
     },
-    "typings": "./dist/index.d.ts"
+    "types": "./dist/index.d.ts"
   }
 }
