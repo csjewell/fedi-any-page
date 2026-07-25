@@ -8,7 +8,7 @@ let scopes = [{
   description: 'Code that does not apply to a specific package',
 }, {
   scope: 'types',
-  name: 'monorepo',
+  name: 'types',
   directory: 'packages/types',
   description: 'ActivityPub Typescript types package',
 }, {
@@ -33,7 +33,7 @@ let scopes = [{
   description: 'The h3-using test server',
 }, {
   scope: 'svr-hapi',
-  directory: 'localserver-hapi',
+  name: 'localserver-hapi',
   directory: 'packages/localserver-hapi',
   description: 'The hapi-using test server',
 }, {
@@ -68,4 +68,4 @@ let scopes = [{
   description: 'Configuration for committing',
 }]
 
-export default getConfig(scopes, getFilesList())
+export default getConfig(scopes, getFilesList(['pnpm-lock.yaml']))
