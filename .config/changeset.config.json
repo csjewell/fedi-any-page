@@ -10,14 +10,14 @@
   "bumpVersionsWithWorkspaceProtocolOnly": true,
   "useCalculatedVersion": true,
   "linked": [[
-    "database-*"
+    "@csjewell-activitypub/database-*"
   ], [
-    "general",
-    "types",
-    "re-pliers"
+    "@csjewell-activitypub/general",
+    "@csjewell-activitypub/types",
+    "@csjewell-activitypub/re-pliers"
   ], [
-    "handlers-response",
-    "localserver-*"
+    "@csjewell-activitypub/handlers-response",
+    "@csjewell-activitypub/localserver-*"
   ]],
   "fixed": [],
   "ignore": [],

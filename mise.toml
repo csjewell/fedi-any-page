@@ -4,6 +4,7 @@ node = "24"
 pnpm = "11"
 
 [shell_alias]
+changeset = "nub exec changeset"
 eslint = "nub run eslint"
 knip = "nub run knip"
 tsc = "nub run tsc"

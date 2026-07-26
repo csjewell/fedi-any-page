@@ -30,7 +30,7 @@
   ],
   "scripts": {
     "bumpp": "cd `git rev-parse --show-toplevel`; bumpp --no-verify",
-    "changesets": "changesets",
+    "changeset": "changeset",
     "commitlint": "commitlint",
     "e18e": "e18e-cli",
     "eslint": "eslint --config .config/eslint.config.js",
@@ -48,7 +48,7 @@
     "**/*.{js,ts}": [
       "eslint --config .config/eslint.config.js --fix"
     ],
-    "**/*.md": [
+    "!(.changeset)**/*.md": [
       "markdownlint-cli2 --fix"
     ]
   },
