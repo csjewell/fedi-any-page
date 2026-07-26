@@ -2,6 +2,13 @@ name: Integration Testing
 
 on:
   push:
+    paths-ignore:
+      - '.github/**'
+      - '.husky/**'
+      - '.vscode/**'
+      - 'docs/**'
+      - 'LICENSES/**'
+      - '*.toml'
     branches:
       - release
       - dev
@@ -9,31 +16,39 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    id: build
     strategy:
       matrix:
-        node-version: [23]
+        node-version: [22.6.0, 22, 24, 26] # The minimum version plus all currently supported LTS versions.
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - name: Install jq
+        run: sudo apt update && sudo apt install -y jq
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - name: Get version of nubjs that is wanted
+        id: nub-version
+        run: cat package.json | jq -r '.devDependencies."@nubjs/nub"'
+
+      - name: Install pnpm (just in case)
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+
+      - name: Use Node.js ${{ matrix.node-version }} with nub
+        uses: nubjs/setup-nub@47e5e7393d50f4e9544ddaf756aa277972afba2d # v0.4.0
         with:
+          nub-version: v0.5.0
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          cache: true
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: nub install --frozen-lockfile
 
       # Check if the code is formatted according to our
       # formatting conventions. and scan the code for
       # syntax errors and style issues.
-# We are not cleaned-up enough yet. But soon.
-#      - name: Lint
-#        run: pnpm lint
+      - name: Lint
+        run: nub run eslint
 
       #- name: Run tests
       #  run: deno test --allow-read --coverage=cov/

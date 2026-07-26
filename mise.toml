@@ -4,6 +4,7 @@ node = "24"
 pnpm = "11"
 
 [shell_alias]
+bumpp = "nub exec bumpp" # May be removed if changeset DTRT.
 changeset = "nub exec changeset"
 eslint = "nub run eslint"
 knip = "nub run knip"

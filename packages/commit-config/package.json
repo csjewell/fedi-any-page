@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@csjewell-activitypub/commit-config",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.2.0-alpha.2",
   "description": "Commitlint/Commitizen setup that uses scoped commits",
   "keywords": [
     "scopedcommits",

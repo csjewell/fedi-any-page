@@ -15,6 +15,7 @@
     "email": "swordsman+aptypescript@curtisjewell.name"
   },
   "sideEffects": false,
+  "type": "module",
   "workspaces": [
     "packages/eslint-config",
     "packages/types",

@@ -1,0 +1,15 @@
+{
+  "name": "@csjewell-activitypub/commit-config",
+  "version": "0.2.0-alpha.2",
+  "description": "Commit options for @csjewell-activitypub",
+  "exports": "./index.ts",
+  "publish": {
+    "include": [
+      "LICENSE",
+      "README.md",
+      "jsr.jsonc",
+      "index.ts",
+      "src/*.ts"
+    ]
+  }
+}
