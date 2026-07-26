@@ -16,7 +16,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    id: build
     strategy:
       matrix:
         node-version: [22.6.0, 22, 24, 26] # The minimum version plus all currently supported LTS versions.
