@@ -14,26 +14,24 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
       - name: Use Node.js 23
-        uses: actions/setup-node@v4
+        uses: nubjs/setup-nub@47e5e7393d50f4e9544ddaf756aa277972afba2d # v0.4.0
         with:
+          nub-version: v0.5.0
           node-version: 23
-          cache: 'pnpm'
+          cache: true
           registry-url: https://registry.npmjs.org
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: nub install --frozen-lockfile
 
       - name: Publish all packages to npm
-        run: pnpm publish --tag `bin/npmtag.js`
+        run: nub publish --tag `bin/npmtag.js`
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish all packages to jsr
-        run: pnpx jsr publish
+        run: nubx -y jsr publish
 

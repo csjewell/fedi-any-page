@@ -87,7 +87,7 @@
     "knip": "^6.27.0",
     "lint-staged": "^17.0.8",
     "markdownlint-cli2": "^0.23.0",
-    "publint": "^0.3.21",
+    "publint": "^0.3.22",
     "rolldown": "^1.2.0",
     "rollup-plugin-visualizer": "^7.0.1",
     "typescript": "npm:@typescript/typescript6@^6.0.2",

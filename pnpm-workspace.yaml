@@ -77,8 +77,7 @@ updateConfig:
     # Until h3 2.0.1 is out of rc mode.
     - 'h3'
     - 'h3-compression'
-patchedDependencies:
-  publint@0.3.21: patches/publint@0.3.21.patch
+patchedDependencies: {}
 packageExtensions:
   htm:
     peerDependencies:
