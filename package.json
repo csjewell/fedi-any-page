@@ -3,6 +3,7 @@
   "name": "@csjewell-activitypub/monorepo",
   "displayName": "ActivityPub Monorepo",
   "version": "0.2.0-alpha.2",
+  "private": true,
   "description": "ActivityPub Typescript Kit monorepo",
   "repository": {
     "type": "git",
@@ -14,13 +15,6 @@
     "email": "swordsman+aptypescript@curtisjewell.name"
   },
   "sideEffects": false,
-  "type": "module",
-  "exports": {
-    "./index.ts": "./index.ts"
-  },
-  "files": [
-    "index.ts"
-  ],
   "workspaces": [
     "packages/eslint-config",
     "packages/types",
@@ -36,12 +30,14 @@
   ],
   "scripts": {
     "bumpp": "cd `git rev-parse --show-toplevel`; bumpp --no-verify",
+    "changesets": "changesets",
     "commitlint": "commitlint",
     "e18e": "e18e-cli",
-    "eslint": "cd `git rev-parse --show-toplevel`; eslint --config .config/eslint.config.js",
+    "eslint": "eslint --config .config/eslint.config.js",
     "postinstall": "husky",
     "knip": "knip",
     "lint": "nub run eslint",
+    "lint-staged": "lint-staged",
     "markdownlint": "markdownlint-cli2 \"**/*.md\" !node_modules !**/node_modules !proposed",
     "publish": "true",
     "tsc": "tsc",
@@ -63,10 +59,9 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.1",
-    "@changesets/types": "^6.1.0",
     "@commitlint/cli": "^21.2.0",
-    "@csjewell-activitypub/eslint-config": "workspace:^",
     "@csjewell-activitypub/commit-config": "workspace:^",
+    "@csjewell-activitypub/eslint-config": "workspace:^",
     "@e18e/cli": "^0.7.0",
     "@nubjs/nub": "^0.4.13",
     "@types/node": "22.20.1",

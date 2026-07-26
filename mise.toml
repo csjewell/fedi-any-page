@@ -2,3 +2,14 @@
 node = "24"
 "npm:@nubjs/nub" = "latest"
 pnpm = "11"
+
+[shell_alias]
+eslint = "nub run eslint"
+knip = "nub run knip"
+tsc = "nub run tsc"
+rolldown = "nub run rolldown"
+attw = "nub run attw"
+e18e = "nub run e18e"
+e18e-cli = "nub run e18e"
+publint = "nub run publint"
+

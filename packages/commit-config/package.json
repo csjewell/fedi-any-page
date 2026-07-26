@@ -71,5 +71,8 @@
       "./git": "./dist/git.js"
     },
     "types": "./dist/index.d.ts"
+  },
+  "dependencies": {
+    "@changesets/types": "^6.1.0"
   }
 }
