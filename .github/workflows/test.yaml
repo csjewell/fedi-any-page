@@ -1,7 +1,7 @@
 name: Integration Testing
 
 on:
-  workflow-dispatch: {}
+  workflow_dispatch: {}
   push:
     paths-ignore:
       - '.github/**'
