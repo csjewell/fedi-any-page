@@ -150,7 +150,7 @@ export const getConfig = (info: ScopeInformation, files: Array<string>) : UserCo
       'breaking-change-exclamation-mark' : [ 2, 'always' ],
       'footer-leading-blank'             : [ 1, 'always' ],
       'footer-max-line-length'           : [ 2, 'always', 80 ],
-      'header-max-length'                : [ 2, 'always', 55 ],
+      //      'header-max-length'                : [ 2, 'always', 55 ],
       'header-trim'                      : [ 2, 'always' ],
       'scope-enum'                       : [ 2, 'always', ret.scopeList ],
       'scope-case'                       : [ 2, 'always', 'lower-case' ],

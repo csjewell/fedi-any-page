@@ -42,7 +42,7 @@ jobs:
           cache: true
 
       - name: Install Dependencies
-        run: nub install --frozen-lockfile
+        run: nub install --prefer-frozen-lockfile
 
       # Check if the code is formatted according to our
       # formatting conventions. and scan the code for
