@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [22.6.0, 22, 24, 26] # The minimum version plus all currently supported LTS versions.
+        node-version: [22.12.0, 22, 24, 26] # The minimum version plus all currently supported LTS versions.
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
@@ -41,6 +41,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: true
 
+      # This should be --frozen-lockfile, I know. Problem being that the lockfiles
+      # are split, and nub is having problems with that.
       - name: Install Dependencies
         run: nub install --prefer-frozen-lockfile
 
