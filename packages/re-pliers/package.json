@@ -97,15 +97,14 @@
     "vite-plugin-version-mark": "^0.2.2",
     "vitest": "^4.1.10"
   },
-  "packageManager": "pnpm@11.13.0",
+  "packageManager": "pnpm@11.17.0",
   "engines": {
-    "node": ">=22.6.0"
+    "node": ">=22.12.0"
   },
   "publishConfig": {
     "exports": {
-      ".": "./dist/re-pliers.js"
+      ".": "./dist/re-pliers.mjs"
     },
-    "module": "./dist/re-pliers.mjs",
-    "typings": "./dist/re-pliers.d.ts"
+    "module": "./dist/re-pliers.mjs"
   }
 }
