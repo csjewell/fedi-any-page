@@ -3,7 +3,7 @@
  */
 import createNoRestrictedProperties from 'eslint-no-restricted/properties'
 import createNoRestrictedSyntax from 'eslint-no-restricted/syntax'
-import type { ConfigWithExtends } from 'typescript-eslint'
+import type { ConfigWithExtendsArray, ExtendsElement } from '@eslint/config-helpers'
 
 const noRestrictedSyntax = createNoRestrictedSyntax(
   {
@@ -93,13 +93,13 @@ const noRestrictedProperties = createNoRestrictedProperties(
 )
 
 /** Define what syntax and properties we restrict ourselves from using. */
-const NoRestrictedConfig: Array<ConfigWithExtends> = [
+const NoRestrictedConfig: ConfigWithExtendsArray = [
   {
-    extends : [noRestrictedSyntax.configs.recommended],
+    extends : [noRestrictedSyntax.configs.recommended as ExtendsElement],
     files   : ['**/*.{js,ts}'],
   },
   {
-    extends : [noRestrictedProperties.configs.recommended],
+    extends : [noRestrictedProperties.configs.recommended as ExtendsElement],
     files   : ['**/*.{js,ts}'],
   },
 ]

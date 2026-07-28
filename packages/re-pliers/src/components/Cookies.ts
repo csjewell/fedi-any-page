@@ -173,8 +173,8 @@ export class Cookies {
 
     // Save the original cookie functionality
     const original = Object.getOwnPropertyDescriptor(globalThis.Document.prototype, 'cookie')!
-    const getCookie = original.get.bind(globalThis.document)!
-    const setCookie = original.set.bind(globalThis.document)!
+    const getCookie = original.get!.bind(globalThis.document)!
+    const setCookie = original.set!.bind(globalThis.document)!
 
     // If the descriptor is not configurable, interception won't work
     if (!original.configurable) {
@@ -280,7 +280,7 @@ export class Cookies {
    * @param value Cookie value
    * @param options Cookie options
    */
-  public static set<T extends Optional<PrimitiveType>>(name: string, value: T, options: CookieOptions = {}): void {
+  public static set<T extends PrimitiveType | undefined>(name: string, value: T, options: CookieOptions = {}): void {
     if (value === undefined) {
       Cookies.remove(name, options)
       return

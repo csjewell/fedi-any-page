@@ -6,7 +6,7 @@ import {
   type Cookies, Json, type Responses,
 } from '@csjewell-activitypub/general'
 import { StandardSender } from './sender.ts'
-// import type * as AP from '@csjewell-activitypub/types'
+import type * as AP from '@csjewell-activitypub/types'
 
 /* eslint-disable-next-line @stylistic/comma-dangle -- false alarm */
 type ResolvedHeadersType = Array<[string, string]>
@@ -111,8 +111,7 @@ class StandardResponses implements Responses.Type<Response> {
     addHeaders? : HeadersType,
     cookies?    : Cookies,
   }): Promise<Response> {
-    // TODO: Add an assertion here.
-    const json = Json.stringify(body)
+    const json = Json.stringify(body as AP.Entity)
 
     return Promise.resolve(new Response(json, {
       status     : 200,
@@ -140,7 +139,8 @@ class StandardResponses implements Responses.Type<Response> {
     const json = JSON.stringify({ success: true, })
 
     const addHeaders = this._resolve(
-      identifiers.map((s) => { return [ 'Location', s ] }),
+      /* eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion -- false alarm */
+      identifiers.map((s) => { return [ 'Location', s ] }) as ResolvedHeadersType,
       cookies,
     )
 

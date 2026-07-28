@@ -7,14 +7,14 @@ import * as regexp from 'eslint-plugin-regexp'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import tsdoc from 'eslint-plugin-tsdoc'
 import yml from 'eslint-plugin-yml'
-import type { InfiniteDepthConfigWithExtends } from 'typescript-eslint'
+import type { ConfigWithExtends, ConfigWithExtendsArray } from '@eslint/config-helpers'
 
 /**
  * Define the configuration for the tsdoc, regexp,
  * erasable-syntax-only, and simple-import-sort plugins.
  */
-const ShortConfig: Array<InfiniteDepthConfigWithExtends> = [
-  erasableSyntaxOnly.configs.recommended as InfiniteDepthConfigWithExtends,
+const ShortConfig: ConfigWithExtendsArray = [
+  erasableSyntaxOnly.configs.recommended as ConfigWithExtends,
   yml.configs['flat/recommended'],
   packageJson.configs.recommended,
   {

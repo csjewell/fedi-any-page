@@ -1,10 +1,11 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import tseslint, { type InfiniteDepthConfigWithExtends } from 'typescript-eslint'
+import tseslint from 'typescript-eslint'
+import type { ConfigWithExtendsArray } from '@eslint/config-helpers'
 
 /** Define the rules from typescript-eslint we want to follow. */
-const TypescriptConfig: Array<InfiniteDepthConfigWithExtends> = [
+const TypescriptConfig: ConfigWithExtendsArray = [
   {
     files   : ['**/*.ts'],
     plugins : {

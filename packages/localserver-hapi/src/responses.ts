@@ -172,7 +172,8 @@ export class HAPIResponses implements Responses.Type<Hapi.ResponseObject> {
     }
 
     const addHeaders = this._resolve(
-      identifiers.map((s) => { return [ 'Location', s ] }),
+      /* eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion -- false alarm */
+      identifiers.map((s) => { return [ 'Location', s ] }) as ResolvedHeadersType,
     )
 
     return this._headers({ addHeaders, }).code(200)

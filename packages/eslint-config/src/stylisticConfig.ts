@@ -2,10 +2,10 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import stylistic from '@stylistic/eslint-plugin'
-import type { ConfigArray } from 'typescript-eslint'
+import type { ConfigWithExtendsArray } from '@eslint/config-helpers'
 
 /** Define the style rules we want to follow. */
-const StylisticConfig: ConfigArray = [
+const StylisticConfig: ConfigWithExtendsArray = [
   {
     files   : ['**/*.{js,ts}'],
     plugins : { '@stylistic': stylistic, },

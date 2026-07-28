@@ -12,5 +12,5 @@
     "jsxImportSource": "preact",
     "types": ["node", "js-cookie", "preact", "vite"],
   },
-  "include": ["node_modules/vite/client.d.ts", "index.ts", "src"]
+  "include": ["node_modules/vite/client.d.ts", "index.ts", "src", "src/replytesting.json"]
 }

@@ -2,10 +2,10 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import unicorn from 'eslint-plugin-unicorn'
-import type { ConfigArray } from 'typescript-eslint'
+import type { ConfigWithExtendsArray } from '@eslint/config-helpers'
 
 /** Define the rules from eslint-plugin-unicorn we want to follow. */
-const UnicornConfig: ConfigArray = [
+const UnicornConfig: ConfigWithExtendsArray = [
   {
     files   : ['**/*.{js,ts}'],
     plugins : { unicorn, },

@@ -3,10 +3,10 @@
  */
 import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript'
 import pluginImportX from 'eslint-plugin-import-x'
-import type { ConfigArray } from 'typescript-eslint'
+import type { ConfigWithExtendsArray } from '@eslint/config-helpers'
 
 /* Define which rules we use out of eslint-plugin-import-x, and how. */
-const ImportXConfig: ConfigArray = [
+const ImportXConfig: ConfigWithExtendsArray = [
   {
     files   : ['**/*.{js,ts}'],
     plugins : { 'import-x': pluginImportX, },

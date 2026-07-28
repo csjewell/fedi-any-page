@@ -1,10 +1,10 @@
 /* SPDX-License-Identifier: MIT
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
-import { includeIgnoreFile } from 'eslint/config'
 import globals from 'globals'
-import tseslint, { type ConfigArray } from 'typescript-eslint'
+import tseslint from 'typescript-eslint'
 import * as yamlParser from 'yaml-eslint-parser'
+import { type ConfigWithExtends, type ConfigWithExtendsArray, includeIgnoreFile } from '@eslint/config-helpers'
 import eslintJs from '@eslint/js'
 
 const confusingBrowserGlobals = [
@@ -74,7 +74,7 @@ const confusingBrowserGlobals = [
  *
  * Note: All files within the .gitconfig are ignored.
  */
-const BaseConfig = (gitignorePath: string): ConfigArray => [
+const BaseConfig = (gitignorePath: string): ConfigWithExtendsArray => [
   includeIgnoreFile(gitignorePath),
   {
     extends : [eslintJs.configs.recommended],
@@ -217,7 +217,7 @@ const BaseConfig = (gitignorePath: string): ConfigArray => [
       'no-unused-expressions' : 'off',
     },
   },
-] as ConfigArray
+] as Array<ConfigWithExtends>
 
 /* eslint-disable-next-line import-x/no-default-export */
 export default BaseConfig

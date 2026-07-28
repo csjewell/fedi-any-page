@@ -2,10 +2,10 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import vitest from '@vitest/eslint-plugin'
-import type { ConfigArray } from 'typescript-eslint'
+import type { ConfigWithExtendsArray } from '@eslint/config-helpers'
 
 /** Define the rules from eslint-plugin-vitest we want out tests to follow. */
-const VitestConfig: ConfigArray = [
+const VitestConfig: ConfigWithExtendsArray = [
   {
     files : [
       '**/*.{test,spec}.{js,ts}',
