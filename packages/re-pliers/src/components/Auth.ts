@@ -2,16 +2,15 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { html } from 'htm/preact'
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect } from 'preact/hooks'
+import { usePersistedSignal } from '@kamod-ch/signals'
 import * as AuthAPI from '../api/auth.ts'
-import { AuthCtx } from '../context/AuthCtx.ts'
-import { Cookies } from './Cookies.ts'
+import { type AuthInfo, validateAuthInfo } from '../types/AuthInfo.ts'
 import LoginButton from './LoginButton.ts'
 import LogoutButton from './LogoutButton.ts'
 import type { FunctionComponent } from 'preact'
-import type { AuthInfo } from '../types/AuthInfo.ts'
 
-const isLoggedOut: AuthInfo = { actor: '', isVerified: true, }
+const isLoggedOut: AuthInfo = { actor: '', whenVerified: -1, }
 
 /**
  * Provides authentication info within a context for children.
@@ -24,15 +23,31 @@ const Auth: FunctionComponent<{
   page    : string,
   isTest? : AuthInfo,
 }> = ({ page, isTest, children, }) => {
-  const [ authInfo, setAuthInfo ] = useState<AuthInfo>(isLoggedOut)
+  const authInfo = usePersistedSignal<AuthInfo>('actor_info', isLoggedOut, {
+    storage     : 'cookie',
+    serialize   : (v: AuthInfo) : string => { return JSON.stringify(v) },
+    deserialize : (s: string) : AuthInfo => {
+      let value: unknown
+
+      try {
+        value = JSON.parse(s)
+      } catch {
+        // A truncated or otherwise malformed cookie means we are not logged in.
+        return isLoggedOut
+      }
+
+      return validateAuthInfo(value) ? value : isLoggedOut
+    },
+    cookie : { expires: 7, path: '/', sameSite: 'Strict', },
+  })
 
   const handleLoggingIn = async (data: FormData) => {
     try {
       const auth = await AuthAPI.doLogin(page, data)
 
-      setAuthInfo(auth)
+      authInfo.value = auth
     } catch (error) {
-      setAuthInfo(isLoggedOut)
+      authInfo.value = isLoggedOut
       throw error
     }
   }
@@ -40,39 +55,32 @@ const Auth: FunctionComponent<{
   const handleLoggingOut = async () => {
     try {
       await AuthAPI.doLogout(page)
-      setAuthInfo({ actor: '', isVerified: true, })
+      authInfo.value = isLoggedOut
     } catch (error) {
-      setAuthInfo(isLoggedOut)
+      authInfo.value = isLoggedOut
       throw error
     }
   }
 
   useEffect(() => {
     if (isTest) {
-      setAuthInfo(isTest)
-      return
-    }
-
-    if (authInfo.actor === '' && Cookies.get('actor_info') === undefined) {
-      setAuthInfo(isLoggedOut)
+      authInfo.value = isTest
       return
     }
 
     AuthAPI.doVerify(page).then((ret) => {
-      setAuthInfo(ret)
+      authInfo.value = ret
     }).catch((error) => {
-      setAuthInfo(isLoggedOut)
+      authInfo.value = isLoggedOut
       throw error
     })
   }, [ authInfo, page ])
   return html`
-    <${ AuthCtx.Provider } value=${ authInfo }>
-      ${ authInfo.actor
-        ? html`<${ LogoutButton } onSubmit=${ handleLoggingOut } />`
-        : html`<${ LoginButton } onSubmit=${ handleLoggingIn } />` }
-      <hr />
-      ${ children }
-    <//>
+    ${ authInfo.value.actor
+      ? html`<${ LogoutButton } onSubmit=${ handleLoggingOut } />`
+      : html`<${ LoginButton } onSubmit=${ handleLoggingIn } />` }
+    <hr />
+    ${ children }
   `
 }
 

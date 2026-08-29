@@ -60,7 +60,9 @@
   "dependencies": {
     "@ant-design/icons-svg": "^4.5.0",
     "@csjewell-activitypub/general": "workspace:^",
+    "@kamod-ch/signals": "^1.0.3",
     "@nesterow/grip": "jsr:^0.0.3",
+    "@preact/signals": "^2.11.1",
     "@valibot/valibot": "jsr:^1.4.2",
     "htm": "^3.1.1",
     "humanize-duration-ts": "^2.1.1",

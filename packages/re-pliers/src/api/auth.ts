@@ -46,8 +46,8 @@ export const doLogin = async (page: string, data: FormData): Promise<AuthInfo> =
 
     assertAuthResp(obj)
     return {
-      actor      : obj.actor,
-      isVerified : true,
+      actor        : obj.actor,
+      whenVerified : Date.now(),
     }
   }
 
@@ -64,7 +64,7 @@ export const doLogin = async (page: string, data: FormData): Promise<AuthInfo> =
  * @returns A void Promise if successful.
  * @throws Error (for now) if not successful.
  */
-export const doLogout = async (page: string): Promise<void> => {
+export const doLogout = async (page: string): Promise<AuthInfo> => {
   const api = `${ new URL(page).origin }/re-pliers-api/logout`
 
   const resp = await grip(() => fetch(api, {
@@ -85,6 +85,11 @@ export const doLogout = async (page: string): Promise<void> => {
   if (resp.value.status >= 300) {
     // We throw a better error later.
     throw new Error(`Logging out returned ${ resp.value.status.toFixed(0) }`)
+  }
+
+  return {
+    actor        : '',
+    whenVerified : -1,
   }
 }
 
@@ -110,14 +115,14 @@ export const doVerify = async (page: string): Promise<AuthInfo> => {
   }))
 
   if (resp.fail()) {
-    throw new Error('Error attempting to logout', { cause: resp.status, })
+    throw new Error('Error attempting to verify user', { cause: resp.status, })
   }
 
   if (resp.value.status < 300) {
     const obj = await resp.value.json()
 
     assertAuthResp(obj)
-    return { actor: obj.actor, isVerified: true, }
+    return { actor: obj.actor, whenVerified: Date.now(), }
   }
 
   const errObj = await resp.value.json()

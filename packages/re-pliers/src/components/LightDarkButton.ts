@@ -2,41 +2,39 @@
  * SPDX-FileCopyrightText: 2025 Curtis Jewell and other contributors
  */
 import { html } from 'htm/preact'
-import { useContext } from 'preact/hooks'
 import MoonOutlined from '@ant-design/icons-svg/es/asn/MoonOutlined'
 import SunOutlined from '@ant-design/icons-svg/es/asn/SunOutlined'
-import { LightDarkCtx } from '../context/LightDarkCtx.ts'
+import { usePersistedSignal } from '@kamod-ch/signals'
 import Icon from './Icon.ts'
 import type { FunctionComponent } from 'preact'
 
 /**
  * The button that switches between light mode and dark mode.
  *
- * @param setIsDark - Function provided by props to switch the context.
  * @returns A FunctionComponent, to be consumed by JSX or HTM.
  */
-const LightDarkButton: FunctionComponent<{ setIsDark: (b: boolean) => void }> = ({ setIsDark, }) => {
-  const isDark = useContext<boolean>(LightDarkCtx)
+const LightDarkButton: FunctionComponent<{ setIsDark: (b: boolean) => void }> = () => {
+  const isDark = usePersistedSignal<boolean>('re-pliers-theme', true, {
+    storage : 'session',
+  })
 
   const setDark = () => {
-    setIsDark(true)
-    localStorage.setItem('re-pliers-theme', 'dark')
+    isDark.value = true
   }
 
   const setLight = () => {
-    setIsDark(false)
-    localStorage.setItem('re-pliers-theme', 'light')
+    isDark.value = false
   }
 
   return html`
     <span
       class="clickable"
-      onClick=${ isDark ? setLight : setDark }
-      title="${ isDark ? 'Light' : 'Dark' } Mode"
+      onClick=${ isDark.value ? setLight : setDark }
+      title="${ isDark.value ? 'Light' : 'Dark' } Mode"
       role="button"
-      aria-label="${ isDark ? 'Light' : 'Dark' } Mode"
+      aria-label="${ isDark.value ? 'Light' : 'Dark' } Mode"
     >
-      <${ Icon } icon=${ isDark ? SunOutlined : MoonOutlined } />
+      <${ Icon } icon=${ isDark.value ? SunOutlined : MoonOutlined } />
     </span>
   `
 }
