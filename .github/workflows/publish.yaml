@@ -20,7 +20,7 @@ jobs:
         uses: nubjs/setup-nub@47e5e7393d50f4e9544ddaf756aa277972afba2d # v0.4.0
         with:
           nub-version: v0.5.0
-          node-version: 23
+          node-version: 24
           cache: true
           registry-url: https://registry.npmjs.org
 
