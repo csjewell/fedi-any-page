@@ -68,7 +68,7 @@ const Reply: FunctionComponent<{
     return html``
   }
 
-  if (auth.actor === '' || !auth.isVerified) {
+  if (auth.actor === '' || auth.whenVerified === -1) {
     if (reply.isPrivate) {
       return html`
         <p>You must be logged in to see this reply.</p>

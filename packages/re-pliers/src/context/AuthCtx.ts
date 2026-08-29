@@ -6,6 +6,6 @@ import type { AuthInfo } from '../types/AuthInfo.ts'
 
 /** Stores the current authentication information. */
 export const AuthCtx: Context<AuthInfo> = createContext<AuthInfo>({
-  actor      : '',
-  isVerified : false,
+  actor        : '',
+  whenVerified : -1,
 })
