@@ -69,8 +69,7 @@
     "js-cookie": "^3.0.8",
     "preact": "^10.29.7",
     "preact-custom-element": "^4.6.0",
-    "preact-markup": "^2.1.1",
-    "tailored": "github:nesterow/tailored"
+    "preact-markup": "^2.1.1"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
@@ -97,7 +96,7 @@
     "vite": "^8.1.4",
     "vite-plugin-static-copy": "^4.1.1",
     "vite-plugin-version-mark": "^0.2.2",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.11"
   },
   "packageManager": "pnpm@11.17.0",
   "engines": {
