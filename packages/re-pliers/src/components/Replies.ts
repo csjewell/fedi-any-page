@@ -106,7 +106,7 @@ const Replies: FunctionComponent<{
   }
 
   useEffect(() => {
-    if (auth.isVerified && auth.actor === '') {
+    if (auth.whenVerified === -1 || auth.actor === '') {
       setReplyListCtx(cache)
     }
 
