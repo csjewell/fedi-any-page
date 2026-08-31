@@ -1,4 +1,5 @@
 [tools]
+"forgejo:forgejo-contrib/forgejo-cli" = "latest"
 node = "24"
 "npm:@nubjs/nub" = "latest"
 pnpm = "11"
