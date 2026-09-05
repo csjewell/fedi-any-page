@@ -3,7 +3,7 @@
   "homepage": "https://fedi-any-page.curtisjewell.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://git.sr.ht/~csjewell/fedi-any-page",
+    "url": "git+https://git.sr.ht/~csjewell/fedi-any-page"
   },
   "license": "MIT",
   "author": {
@@ -26,7 +26,7 @@
   "lint-staged": {
     "**/*.{js,ts}": [
       "eslint --config .config/eslint.config.js --fix"
-    ],
+    ]
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",

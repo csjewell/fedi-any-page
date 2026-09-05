@@ -15,4 +15,5 @@ attw = "nub run attw"
 e18e = "nub run e18e"
 e18e-cli = "nub run e18e"
 publint = "nub run publint"
+serve = "nub run serve"
 

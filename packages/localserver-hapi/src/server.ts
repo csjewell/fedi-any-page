@@ -22,7 +22,7 @@ const resp = (h: Hapi.ResponseToolkit): HAPIResponses => new HAPIResponses(h)
 export class HAPIServer {
   private config           : TestConfig
   private server           : Hapi.Server
-  private readonly getOpts  : Hapi.RouteOptions = {
+  private readonly getOpts : Hapi.RouteOptions = {
     state : { parse: true, },
     cors  : {
       origin                   : ['http://localhost:5173'],
