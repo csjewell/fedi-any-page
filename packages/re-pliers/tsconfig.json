@@ -4,9 +4,9 @@
   "compilerOptions": {
     "module": "esnext",
     "moduleResolution": "bundler",
-    "target": "es2023",
+    "target": "es2022",
 
-    "lib": ["DOM", "ES2023"],
+    "lib": ["DOM", "ES2022"],
 
     "jsx": "react-jsx",
     "jsxImportSource": "preact",

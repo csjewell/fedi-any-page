@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@csjewell-activitypub/re-pliers",
   "version": "0.2.0-alpha.2",
-  "description": "Widget to make ActivityPub replies show up.",
+  "description": "Widget to make ActivityPub replies show up on your web page.",
   "keywords": [
     "ActivityPub",
     "federation",

@@ -6,3 +6,4 @@ import App from './components/App.ts'
 
 register(App, 're-pliers', [ 'domain', 'page', 'user', 'cache' ], { shadow: true, })
 
+export const one = 1
