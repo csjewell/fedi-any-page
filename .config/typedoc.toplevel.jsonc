@@ -21,7 +21,7 @@
   "includeVersion": false,
   "excludeExternals": true,
   "cleanOutputDir": true,
-  "out": "../../fedi-any-page-docs/content/en/docs/latest",
+  "out": "../../content/en/docs/latest",
   "router": "module",
   "entryFileName": "start",
   "excludeScopesInPaths": true,
