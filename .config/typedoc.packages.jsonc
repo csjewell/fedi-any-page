@@ -7,5 +7,6 @@
     "../general/**/*.ts",
     "**/node_modules/**",
   ],
+  "excludeExternals": true,
 }
 

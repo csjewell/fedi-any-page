@@ -87,6 +87,7 @@ export const load = (app) => {
       const slugs = {
         'localserver-h3'         : 'latest/localserver-h3',
         'localserver-hapi'       : 'latest/localserver-hapi',
+        'commit-config'          : 'latest/commit-config',
         'eslint-config'          : 'latest/eslint-config',
         're-pliers'              : 'latest/re-pliers',
         'database-node-sqlite'   : 'latest/database-node-sqlite',
@@ -108,14 +109,14 @@ export const load = (app) => {
         })
       })
 
-      const out = JSON.parse(readFileSync(`${ cwd() }/../fedi-any-page-docs/data/sidebar.json`))
+      const out = JSON.parse(readFileSync(`${ cwd() }/../data/sidebar.json`))
 
       if (!Array.isArray(out)) {
         throw new TypeError()
       }
 
       out.push({ title: 'Module Documentation', pages, })
-      writeFileSync(`${ cwd() }/../fedi-any-page-docs/data/navigation.json`, JSON.stringify(out))
+      writeFileSync(`${ cwd() }/../data/navigation.json`, JSON.stringify(out))
     },
   )
 }

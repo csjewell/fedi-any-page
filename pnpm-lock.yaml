@@ -89,6 +89,9 @@ importers:
       publint:
         specifier: ^0.3.24
         version: 0.3.24
+      remark-frontmatter:
+        specifier: ^5.0.0
+        version: 5.0.0
       remark-link-rewrite:
         specifier: ^1.0.7
         version: 1.0.7

@@ -10,7 +10,9 @@
     "typedoc-plugin-remark",
     "./helpers/typedoc.js"
   ],
-  "entryPoints": ["../packages/*"],
+  "entryPoints": [
+  	"./packages/*",
+  ],
   "packageOptions": {
     "entryPoints": ["index.ts"],
     "includeVersion": true,
@@ -49,7 +51,13 @@
     "excludeReferences": true
   },
   "categorizeByGroup": false,
-  "remarkPlugins": ["remark-frontmatter", "./.config/helpers/remark.js"],
+  // "remarkPlugins": [
+  //   "remark-frontmatter",
+  //   "./.config/helpers/remark.js"
+  // ],
   "publicPath": "https://fedi-any-page.curtisjewell.dev/docs/latest",
+  "externalSymbolLinkMappings": {
+    "@typescript/old": { "Promise": "#", "Error": "#" },
+  },
 }
 
