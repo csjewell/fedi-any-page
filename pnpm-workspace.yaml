@@ -68,8 +68,8 @@ trustPolicyExclude:
   - 'semver@6.3.1'
   - 'enginematch@0.2.0'
 minimumReleaseAgeExclude:
-  - 'typescript'
-  - 'rolldown-plugin-dts@0.27.14'
+  - '@nubjs/*'
+  - 'rolldown-plugin-dts'
 updateConfig:
   ignoreDependencies:
     - '@types/node'
