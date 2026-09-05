@@ -1,4 +1,7 @@
-This is a local server to use to test against.
+# @csjewell-activitypub/localserver-hapi
+
+This is a local server to use to test against from a git checkout - it is
+not meant to be installed for anything but development use.
 
 [![libera manifesto](https://img.shields.io/badge/libera-manifesto-lightgrey.svg)](https://liberamanifesto.com)
 [![🤝 Code of Conduct: Kept](https://img.shields.io/badge/%F0%9F%A4%9D_code_of_conduct-kept-21bb42.svg)](https://git.sr.ht/~csjewell/fedi-any-page/tree/dev/item/docs/CODE_OF_CONDUCT.md)
@@ -10,12 +13,11 @@ This is a local server to use to test against.
 
 ## Usage
 
-```shell
-pnpm install @csjewell-activitypub/localserver-hapi
-```
+From a git checkout:
 
-```ts
-# TODO
+```shell
+cd packages/localserver-hapi
+nub index.ts
 ```
 
 ## Development

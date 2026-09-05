@@ -2,6 +2,7 @@ dist
 tsconfig.tsbuildinfo
 *.sw?
 node_modules
+ap.sqlite.*
 
 # This allows me to take notes that I'll need later.
 **/NOTES.md

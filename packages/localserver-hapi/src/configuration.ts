@@ -8,7 +8,7 @@ import type { DatabaseSync } from 'node:sqlite'
 import type * as AP from '@csjewell-activitypub/types'
 
 export class TestConfig implements Configuration<DatabaseSync> {
-  public readonly url        : URL = new URL('http://test-hapi.localhost/')
+  public readonly url        : URL = new URL('http://localhost:5172/')
   public readonly privateKey : string = 'locked'
   public readonly database   : LocalDB
   public readonly debugDB    : boolean = false

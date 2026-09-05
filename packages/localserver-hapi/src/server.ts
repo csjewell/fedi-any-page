@@ -6,7 +6,7 @@ import Brok from 'brok'
 import { Keyv } from 'keyv'
 import { Server } from '@csjewell-activitypub/general'
 import Hapi from '@hapi/hapi'
-import KeyvSqlite from '@keyv/sqlite'
+import KeyvSqlite from '@snomiao/keyv-sqlite'
 import { TestConfig } from './configuration.ts'
 import { HAPIRequest } from './request.ts'
 import { HAPIResponses } from './responses.ts'
@@ -15,18 +15,16 @@ import { HAPIResponses } from './responses.ts'
 const reqh = (req: Hapi.Request): HAPIRequest => new HAPIRequest(req)
 const resp = (h: Hapi.ResponseToolkit): HAPIResponses => new HAPIResponses(h)
 
-
 /**
  * Class that implements the server routing.
  * @class
  */
 export class HAPIServer {
-  private config        : TestConfig
-  private server        : Hapi.Server
-  private readonly opts : Hapi.RouteOptions = {
-    payload : { parse: true, },
-    state   : { parse: true, },
-    cors    : {
+  private config           : TestConfig
+  private server           : Hapi.Server
+  private readonly getOpts  : Hapi.RouteOptions = {
+    state : { parse: true, },
+    cors  : {
       origin                   : ['http://localhost:5173'],
       maxAge                   : 86400 * 3,
       additionalExposedHeaders : ['X-Clacks-Overhead'],
@@ -34,9 +32,14 @@ export class HAPIServer {
       preflightStatusCode      : 204,
     },
   }
+  private readonly postOpts : Hapi.RouteOptions = {
+    payload : { parse: true, },
+    state   : this.getOpts.state,
+    cors    : this.getOpts.cors,
+  }
 
   constructor(dbLocation: string, isTest: boolean) {
-    const kvStore = new KeyvSqlite(`sqlite:/${ dbLocation }`)
+    const kvStore = new KeyvSqlite(dbLocation)
     const kvCache = new Keyv<string>({ store: kvStore, ttl: 28800, })
 
     this.config = new TestConfig(kvCache)
@@ -88,7 +91,7 @@ export class HAPIServer {
     this.server.route({
       method  : 'POST',
       path    : '/re-pliers-api/login',
-      options : this.opts,
+      options : this.postOpts,
       handler : async (req: Hapi.Request, h: Hapi.ResponseToolkit): Promise<Hapi.ResponseObject> => {
         return await Server.RePliers.Auth.Login(this.config, reqh(req), resp(h))
       },
@@ -97,7 +100,7 @@ export class HAPIServer {
     this.server.route({
       method  : 'POST',
       path    : '/re-pliers-api/verify',
-      options : this.opts,
+      options : this.postOpts,
       handler : async (req: Hapi.Request, h: Hapi.ResponseToolkit): Promise<Hapi.ResponseObject> => {
         return await Server.RePliers.Auth.Verify(this.config, reqh(req), resp(h))
       },
@@ -106,7 +109,7 @@ export class HAPIServer {
     this.server.route({
       method  : 'POST',
       path    : '/re-pliers-api/logout',
-      options : this.opts,
+      options : this.postOpts,
       handler : async (req: Hapi.Request, h: Hapi.ResponseToolkit): Promise<Hapi.ResponseObject> => {
         return await Server.RePliers.Auth.Logout(this.config, reqh(req), resp(h))
       },
@@ -115,52 +118,72 @@ export class HAPIServer {
     this.server.route({
       method  : 'GET',
       path    : '/favicon.ico',
-      options : this.opts,
+      options : this.getOpts,
       // (ctx) => ctx.response.with(Resp.HTML.success204() as Response))
       handler : (_req: Hapi.Request, h: Hapi.ResponseToolkit): Hapi.ResponseObject => {
         return resp(h).success204()
       },
     })
 
-    /*
     this.server.route({
       method  : 'GET',
       path    : '/setup',
-      options : this.opts,
-      // (ctx) => ctx.response.with(Server.Setup.Get(Resp.HTML) as Response))
-      handler : (_req: Hapi.Request, h: Hapi.ResponseToolkit): Hapi.ResponseObject => {
-        return Server.WebFinger(new URL('https://exanple.com/'), undefined, resp(h), this.config)
+      options : this.getOpts,
+      handler : async (_req: Hapi.Request, h: Hapi.ResponseToolkit): Promise<Hapi.ResponseObject> => {
+        return await Server.Setup.Get(resp(h))
       },
     })
-    */
+
+    this.server.route({
+      method  : 'POST',
+      path    : '/setup',
+      options : this.postOpts,
+      handler : (_req: Hapi.Request, h: Hapi.ResponseToolkit): Hapi.ResponseObject => {
+        return Server.Setup.Post(resp(h))
+      },
+    })
+
+    this.server.route({
+      method  : 'GET',
+      path    : '/.well-known/webfinger',
+      options : this.getOpts,
+      handler : async (req: Hapi.Request, h: Hapi.ResponseToolkit): Promise<Hapi.ResponseObject> => {
+        return await Server.WebFinger(this.config, reqh(req), resp(h))
+      },
+    })
+
+    this.server.route({
+      method  : 'GET',
+      path    : '/.well-known/nodeinfo',
+      options : this.getOpts,
+      handler : async (req: Hapi.Request, h: Hapi.ResponseToolkit): Promise<Hapi.ResponseObject> => {
+        return await Server.NodeInfo(this.config, reqh(req), resp(h))
+      },
+    })
+
+    this.server.route({
+      method  : 'GET',
+      path    : '/nodeinfo/2.1',
+      options : this.getOpts,
+      handler : async (req: Hapi.Request, h: Hapi.ResponseToolkit): Promise<Hapi.ResponseObject> => {
+        return await Server.NodeInfo21(this.config, reqh(req), resp(h))
+      },
+    })
+
+    this.server.route({
+      method  : 'GET',
+      path    : '/activitypub/server',
+      options : this.getOpts,
+      handler : async (req: Hapi.Request, h: Hapi.ResponseToolkit): Promise<Hapi.ResponseObject> => {
+        return await Server.App.Index(this.config, reqh(req), resp(h))
+      },
+    })
 
     /*
-    router.post('/setup', (ctx) => ctx.response.with(Server.Setup.Post(Resp.HTML) as Response))
-    router.options('/setup', (ctx) => ctx.response.with(Server.Setup.Options(Resp.HTML) as Response))
-    router.get(
-      '/.well-known/webfinger',
-      (ctx) => ctx.response.with(Server.WebFinger(ctx.request.url, testUsers, Resp.WebFinger, config) as Response),
-    )
-    router.options('/.well-known/webfinger', (ctx) => ctx.response.with(Resp.WebFinger.options204() as Response))
-    router.get(
-      '/.well-known/nodeinfo',
-      (ctx) => ctx.response.with(Server.NodeInfo(Resp.NodeInfo, config) as Response),
-    )
-    router.options('/.well-known/nodeinfo', (ctx) => ctx.response.with(Resp.NodeInfo.options204() as Response))
-    router.get('/nodeinfo/2.1', (ctx) => ctx.response.with(Server.NodeInfo21(Resp.NodeInfo, config) as Response))
-    router.options('/nodeinfo/2.1', (ctx) => ctx.response.with(Resp.NodeInfo.options204() as Response))
-    //router.get('/activitypub/server', (ctx) => ctx.response.with(Server.App.Index(config, null, Resp.ActivityPub) as Response))
-    router.options('/activitypub/server', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
     // router.get('/activitypub/server/inbox', (ctx) => ctx.response.with(Server.App.Inbox(Resp.ActivityPub) as Response))
     router.options('/activitypub/server/inbox', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
     // router.get('/activitypub/server/outbox', (ctx) => ctx.response.with(Server.App.Outbox(Resp.ActivityPub) as Response))
     router.options('/activitypub/server/outbox', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
-    // router.post('/re-pliers-api/login', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.ActivityPub) as Response))
-    router.options('/re-pliers-api/login', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
-    // router.get('/re-pliers-api/verify', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
-    router.options('/re-pliers-api/verify', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
-    // router.post('/re-pliers-api/logout', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
-    router.options('/re-pliers-api/logout', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
     // router.post('/re-pliers-api/replies', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
     router.options('/re-pliers-api/replies', (ctx) => ctx.response.with(Resp.ActivityPub.options204() as Response))
     // router.post('/re-pliers-api/reply', (ctx) => ctx.response.with(Server.Api.Outbox(Resp.HTML) as Response))
@@ -185,6 +208,7 @@ export class HAPIServer {
         compress : { quality: 9, },
       },
     })
+    console.info('Starting local server using @hapi/hapi at http://localhost:5172/, CTRL-C to exit')
     await this.server.start()
   }
 }

@@ -6,8 +6,6 @@ import { Database, NotImplementedError, type Server } from '@csjewell-activitypu
 import type Keyv from 'keyv'
 import type * as AP from '@csjewell-activitypub/types'
 
-// https://docs.deno.com/examples/sqlite/
-
 export class LocalDB
   extends Database.SessionRouter
   implements Database.Router<DatabaseSync> {
