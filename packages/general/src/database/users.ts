@@ -31,7 +31,7 @@ export class BaseUsersStorage {
    * Retrieves information about the current user.
    *
    * @param username - The username of the user being retrieved.
-   * @returns - A {@link Promise} that either resolves to a {@link User} object
+   * @returns - A {@link !Promise} that either resolves to a {@link User} object
    * if there is a user by that username, or undefined otherwise.
    */
   retrieveUser = async (username: string): Promise<User | undefined> => {

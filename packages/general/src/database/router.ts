@@ -24,6 +24,7 @@ export type StorageHandler<T> = {
   shorten    : () => AP.OrPromise<{ url: URL | undefined; id: number | undefined }>
 }
 
+/** TODO: Document [2026-09-07] */
 export type RepliesHandler = {
   hideCurrentReply : (isHidden: boolean) => Promise<boolean>
   getNextPage      : (page: number) => Promise<unknown>

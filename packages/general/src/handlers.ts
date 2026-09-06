@@ -51,7 +51,7 @@ implements Request.Router<SessionT, ResponseT> {
    * an article on this server.)
    *
    * @param message - The Create message that was sent to us.
-   * @returns A {@link Promise} that returns a {@link ResponseT}
+   * @returns A {@link !Promise} that returns a {@link ResponseT}
    */
   create = async (message: AP.Create): Promise<ResponseT> => {
     console.info('Handling Create message')
@@ -104,7 +104,7 @@ implements Request.Router<SessionT, ResponseT> {
    * anything that a particular user on this server publishes.
    *
    * @param message - The Follow message that was sent to us.
-   * @returns A {@link Promise} that returns a {@link ResponseT}
+   * @returns A {@link !Promise} that returns a {@link ResponseT}
    */
   follow = async (message: AP.Follow): Promise<ResponseT> => {
     // We are following.
@@ -160,7 +160,7 @@ implements Request.Router<SessionT, ResponseT> {
    * they previously requested us to do.
    *
    * @param message - The Undo message that was sent to us.
-   * @returns A {@link Promise} that returns a {@link ResponseT}
+   * @returns A {@link !Promise} that returns a {@link ResponseT}
    */
   undo = async (message: AP.Undo): Promise<ResponseT> => {
     if (message.id === null) {
