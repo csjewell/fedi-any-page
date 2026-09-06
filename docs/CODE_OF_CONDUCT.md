@@ -1,6 +1,8 @@
+# Code of Conduct (such as it is)
+
 Participants in this project agree to abide by the following code of conduct:
 
-> # The Hacker Code of Conduct
+> ## The Hacker Code of Conduct
 >
 > Both this project and its maintainer(s) welcome all ideas, and are willing
 > to include all people. True diversity of thought builds perspective and

@@ -22,7 +22,7 @@ export const NodeInfo21: APIHandler = <DatabaseT, ResponseT>(
       version  : '2.1',
       software : {
         name       : 'Fedi Any Page kit',
-        repository : 'https://git.sr.ht/~csjewell/fedi-any-page',
+        repository : 'https://codefloe.com/CSJewell/fedi-any-page',
         homepage   : 'https://fedi-any-page.curtisjewell.dev/',
         version    : 'v0.2.0-alpha.2',
       },

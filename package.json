@@ -7,7 +7,7 @@
   "description": "ActivityPub Typescript Kit monorepo",
   "repository": {
     "type": "git",
-    "url": "git+https://git.sr.ht/~csjewell/fedi-any-page"
+    "url": "git+https://codefloe.com/CSJewell/fedi-any-page"
   },
   "license": "MIT",
   "author": {
@@ -40,7 +40,7 @@
     "knip": "knip",
     "lint": "nub run eslint",
     "lint-staged": "lint-staged",
-    "markdownlint": "markdownlint-cli2 \"**/*.md\" !node_modules !**/node_modules !proposed",
+    "markdownlint": "markdownlint-cli2 \"**/*.md\" !.changeset !node_modules !**/node_modules !**/dist !proposed",
     "publish": "true",
     "tsc": "tsc",
     "typedoc:html": "typedoc --options .config/typedoc.html.jsonc",

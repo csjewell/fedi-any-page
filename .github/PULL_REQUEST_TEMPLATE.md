@@ -2,8 +2,8 @@
 Please fill out all fields below and make sure each item is true
 and [x] checked. -->
 
-## PR Checklist
+# PR Checklist
 
 - [ ] Acknowledge that I have read the [documentation](https://fedi-any-page.curtisjewell.dev/docs/contributing/)
-- [ ] Acknowledge that this PR will be closed and an issue on the Fedi Any
-      Page mailing list should be created, instead.
+- [ ] Acknowledge that this PR will be closed because it needs to be created
+      on codefloe.com instead.

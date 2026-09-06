@@ -1,7 +1,7 @@
 version = 1
 SPDX-PackageName = "fedi-any-page"
 SPDX-PackageSupplier = "Curtis Jewell <swordsman+aptypescript@curtisjewell.name>"
-SPDX-PackageDownloadLocation = "https://git.sr.ht/~csjewell/fedi-any-page"
+SPDX-PackageDownloadLocation = "https://codefloe.com/CSJewell/fedi-any-page"
 
 # Editor configuration.
 [[annotations]]

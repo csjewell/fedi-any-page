@@ -6,4 +6,5 @@ import App from './components/App.ts'
 
 register(App, 're-pliers', [ 'domain', 'page', 'user', 'cache' ], { shadow: true, })
 
+// This is only to get typedoc to scan into here.
 export const one = 1

@@ -9,7 +9,7 @@
   "homepage": "https://fedi-any-page.curtisjewell.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://git.sr.ht/~csjewell/fedi-any-page",
+    "url": "git+https://codefloe.com/CSJewell/fedi-any-page",
     "directory": "packages/handlers-response"
   },
   "license": "MIT",

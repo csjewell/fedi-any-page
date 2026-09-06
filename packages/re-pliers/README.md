@@ -1,8 +1,10 @@
+# @csjewell-activitypub/re-pliers
+
 This module is used to provide a front end that blogs can use.
 
 [![libera manifesto](https://img.shields.io/badge/libera-manifesto-lightgrey.svg)](https://liberamanifesto.com)
-[![🤝 Code of Conduct: Kept](https://img.shields.io/badge/%F0%9F%A4%9D_code_of_conduct-kept-21bb42.svg)](https://git.sr.ht/~csjewell/fedi-any-page/tree/dev/item/docs/CODE_OF_CONDUCT.md)
-[![📝 License: MIT](https://img.shields.io/badge/%F0%9F%93%9D_license-MIT-21bb42.svg)](https://git.sr.ht/~csjewell/fedi-any-page/tree/dev/item/LICENSES/MIT.txt)
+[![🤝 Code of Conduct: Kept](https://img.shields.io/badge/%F0%9F%A4%9D_code_of_conduct-kept-21bb42.svg)](https://codefloe.com/CSJewell/fedi-any-page/src/branch/dev/docs/CODE_OF_CONDUCT.md)
+[![📝 License: MIT](https://img.shields.io/badge/%F0%9F%93%9D_license-MIT-21bb42.svg)](https://codefloe.com/CSJewell/fedi-any-page/src/branch/dev/LICENSES/MIT.txt)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 ![💪 TypeScript: Strict](https://img.shields.io/badge/%F0%9F%92%AA_typescript-strict-21bb42.svg)
 [![JSR](https://jsr.io/badges/@csjewell-activitypub/re-pliers?style=plastic)](https://jsr.io/@csjewell-activitypub/re-pliers)
@@ -28,7 +30,8 @@ It'll coordinate with the web worker that'll be set up for your blog.
 ```html
 <!DOCTYPE html>
 <html lang="en-019" data-theme="dark"><head>
-  <!-- You'll need the next 6 lines, plus the 'data-theme' attribute above, within the HTML header. -->
+  <!-- You'll need the next 6 lines, plus the 'data-theme' attribute above, within
+       the HTML header. -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
@@ -43,21 +46,28 @@ It'll coordinate with the web worker that'll be set up for your blog.
     (shown as the 'div' tag below), and the short (6 lines) of script
     below that, which will show the component.
 
-    This should work on most modern browsers released since 2018, including modern ones.
-    See https://caniuse.com/es6-module for where the syntax below will work.
+    This should work on most modern browsers released since 2018, including
+    modern ones. See https://caniuse.com/es6-module for where the syntax
+    below will work.
 
-    The stylesheet, however, uses syntax that browsers started providing in 2023.
-    https://caniuse.com/css-nesting will show you which browsers support that syntax.
+    The stylesheet, however, uses syntax that browsers started providing
+    in 2023. https://caniuse.com/css-nesting will show you which browsers
+    support that syntax.
   -->
   <div id="pliers"></div>
   <script type="module">
     import { showRepliers, emptyCache } from "https://esm.sh/jsr/@csjewell-activitypub/re-pliers@1.0.0?standalone";
-    let cache = emptyCache; // Have the static-page generator get what the contents of this are.
+    // Have the static-page generator get what the contents of this are.
+    let cache = emptyCache;
     showRepliers({
-      page   : 'https://activitypub.example.com/blog/entry/', // The canonical URL of the current page.
-      user   : 'username', // The local username of the person creating the blog entry.
-      domain : 'activitypub.example.com',  // The domain of the site.
-    }, document.querySelector('#pliers'), cache); // The location on the page to put the re-pliers component within
+      // The canonical URL of the current page.
+      page   : 'https://activitypub.example.com/blog/entry/',
+      // The local username of the person creating the blog entry.
+      user   : 'username',
+      // The domain of the site.
+      domain : 'activitypub.example.com',
+       // The location on the page to put the re-pliers component within
+    }, document.querySelector('#pliers'), cache);
   </script>
   <!-- ... -->
 </body></html>
